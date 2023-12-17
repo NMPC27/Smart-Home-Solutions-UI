@@ -27,7 +27,6 @@ export default function AppBarStyled() {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="menu"
             sx={{ mr: 2, strokeWidth: 1, stroke: "#FFFFFF" }}
             onClick={() => setopenDrawer(!openDrawer)}
           >
@@ -59,7 +58,6 @@ export default function AppBarStyled() {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="menu"
             sx={{ mr: 2, strokeWidth: 1, stroke: "#FFFFFF" }}
             onClick={() => setopenDrawer(!openDrawer)}
           >
