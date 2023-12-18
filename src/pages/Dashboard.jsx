@@ -1,6 +1,7 @@
 import AppBarStyled from "../components/AppBarStyled"
 import LightsCard from "../components/LightsCard"
 import Grid from '@mui/material/Grid';
+import TemperatureCard from "../components/TemperatureCard";
 
 export default function Dashboard() {
   
@@ -16,10 +17,10 @@ export default function Dashboard() {
                 <LightsCard />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-                <LightsCard />
+                <TemperatureCard />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-                <LightsCard />
+                <TemperatureCard />
             </Grid>
         </Grid>
 

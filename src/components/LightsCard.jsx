@@ -104,6 +104,15 @@ export default function LightsCard() {
         setOpenDialog(false);
     };
 
+    const handleLightColor = (val) => {
+        setLightColor(val)
+        //! API CALL - atençao isto vai criar muitas API calls !!!
+
+        let tmp = [...lights]
+        tmp[selectedLight].color = val
+        setLights(tmp)
+    };
+
     const handleBrightnessChange = (val) => {
         //! API CALL
 
@@ -185,7 +194,7 @@ export default function LightsCard() {
                         <h3 align="left" style={{ marginTop: 0, marginBottom: 0 }}>Color</h3>
                     </Grid>
                     <Grid item xs={12} sm={6} md={6}>
-                        <HexColorPicker color={lightColor} onChange={setLightColor} />
+                        <HexColorPicker color={lightColor} onChange={(val)=> handleLightColor(val)} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={6}>
                         <Box fullWidth height={"100%"} minHeight={"10vw"} bgcolor={lightColor} borderRadius={"10px"}/>
