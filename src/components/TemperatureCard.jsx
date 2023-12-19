@@ -18,9 +18,9 @@ const OutItem = styled(Paper)(({ theme }) => ({
     backgroundColor: "#1F2937",
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: 'left',
+    textAlign: 'center',
     color: "#FFFFFF",
-    borderRadius: "10px"
+    borderRadius: "20px"
   }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -29,7 +29,7 @@ const InItem = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    borderRadius: "10px"
+    borderRadius: "20px"
   }));
 
   const colorsArray = [
@@ -154,7 +154,7 @@ export default function TemperatureCard() {
 
     return (
         <OutItem elevation={5}>
-            <h2 style={{ marginTop: "0.5vw", marginBottom: "1vw" }}>Temperature</h2>
+            <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Temperature</h2>
             <InItem>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -206,24 +206,41 @@ export default function TemperatureCard() {
                         <h2>Now {rooms[selectedRoomIdx].currentTemperature}°</h2>                 
                     
                         <Stack justifyContent="center" direction="row" spacing={4}>
-                            <IconButton
-                                onClick={() => handleMinusTemperature() }
-                                sx={{
-                                    bgcolor: '#2196F3', 
-                                    "&:hover": {bgcolor: '#1C7ECC'},
-                                }}
-                                >
-                                    <RemoveIcon />
-                            </IconButton>
-                            <IconButton
-                                onClick={() => handlePlusTemperature() }
-                                sx={{
-                                    bgcolor: '#FF6F22', 
-                                    "&:hover": {bgcolor: '#D95E1D'},
-                                }}
-                                >
-                                    <AddIcon />
-                            </IconButton>
+
+                            {
+                                rooms[selectedRoomIdx].on ? 
+                                    <IconButton
+                                        onClick={() => handleMinusTemperature() }
+                                        sx={{
+                                            bgcolor: '#2196F3', 
+                                            "&:hover": {bgcolor: '#1C7ECC'},
+                                        }}
+                                        >
+                                            <RemoveIcon />
+                                    </IconButton>
+                                :
+                                    <IconButton disable>
+                                            <RemoveIcon />
+                                    </IconButton>
+                            }
+
+                            {
+                                rooms[selectedRoomIdx].on ? 
+                                    <IconButton
+                                        onClick={() => handlePlusTemperature() }
+                                        sx={{
+                                            bgcolor: '#FF6F22', 
+                                            "&:hover": {bgcolor: '#D95E1D'},
+                                        }}
+                                        >
+                                            <AddIcon />
+                                    </IconButton>
+                                :
+                                    <IconButton disable>
+                                            <AddIcon />
+                                    </IconButton>
+                            }
+                            
                         </Stack>
                     </div>
                 </Grid>

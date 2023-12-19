@@ -22,9 +22,9 @@ const OutItem = styled(Paper)(({ theme }) => ({
     backgroundColor: "#1F2937",
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: 'left',
+    textAlign: 'center',
     color: "#FFFFFF",
-    borderRadius: "10px"
+    borderRadius: "20px"
   }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -33,7 +33,7 @@ const InItem = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    borderRadius: "10px"
+    borderRadius: "20px"
   }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -134,7 +134,7 @@ export default function LightsCard() {
 
     return (
         <OutItem elevation={5}>
-            <h2 style={{ marginTop: "0.5vw", marginBottom: "1vw" }}>Lights</h2>
+            <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
             <InItem>
                 <Grid container spacing={4}>
 
@@ -191,7 +191,7 @@ export default function LightsCard() {
                 </DialogTitle>
                 <DialogContent>
 
-                <Grid container spacing={2} align="center" sx={{ marginTop:"0.25vw"}}>
+                <Grid container spacing={2} align="center" sx={{ marginTop:"0.25vh"}}>
                     <Grid item xs={12}>
                         <h3 align="left" style={{ marginTop: 0, marginBottom: 0 }}>Color</h3>
                     </Grid>
@@ -199,7 +199,7 @@ export default function LightsCard() {
                         <HexColorPicker color={lightColor} onChange={(val)=> handleLightColor(val)} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={6}>
-                        <Box fullWidth height={"100%"} minHeight={"10vw"} bgcolor={lightColor} borderRadius={"10px"}/>
+                        <Box fullWidth height={"100%"} minHeight={"5vh"} bgcolor={lightColor} borderRadius={"10px"}/>
                     </Grid>
                     <Grid item xs={12}>
                         <h3 align="left" style={{ marginTop: 0, marginBottom: 0 }}>Brightness</h3>

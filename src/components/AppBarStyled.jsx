@@ -45,7 +45,9 @@ export default function AppBarStyled() {
                 bgcolor: "#111827",
                 borderRadius: "20px",
                 color: "#FFFFFF",
-                width: "250px"
+                width: "250px",
+                margin: "5vw",
+                marginTop: "4vh"               
             }
             
         }}
@@ -79,8 +81,7 @@ export default function AppBarStyled() {
                     "&:hover":
                     navbar == "dashboard"
                         ? { bgcolor: "#111827" }
-                        : { bgcolor: "#374151" },
-                    marginRight: "1vw",
+                        : { bgcolor: "#374151" }
                 }}
                 onClick={() => {
                     navigate("/dashboard");
@@ -98,8 +99,7 @@ export default function AppBarStyled() {
                     "&:hover":
                     navbar == "energy"
                         ? { bgcolor: "#111827" }
-                        : { bgcolor: "#374151" },
-                    marginRight: "1vw",
+                        : { bgcolor: "#374151" }
                 }}
                 onClick={() => {
                     navigate("/energy");
@@ -117,8 +117,7 @@ export default function AppBarStyled() {
                     "&:hover":
                     navbar == "files"
                         ? { bgcolor: "#111827" }
-                        : { bgcolor: "#374151" },
-                    marginRight: "1vw",
+                        : { bgcolor: "#374151" }
                 }}
                 onClick={() => {
                     navigate("/files");
