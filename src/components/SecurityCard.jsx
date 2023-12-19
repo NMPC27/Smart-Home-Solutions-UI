@@ -36,9 +36,9 @@ export default function SecurityCard() {
             <InItem>
                 {
                     alarmOn ? 
-                        <Button variant="contained" fullWidth sx={{ bgcolor: "#E3FBE3", color:"#0D4A0D" }} onClick={handleClickAlarm}>Armed</Button>
+                        <Button variant="contained" fullWidth sx={{ bgcolor: "#C7F7C7", color:"#0D4A0D", fontWeight: "bold", "&:hover": {bgcolor: '#A8D1A8' } }} onClick={handleClickAlarm}>Armed</Button>
                     :
-                        <Button variant="outlined" fullWidth sx={{ }}  onClick={handleClickAlarm}>Unarmed</Button>
+                        <Button variant="contained" fullWidth sx={{ bgcolor: "#F7C5C5", color:"#7D1212", fontWeight: "bold", "&:hover": {bgcolor: '#D1A7A7' } }} onClick={handleClickAlarm}>Unarmed</Button>
                 }
             </InItem>
         </OutItem>

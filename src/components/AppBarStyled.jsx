@@ -21,7 +21,7 @@ export default function AppBarStyled() {
 
   return (
     <>
-      <AppBar position="static" sx={{ bgcolor: "#111827", borderRadius: "20px" }}>
+      <AppBar position="static" sx={{ bgcolor: "#111827", borderRadius: "20px", marginBottom: "1vh" }}>
         <Toolbar>
           <IconButton
             size="large"
