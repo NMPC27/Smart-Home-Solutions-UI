@@ -26,7 +26,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
 const InItem = styled(Paper)(({ theme }) => ({
     backgroundColor: "#FFFFFF",
     ...theme.typography.body2,
-    padding: theme.spacing(1),
+    padding: theme.spacing(4),
     textAlign: 'center',
     color: theme.palette.text.secondary,
     borderRadius: "10px"
@@ -153,7 +153,7 @@ export default function TemperatureCard() {
     };
 
     return (
-        <OutItem>
+        <OutItem elevation={5}>
             <h2 style={{ marginTop: "0.5vw", marginBottom: "1vw" }}>Temperature</h2>
             <InItem>
             <Grid container spacing={2}>
@@ -193,7 +193,7 @@ export default function TemperatureCard() {
                         arcColor={arcColor}
                         arcBackgroundColor="#AAAAAA"
                     />
-                    <div style={{ marginTop:"-16vw"}} >
+                    <div style={{ marginTop:"-27vh"}} >
                         
                         { 
                             rooms[selectedRoomIdx].on ? 

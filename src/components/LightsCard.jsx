@@ -30,7 +30,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
 const InItem = styled(Paper)(({ theme }) => ({
     backgroundColor: "#FFFFFF",
     ...theme.typography.body2,
-    padding: theme.spacing(1),
+    padding: theme.spacing(4),
     textAlign: 'center',
     color: theme.palette.text.secondary,
     borderRadius: "10px"
@@ -93,9 +93,10 @@ export default function LightsCard() {
     const [openDialog, setOpenDialog] = React.useState(false)
     const [selectedLight, setSelectedLight] = React.useState(0)
     const [lightColor, setLightColor] = React.useState("#1F2937")
-    
 
-    const handleOpenDialog = (idx)=>{
+
+    const handleOpenDialog = (e,idx)=>{
+        e.preventDefault();
         setSelectedLight(idx)
         setOpenDialog(true);
     }
@@ -122,24 +123,24 @@ export default function LightsCard() {
         setLights(tmp)
     };
 
-    const handleLightOnOff = () => {
+    const handleLightOnOff = (idx) => {
         //! API CALL
 
         let tmp = [...lights]
-        tmp[selectedLight].on = !tmp[selectedLight].on
+        tmp[idx].on = !tmp[idx].on
         setLights(tmp)
     };
 
 
     return (
-        <OutItem>
+        <OutItem elevation={5}>
             <h2 style={{ marginTop: "0.5vw", marginBottom: "1vw" }}>Lights</h2>
             <InItem>
-                <Grid container spacing={2}>
+                <Grid container spacing={4}>
 
                     { lights.map( (val, idx) => {
                         return (
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                                 <Stack spacing={2}>
 
                                     <IconButton
@@ -149,7 +150,8 @@ export default function LightsCard() {
                                             "&:hover": {bgcolor: val.on ? '#D9A406' : '#B6B7B8'},
                                             padding: "1vw" 
                                         }} 
-                                        onClick={() => handleOpenDialog(idx)}
+                                        onClick={() => handleLightOnOff(idx)}
+                                        onContextMenu={(e)=> handleOpenDialog(e,idx)}
                                     >
                                         <LightbulbOutlinedIcon  />
                                     </IconButton>
@@ -216,7 +218,7 @@ export default function LightsCard() {
                     </Grid>
                     <Grid item xs={12}>
                         <IconButton
-                        onClick={() => handleLightOnOff() }
+                        onClick={() => handleLightOnOff(selectedLight) }
                         sx={{
                             bgcolor: lights[selectedLight].on ? '#FFC107' : '#DDDEDF', 
                             "&:hover": {bgcolor: lights[selectedLight].on ? '#D9A406' : '#B6B7B8'},
