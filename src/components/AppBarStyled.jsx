@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Stack from '@mui/material/Stack';
+import BasicDatePicker from './BasicDatePicker';
 
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +22,7 @@ export default function AppBarStyled() {
 
   return (
     <>
-      <AppBar position="static" sx={{ bgcolor: "#111827", borderRadius: "20px", marginBottom: "1vh" }}>
+      <AppBar position="static" sx={{ bgcolor: "#111827", borderRadius: "20px", marginBottom: "3vh" }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -35,7 +36,18 @@ export default function AppBarStyled() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: "bold" }}>
             AppName
           </Typography>
-          <Button variant="contained" sx={{ fontWeight: "bold" }} >+ DEVICE</Button>
+          {
+            navbar == "dashboard" &&
+            <Button variant="contained" sx={{ fontWeight: "bold" }} >+ DEVICE</Button>
+          }
+          {
+            navbar == "energy" &&
+            <BasicDatePicker />
+          }
+          {
+            navbar == "files" &&
+            <></>
+          }
         </Toolbar>
       </AppBar>
 
@@ -47,7 +59,7 @@ export default function AppBarStyled() {
                 color: "#FFFFFF",
                 width: "250px",
                 margin: "5vw",
-                marginTop: "4vh"               
+                marginTop: "3vh"               
             }
             
         }}
@@ -85,6 +97,7 @@ export default function AppBarStyled() {
                 }}
                 onClick={() => {
                     navigate("/dashboard");
+                    setNavbar("dashboard");
                 }}
                 >
                 DASHBOARD
@@ -103,6 +116,7 @@ export default function AppBarStyled() {
                 }}
                 onClick={() => {
                     navigate("/energy");
+                    setNavbar("energy");
                 }}
                 >
                 ENERGY
@@ -121,6 +135,7 @@ export default function AppBarStyled() {
                 }}
                 onClick={() => {
                     navigate("/files");
+                    setNavbar("files");
                 }}
                 >
                 FILES

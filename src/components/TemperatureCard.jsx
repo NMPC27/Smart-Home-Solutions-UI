@@ -164,7 +164,7 @@ export default function TemperatureCard() {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={selectedRoomIdx}
-                            label="AAAA"
+                            label="Room"
                             onChange={(event) => handleRoomChange(event.target.value)}
                         >
                             {
