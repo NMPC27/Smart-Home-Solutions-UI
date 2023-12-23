@@ -4,7 +4,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function BasicDatePicker() {
+export default function BasicDatePicker(props) {
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer sx={{ marginBottom: "1vh" }} components={["DatePicker"]}>
@@ -18,7 +19,7 @@ export default function BasicDatePicker() {
             label: { color: "#FFFFFF" },
           }}
           label="Date Picker"
-          inputFormat={"dd/MM/yyyy"}
+          onChange={(val) => props.handleDateChange(val.toString())}
         />
       </DemoContainer>
     </LocalizationProvider>

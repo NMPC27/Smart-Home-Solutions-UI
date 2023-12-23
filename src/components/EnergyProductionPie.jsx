@@ -39,17 +39,10 @@ function PieCenterLabel({ children }) {
   );
 }
 
-const pieColors = ["#2E96FF", "#FFA500", "#CC0000"];
+const pieColors = [ "#FFA500", "#CC0000"];
+const lables = [ "Solar", "Gas" ];
 
-const data = [
-  { label: "Grid", value: 800 },
-  { label: "Solar", value: 300 },
-  { label: "Gas", value: 300 },
-];
-
-const totalProduction = 80.22;
-
-export default function EnergyProductionPie() {
+export default function EnergyProductionPie(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
@@ -65,13 +58,23 @@ export default function EnergyProductionPie() {
                 cornerRadius: 5,
                 innerRadius: 80,
                 outerRadius: 125,
-                data,
+                data:[
+                  { label: "Solar", value: props.production.solar.reduce((partialSum, a) => partialSum + a, 0) },
+                  { label: "Gas", value: props.production.solar.reduce((partialSum, a) => partialSum + a, 0) },
+                ],
               },
             ]}
             margin={{ right: 5 }}
             legend={{ hidden: true }}
           >
-            <PieCenterLabel>{totalProduction} kWh</PieCenterLabel>
+            <PieCenterLabel>
+              {
+                props.production.solar.reduce((partialSum, a) => partialSum + a, 0) +
+                props.production.gas.reduce((partialSum, a) => partialSum + a, 0)
+              } 
+              {" "} 
+              kWh
+            </PieCenterLabel>
           </PieChart>
         </div>
         <Stack
@@ -80,7 +83,7 @@ export default function EnergyProductionPie() {
           alignItems="center"
           justifyContent="center"
         >
-          {data.map((item, index) => {
+          {lables.map((item, index) => {
             return (
               <>
                 <div
@@ -90,7 +93,7 @@ export default function EnergyProductionPie() {
                     backgroundColor: pieColors[index],
                   }}
                 />
-                <h4>{item.label}</h4>
+                <h4>{item}</h4>
               </>
             );
           })}

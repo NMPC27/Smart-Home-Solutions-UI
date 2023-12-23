@@ -164,7 +164,7 @@ export default function TemperatureCard() {
                 onChange={(event) => handleRoomChange(event.target.value)}
               >
                 {rooms.map((room, idx) => (
-                  <MenuItem value={idx}>{room.name}</MenuItem>
+                  <MenuItem key={idx} value={idx}>{room.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -200,7 +200,6 @@ export default function TemperatureCard() {
               )}
 
               <Divider
-                alignItems="center"
                 sx={{
                   borderBottomWidth: 5,
                   width: "50%",

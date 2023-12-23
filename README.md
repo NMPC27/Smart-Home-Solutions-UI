@@ -12,6 +12,11 @@ in add dialog we must define type and room associated
 name is user writen
 room is user writen but then associated
 
+DB:
+json
+timeline
+??
+proprio file system
 
 UI structure:
 
@@ -95,4 +100,18 @@ devices:
 ]
 ```
 
+data in energy:
 
+```
+const datatmp = {
+	consumption:{
+		grid: [10, 2, 2, 2, 2, 2, 2, 10, 20, 30, 40, 50, 30, 30, 15, 15, 40, 40, 80, 90, 100, 60, 40, 20],
+		solar: [0, 0, 0, 0, 0, 0, 10, 30, 40, 50, 60, 70, 80, 90, 120, 100, 80, 60, 30, 10, 0, 0, 0, 0],
+		gas: [0, 0, 0, 0, 0, 0, 20, 40, 50, 80, 100, 70, 120, 60, 60, 80, 80, 90, 40, 30, 10, 0, 0, 0],
+	},
+	production: {
+		solar: [0, 0, 0, 0, 0, 0, 10, 30, 40, 50, 60, 70, 80, 90, 120, 100, 80, 60, 30, 10, 0, 0, 0, 0],
+		gas: [0, 0, 0, 0, 0, 0, 20, 40, 50, 80, 100, 70, 120, 60, 60, 80, 80, 90, 40, 30, 10, 0, 0, 0]
+	}
+}
+```

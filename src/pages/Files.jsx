@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 export default function Files() {
   return (
     <>
-      <AppBarStyled />
+      <AppBarStyled navbar={"files"}/>
 
       <Grid container spacing={4}>
         <Grid item xs={12} sm={12} md={12}>

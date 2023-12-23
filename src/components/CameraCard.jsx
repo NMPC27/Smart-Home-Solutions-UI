@@ -72,7 +72,7 @@ export default function CameraCard() {
                 onChange={(event) => handleCameraChange(event.target.value)}
               >
                 {cameras.map((camera, idx) => (
-                  <MenuItem value={idx}>{camera.name}</MenuItem>
+                  <MenuItem key={idx} value={idx}>{camera.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>

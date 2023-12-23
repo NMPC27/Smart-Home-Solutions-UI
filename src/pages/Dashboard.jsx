@@ -8,7 +8,7 @@ import CameraCard from "../components/CameraCard";
 export default function Dashboard() {
   return (
     <>
-      <AppBarStyled />
+      <AppBarStyled navbar={"dashboard"} />
 
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6} md={3}>
