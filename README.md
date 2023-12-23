@@ -1,25 +1,34 @@
 # TODO:
 
-- - room dialog (and edit)
-- - device dialog (and edit)
+- room dialog (and edit)
+- device dialog (and edit)
 - lights edit button
 - fix slider temperature (and put gray when off)
 - do global state
+- do filters of room
+- do set order of cards ?favorite cards?
 
 in add dialog we must define type and room associated
 name is user writen
 room is user writen but then associated
 
-data in dashboard:
 
+UI structure:
+
+![alt text](UIstructure.drawio.png)
+
+
+data in dashboard:
+```
 rooms = [ "kitchen", "bed", "ofice" ]
 
-devices: [
-{
-id: 1,
-type: "light",
-room: "kitchen",
-
+devices: 
+[
+    {
+        id: 1,
+        type: "light",
+        room: "kitchen",
+        
         name: "Kitchen (user writen)",
         on: true,
         brightness: 100,
@@ -83,5 +92,7 @@ room: "kitchen",
         name: "Hallway #2",
         endpoint: "c4.png",
     },
-
 ]
+```
+
+
