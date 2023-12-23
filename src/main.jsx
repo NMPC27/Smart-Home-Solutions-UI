@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Energy from "./pages/Energy";
 import Files from "./pages/Files";
+import Automation from "./pages/Automation";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/energy",
     element: <Energy />,
+  },
+  {
+    path: "/automation",
+    element: <Automation />,
   },
   {
     path: "/files",
