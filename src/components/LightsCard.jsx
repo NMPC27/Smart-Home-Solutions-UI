@@ -6,6 +6,10 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import LightsDialog from "./LightsDialog";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -25,59 +29,25 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-const data = [
-  {
-    id: 1,
-    name: "Kitchen",
-    on: true,
-    brightness: 100,
-    color: "#FFFFFF",
-  },
-  {
-    id: 2,
-    name: "Bedroom",
-    on: false,
-    brightness: 100,
-    color: "#FFFFFF",
-  },
-  {
-    id: 3,
-    name: "Bedroom#2",
-    on: false,
-    brightness: 100,
-    color: "#FFFFFF",
-  },
-  {
-    id: 4,
-    name: "Bedroom#3",
-    on: false,
-    brightness: 100,
-    color: "#FFFFFF",
-  },
-  {
-    id: 5,
-    name: "Bed 1",
-    on: false,
-    brightness: 100,
-    color: "#FFFFFF",
-  },
-  {
-    id: 6,
-    name: "Bed 2",
-    on: false,
-    brightness: 80,
-    color: "#FFFFFF",
-  },
-];
 
-export default function LightsCard() {
-  const [lights, setLights] = React.useState(data);
+export default function LightsCard(props) {
+  const [deviceIdx, setDeviceIdx] = React.useState(
+    ()=> {
+      for(let i=0;i<props.devices.length;i++){
+        if (props.devices[i].type === "light"){
+          return i
+        }
+      }
+    }
+  );
+
+  const [selectedRoom, setSelectedRoom] = React.useState(props.devices[deviceIdx].room);
+
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [selectedLight, setSelectedLight] = React.useState(0);
 
   const handleOpenDialog = (e, idx) => {
     e.preventDefault();
-    setSelectedLight(idx);
+    setDeviceIdx(idx);
     setOpenDialog(true);
   };
 
@@ -85,67 +55,63 @@ export default function LightsCard() {
     setOpenDialog(false);
   };
 
-  const handleLightColor = (val) => {
-    //! API CALL - atençao isto vai criar muitas API calls !!!
-
-    let tmp = [...lights];
-    tmp[selectedLight].color = val;
-    setLights(tmp);
-  };
-
-  const handleBrightnessChange = (val) => {
-      //! API CALL
-
-      let tmp = [...lights];
-      tmp[selectedLight].brightness = val;
-      setLights(tmp);
-  };
-
-  const handleLightOnOff = (idx) => {
-      //! API CALL
-
-      let tmp = [...lights];
-      tmp[idx].on = !tmp[idx].on;
-      setLights(tmp);
-  };
-
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
       <InItem>
         <Grid container spacing={4}>
-          {lights.map((val, idx) => {
-            return (
-              <Grid item xs={4} key={idx} >
-                <Stack spacing={2}>
-                  <IconButton
-                    sx={{
-                      borderRadius: "10px",
-                      bgcolor: val.on ? "#FFC107" : "#DDDEDF",
-                      "&:hover": { bgcolor: val.on ? "#D9A406" : "#B6B7B8" },
-                      padding: "1vw",
-                    }}
-                    onClick={() => handleLightOnOff(idx)}
-                    onContextMenu={(e) => handleOpenDialog(e, idx)}
-                  >
-                    <LightbulbOutlinedIcon />
-                  </IconButton>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Room</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedRoom}
+                  label="Room"
+                  onChange={(event) => setSelectedRoom(event.target.value)}
+                >
+                  <MenuItem key={0} value={"all"}>{"all"}</MenuItem>
+                  {props.rooms.map((room, idx) => (
+                    <MenuItem key={idx} value={room.name}>{room.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
 
-                  <b style={{ marginTop: 8 }}>{val.name}</b>
-                </Stack>
-              </Grid>
-            );
+          {props.devices.map((val, idx) => {
+            if ( val.type === "light" && (val.room===selectedRoom || selectedRoom==="all")){
+              return (
+                <Grid item xs={4} key={idx} >
+                  <Stack spacing={2}>
+                    <IconButton
+                      sx={{
+                        borderRadius: "10px",
+                        bgcolor: val.on ? "#FFC107" : "#DDDEDF",
+                        "&:hover": { bgcolor: val.on ? "#D9A406" : "#B6B7B8" },
+                        padding: "1vw",
+                      }}
+                      onClick={() => props.handleLightOnOff(idx)}
+                      onContextMenu={(e) => handleOpenDialog(e, idx)}
+                    >
+                      <LightbulbOutlinedIcon />
+                    </IconButton>
+
+                    <b style={{ marginTop: 8 }}>{val.name}</b>
+                  </Stack>
+                </Grid>
+              );
+            }
           })}
         </Grid>
       </InItem>
         <LightsDialog 
           openDialog={openDialog} 
-          selectedLight={selectedLight}
-          lights={lights}
+          deviceIdx={deviceIdx}
+          devices={props.devices}
           handleCloseDialog={handleCloseDialog}
-          handleLightColor={handleLightColor}
-          handleBrightnessChange={handleBrightnessChange}
-          handleLightOnOff={handleLightOnOff}
+          handleLightColor={props.handleLightColor}
+          handleBrightnessChange={props.handleBrightnessChange}
+          handleLightOnOff={props.handleLightOnOff}
         />
     </OutItem>
   );

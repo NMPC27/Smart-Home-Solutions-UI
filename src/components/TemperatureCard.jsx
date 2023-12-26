@@ -51,102 +51,45 @@ const colorsArray = [
   "#ff6f22", // 30
 ];
 
-const data = [
-  {
-    id: 1,
-    name: "Kitchen",
-    on: true,
-    currentTemperature: 10,
-    targetTemperature: 23,
-  },
-  {
-    id: 2,
-    name: "Bed",
-    on: false,
-    currentTemperature: 7,
-    targetTemperature: 20,
-  },
-];
-
-export default function TemperatureCard() {
-  const [selectedRoomIdx, setSelectedRoomIdx] = React.useState(0); //! ERROR IF NULL
-  const [rooms, setRooms] = React.useState(data);
-
-  const [targetTemperature, setTargetTemperature] = React.useState(
-    rooms[selectedRoomIdx].targetTemperature,
+export default function TemperatureCard(props) {
+  const [deviceIdx, setDeviceIdx] = React.useState(
+    ()=> {
+      for(let i=0;i<props.devices.length;i++){
+        if (props.devices[i].type === "ac"){
+          return i
+        }
+      }
+    }
   );
-  const [arcColor, setArcColor] = React.useState(
-    colorsArray[targetTemperature - 15],
-  );
+  const [selectedRoom, setSelectedRoom] = React.useState(props.devices[deviceIdx].room);
+
+  const [targetTemperature, setTargetTemperature] = React.useState(props.devices[deviceIdx].targetTemperature);
+  const [arcColor, setArcColor] = React.useState(colorsArray[targetTemperature - 15]);
 
   const handleRoomChange = (val) => {
-    setSelectedRoomIdx(val);
+    setSelectedRoom(val);
 
-    if (rooms[val].on) {
-      setTargetTemperature(rooms[val].targetTemperature);
-      setArcColor(colorsArray[rooms[val].targetTemperature - 15]);
-    } else {
-      setTargetTemperature(15);
-      setArcColor(colorsArray[0]);
-    }
-  };
+    let tmpDeviceIdx
 
-  const handleTemperatureOnOff = () => {
-    //! API CALL
-
-    let tmp = [...rooms];
-    tmp[selectedRoomIdx].on = !tmp[selectedRoomIdx].on;
-    setRooms(tmp);
-
-    if (rooms[selectedRoomIdx].on) {
-      setTargetTemperature(rooms[selectedRoomIdx].targetTemperature);
-      setArcColor(colorsArray[rooms[selectedRoomIdx].targetTemperature - 15]);
-    } else {
-      setTargetTemperature(15);
-      setArcColor(colorsArray[0]);
-    }
-  };
-
-  const handleTemperatureTarget = (val) => {
-    const newTemp = parseInt(val);
-    //! API CALL
-
-    let tmp = [...rooms];
-    tmp[selectedRoomIdx].targetTemperature = newTemp;
-    setRooms(tmp);
-  };
-
-  const handlePlusTemperature = () => {
-    const newTemp = parseInt(targetTemperature + 1);
-    if (rooms[selectedRoomIdx].on) {
-      if (newTemp <= 30) {
-        setTargetTemperature(newTemp);
-        setArcColor(colorsArray[newTemp - 15]);
-
-        //! API CALL
-
-        let tmp = [...rooms];
-        tmp[selectedRoomIdx].targetTemperature = newTemp;
-        setRooms(tmp);
+    for(let i=0;i<props.devices.length;i++){
+      if (props.devices[i].type === "ac" && props.devices[i].room === val){
+        setDeviceIdx(i);
+        tmpDeviceIdx = i
+        break;
       }
     }
+
+    setTargetTemperature(props.devices[tmpDeviceIdx].targetTemperature);
+    setArcColor(colorsArray[props.devices[tmpDeviceIdx].targetTemperature - 15]);
   };
 
-  const handleMinusTemperature = () => {
-    const newTemp = parseInt(targetTemperature - 1);
-    if (rooms[selectedRoomIdx].on) {
-      if (newTemp >= 15) {
-        setTargetTemperature(newTemp);
-        setArcColor(colorsArray[newTemp - 15]);
 
-        //! API CALL
-
-        let tmp = [...rooms];
-        tmp[selectedRoomIdx].targetTemperature = newTemp;
-        setRooms(tmp);
-      }
-    }
-  };
+  React.useEffect(
+    () => {
+      setTargetTemperature(props.devices[deviceIdx].targetTemperature)
+      setArcColor(colorsArray[props.devices[deviceIdx].targetTemperature - 15])
+    }, [props.devices]
+  )
 
   return (
     <OutItem elevation={5}>
@@ -159,19 +102,19 @@ export default function TemperatureCard() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={selectedRoomIdx}
+                value={selectedRoom}
                 label="Room"
                 onChange={(event) => handleRoomChange(event.target.value)}
               >
-                {rooms.map((room, idx) => (
-                  <MenuItem key={idx} value={idx}>{room.name}</MenuItem>
+                {props.rooms.map((room, idx) => (
+                  <MenuItem key={idx} value={room.name}>{room.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={12}>
             <CircularSlider
-              disabled={!rooms[selectedRoomIdx].on}
+              disabled={!props.devices[deviceIdx].on}
               size={300}
               trackWidth={10}
               handleSize={10}
@@ -187,13 +130,17 @@ export default function TemperatureCard() {
                 },
               }}
               onControlFinished={() =>
-                handleTemperatureTarget(targetTemperature)
+                props.handleTemperatureTarget(targetTemperature,deviceIdx)
               }
-              arcColor={arcColor}
+              arcColor={ props.devices[deviceIdx].on ?
+                arcColor
+                :
+                "#787878"
+              }
               arcBackgroundColor="#AAAAAA"
             />
             <div style={{ marginTop: "-27vh" }}>
-              {rooms[selectedRoomIdx].on ? (
+              {props.devices[deviceIdx].on ? (
                 <h2>Target {parseInt(targetTemperature)}°</h2>
               ) : (
                 <h2>OFF</h2>
@@ -208,12 +155,12 @@ export default function TemperatureCard() {
                   borderRadius: "5px",
                 }}
               />
-              <h2>Now {rooms[selectedRoomIdx].currentTemperature}°</h2>
+              <h2>Now {props.devices[deviceIdx].currentTemperature}°</h2>
 
               <Stack justifyContent="center" direction="row" spacing={4}>
-                {rooms[selectedRoomIdx].on ? (
+                {props.devices[deviceIdx].on ? (
                   <IconButton
-                    onClick={() => handleMinusTemperature()}
+                    onClick={() => props.handleMinusTemperature(deviceIdx)}
                     sx={{
                       bgcolor: "#2196F3",
                       "&:hover": { bgcolor: "#1C7ECC" },
@@ -227,9 +174,9 @@ export default function TemperatureCard() {
                   </IconButton>
                 )}
 
-                {rooms[selectedRoomIdx].on ? (
+                {props.devices[deviceIdx].on ? (
                   <IconButton
-                    onClick={() => handlePlusTemperature()}
+                    onClick={() => props.handlePlusTemperature(deviceIdx)}
                     sx={{
                       bgcolor: "#FF6F22",
                       "&:hover": { bgcolor: "#D95E1D" },
@@ -247,11 +194,11 @@ export default function TemperatureCard() {
           </Grid>
           <Grid item xs={12}>
             <IconButton
-              onClick={() => handleTemperatureOnOff()}
+              onClick={() => props.handleTemperatureOnOff(deviceIdx)}
               sx={{
-                bgcolor: rooms[selectedRoomIdx].on ? "#FFC107" : "#DDDEDF",
+                bgcolor: props.devices[deviceIdx].on ? "#FFC107" : "#DDDEDF",
                 "&:hover": {
-                  bgcolor: rooms[selectedRoomIdx].on ? "#D9A406" : "#B6B7B8",
+                  bgcolor: props.devices[deviceIdx].on ? "#D9A406" : "#B6B7B8",
                 },
               }}
             >

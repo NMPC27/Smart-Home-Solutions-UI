@@ -1,0 +1,110 @@
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Button from "@mui/material/Button";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slider from "@mui/material/Slider";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import * as React from "react";
+import IconButton from "@mui/material/IconButton";
+import Grid from "@mui/material/Grid";
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: "#1F2937",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: "#FFFFFF",
+    borderRadius: "20px",
+  }));
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+export default function RoomDialog(props) {
+
+    const [text, setText] = React.useState("");
+
+    return (
+        <Dialog
+            fullWidth
+            open={props.openRoomDialog}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={() => props.handleCloseRoomDialog()}
+            PaperProps={{ sx: { borderRadius: "20px" } }}
+        >
+            <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
+            <h3 style={{ marginTop: 0, marginBottom: 0 }}>
+                Rooms
+            </h3>
+
+            <IconButton
+                onClick={() => props.handleCloseRoomDialog()}
+                sx={{
+                position: "absolute",
+                right: 12,
+                top: 12,
+                color: "#FFFFFF",
+                }}
+            >
+                <CloseIcon />
+            </IconButton>
+            </DialogTitle>
+            <DialogContent>
+            <Grid
+                container
+                spacing={2}
+                align="center"
+                sx={{ marginTop: "0.25vh" }}
+            >
+                <Grid item xs={6}>
+                    <Stack spacing={2} maxHeight={"45vh"}>
+                    
+
+                        <h3>Rooms:</h3>
+
+                        {
+                            props.rooms.map((room, idx) => (                             
+                                <Item>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={8}>
+                                            <h3 style={{marginTop:"1vh", marginBottom:"1vh"}}>{room.name}</h3>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                        <IconButton
+                                            onClick={() => props.handleDeleteRoom(idx)}
+                                            sx={{
+                                            color: "#FFFFFF",
+                                            }}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        </Grid>                                
+                                    </Grid>
+                                </Item>
+                            ))
+                        }
+                    </Stack>
+                </Grid>
+                <Grid item xs={6}>
+                    <Stack spacing={2} alignItems={"center"}>
+                        <h3>Add New Room:</h3>
+                        <TextField onChange={e => setText(e.target.value)} label="Room Name" variant="outlined"/>
+                        <Button variant="contained" sx={{ fontWeight: "bold", width:"50%" }} onClick={() => props.handleRoomAdd(text)}>
+                            + ADD
+                        </Button>
+                    </Stack>
+                </Grid>
+            </Grid>
+            </DialogContent>
+        </Dialog>
+    );
+  }

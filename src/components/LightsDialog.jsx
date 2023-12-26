@@ -22,7 +22,7 @@ export default function LightsDialog(props) {
 
     const handleLightColor = (val) => { //! MUITAS API CALLS
         setLightColor(val);
-        props.handleLightColor(val)
+        // props.handleLightColor(val,props.deviceIdx)
     }
 
     return (
@@ -36,7 +36,7 @@ export default function LightsDialog(props) {
         >
             <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
             <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-                {props.lights[props.selectedLight].name} Light
+                {props.devices[props.deviceIdx].name} Light
             </h3>
 
             <IconButton
@@ -86,7 +86,7 @@ export default function LightsDialog(props) {
                 <Grid item xs={12}>
                 <Slider
                     defaultValue={100}
-                    onChangeCommitted={(_, val) => props.handleBrightnessChange(val)}
+                    onChangeCommitted={(_, val) => props.handleBrightnessChange(val,props.deviceIdx)}
                     valueLabelDisplay="auto"
                     sx={{
                     "& .MuiSlider-thumb": { bgcolor: "#FFC107" },
@@ -97,11 +97,11 @@ export default function LightsDialog(props) {
                 </Grid>
                 <Grid item xs={12}>
                 <IconButton
-                    onClick={() => props.handleLightOnOff(props.selectedLight)}
+                    onClick={() => props.handleLightOnOff(props.deviceIdx)}
                     sx={{
-                    bgcolor: props.lights[props.selectedLight].on ? "#FFC107" : "#DDDEDF",
+                    bgcolor: props.devices[props.deviceIdx].on ? "#FFC107" : "#DDDEDF",
                     "&:hover": {
-                        bgcolor: props.lights[props.selectedLight].on ? "#D9A406" : "#B6B7B8",
+                        bgcolor: props.devices[props.deviceIdx].on ? "#D9A406" : "#B6B7B8",
                     },
                     }}
                 >

@@ -25,36 +25,22 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-const data = [
-  {
-    id: 1,
-    name: "Ofice",
-    endpoint: "c1.png",
-  },
-  {
-    id: 2,
-    name: "Stairs",
-    endpoint: "c2.png",
-  },
-  {
-    id: 3,
-    name: "Hallway #1",
-    endpoint: "c3.png",
-  },
-  {
-    id: 4,
-    name: "Hallway #2",
-    endpoint: "c4.png",
-  },
-];
 
-export default function CameraCard() {
+export default function CameraCard(props) {
   const [selectedCameraIdx, setSelectedCameraIdx] = React.useState(0);
-  const [cameras, setCameras] = React.useState(data);
 
   const handleCameraChange = (val) => {
     setSelectedCameraIdx(val);
   };
+
+  React.useEffect(() => {
+    for(let i=0;i<props.devices.length;i++){
+      if (props.devices[i].type === "camera"){
+        setSelectedCameraIdx(i);
+        break;
+      }
+    }
+  },[]);
 
   return (
     <OutItem elevation={5}>
@@ -71,9 +57,13 @@ export default function CameraCard() {
                 label="Camera"
                 onChange={(event) => handleCameraChange(event.target.value)}
               >
-                {cameras.map((camera, idx) => (
-                  <MenuItem key={idx} value={idx}>{camera.name}</MenuItem>
-                ))}
+                {props.devices.map((device, idx) => {
+                  if (device.type === "camera") {
+                    return(
+                      <MenuItem key={idx} value={idx}>{device.name}</MenuItem>
+                    );    
+                  }              
+                })}
               </Select>
             </FormControl>
           </Grid>
@@ -81,7 +71,7 @@ export default function CameraCard() {
             <img
               width="100%"
               style={{ marginTop: "2vh", borderRadius: "20px" }}
-              src={cameras[selectedCameraIdx].endpoint}
+              src={props.devices[selectedCameraIdx].endpoint}
               alt="ERROR!"
             />
           </Grid>

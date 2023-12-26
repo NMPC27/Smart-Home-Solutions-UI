@@ -8,14 +8,21 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Stack from "@mui/material/Stack";
 import BasicDatePicker from "./BasicDatePicker";
 import DrawerStyled from "./DrawerStyled";
+import RoomDialog from "./RoomDialog";
 
 
 export default function AppBarStyled(props) {
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
+  const [openRoomDialog,setOpenRoomDialog] = React.useState(false);
+
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
+  };
+
+  const handleCloseRoomDialog = () => {
+    setOpenRoomDialog(false);
   };
 
   return (
@@ -43,7 +50,7 @@ export default function AppBarStyled(props) {
           </Typography>
           {props.navbar == "dashboard" && (
             <Stack direction="row" spacing={2}>
-              <Button variant="contained" sx={{ fontWeight: "bold" }}>
+              <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => setOpenRoomDialog(true)}>
                 + ROOM
               </Button>
               <Button variant="contained" sx={{ fontWeight: "bold" }}>
@@ -55,6 +62,14 @@ export default function AppBarStyled(props) {
           {props.navbar == "files" && <></>}
         </Toolbar>
       </AppBar>
+      
+      <RoomDialog 
+        openRoomDialog={openRoomDialog} 
+        handleCloseRoomDialog={handleCloseRoomDialog}
+        rooms={props.rooms}
+        handleRoomAdd={props.handleRoomAdd}
+        handleDeleteRoom={props.handleDeleteRoom}
+      />
 
       <DrawerStyled 
         openDrawer={openDrawer} 

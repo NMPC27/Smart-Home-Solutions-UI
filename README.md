@@ -1,12 +1,12 @@
 # TODO:
 
-- room dialog (and edit)
 - device dialog (and edit)
 - lights edit button
-- fix slider temperature (and put gray when off)
-- do global state
+- fix slider temperature
 - do filters of room
 - do set order of cards ?favorite cards?
+- add rroms im midle e flutuante
+- nos filtros por apenas as room onde esta aquele tipo de device
 
 in add dialog we must define type and room associated
 name is user writen
