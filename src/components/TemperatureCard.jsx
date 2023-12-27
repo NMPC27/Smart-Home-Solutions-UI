@@ -33,23 +33,24 @@ const InItem = styled(Paper)(({ theme }) => ({
 }));
 
 const colorsArray = [
-  "#2196f3", // 15
-  "#216ef4", // 16
-  "#2145f5", // 17
-  "#2621f6", // 18
-  "#5021f6", // 19
-  "#7921f7",
-  "#a321f8", // 21
-  "#cd21f9",
-  "#f821fa", // 23
-  "#fa21d2",
-  "#fb22a8", // 25
-  "#fc227f",
-  "#fd2255", // 27
-  "#fd222a",
-  "#fe4422", // 29
-  "#ff6f22", // 30
-];
+  "#01579B",  
+  "#0288D1",
+  "#03A9F4",
+  "#4FC3F7",
+  "#B3E5FC",
+  "#FFF176",
+  "#FFEB3B",
+  "#FBC02D",
+  "#FFB74D",
+  "#FF9800",
+  "#F57C00",
+  "#E65100",
+  "#FF5722",
+  "#F44336",
+  "#D32F2F",
+  "#B71C1C",
+  
+]
 
 export default function TemperatureCard(props) {
   const [deviceIdx, setDeviceIdx] = React.useState(
@@ -146,7 +147,7 @@ export default function TemperatureCard(props) {
                 }
                 arcBackgroundColor="#AAAAAA"
               />
-              <div style={{ marginTop: "-27vh" }}>
+              <div style={{ marginTop: "-24vh" }}>
                 {props.devices[deviceIdx].on ? (
                   <h2>Target {parseInt(targetTemperature)}°</h2>
                 ) : (

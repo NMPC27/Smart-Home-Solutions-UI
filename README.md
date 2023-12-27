@@ -1,8 +1,9 @@
 # TODO:
 
 - lights edit button
-- fix slider temperature and colors
+- fix slider temperature and colors??
 - do filters of room
+- settings do dashboard
 - do set order of cards ?favorite cards?
 - add rroms im midle e flutuante
 - nos filtros por apenas as room onde esta aquele tipo de device
