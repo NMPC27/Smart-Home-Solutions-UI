@@ -1,6 +1,7 @@
 import { LineChart } from "@mui/x-charts/LineChart";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -26,6 +27,7 @@ const xAxis = [
 ];
 
 const chartColors = [ "#FFA500", "#CC0000"];
+const lables = ["Solar", "Gas" ];
 
 export default function EnergyProductionChart(props) {
   
@@ -44,8 +46,30 @@ export default function EnergyProductionChart(props) {
               { data: props.production.solar, label: "Solar Production" },
               { data: props.production.gas, label: "Gas Production" },
             ]}
+            legend={{ hidden: true }}
           />
         </div>
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          justifyContent="center"
+        >
+          {lables.map((item, index) => {
+            return (
+              <>
+                <div
+                  style={{
+                    width: "2vh",
+                    height: "2vh",
+                    backgroundColor: chartColors[index],
+                  }}
+                />
+                <h4>{item}</h4>
+              </>
+            );
+          })}
+        </Stack>
       </InItem>
     </OutItem>
   );

@@ -19,6 +19,10 @@ const roomsTMP = [
   {
     id: 3,
     name: "hallway"
+  },
+  {
+    id: 4,
+    name: "test"
   }
 ]
 
@@ -51,7 +55,7 @@ const devicesTMP =
 
         name: "Kitchen ac",
         on: true,
-        currentTemperature: 10,
+        currentTemperature: 11,
         targetTemperature: 23,
     },
     {
@@ -107,6 +111,43 @@ export default function Dashboard() {
   const [devices, setDevices] = React.useState(devicesTMP);
   const [rooms, setRooms] = React.useState(roomsTMP);
 
+
+  const handleDeviceAdd = (deviceInfo,deviceName,type,room) => {
+    //! API CALL
+    let newID = devices[devices.length-1].id + 1
+
+    for(let i=0;i<devices.length;i++){
+      if (devices[i].id >= newID){
+        newID=devices[i].id+1
+      }
+    }
+
+    if (type==="light"){
+      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,brightness: 100,color: "#FFFFFF"}]);
+    }
+
+    if (type==="ac"){
+      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,currentTemperature: 0,targetTemperature: 15}]);
+    }
+
+    if (type==="motionSensor"){
+      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,detectedMotion: false}]);
+    }
+
+    if (type==="camera"){
+      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,endpoint: "c1.png"}]);
+    }
+
+  };
+
+  const handleDeleteDevice = (idx) => {
+    //! API CALL
+
+    let tmp = [...devices];
+    tmp.splice(idx, 1);
+    setDevices(tmp);
+  };
+
   const handleRoomAdd = (val) => {
     //! API CALL
     let newID = rooms[rooms.length-1].id + 1
@@ -117,9 +158,7 @@ export default function Dashboard() {
       }
     }
 
-    let tmp = [...rooms];
-    tmp.push({id:newID,name: val})
-    setRooms(tmp);
+    setRooms([...rooms,{id:newID,name: val}]);
   };
 
   const handleDeleteRoom = (idx) => {
@@ -128,10 +167,6 @@ export default function Dashboard() {
     let tmp = [...rooms];
     tmp.splice(idx, 1);
     setRooms(tmp);
-
-
-
-    console.log(tmp)
   };
 
   const handleTemperatureTarget = (val,idx) => {
@@ -211,6 +246,8 @@ export default function Dashboard() {
         rooms={rooms} 
         handleRoomAdd={handleRoomAdd}
         handleDeleteRoom={handleDeleteRoom}
+        handleDeviceAdd={handleDeviceAdd}
+        handleDeleteDevice={handleDeleteDevice}
       />
 
       <Grid container spacing={4}>

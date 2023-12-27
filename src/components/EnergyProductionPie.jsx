@@ -49,7 +49,7 @@ export default function EnergyProductionPie(props) {
         Daily Production
       </h2>
       <InItem>
-        <div style={{ width: "100%", height: "37.8vh" }}>
+        <div style={{ width: "100%", height: "40vh" }}>
           <PieChart
             colors={pieColors}
             series={[

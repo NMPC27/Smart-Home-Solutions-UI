@@ -41,7 +41,7 @@ export default function LightsCard(props) {
     }
   );
 
-  const [selectedRoom, setSelectedRoom] = React.useState(props.devices[deviceIdx].room);
+  const [selectedRoom, setSelectedRoom] = React.useState(() => props.devices[deviceIdx].room);
 
   const [openDialog, setOpenDialog] = React.useState(false);
 

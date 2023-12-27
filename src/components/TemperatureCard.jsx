@@ -61,26 +61,30 @@ export default function TemperatureCard(props) {
       }
     }
   );
-  const [selectedRoom, setSelectedRoom] = React.useState(props.devices[deviceIdx].room);
+  const [selectedRoom, setSelectedRoom] = React.useState(() => props.devices[deviceIdx].room);
 
-  const [targetTemperature, setTargetTemperature] = React.useState(props.devices[deviceIdx].targetTemperature);
-  const [arcColor, setArcColor] = React.useState(colorsArray[targetTemperature - 15]);
+  const [targetTemperature, setTargetTemperature] = React.useState();
+  const [arcColor, setArcColor] = React.useState();
 
   const handleRoomChange = (val) => {
     setSelectedRoom(val);
 
-    let tmpDeviceIdx
+    let tmpDeviceIdx=-1
 
     for(let i=0;i<props.devices.length;i++){
       if (props.devices[i].type === "ac" && props.devices[i].room === val){
-        setDeviceIdx(i);
         tmpDeviceIdx = i
         break;
       }
     }
 
-    setTargetTemperature(props.devices[tmpDeviceIdx].targetTemperature);
-    setArcColor(colorsArray[props.devices[tmpDeviceIdx].targetTemperature - 15]);
+    setDeviceIdx(tmpDeviceIdx);
+
+    if (tmpDeviceIdx !== -1){
+      setTargetTemperature(props.devices[tmpDeviceIdx].targetTemperature);
+      setArcColor(colorsArray[props.devices[tmpDeviceIdx].targetTemperature - 15]);
+    }
+
   };
 
 
@@ -112,99 +116,106 @@ export default function TemperatureCard(props) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
-            <CircularSlider
-              disabled={!props.devices[deviceIdx].on}
-              size={300}
-              trackWidth={10}
-              handleSize={10}
-              minValue={15}
-              maxValue={30}
-              startAngle={50}
-              endAngle={310}
-              handle1={{
-                value: targetTemperature,
-                onChange: (v) => {
-                  setTargetTemperature(v);
-                  setArcColor(colorsArray[parseInt(v) - 15]);
-                },
-              }}
-              onControlFinished={() =>
-                props.handleTemperatureTarget(targetTemperature,deviceIdx)
-              }
-              arcColor={ props.devices[deviceIdx].on ?
-                arcColor
-                :
-                "#787878"
-              }
-              arcBackgroundColor="#AAAAAA"
-            />
-            <div style={{ marginTop: "-27vh" }}>
-              {props.devices[deviceIdx].on ? (
-                <h2>Target {parseInt(targetTemperature)}°</h2>
-              ) : (
-                <h2>OFF</h2>
-              )}
 
-              <Divider
-                sx={{
-                  borderBottomWidth: 5,
-                  width: "50%",
-                  margin: "auto",
-                  bgcolor: "#AAAAAA",
-                  borderRadius: "5px",
+          { deviceIdx !== -1 && 
+            <>
+            <Grid item xs={12}>
+              <CircularSlider
+                disabled={!props.devices[deviceIdx].on}
+                size={300}
+                trackWidth={10}
+                handleSize={10}
+                minValue={15}
+                maxValue={30}
+                startAngle={50}
+                endAngle={310}
+                handle1={{
+                  value: targetTemperature,
+                  onChange: (v) => {
+                    setTargetTemperature(v);
+                    setArcColor(colorsArray[parseInt(v) - 15]);
+                  },
                 }}
+                onControlFinished={() =>
+                  props.handleTemperatureTarget(targetTemperature,deviceIdx)
+                }
+                arcColor={ props.devices[deviceIdx].on ?
+                  arcColor
+                  :
+                  "#787878"
+                }
+                arcBackgroundColor="#AAAAAA"
               />
-              <h2>Now {props.devices[deviceIdx].currentTemperature}°</h2>
-
-              <Stack justifyContent="center" direction="row" spacing={4}>
+              <div style={{ marginTop: "-27vh" }}>
                 {props.devices[deviceIdx].on ? (
-                  <IconButton
-                    onClick={() => props.handleMinusTemperature(deviceIdx)}
-                    sx={{
-                      bgcolor: "#2196F3",
-                      "&:hover": { bgcolor: "#1C7ECC" },
-                    }}
-                  >
-                    <RemoveIcon />
-                  </IconButton>
+                  <h2>Target {parseInt(targetTemperature)}°</h2>
                 ) : (
-                  <IconButton disable>
-                    <RemoveIcon />
-                  </IconButton>
+                  <h2>OFF</h2>
                 )}
 
-                {props.devices[deviceIdx].on ? (
-                  <IconButton
-                    onClick={() => props.handlePlusTemperature(deviceIdx)}
-                    sx={{
-                      bgcolor: "#FF6F22",
-                      "&:hover": { bgcolor: "#D95E1D" },
-                    }}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton disable>
-                    <AddIcon />
-                  </IconButton>
-                )}
-              </Stack>
-            </div>
-          </Grid>
-          <Grid item xs={12}>
-            <IconButton
-              onClick={() => props.handleTemperatureOnOff(deviceIdx)}
-              sx={{
-                bgcolor: props.devices[deviceIdx].on ? "#FFC107" : "#DDDEDF",
-                "&:hover": {
-                  bgcolor: props.devices[deviceIdx].on ? "#D9A406" : "#B6B7B8",
-                },
-              }}
-            >
-              <PowerSettingsNewIcon />
-            </IconButton>
-          </Grid>
+                <Divider
+                  sx={{
+                    borderBottomWidth: 5,
+                    width: "50%",
+                    margin: "auto",
+                    bgcolor: "#AAAAAA",
+                    borderRadius: "5px",
+                  }}
+                />
+                <h2>Now {props.devices[deviceIdx].currentTemperature}°</h2>
+
+                <Stack justifyContent="center" direction="row" spacing={4}>
+                  {props.devices[deviceIdx].on ? (
+                    <IconButton
+                      onClick={() => props.handleMinusTemperature(deviceIdx)}
+                      sx={{
+                        bgcolor: "#2196F3",
+                        "&:hover": { bgcolor: "#1C7ECC" },
+                      }}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton disable>
+                      <RemoveIcon />
+                    </IconButton>
+                  )}
+
+                  {props.devices[deviceIdx].on ? (
+                    <IconButton
+                      onClick={() => props.handlePlusTemperature(deviceIdx)}
+                      sx={{
+                        bgcolor: "#FF6F22",
+                        "&:hover": { bgcolor: "#D95E1D" },
+                      }}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton disable>
+                      <AddIcon />
+                    </IconButton>
+                  )}
+                </Stack>
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <IconButton
+                onClick={() => props.handleTemperatureOnOff(deviceIdx)}
+                sx={{
+                  bgcolor: props.devices[deviceIdx].on ? "#FFC107" : "#DDDEDF",
+                  "&:hover": {
+                    bgcolor: props.devices[deviceIdx].on ? "#D9A406" : "#B6B7B8",
+                  },
+                }}
+              >
+                <PowerSettingsNewIcon />
+              </IconButton>
+            </Grid>
+            </>
+          }
+
+          
         </Grid>
       </InItem>
     </OutItem>

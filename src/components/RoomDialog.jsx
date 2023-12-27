@@ -14,6 +14,8 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#1F2937",
@@ -30,11 +32,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function RoomDialog(props) {
 
-    const [text, setText] = React.useState("");
+    const theme = useTheme();
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+    const [roomName, setRoomName] = React.useState("");
 
     return (
         <Dialog
             fullWidth
+            maxWidth={"md"}
             open={props.openRoomDialog}
             TransitionComponent={Transition}
             keepMounted
@@ -64,8 +70,21 @@ export default function RoomDialog(props) {
                 spacing={2}
                 align="center"
                 sx={{ marginTop: "0.25vh" }}
-            >
-                <Grid item xs={6}>
+            >  
+                {
+                    !mobile &&
+                    <Grid item xs={12} sm={6} md={6} height={"25vh"} ></Grid>
+                }                
+                <Grid item xs={12} sm={6} md={6} position={!mobile && "absolute"}>
+                    <Stack spacing={2} alignItems={"center"}>
+                        <h3>Add New Room:</h3>
+                        <TextField onChange={e => setRoomName(e.target.value)} label="Room Name" variant="outlined"/>
+                        <Button variant="contained" sx={{ fontWeight: "bold", width:"50%" }} onClick={() => props.handleRoomAdd(roomName)}>
+                            + ADD
+                        </Button>
+                    </Stack>
+                </Grid>                
+                <Grid item xs={12} sm={6} md={6}>
                     <Stack spacing={2} maxHeight={"45vh"}>
                     
 
@@ -93,16 +112,7 @@ export default function RoomDialog(props) {
                             ))
                         }
                     </Stack>
-                </Grid>
-                <Grid item xs={6}>
-                    <Stack spacing={2} alignItems={"center"}>
-                        <h3>Add New Room:</h3>
-                        <TextField onChange={e => setText(e.target.value)} label="Room Name" variant="outlined"/>
-                        <Button variant="contained" sx={{ fontWeight: "bold", width:"50%" }} onClick={() => props.handleRoomAdd(text)}>
-                            + ADD
-                        </Button>
-                    </Stack>
-                </Grid>
+                </Grid>                
             </Grid>
             </DialogContent>
         </Dialog>

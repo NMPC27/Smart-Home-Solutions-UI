@@ -9,13 +9,21 @@ import Stack from "@mui/material/Stack";
 import BasicDatePicker from "./BasicDatePicker";
 import DrawerStyled from "./DrawerStyled";
 import RoomDialog from "./RoomDialog";
+import DeviceDialog from "./DeviceDialog";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 export default function AppBarStyled(props) {
 
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
   const [openRoomDialog,setOpenRoomDialog] = React.useState(false);
+
+  const [openDeviceDialog,setOpenDeviceDialog] = React.useState(false);
 
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
@@ -23,6 +31,10 @@ export default function AppBarStyled(props) {
 
   const handleCloseRoomDialog = () => {
     setOpenRoomDialog(false);
+  };
+
+  const handleCloseDeviceDialog = () => {
+    setOpenDeviceDialog(false);
   };
 
   return (
@@ -48,29 +60,54 @@ export default function AppBarStyled(props) {
           >
             AppName
           </Typography>
-          {props.navbar == "dashboard" && (
+          {props.navbar === "dashboard" && !mobile && 
             <Stack direction="row" spacing={2}>
               <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => setOpenRoomDialog(true)}>
                 + ROOM
               </Button>
-              <Button variant="contained" sx={{ fontWeight: "bold" }}>
+              <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => setOpenDeviceDialog(true)} >
                 + DEVICE
               </Button>
             </Stack>
-          )}
-          {props.navbar == "energy" && <BasicDatePicker handleDateChange={props.handleDateChange}/>}
-          {props.navbar == "files" && <></>}
+          }
+          {props.navbar === "energy" && <BasicDatePicker handleDateChange={props.handleDateChange}/>}
+          {props.navbar === "files" && <></>}
         </Toolbar>
       </AppBar>
-      
-      <RoomDialog 
-        openRoomDialog={openRoomDialog} 
-        handleCloseRoomDialog={handleCloseRoomDialog}
-        rooms={props.rooms}
-        handleRoomAdd={props.handleRoomAdd}
-        handleDeleteRoom={props.handleDeleteRoom}
-      />
 
+      {props.navbar === "dashboard" && mobile && 
+        <Stack spacing={2} alignItems="center" marginBottom={"3vh"}>
+          <Button variant="contained" sx={{ fontWeight: "bold", width:"70%" }} onClick={() => setOpenRoomDialog(true)}>
+            + ROOM
+          </Button>
+          <Button variant="contained" sx={{ fontWeight: "bold", width:"70%" }} onClick={() => setOpenDeviceDialog(true)} >
+            + DEVICE
+          </Button>
+        </Stack>
+      }
+      
+      {
+        props.navbar === "dashboard" && 
+        <>
+          <RoomDialog 
+            openRoomDialog={openRoomDialog} 
+            handleCloseRoomDialog={handleCloseRoomDialog}
+            rooms={props.rooms}
+            handleRoomAdd={props.handleRoomAdd}
+            handleDeleteRoom={props.handleDeleteRoom}
+          />
+
+          <DeviceDialog
+            openDeviceDialog={openDeviceDialog} 
+            handleCloseDeviceDialog={handleCloseDeviceDialog}
+            rooms={props.rooms}
+            devices={props.devices}
+            handleDeviceAdd={props.handleDeviceAdd}
+            handleDeleteDevice={props.handleDeleteDevice}
+          />
+        </>
+      }
+      
       <DrawerStyled 
         openDrawer={openDrawer} 
         handleCloseDrawer={handleCloseDrawer}

@@ -1,0 +1,226 @@
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Button from "@mui/material/Button";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slider from "@mui/material/Slider";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import * as React from "react";
+import IconButton from "@mui/material/IconButton";
+import Grid from "@mui/material/Grid";
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import CircularProgress from '@mui/material/CircularProgress';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: "#1F2937",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: "#FFFFFF",
+    borderRadius: "20px",
+  }));
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+const tmp = [
+    {
+        id: 1,
+        name: "Shelly 1238194"
+    },
+    {
+        id: 2,
+        name: "Shelly HSDF7234"
+    },
+    {
+        id: 3,
+        name: "Samsung Smart TV32"
+    },
+]
+
+const suportedDevices = ["light","ac","motionSensor","camera"]
+
+export default function DeviceDialog(props) {
+
+    const theme = useTheme();
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+    const [searchDevicesStatus, setSearchDevicesStatus] = React.useState("notStarted");  // notFound, searching, found, notStarted
+    const [deviceName, setDeviceName] = React.useState("");
+    const [devicesFound, setDevicesFound] = React.useState([]);  
+    const [selectedDevice, setSelectedDevice] = React.useState();    
+    const [selectedType, setSelectedType] = React.useState();
+    const [selectedRoom, setSelectedRoom] = React.useState();
+
+    const handleFindDevices = () => {
+        setSearchDevicesStatus("searching")
+
+        //! API call
+        setTimeout(()=>{
+            setSearchDevicesStatus("found")
+            setDevicesFound(tmp)
+        }, 5000)
+        //!
+
+        
+
+    };
+
+    return (
+        <Dialog
+            fullWidth
+            maxWidth={"md"}
+            open={props.openDeviceDialog}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={() => props.handleCloseDeviceDialog()}
+            PaperProps={{ sx: { borderRadius: "20px" } }}
+        >
+            <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
+            <h3 style={{ marginTop: 0, marginBottom: 0 }}>
+                Rooms
+            </h3>
+
+            <IconButton
+                onClick={() => props.handleCloseDeviceDialog()}
+                sx={{
+                position: "absolute",
+                right: 12,
+                top: 12,
+                color: "#FFFFFF",
+                }}
+            >
+                <CloseIcon />
+            </IconButton>
+            </DialogTitle>
+            <DialogContent>
+            <Grid
+                container
+                spacing={2}
+                align="center"
+                sx={{ marginTop: "0.25vh" }}
+            >
+                {
+                    !mobile &&
+                    <Grid item xs={12} sm={6} md={6} height={"50vh"} ></Grid>
+                }
+                <Grid item xs={12} sm={6} md={6} position={!mobile && "absolute"}>
+                    <Stack spacing={2}>
+                        <h3>Add New Device:</h3>
+                        {
+                            searchDevicesStatus === "notStarted" &&
+                            <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => handleFindDevices()}>
+                                Find Devices
+                            </Button>
+                        }
+                        {
+                            searchDevicesStatus === "searching" &&
+                            <CircularProgress/>
+                        }
+                        {
+                            searchDevicesStatus === "found" &&
+                            <>
+                            <TextField onChange={e => setDeviceName(e.target.value)} label="Device Name" variant="outlined"/>
+                            <FormControl fullWidth>
+                                <InputLabel id="select-device">Device</InputLabel>
+                                <Select
+                                labelId="select-device"
+                                id="Device"
+                                value={selectedDevice}
+                                label="Device"
+                                onChange={(event) => setSelectedDevice(event.target.value)}
+                                >
+                                {devicesFound.map((device, idx) => (
+                                    <MenuItem key={idx} value={idx}>{device.name}</MenuItem>
+                                ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="type-device">Type</InputLabel>
+                                <Select
+                                labelId="type-device"
+                                id="type"
+                                value={selectedType}
+                                label="Type"
+                                onChange={(event) => setSelectedType(event.target.value)}
+                                >
+                                {suportedDevices.map((device, idx) => (
+                                    <MenuItem key={idx} value={device}>{device}</MenuItem>
+                                ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="room-device">Room</InputLabel>
+                                <Select
+                                labelId="room-device"
+                                id="room"
+                                value={selectedRoom}
+                                label="Romm"
+                                onChange={(event) => setSelectedRoom(event.target.value)}
+                                >
+                                {props.rooms.map((room, idx) => (
+                                    <MenuItem key={idx} value={room.name}>{room.name}</MenuItem>
+                                ))}
+                                </Select>
+                            </FormControl>
+
+                            <Button variant="contained" sx={{ fontWeight: "bold", width:"50%" }} onClick={() => props.handleDeviceAdd(devicesFound[selectedDevice],deviceName,selectedType,selectedRoom)}>
+                                + ADD
+                            </Button>
+                            </>
+                        }
+                        {
+                            searchDevicesStatus === "notFound" &&
+                            <>
+                            <h3>No Devices Found!</h3>
+                            <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => handleFindDevices()}>
+                                Find Devices
+                            </Button>
+                            </>
+                        }
+                    </Stack>
+                </Grid>                
+                <Grid item xs={12} sm={6} md={6}>
+                    <Stack spacing={2} maxHeight={"45vh"}>
+                        <h3>Devices:</h3>
+
+                        {
+                            props.devices.map((room, idx) => (                             
+                                <Item>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={8}>
+                                            <h3 style={{marginTop:"1vh", marginBottom:"1vh"}}>{room.name}</h3>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                        <IconButton
+                                            onClick={() => props.handleDeleteDevice(idx)}
+                                            sx={{
+                                            color: "#FFFFFF",
+                                            }}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        </Grid>                                
+                                    </Grid>
+                                </Item>
+                            ))
+                        }
+                    </Stack>
+                </Grid>
+            </Grid>
+            </DialogContent>
+        </Dialog>
+    );
+  }
