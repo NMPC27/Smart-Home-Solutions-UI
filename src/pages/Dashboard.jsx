@@ -5,6 +5,8 @@ import TemperatureCard from "../components/TemperatureCard";
 import SecurityCard from "../components/SecurityCard";
 import CameraCard from "../components/CameraCard";
 import * as React from "react";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 const roomsTMP = [
@@ -107,6 +109,15 @@ const devicesTMP =
 
 
 export default function Dashboard() {
+
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  React.useEffect(()  => {
+    if (mobile){
+      document.body.style.margin = 0
+    }
+  },[mobile]);
 
   const [devices, setDevices] = React.useState(devicesTMP);
   const [rooms, setRooms] = React.useState(roomsTMP);

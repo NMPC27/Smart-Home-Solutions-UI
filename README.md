@@ -1,12 +1,16 @@
 # TODO:
 
-- device dialog (and edit)
 - lights edit button
-- fix slider temperature
+- fix slider temperature and colors
 - do filters of room
 - do set order of cards ?favorite cards?
 - add rroms im midle e flutuante
 - nos filtros por apenas as room onde esta aquele tipo de device
+- o que esta dentro da pasta dar shift à direita
+- no calendario mobile tem 2 "-" (n me parece critico) - alterar para DD/MM/YYYY
+- graficos quando no tele roda ficam cagados, usar vw
+- energy snackbar a dizer para rodar ecra
+- fix files in mobile M
 
 in add dialog we must define type and room associated
 name is user writen

@@ -5,6 +5,8 @@ import EnergyConsumptionPie from "../components/EnergyConsumptionPie";
 import EnergyProductionChart from "../components/EnergyProductionChart";
 import EnergyProductionPie from "../components/EnergyProductionPie";
 import * as React from "react";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const datatmp = {
 	consumption:{
@@ -19,6 +21,15 @@ const datatmp = {
 }
 
 export default function Energy() {
+
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  React.useEffect(()  => {
+    if (mobile){
+      document.body.style.margin = 0
+    }
+  },[mobile]);
 
   const [data, setData] = React.useState(datatmp);
 

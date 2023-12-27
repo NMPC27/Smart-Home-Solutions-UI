@@ -70,7 +70,7 @@ export default function AppBarStyled(props) {
               </Button>
             </Stack>
           }
-          {props.navbar === "energy" && <BasicDatePicker handleDateChange={props.handleDateChange}/>}
+          {props.navbar === "energy" && !mobile && <BasicDatePicker handleDateChange={props.handleDateChange}/>}
           {props.navbar === "files" && <></>}
         </Toolbar>
       </AppBar>
@@ -106,6 +106,12 @@ export default function AppBarStyled(props) {
             handleDeleteDevice={props.handleDeleteDevice}
           />
         </>
+      }
+
+      {props.navbar === "energy" && mobile && 
+        <div style={{ marginBottom:"3vh", width:"70%", margin:"auto" }} >
+          <BasicDatePicker handleDateChange={props.handleDateChange}/>
+        </div>
       }
       
       <DrawerStyled 

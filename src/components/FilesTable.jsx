@@ -11,6 +11,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -24,7 +25,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
 const InItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#FFFFFF",
   ...theme.typography.body2,
-  padding: theme.spacing(4),
+  padding: theme.spacing(2),
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
@@ -132,9 +133,12 @@ export default function FilesTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {data.map((row,idx) => (
               <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row">                  
+                  { idx !== 0 && path !== "/" &&
+                    <SubdirectoryArrowRightIcon/> 
+                  }
                   {row.fileName}
                 </TableCell>
                 <TableCell align="right">{row.date}</TableCell>

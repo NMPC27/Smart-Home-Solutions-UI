@@ -6,11 +6,12 @@ import Dashboard from "./pages/Dashboard";
 import Energy from "./pages/Energy";
 import Files from "./pages/Files";
 import Automation from "./pages/Automation";
+import LogIn from "./pages/LogIn";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Dashboard />,
+    element: <LogIn />,
   },
   {
     path: "/dashboard",

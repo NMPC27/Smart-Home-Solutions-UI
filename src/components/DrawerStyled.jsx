@@ -7,10 +7,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 export default function DrawerStyled(props) {
     let navigate = useNavigate();
+
+    const theme = useTheme();
+    const mobile = useMediaQuery(theme.breakpoints.down('md'))
 
     return (
         <Drawer
@@ -20,8 +25,8 @@ export default function DrawerStyled(props) {
                 borderRadius: "20px",
                 color: "#FFFFFF",
                 width: "250px",
-                margin: "5vw",
-                marginTop: "3vh",
+                margin: mobile ? 0 : "5vw",
+                marginTop: mobile ? 0 : "3vh",
             },
             }}
             anchor={"left"}
