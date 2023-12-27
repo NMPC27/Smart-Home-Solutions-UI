@@ -16,6 +16,12 @@ import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#1F2937",
@@ -37,7 +43,23 @@ export default function RoomDialog(props) {
 
     const [roomName, setRoomName] = React.useState("");
 
+    const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false);
+
+    const handleRoomAdd = (roomName) => {
+
+        for (let i=0;i<props.rooms;i++) {
+            if (props.rooms[i].name === roomName){
+                setOpenErrorMsg1(true)
+                return
+            }
+        }
+
+        
+        props.handleRoomAdd(roomName)
+    };
+
     return (
+        <>
         <Dialog
             fullWidth
             maxWidth={"md"}
@@ -79,7 +101,7 @@ export default function RoomDialog(props) {
                     <Stack spacing={2} alignItems={"center"}>
                         <h3>Add New Room:</h3>
                         <TextField onChange={e => setRoomName(e.target.value)} label="Room Name" variant="outlined"/>
-                        <Button variant="contained" sx={{ fontWeight: "bold", width:"50%" }} onClick={() => props.handleRoomAdd(roomName)}>
+                        <Button variant="contained" sx={{ fontWeight: "bold", width:"50%" }} onClick={() => handleRoomAdd(roomName)}>
                             + ADD
                         </Button>
                     </Stack>
@@ -116,5 +138,28 @@ export default function RoomDialog(props) {
             </Grid>
             </DialogContent>
         </Dialog>
+        <Snackbar 
+            anchorOrigin={{ vertical: "top", horizontal:"center" }}
+            open={openErrorMsg1} 
+            autoHideDuration={6000} 
+            onClose={(event, reason) => {
+                if (reason !== 'clickaway') {
+                    setOpenErrorMsg1(false);
+                }
+            }}
+        >
+            <Alert 
+                severity="error" 
+                sx={{ width: '100%' }}
+                onClose={(event, reason) => {
+                    if (reason !== 'clickaway') {
+                        setOpenErrorMsg1(false);
+                    }
+                }}
+            >
+                This room already exists!
+            </Alert>
+        </Snackbar>
+        </>
     );
   }

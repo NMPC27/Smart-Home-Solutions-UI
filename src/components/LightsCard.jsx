@@ -10,6 +10,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Button from '@mui/material/Button';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -45,8 +47,8 @@ export default function LightsCard(props) {
 
   const [openDialog, setOpenDialog] = React.useState(false);
 
-  const handleOpenDialog = (e, idx) => {
-    e.preventDefault();
+  const handleOpenDialog = (e,idx) => {
+    e.stopPropagation ();
     setDeviceIdx(idx);
     setOpenDialog(true);
   };
@@ -81,23 +83,32 @@ export default function LightsCard(props) {
           {props.devices.map((val, idx) => {
             if ( val.type === "light" && (val.room===selectedRoom || selectedRoom==="all")){
               return (
-                <Grid item xs={4} key={idx} >
-                  <Stack spacing={2}>
-                    <IconButton
-                      sx={{
-                        borderRadius: "10px",
-                        bgcolor: val.on ? "#FFC107" : "#DDDEDF",
-                        "&:hover": { bgcolor: val.on ? "#D9A406" : "#B6B7B8" },
-                        padding: "1vw",
-                      }}
-                      onClick={() => props.handleLightOnOff(idx)}
-                      onContextMenu={(e) => handleOpenDialog(e, idx)}
-                    >
-                      <LightbulbOutlinedIcon />
-                    </IconButton>
+                <Grid item xs={12} key={idx} >
+                  <Button 
+                    fullWidth
+                    startIcon={
+                      <IconButton>
+                        <LightbulbOutlinedIcon />
+                      </IconButton>
+                    }
+                    endIcon={
+                      <IconButton>
+                        <SettingsIcon onClick={(e) => handleOpenDialog(e,idx)}/>
+                      </IconButton>
+                    }
+                    sx={{
+                      borderRadius: "10px",
+                      bgcolor: val.on ? "#FFC107" : "#DDDEDF",
+                      "&:hover": { bgcolor: val.on ? "#D9A406" : "#B6B7B8" },
+                      color: val.on ? "#FFFFFF" : "#666666",
+                      padding: "0.5vw",
+                    }}
+                    onClick={() => props.handleLightOnOff(idx)}                    
+                  >
 
-                    <b style={{ marginTop: 8 }}>{val.name}</b>
-                  </Stack>
+                    <b style={{width:"100%"}}>{val.name}</b>
+                    
+                  </Button>
                 </Grid>
               );
             }
