@@ -18,6 +18,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import RoomDeleteConfirmation from "./RoomDeleteConfirmation";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -43,11 +44,20 @@ export default function RoomDialog(props) {
 
     const [roomName, setRoomName] = React.useState("");
 
-    const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false);
+    const [openRoomDeleteConfirmation, setOpenRoomDeleteConfirmation] = React.useState(false);
+    const [deleteIdx, setDeleteIdx] = React.useState(0);
+
+    const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false);    // room already exists
+    const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false);    // empty name
 
     const handleRoomAdd = (roomName) => {
 
-        for (let i=0;i<props.rooms;i++) {
+        if (roomName === "") {
+            setOpenErrorMsg2(true)
+            return
+        }
+
+        for (let i=0;i<props.rooms.length;i++) {
             if (props.rooms[i].name === roomName){
                 setOpenErrorMsg1(true)
                 return
@@ -56,6 +66,21 @@ export default function RoomDialog(props) {
 
         
         props.handleRoomAdd(roomName)
+    };
+
+    const handleDeleteRoom = (idx) => {
+        setDeleteIdx(idx)
+        setOpenRoomDeleteConfirmation(true)
+    }
+
+    const handleCloseRoomDeleteConfirmation = () => {
+        setOpenRoomDeleteConfirmation(false);
+    };
+
+    const handleCloseRoomDeleteConfirmationOK = () => {
+        setOpenRoomDeleteConfirmation(false);
+        props.handleDeleteRoom(deleteIdx)
+
     };
 
     return (
@@ -121,7 +146,7 @@ export default function RoomDialog(props) {
                                         </Grid>
                                         <Grid item xs={4}>
                                         <IconButton
-                                            onClick={() => props.handleDeleteRoom(idx)}
+                                            onClick={() => handleDeleteRoom(idx)}
                                             sx={{
                                             color: "#FFFFFF",
                                             }}
@@ -138,6 +163,14 @@ export default function RoomDialog(props) {
             </Grid>
             </DialogContent>
         </Dialog>
+        <RoomDeleteConfirmation
+            openRoomDeleteConfirmation={openRoomDeleteConfirmation}
+            handleCloseRoomDeleteConfirmation={handleCloseRoomDeleteConfirmation}
+            handleCloseRoomDeleteConfirmationOK={handleCloseRoomDeleteConfirmationOK}
+            deleteIdx={deleteIdx}
+            rooms={props.rooms}
+            devices={props.devices}
+        />
         <Snackbar 
             anchorOrigin={{ vertical: "top", horizontal:"center" }}
             open={openErrorMsg1} 
@@ -158,6 +191,28 @@ export default function RoomDialog(props) {
                 }}
             >
                 This room already exists!
+            </Alert>
+        </Snackbar>
+        <Snackbar 
+            anchorOrigin={{ vertical: "top", horizontal:"center" }}
+            open={openErrorMsg2} 
+            autoHideDuration={6000} 
+            onClose={(event, reason) => {
+                if (reason !== 'clickaway') {
+                    setOpenErrorMsg2(false);
+                }
+            }}
+        >
+            <Alert 
+                severity="error" 
+                sx={{ width: '100%' }}
+                onClose={(event, reason) => {
+                    if (reason !== 'clickaway') {
+                        setOpenErrorMsg2(false);
+                    }
+                }}
+            >
+                Room name is empty!
             </Alert>
         </Snackbar>
         </>

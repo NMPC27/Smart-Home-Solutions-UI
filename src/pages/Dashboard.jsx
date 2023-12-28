@@ -71,7 +71,7 @@ const devicesTMP =
         targetTemperature: 20,
     },
     {
-        id: 4,
+        id: 5,
         type: "ac", // sensor temperature or ac
         room: "hallway",
 
@@ -81,7 +81,7 @@ const devicesTMP =
         targetTemperature: 20,
     },
     { //! ATENÇAO NAO MT BEM DEFINIDO
-        id: 5,
+        id: 6,
         type: "motionSensor", // security and can be used for ligths in automation
         room: "bed",
 
@@ -90,7 +90,7 @@ const devicesTMP =
         detectedMotion: true,
     },
     {
-        id: 6,
+        id: 7,
         type: "camera",
         room: "bed",
 
@@ -98,7 +98,7 @@ const devicesTMP =
         endpoint: "c4.png",
     },
     {
-        id: 7,
+        id: 8,
         type: "camera",
         room: "kitchen",
 
@@ -174,6 +174,22 @@ export default function Dashboard() {
 
   const handleDeleteRoom = (idx) => {
     //! API CALL
+
+    let deviceDeleteIdx = []
+
+    devices.map(
+      (device,deviceIdx) => {
+        if (device.room === rooms[idx].name){
+          deviceDeleteIdx.push(deviceIdx)
+        }
+      }
+    )
+
+    let deleteCount = 0
+    for(let i=0;i<deviceDeleteIdx.length;i++){
+        devices.splice(deviceDeleteIdx[i]-deleteCount,1)
+        deleteCount++
+    }
 
     let tmp = [...rooms];
     tmp.splice(idx, 1);
@@ -282,7 +298,7 @@ export default function Dashboard() {
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <CameraCard devices={devices}/>
+          <CameraCard devices={devices} rooms={rooms}/>
         </Grid>
                 <Grid item xs={12} sm={6} md={2}>
           <SecurityCard />

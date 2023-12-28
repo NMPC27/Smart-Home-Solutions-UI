@@ -33,23 +33,22 @@ const InItem = styled(Paper)(({ theme }) => ({
 }));
 
 const colorsArray = [
-  "#01579B",  
-  "#0288D1",
-  "#03A9F4",
-  "#4FC3F7",
-  "#B3E5FC",
-  "#FFF176",
-  "#FFEB3B",
-  "#FBC02D",
-  "#FFB74D",
-  "#FF9800",
-  "#F57C00",
-  "#E65100",
-  "#FF5722",
-  "#F44336",
-  "#D32F2F",
-  "#B71C1C",
-  
+  '#0000ff', 
+  '#1100ee',
+  '#2200dd', 
+  '#3300cc',
+  '#4400bb', 
+  '#5500aa',
+  '#660099', 
+  '#770088',
+  '#880077', 
+  '#990066',
+  '#aa0055', 
+  '#bb0044',
+  '#cc0033', 
+  '#dd0022',
+  '#ee0011', 
+  '#ff0000'
 ]
 
 export default function TemperatureCard(props) {

@@ -2,6 +2,7 @@
 
 - skeleton
 - snackbar
+- fix update cards when delete room
 - fix slider temperature and colors??
 - energy snackbar a dizer para rodar ecra
 - fix files in mobile M

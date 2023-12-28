@@ -93,6 +93,7 @@ export default function AppBarStyled(props) {
             openRoomDialog={openRoomDialog} 
             handleCloseRoomDialog={handleCloseRoomDialog}
             rooms={props.rooms}
+            devices={props.devices}
             handleRoomAdd={props.handleRoomAdd}
             handleDeleteRoom={props.handleDeleteRoom}
           />
