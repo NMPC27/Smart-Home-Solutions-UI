@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import * as React from "react";
-import CircularSlider from "react-circular-slider-svg";
+import {CircularSliderWithChildren} from 'react-circular-slider-svg';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import IconButton from "@mui/material/IconButton";
@@ -52,6 +52,14 @@ const colorsArray = [
 ]
 
 export default function TemperatureCard(props) {
+  const [size, setSize] = React.useState(null);
+
+  const slider = React.useCallback(node => { //! Resize slider
+    if (node !== null) {
+      setSize(node.getBoundingClientRect().width);
+    }
+  }, []);
+
   const [deviceIdx, setDeviceIdx] = React.useState(
     ()=> {
       for(let i=0;i<props.devices.length;i++){
@@ -119,10 +127,10 @@ export default function TemperatureCard(props) {
 
           { deviceIdx !== -1 && 
             <>
-            <Grid item xs={12}>
-              <CircularSlider
+            <Grid item xs={12} ref={slider}>
+              <CircularSliderWithChildren
                 disabled={!props.devices[deviceIdx].on}
-                size={300}
+                size={size}
                 trackWidth={10}
                 handleSize={10}
                 minValue={15}
@@ -145,25 +153,23 @@ export default function TemperatureCard(props) {
                   "#787878"
                 }
                 arcBackgroundColor="#AAAAAA"
-              />
-              <div style={{ marginTop: "-24vh" }}>
+              >              
+              <div>
                 {props.devices[deviceIdx].on ? (
-                  <h2>Target {parseInt(targetTemperature)}°</h2>
+                  <h2 style={{marginTop:"2vh"}}>Target {parseInt(targetTemperature)}°</h2>
                 ) : (
-                  <h2>OFF</h2>
+                  <h2 style={{marginTop:"2vh"}}>OFF</h2>
                 )}
 
                 <Divider
                   sx={{
                     borderBottomWidth: 5,
-                    width: "50%",
                     margin: "auto",
                     bgcolor: "#AAAAAA",
                     borderRadius: "5px",
                   }}
                 />
                 <h2>Now {props.devices[deviceIdx].currentTemperature}°</h2>
-
                 <Stack justifyContent="center" direction="row" spacing={4}>
                   {props.devices[deviceIdx].on ? (
                     <IconButton
@@ -197,20 +203,19 @@ export default function TemperatureCard(props) {
                     </IconButton>
                   )}
                 </Stack>
+                <IconButton
+                  onClick={() => props.handleTemperatureOnOff(deviceIdx)}
+                  sx={{
+                    bgcolor: props.devices[deviceIdx].on ? "#FFC107" : "#DDDEDF",
+                    "&:hover": {
+                      bgcolor: props.devices[deviceIdx].on ? "#D9A406" : "#B6B7B8",
+                    },
+                  }}
+                >
+                  <PowerSettingsNewIcon />
+                </IconButton>
               </div>
-            </Grid>
-            <Grid item xs={12}>
-              <IconButton
-                onClick={() => props.handleTemperatureOnOff(deviceIdx)}
-                sx={{
-                  bgcolor: props.devices[deviceIdx].on ? "#FFC107" : "#DDDEDF",
-                  "&:hover": {
-                    bgcolor: props.devices[deviceIdx].on ? "#D9A406" : "#B6B7B8",
-                  },
-                }}
-              >
-                <PowerSettingsNewIcon />
-              </IconButton>
+              </CircularSliderWithChildren>             
             </Grid>
             </>
           }

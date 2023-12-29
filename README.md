@@ -3,16 +3,13 @@
 - skeleton
 - snackbar
 - fix update cards when delete room
-- fix slider temperature and colors??
 - energy snackbar a dizer para rodar ecra
-- fix files in mobile M
 - do filters of room
 - settings do dashboard
 - do set order of cards ?favorite cards?
-- add rroms im midle e flutuante
 - nos filtros por apenas as room onde esta aquele tipo de device
-- no calendario mobile tem 2 "-" (n me parece critico) - alterar para DD/MM/YYYY
 - graficos quando no tele roda ficam cagados, usar vw
+- no calendario mobile tem 2 "-" (n me parece critico) - alterar para DD/MM/YYYY
 
 
 in add dialog we must define type and room associated

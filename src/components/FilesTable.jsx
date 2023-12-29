@@ -12,6 +12,8 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -103,6 +105,9 @@ const dataFolder = [
 ];
 
 export default function FilesTable() {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
   const [path, setPath] = React.useState("/");
   const [data, setData] = React.useState(dataTMP);
 
@@ -127,7 +132,7 @@ export default function FilesTable() {
             <TableRow>
               <TableCell>File Name</TableCell>
               <TableCell align="right">Date</TableCell>
-              <TableCell align="right">Type</TableCell>
+              { !mobile && <TableCell align="right">Type</TableCell> }              
               <TableCell align="right">Size</TableCell>
               <TableCell align="right">Open</TableCell>
             </TableRow>
@@ -142,7 +147,7 @@ export default function FilesTable() {
                   {row.fileName}
                 </TableCell>
                 <TableCell align="right">{row.date}</TableCell>
-                <TableCell align="right">{row.type}</TableCell>
+                { !mobile && <TableCell align="right">{row.type}</TableCell> }                
                 <TableCell align="right">{row.size}</TableCell>
                 {row.type === "folder" && (
                   <TableCell align="right">

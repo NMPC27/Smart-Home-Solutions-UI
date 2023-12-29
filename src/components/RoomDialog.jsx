@@ -123,7 +123,7 @@ export default function RoomDialog(props) {
                     <Grid item xs={12} sm={6} md={6} height={"25vh"} ></Grid>
                 }                
                 <Grid item xs={12} sm={6} md={6} position={!mobile && "absolute"}>
-                    <Stack spacing={2} alignItems={"center"}>
+                    <Stack spacing={2} alignItems="center" justifyContent="center">
                         <h3>Add New Room:</h3>
                         <TextField onChange={e => setRoomName(e.target.value)} label="Room Name" variant="outlined"/>
                         <Button variant="contained" sx={{ fontWeight: "bold", width:"50%" }} onClick={() => handleRoomAdd(roomName)}>
