@@ -50,7 +50,7 @@ export default function RoomDeleteConfirmation(props) {
         <DialogActions>
             <Button 
                 onClick={() => props.handleCloseRoomDeleteConfirmation()} 
-                sx={{ borderRadius: "20px", fontWeight: "bold",  }}
+                sx={{ borderRadius: "20px", fontWeight: "bold", color:"#000000" }}
             >
                 NO
             </Button>

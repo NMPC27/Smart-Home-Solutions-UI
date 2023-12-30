@@ -12,6 +12,8 @@ import RoomDialog from "./RoomDialog";
 import DeviceDialog from "./DeviceDialog";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsDialog from "./SettingsDialog";
 
 
 export default function AppBarStyled(props) {
@@ -25,6 +27,8 @@ export default function AppBarStyled(props) {
 
   const [openDeviceDialog,setOpenDeviceDialog] = React.useState(false);
 
+  const [openSettingsDialog,setOpenSettingsDialog] = React.useState(false);
+
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
   };
@@ -35,6 +39,10 @@ export default function AppBarStyled(props) {
 
   const handleCloseDeviceDialog = () => {
     setOpenDeviceDialog(false);
+  };
+
+  const handleCloseSettingsDialog = () => {
+    setOpenSettingsDialog(false);
   };
 
   return (
@@ -69,6 +77,14 @@ export default function AppBarStyled(props) {
                 + DEVICE
               </Button>
             </Stack>
+          }
+          {props.navbar === "dashboard" &&
+            <IconButton
+              onClick={() => setOpenSettingsDialog(true)}
+              sx={{ color: "#FFFFFF", marginLeft:"1vw" }}
+            >
+              <SettingsIcon />
+            </IconButton>            
           }
           {props.navbar === "energy" && !mobile && <BasicDatePicker handleDateChange={props.handleDateChange}/>}
           {props.navbar === "files" && <></>}
@@ -105,6 +121,15 @@ export default function AppBarStyled(props) {
             devices={props.devices}
             handleDeviceAdd={props.handleDeviceAdd}
             handleDeleteDevice={props.handleDeleteDevice}
+          />
+
+          <SettingsDialog
+            openSettingsDialog={openSettingsDialog} 
+            handleCloseSettingsDialog={handleCloseSettingsDialog}
+            handleCardAdd={props.handleCardAdd}
+            handleCardDelete={props.handleCardDelete}
+            cards={props.cards}
+            rooms={props.rooms}
           />
         </>
       }

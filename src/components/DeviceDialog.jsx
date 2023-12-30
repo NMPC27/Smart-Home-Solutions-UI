@@ -72,6 +72,7 @@ export default function DeviceDialog(props) {
 
     const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // fill all the fields!
     const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // no devices found!
+    const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false);  // device addded
 
     const handleFindDevices = () => {
         setSearchDevicesStatus("searching")
@@ -105,6 +106,8 @@ export default function DeviceDialog(props) {
         }
 
         props.handleDeviceAdd(device,deviceName,selectedType,selectedRoom)
+
+        setOpenSuccessMsg(true)
 
         setSearchDevicesStatus("notStarted")
 
@@ -189,8 +192,8 @@ export default function DeviceDialog(props) {
                                 label="Type"
                                 onChange={(event) => setSelectedType(event.target.value)}
                                 >
-                                {suportedDevices.map((device, idx) => (
-                                    <MenuItem key={idx} value={device}>{device}</MenuItem>
+                                {suportedDevices.map((type, idx) => (
+                                    <MenuItem key={idx} value={type}>{type}</MenuItem>
                                 ))}
                                 </Select>
                             </FormControl>
@@ -200,7 +203,7 @@ export default function DeviceDialog(props) {
                                 labelId="room-device"
                                 id="room"
                                 value={selectedRoom}
-                                label="Romm"
+                                label="Room"
                                 onChange={(event) => setSelectedRoom(event.target.value)}
                                 >
                                 {props.rooms.map((room, idx) => (
@@ -297,6 +300,28 @@ export default function DeviceDialog(props) {
                 }}
             >
                 No devices found!
+            </Alert>
+        </Snackbar>
+        <Snackbar 
+            anchorOrigin={{ vertical: "top", horizontal:"center" }}
+            open={openSuccessMsg} 
+            autoHideDuration={6000} 
+            onClose={(event, reason) => {
+                if (reason !== 'clickaway') {
+                    setOpenSuccessMsg(false);
+                }
+            }}
+        >
+            <Alert 
+                severity="success" 
+                sx={{ width: '100%' }}
+                onClose={(event, reason) => {
+                    if (reason !== 'clickaway') {
+                        setOpenSuccessMsg(false);
+                    }
+                }}
+            >
+                Device added!
             </Alert>
         </Snackbar>
         </>

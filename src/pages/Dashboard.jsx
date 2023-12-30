@@ -108,6 +108,30 @@ const devicesTMP =
 ]
 
 
+const cardsTMP = [
+  {
+    id: 1,
+    type: "camera", 
+    room: "kitchen"
+  },
+  {
+    id: 2,
+    type: "ac",
+    room: "bed"
+  },
+  {
+    id: 3,
+    type: "light",
+    room: "kitchen"
+  },  
+  {
+    id: 4,
+    type: "motionSensor", 
+    room: "bed"
+  }
+]
+
+
 export default function Dashboard() {
 
   const theme = useTheme();
@@ -121,6 +145,7 @@ export default function Dashboard() {
 
   const [devices, setDevices] = React.useState(devicesTMP);
   const [rooms, setRooms] = React.useState(roomsTMP);
+  const [cards, setCards] = React.useState(cardsTMP);
 
 
   const handleDeviceAdd = (deviceInfo,deviceName,type,room) => {
@@ -265,12 +290,38 @@ export default function Dashboard() {
       setDevices(tmp);
   };
 
+  const handleCardAdd = (val) => {
+    //! API CALL
+
+    let newID = cards[cards.length-1].id + 1
+
+    for(let i=0;i<cards.length;i++){
+      if (cards[i].id >= newID){
+        newID=cards[i].id+1
+      }
+    }
+
+    setCards([...cards,{id:newID, type: val.type, room: val.room}]);
+
+  };
+
+  const handleCardDelete = (idx) => {
+    //! API CALL
+
+    let tmp = [...cards];
+    tmp.splice(idx, 1);
+    setCards(tmp);
+  };
+
   return (
     <>
       <AppBarStyled 
         navbar={"dashboard"} 
         devices={devices} 
         rooms={rooms} 
+        cards={cards}
+        handleCardAdd={handleCardAdd}
+        handleCardDelete={handleCardDelete}
         handleRoomAdd={handleRoomAdd}
         handleDeleteRoom={handleDeleteRoom}
         handleDeviceAdd={handleDeviceAdd}
@@ -278,31 +329,55 @@ export default function Dashboard() {
       />
 
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={6} md={3}>
-          <LightsCard 
-            devices={devices} 
-            rooms={rooms}
-            handleLightColor={handleLightColor}
-            handleBrightnessChange={handleBrightnessChange}
-            handleLightOnOff={handleLightOnOff}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TemperatureCard 
-            devices={devices} 
-            rooms={rooms}
-            handleTemperatureTarget={handleTemperatureTarget}
-            handleMinusTemperature={handleMinusTemperature}
-            handlePlusTemperature={handlePlusTemperature}
-            handleTemperatureOnOff={handleTemperatureOnOff}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6}>
-          <CameraCard devices={devices} rooms={rooms}/>
-        </Grid>
-                <Grid item xs={12} sm={6} md={2}>
-          <SecurityCard />
-        </Grid>
+        { cards.map( (card,idx) => {
+
+          if (card.type === "light"){
+            return(
+              <Grid item xs={12} sm={6} md={3}>
+                <LightsCard 
+                  devices={devices} 
+                  rooms={rooms}
+                  handleLightColor={handleLightColor}
+                  handleBrightnessChange={handleBrightnessChange}
+                  handleLightOnOff={handleLightOnOff}
+                />
+              </Grid>
+            )
+          }
+
+          if (card.type === "ac"){
+            return(
+              <Grid item xs={12} sm={6} md={3}>
+                <TemperatureCard 
+                  devices={devices} 
+                  rooms={rooms}
+                  handleTemperatureTarget={handleTemperatureTarget}
+                  handleMinusTemperature={handleMinusTemperature}
+                  handlePlusTemperature={handlePlusTemperature}
+                  handleTemperatureOnOff={handleTemperatureOnOff}
+                />
+              </Grid>
+            )
+          }
+
+          if (card.type === "camera"){
+            return(
+              <Grid item xs={12} sm={12} md={6}>
+                <CameraCard devices={devices} rooms={rooms}/>
+              </Grid>
+            )
+          }
+
+          if (card.type === "motionSensor"){
+            return(
+              <Grid item xs={12} sm={6} md={2}>
+                <SecurityCard />
+              </Grid>
+            )
+          }
+
+        })
+        }
       </Grid>
     </>
   );

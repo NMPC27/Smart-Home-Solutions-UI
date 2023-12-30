@@ -49,6 +49,7 @@ export default function RoomDialog(props) {
 
     const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false);    // room already exists
     const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false);    // empty name
+    const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false);  // room addded
 
     const handleRoomAdd = (roomName) => {
 
@@ -66,6 +67,7 @@ export default function RoomDialog(props) {
 
         
         props.handleRoomAdd(roomName)
+        setOpenSuccessMsg(true)
     };
 
     const handleDeleteRoom = (idx) => {
@@ -213,6 +215,28 @@ export default function RoomDialog(props) {
                 }}
             >
                 Room name is empty!
+            </Alert>
+        </Snackbar>
+        <Snackbar 
+            anchorOrigin={{ vertical: "top", horizontal:"center" }}
+            open={openSuccessMsg} 
+            autoHideDuration={6000} 
+            onClose={(event, reason) => {
+                if (reason !== 'clickaway') {
+                    setOpenSuccessMsg(false);
+                }
+            }}
+        >
+            <Alert 
+                severity="success" 
+                sx={{ width: '100%' }}
+                onClose={(event, reason) => {
+                    if (reason !== 'clickaway') {
+                        setOpenSuccessMsg(false);
+                    }
+                }}
+            >
+                Room added!
             </Alert>
         </Snackbar>
         </>
