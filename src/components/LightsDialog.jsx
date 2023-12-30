@@ -12,6 +12,7 @@ import Slide from "@mui/material/Slide";
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
+import { useDebounce } from 'use-debounce';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -19,11 +20,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function LightsDialog(props) {
     const [lightColor, setLightColor] = React.useState("#1F2937");
+    const [lightColorFinal] = useDebounce(lightColor, 1000);
 
-    const handleLightColor = (val) => { //! MUITAS API CALLS
+    const handleLightColor = (val) => {
         setLightColor(val);
-        // props.handleLightColor(val,props.deviceIdx)
     }
+
+    React.useEffect(() => {
+        props.handleLightColor(lightColorFinal,props.deviceIdx)
+    },[lightColorFinal])
 
     return (
         <Dialog

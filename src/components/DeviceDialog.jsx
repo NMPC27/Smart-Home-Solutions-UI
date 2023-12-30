@@ -56,7 +56,7 @@ const tmp = [
     },
 ]
 
-const suportedDevices = ["light","ac","motionSensor","camera"]
+const suportedDevices = ["Light","Temperature","Motion Sensor","Camera"]
 
 export default function DeviceDialog(props) {
 

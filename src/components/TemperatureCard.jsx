@@ -63,7 +63,7 @@ export default function TemperatureCard(props) {
   const [deviceIdx, setDeviceIdx] = React.useState(
     ()=> {
       for(let i=0;i<props.devices.length;i++){
-        if (props.devices[i].type === "ac"){
+        if (props.devices[i].type === "Temperature"){
           return i
         }
       }
@@ -80,7 +80,7 @@ export default function TemperatureCard(props) {
     let tmpDeviceIdx=-1
 
     for(let i=0;i<props.devices.length;i++){
-      if (props.devices[i].type === "ac" && props.devices[i].room === val){
+      if (props.devices[i].type === "Temperature" && props.devices[i].room === val){
         tmpDeviceIdx = i
         break;
       }

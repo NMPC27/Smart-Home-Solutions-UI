@@ -7,6 +7,7 @@ import EnergyProductionPie from "../components/EnergyProductionPie";
 import * as React from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Skeleton from '@mui/material/Skeleton';
 
 const datatmp = {
 	consumption:{
@@ -31,7 +32,7 @@ export default function Energy() {
     }
   },[mobile]);
 
-  const [data, setData] = React.useState(datatmp);
+  const [data, setData] = React.useState([]);
 
   const [date, setDate] = React.useState();
 
@@ -43,24 +44,53 @@ export default function Energy() {
     // setData()
   };
 
-  return (
-    <>
-      <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
+    //! DELETE !!!
+    React.useEffect( () => {
+      setTimeout(()=>{
+        setData(datatmp)
+      }, 2000)
+    },[])
 
-      <Grid container spacing={4}>
-        <Grid item xs={12} sm={12} md={9}>
-          <EnergyConsumptionChart consumption={data.consumption}/>
+  if (data.length === 0){
+    return (
+      <>
+        <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={12} md={9}>
+            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={9}>
+            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <EnergyConsumptionPie consumption={data.consumption}/>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
+  
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={12} md={9}>
+            <EnergyConsumptionChart consumption={data.consumption}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <EnergyConsumptionPie consumption={data.consumption}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={9}>
+            <EnergyProductionChart production={data.production}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <EnergyProductionPie production={data.production}/>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={9}>
-          <EnergyProductionChart production={data.production}/>
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <EnergyProductionPie production={data.production}/>
-        </Grid>
-      </Grid>
-    </>
-  );
+      </>
+    );
+  } 
 }

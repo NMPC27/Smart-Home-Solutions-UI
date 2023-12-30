@@ -29,7 +29,7 @@ const InItem = styled(Paper)(({ theme }) => ({
 export default function CameraCard(props) {
   const [deviceIdx, setDeviceIdx] = React.useState(() => {
     for(let i=0;i<props.devices.length;i++){
-      if (props.devices[i].type === "camera"){
+      if (props.devices[i].type === "Camera"){
         return i
       }
     }
@@ -41,7 +41,7 @@ export default function CameraCard(props) {
     setSelectedRoom(val);
 
     for(let i=0;i<props.devices.length;i++){
-      if (props.devices[i].type === "camera" && props.devices[i].room === val){
+      if (props.devices[i].type === "Camera" && props.devices[i].room === val){
         setDeviceIdx(i)
         return
       }
@@ -54,7 +54,7 @@ export default function CameraCard(props) {
   React.useEffect( //! not trigerring change in render
     () => {
       for(let i=0;i<props.devices.length;i++){
-        if (props.devices[i].type === "camera" && props.devices[i].room === selectedRoom){
+        if (props.devices[i].type === "Camera" && props.devices[i].room === selectedRoom){
           setDeviceIdx(i)
           return
         }

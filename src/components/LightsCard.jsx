@@ -36,7 +36,7 @@ export default function LightsCard(props) {
   const [deviceIdx, setDeviceIdx] = React.useState(
     ()=> {
       for(let i=0;i<props.devices.length;i++){
-        if (props.devices[i].type === "light"){
+        if (props.devices[i].type === "Light"){
           return i
         }
       }
@@ -81,7 +81,7 @@ export default function LightsCard(props) {
             </Grid>
 
           {props.devices.map((val, idx) => {
-            if ( val.type === "light" && (val.room===selectedRoom || selectedRoom==="all")){
+            if ( val.type === "Light" && (val.room===selectedRoom || selectedRoom==="all")){
               return (
                 <Grid item xs={12} key={idx} >
                   <Button 

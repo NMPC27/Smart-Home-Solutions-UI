@@ -7,6 +7,7 @@ import CameraCard from "../components/CameraCard";
 import * as React from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Skeleton from '@mui/material/Skeleton';
 
 
 const roomsTMP = [
@@ -32,7 +33,7 @@ const devicesTMP =
 [
     {
         id: 1,
-        type: "light",
+        type: "Light",
         room: "kitchen",
         
         name: "Kitchen (user writen)",
@@ -42,7 +43,7 @@ const devicesTMP =
     },
     {
         id: 2,
-        type: "light",
+        type: "Light",
         room: "bed",
 
         name: "Bedroom (user writen)",
@@ -52,46 +53,55 @@ const devicesTMP =
     },
     {
         id: 3,
-        type: "ac", // sensor temperature or ac
+        type: "Temperature", // sensor temperature or Temperature
         room: "kitchen",
 
-        name: "Kitchen ac",
+        name: "Kitchen",
         on: true,
         currentTemperature: 11,
         targetTemperature: 23,
     },
     {
         id: 4,
-        type: "ac", // sensor temperature or ac
+        type: "Temperature", // sensor temperature or Temperature
         room: "bed",
 
-        name: "Bed ac (user writen)",
+        name: "Bed  (user writen)",
         on: false,
         currentTemperature: 7,
         targetTemperature: 20,
     },
     {
         id: 5,
-        type: "ac", // sensor temperature or ac
+        type: "Temperature", // sensor temperature or Temperature
         room: "hallway",
 
-        name: "hallway ac (user writen)",
+        name: "hallway (user writen)",
         on: true,
         currentTemperature: 7,
         targetTemperature: 20,
     },
     { //! ATENÇAO NAO MT BEM DEFINIDO
         id: 6,
-        type: "motionSensor", // security and can be used for ligths in automation
+        type: "Motion Sensor", // security and can be used for ligths in automation
         room: "bed",
 
         name: "sensor bed (user writen)",
-        on: true,
+        on: false,
         detectedMotion: true,
+    },
+    { //! ATENÇAO NAO MT BEM DEFINIDO
+      id: 19,
+      type: "Motion Sensor", // security and can be used for ligths in automation
+      room: "kitchen",
+
+      name: "sensor bed (user writen)",
+      on: true,
+      detectedMotion: true,
     },
     {
         id: 7,
-        type: "camera",
+        type: "Camera",
         room: "bed",
 
         name: "Hallway #2",
@@ -99,7 +109,7 @@ const devicesTMP =
     },
     {
         id: 8,
-        type: "camera",
+        type: "Camera",
         room: "kitchen",
 
         name: "Hallway #1",
@@ -111,22 +121,22 @@ const devicesTMP =
 const cardsTMP = [
   {
     id: 1,
-    type: "camera", 
+    type: "Camera", 
     room: "kitchen"
   },
   {
     id: 2,
-    type: "ac",
+    type: "Temperature",
     room: "bed"
   },
   {
     id: 3,
-    type: "light",
+    type: "Light",
     room: "kitchen"
   },  
   {
     id: 4,
-    type: "motionSensor", 
+    type: "Motion Sensor", 
     room: "bed"
   }
 ]
@@ -143,9 +153,9 @@ export default function Dashboard() {
     }
   },[mobile]);
 
-  const [devices, setDevices] = React.useState(devicesTMP);
-  const [rooms, setRooms] = React.useState(roomsTMP);
-  const [cards, setCards] = React.useState(cardsTMP);
+  const [devices, setDevices] = React.useState([]);
+  const [rooms, setRooms] = React.useState([]);
+  const [cards, setCards] = React.useState([]);
 
 
   const handleDeviceAdd = (deviceInfo,deviceName,type,room) => {
@@ -158,19 +168,19 @@ export default function Dashboard() {
       }
     }
 
-    if (type==="light"){
+    if (type==="Light"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,brightness: 100,color: "#FFFFFF"}]);
     }
 
-    if (type==="ac"){
+    if (type==="Temperature"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,currentTemperature: 0,targetTemperature: 15}]);
     }
 
-    if (type==="motionSensor"){
+    if (type==="Motion Sensor"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,detectedMotion: false}]);
     }
 
-    if (type==="camera"){
+    if (type==="Camera"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,endpoint: "c1.png"}]);
     }
 
@@ -186,7 +196,13 @@ export default function Dashboard() {
 
   const handleRoomAdd = (val) => {
     //! API CALL
-    let newID = rooms[rooms.length-1].id + 1
+
+    let newID
+    if ( rooms.length != 0 ){
+      newID = rooms[rooms.length-1].id + 1
+    }else {
+      newID = 1
+    }
 
     for(let i=0;i<rooms.length;i++){
       if (rooms[i].id >= newID){
@@ -293,7 +309,12 @@ export default function Dashboard() {
   const handleCardAdd = (val) => {
     //! API CALL
 
-    let newID = cards[cards.length-1].id + 1
+    let newID
+    if ( cards.length != 0){
+      newID = cards[cards.length-1].id + 1
+    }else{
+      newID = 1
+    }
 
     for(let i=0;i<cards.length;i++){
       if (cards[i].id >= newID){
@@ -313,6 +334,64 @@ export default function Dashboard() {
     setCards(tmp);
   };
 
+  const handleClickAlarm = (val) => {
+
+    let tmp = [...devices];
+
+    for(let i=0;i<tmp.length;i++){
+      if (tmp[i].type === "Motion Sensor"){
+        tmp[i].on=val
+      }
+    }
+    
+    setDevices(tmp);
+  }
+
+  //! DELETE !!!
+  React.useEffect( () => {
+    setTimeout(()=>{
+      setDevices(devicesTMP)
+      setRooms(roomsTMP)
+      setCards(cardsTMP)
+    }, 2000)
+  },[])
+
+  if ( devices.length === 0 || rooms.length === 0 ) {
+    return (
+      <>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Skeleton variant="rounded" height="7vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
+        </Grid>
+      </Grid>
+      </>
+    );
+  }
+
   return (
     <>
       <AppBarStyled 
@@ -331,7 +410,7 @@ export default function Dashboard() {
       <Grid container spacing={4}>
         { cards.map( (card,idx) => {
 
-          if (card.type === "light"){
+          if (card.type === "Light"){
             return(
               <Grid item xs={12} sm={6} md={3}>
                 <LightsCard 
@@ -345,7 +424,7 @@ export default function Dashboard() {
             )
           }
 
-          if (card.type === "ac"){
+          if (card.type === "Temperature"){
             return(
               <Grid item xs={12} sm={6} md={3}>
                 <TemperatureCard 
@@ -360,7 +439,7 @@ export default function Dashboard() {
             )
           }
 
-          if (card.type === "camera"){
+          if (card.type === "Camera"){
             return(
               <Grid item xs={12} sm={12} md={6}>
                 <CameraCard devices={devices} rooms={rooms}/>
@@ -368,10 +447,10 @@ export default function Dashboard() {
             )
           }
 
-          if (card.type === "motionSensor"){
+          if (card.type === "Motion Sensor"){
             return(
               <Grid item xs={12} sm={6} md={2}>
-                <SecurityCard />
+                <SecurityCard devices={devices} handleClickAlarm={handleClickAlarm}/>
               </Grid>
             )
           }

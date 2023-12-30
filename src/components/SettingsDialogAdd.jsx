@@ -19,7 +19,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const suportedDevices = ["light","ac","motionSensor","camera"]
+const suportedDevices = ["Light","Temperature","Motion Sensor","Camera"]
 
 export default function SettingsDialogAdd(props) {
 

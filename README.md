@@ -1,6 +1,5 @@
 # TODO:
 
-- skeleton
 - fix update cards when delete room
 - energy snackbar a dizer para rodar ecra
 - do filters of room

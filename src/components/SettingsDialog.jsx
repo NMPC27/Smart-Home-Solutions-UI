@@ -27,8 +27,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: "#95A5A6",
-    "&:hover": { backgroundColor: "#717D7E" },
+    backgroundColor: "#BDC3C7",
+    "&:hover": { backgroundColor: "#999DA1" },
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign:"center",

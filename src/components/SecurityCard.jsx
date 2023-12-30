@@ -21,10 +21,18 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-export default function SecurityCard() {
-  const [alarmOn, setAlarmOn] = React.useState(false);
+export default function SecurityCard(props) {
+  const [alarmOn, setAlarmOn] = React.useState(() => {
+    for(let i=0;i<props.devices.length;i++){
+      if (props.devices[i].type === "Motion Sensor"){
+        return props.devices[i].on
+      }
+    }
+  });
 
   const handleClickAlarm = () => {
+    props.handleClickAlarm(!alarmOn);
+
     setAlarmOn(!alarmOn);
   };
 

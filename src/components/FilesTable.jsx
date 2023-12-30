@@ -14,6 +14,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Skeleton from '@mui/material/Skeleton';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -109,7 +110,7 @@ export default function FilesTable() {
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const [path, setPath] = React.useState("/");
-  const [data, setData] = React.useState(dataTMP);
+  const [data, setData] = React.useState([]);
 
   const handleOpenFolder = (id) => {
     setPath("/Fotos");
@@ -123,58 +124,71 @@ export default function FilesTable() {
 
   const handleDownloadFile = (id) => {};
 
-  return (
-    <OutItem elevation={5}>
-      <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Files: {path}</h2>
-      <InItem>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>File Name</TableCell>
-              <TableCell align="right">Date</TableCell>
-              { !mobile && <TableCell align="right">Type</TableCell> }              
-              <TableCell align="right">Size</TableCell>
-              <TableCell align="right">Open</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row,idx) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">                  
-                  { idx !== 0 && path !== "/" &&
-                    <SubdirectoryArrowRightIcon/> 
-                  }
-                  {row.fileName}
-                </TableCell>
-                <TableCell align="right">{row.date}</TableCell>
-                { !mobile && <TableCell align="right">{row.type}</TableCell> }                
-                <TableCell align="right">{row.size}</TableCell>
-                {row.type === "folder" && (
-                  <TableCell align="right">
-                    <IconButton onClick={() => handleOpenFolder(row.id)}>
-                      <FolderIcon />
-                    </IconButton>
-                  </TableCell>
-                )}
-                {row.id === 0 && (
-                  <TableCell align="right">
-                    <IconButton onClick={() => handleGoBack()}>
-                      <ArrowBackIcon />
-                    </IconButton>
-                  </TableCell>
-                )}
-                {row.type !== "folder" && row.id !== 0 && (
-                  <TableCell align="right">
-                    <IconButton onClick={() => handleDownloadFile(row.id)}>
-                      <DownloadIcon />
-                    </IconButton>
-                  </TableCell>
-                )}
+    //! DELETE !!!
+    React.useEffect( () => {
+      setTimeout(()=>{
+        setData(dataTMP)
+      }, 2000)
+    },[])
+
+  if ( data.length === 0 ) {
+    return (
+      <Skeleton variant="rounded" height="70vh" sx={{ borderRadius:"20px" }} />
+    );
+  } else {
+    return (
+      <OutItem elevation={5}>
+        <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Files: {path}</h2>
+        <InItem>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>File Name</TableCell>
+                <TableCell align="right">Date</TableCell>
+                { !mobile && <TableCell align="right">Type</TableCell> }              
+                <TableCell align="right">Size</TableCell>
+                <TableCell align="right">Open</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </InItem>
-    </OutItem>
-  );
+            </TableHead>
+            <TableBody>
+              {data.map((row,idx) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">                  
+                    { idx !== 0 && path !== "/" &&
+                      <SubdirectoryArrowRightIcon/> 
+                    }
+                    {row.fileName}
+                  </TableCell>
+                  <TableCell align="right">{row.date}</TableCell>
+                  { !mobile && <TableCell align="right">{row.type}</TableCell> }                
+                  <TableCell align="right">{row.size}</TableCell>
+                  {row.type === "folder" && (
+                    <TableCell align="right">
+                      <IconButton onClick={() => handleOpenFolder(row.id)}>
+                        <FolderIcon />
+                      </IconButton>
+                    </TableCell>
+                  )}
+                  {row.id === 0 && (
+                    <TableCell align="right">
+                      <IconButton onClick={() => handleGoBack()}>
+                        <ArrowBackIcon />
+                      </IconButton>
+                    </TableCell>
+                  )}
+                  {row.type !== "folder" && row.id !== 0 && (
+                    <TableCell align="right">
+                      <IconButton onClick={() => handleDownloadFile(row.id)}>
+                        <DownloadIcon />
+                      </IconButton>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </InItem>
+      </OutItem>
+    );
+  }
 }
