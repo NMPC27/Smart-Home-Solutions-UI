@@ -33,9 +33,16 @@ export default function CameraCard(props) {
         return i
       }
     }
+    return -1
   });
 
-  const [selectedRoom, setSelectedRoom] = React.useState(() => props.devices[deviceIdx].room);
+  const [selectedRoom, setSelectedRoom] = React.useState(() => {
+    if ( deviceIdx === -1 ){
+      return null
+    }else{
+      return props.devices[deviceIdx].room
+    }
+  });
 
   const handleRoomChange = (val) => {
     setSelectedRoom(val);

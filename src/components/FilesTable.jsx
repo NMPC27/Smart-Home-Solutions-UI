@@ -15,6 +15,10 @@ import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRig
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
+import { getFiles } from "../components/API";
+import fileDownload from 'js-file-download'
+import UploadIcon from '@mui/icons-material/Upload';
+import { Grid } from "@mui/material";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -34,76 +38,6 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-const dataTMP = [
-  { id: 1, fileName: "Fotos", date: "13/09/2022", type: "folder", size: "" },
-  {
-    id: 2,
-    fileName: "report.pdf",
-    date: "12/07/2022",
-    type: "pdf",
-    size: "1Mb",
-  },
-  {
-    id: 3,
-    fileName: "report.pdf",
-    date: "12/07/2022",
-    type: "pdf",
-    size: "1Mb",
-  },
-  {
-    id: 4,
-    fileName: "report.pdf",
-    date: "12/07/2022",
-    type: "pdf",
-    size: "1Mb",
-  },
-  {
-    id: 5,
-    fileName: "report.pdf",
-    date: "12/07/2022",
-    type: "pdf",
-    size: "1Mb",
-  },
-  {
-    id: 6,
-    fileName: "report.pdf",
-    date: "12/07/2022",
-    type: "pdf",
-    size: "1Mb",
-  },
-  {
-    id: 7,
-    fileName: "report.pdf",
-    date: "12/07/2022",
-    type: "pdf",
-    size: "1Mb",
-  },
-  {
-    id: 8,
-    fileName: "report.pdf",
-    date: "12/07/2022",
-    type: "pdf",
-    size: "1Mb",
-  },
-];
-
-const dataFolder = [
-  { id: 0, fileName: "../", date: "", type: "", size: "" },
-  {
-    id: 1,
-    fileName: "other fotos",
-    date: "13/09/2022",
-    type: "folder",
-    size: "",
-  },
-  { id: 2, fileName: "img3213", date: "12/07/2022", type: "png", size: "3Mb" },
-  { id: 3, fileName: "img3213", date: "12/07/2022", type: "png", size: "3Mb" },
-  { id: 4, fileName: "img3213", date: "12/07/2022", type: "png", size: "3Mb" },
-  { id: 5, fileName: "img3213", date: "12/07/2022", type: "png", size: "3Mb" },
-  { id: 6, fileName: "img3213", date: "12/07/2022", type: "png", size: "3Mb" },
-  { id: 7, fileName: "img3213", date: "12/07/2022", type: "png", size: "3Mb" },
-  { id: 8, fileName: "img3213", date: "12/07/2022", type: "png", size: "3Mb" },
-];
 
 export default function FilesTable() {
   const theme = useTheme();
@@ -112,24 +46,64 @@ export default function FilesTable() {
   const [path, setPath] = React.useState("/");
   const [data, setData] = React.useState([]);
 
-  const handleOpenFolder = (id) => {
-    setPath("/Fotos");
-    setData(dataFolder);
+  React.useEffect( () => {
+    getFiles("/").then((res) => {
+      setData(res.data)
+    })
+  },[])
+
+  const handleOpenFolder = (idx) => {
+    setData([])
+    let file = data[idx].fileName
+    setPath(path+file+"/");
+    getFiles(path+file+"/").then((res) => {
+      setData(res.data)
+    })
   };
 
   const handleGoBack = () => {
-    setPath("/");
-    setData(dataTMP);
+    setData([])
+
+    let pathTMP = path.split("/")
+    pathTMP.pop()
+    pathTMP.pop()
+
+    let pathTMP2 = "/"
+    for (let i=0;i<pathTMP.length;i++){
+      if ( pathTMP[i] === '' ){ continue }
+
+      if ( i === pathTMP.length-1 ) {
+        pathTMP2 = pathTMP2 + pathTMP[i]
+      }else{
+        pathTMP2 = pathTMP2 + pathTMP[i] + "/"
+      }      
+    }
+
+    setPath(pathTMP2);
+    getFiles(pathTMP2+"/").then((res) => {
+      setData(res.data)
+    })
   };
 
-  const handleDownloadFile = (id) => {};
+  const handleDownloadFile = (idx) => {
 
-    //! DELETE !!!
-    React.useEffect( () => {
-      setTimeout(()=>{
-        setData(dataTMP)
-      }, 2000)
-    },[])
+    let fullPath
+
+    if ( path === "/" ){
+      fullPath = path + data[idx].fileName
+    }else{
+      fullPath = path + "/" + data[idx].fileName
+    }
+
+    getFiles(fullPath,true).then((res) => {
+      fileDownload(res.data, data[idx].fileName)
+    })
+
+  };
+
+  const handleUploadFile = () => {
+
+  };
 
   if ( data.length === 0 ) {
     return (
@@ -138,7 +112,21 @@ export default function FilesTable() {
   } else {
     return (
       <OutItem elevation={5}>
-        <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Files: {path}</h2>
+        
+        <Grid container>
+          <Grid item xs={11}>
+            <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Files: {path}</h2>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton
+              onClick={() => handleUploadFile()}              
+              sx={{ color: "#FFFFFF", right: mobile && "3vw" }}
+            >
+                <UploadIcon fontSize="large"/>
+            </IconButton>
+          </Grid>
+        </Grid>
+
         <InItem>
           <Table>
             <TableHead>
@@ -152,7 +140,7 @@ export default function FilesTable() {
             </TableHead>
             <TableBody>
               {data.map((row,idx) => (
-                <TableRow key={row.id}>
+                <TableRow key={idx}>
                   <TableCell component="th" scope="row">                  
                     { idx !== 0 && path !== "/" &&
                       <SubdirectoryArrowRightIcon/> 
@@ -164,7 +152,7 @@ export default function FilesTable() {
                   <TableCell align="right">{row.size}</TableCell>
                   {row.type === "folder" && (
                     <TableCell align="right">
-                      <IconButton onClick={() => handleOpenFolder(row.id)}>
+                      <IconButton onClick={() => handleOpenFolder(idx)}>
                         <FolderIcon />
                       </IconButton>
                     </TableCell>
@@ -178,7 +166,7 @@ export default function FilesTable() {
                   )}
                   {row.type !== "folder" && row.id !== 0 && (
                     <TableCell align="right">
-                      <IconButton onClick={() => handleDownloadFile(row.id)}>
+                      <IconButton onClick={() => handleDownloadFile(idx)}>
                         <DownloadIcon />
                       </IconButton>
                     </TableCell>

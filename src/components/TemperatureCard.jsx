@@ -67,9 +67,16 @@ export default function TemperatureCard(props) {
           return i
         }
       }
+      return -1
     }
   );
-  const [selectedRoom, setSelectedRoom] = React.useState(() => props.devices[deviceIdx].room);
+  const [selectedRoom, setSelectedRoom] = React.useState(() => {
+    if ( deviceIdx === -1 ){
+      return null
+    }else{
+      return props.devices[deviceIdx].room
+    }
+  });
 
   const [targetTemperature, setTargetTemperature] = React.useState();
   const [arcColor, setArcColor] = React.useState();
@@ -98,8 +105,12 @@ export default function TemperatureCard(props) {
 
   React.useEffect(
     () => {
-      setTargetTemperature(props.devices[deviceIdx].targetTemperature)
-      setArcColor(colorsArray[props.devices[deviceIdx].targetTemperature - 15])
+
+      if (deviceIdx !== -1){
+        setTargetTemperature(props.devices[deviceIdx].targetTemperature)
+        setArcColor(colorsArray[props.devices[deviceIdx].targetTemperature - 15])
+      }
+
     }, [props.devices]
   )
 

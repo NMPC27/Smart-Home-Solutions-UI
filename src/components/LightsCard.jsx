@@ -40,10 +40,17 @@ export default function LightsCard(props) {
           return i
         }
       }
+      return -1
     }
   );
 
-  const [selectedRoom, setSelectedRoom] = React.useState(() => props.devices[deviceIdx].room);
+  const [selectedRoom, setSelectedRoom] = React.useState(() => { 
+    if ( deviceIdx === -1 ){
+      return "all"
+    }else{
+      return props.devices[deviceIdx].room
+    }
+  });
 
   const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -115,6 +122,7 @@ export default function LightsCard(props) {
           })}
         </Grid>
       </InItem>
+      { deviceIdx !== -1 && 
         <LightsDialog 
           openDialog={openDialog} 
           deviceIdx={deviceIdx}
@@ -124,6 +132,7 @@ export default function LightsCard(props) {
           handleBrightnessChange={props.handleBrightnessChange}
           handleLightOnOff={props.handleLightOnOff}
         />
+      }        
     </OutItem>
   );
 }

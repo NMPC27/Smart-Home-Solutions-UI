@@ -45,7 +45,7 @@ export default function RoomDialog(props) {
     const [roomName, setRoomName] = React.useState("");
 
     const [openRoomDeleteConfirmation, setOpenRoomDeleteConfirmation] = React.useState(false);
-    const [deleteIdx, setDeleteIdx] = React.useState(0);
+    const [deleteIdx, setDeleteIdx] = React.useState(-1);
 
     const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false);    // room already exists
     const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false);    // empty name
@@ -82,7 +82,7 @@ export default function RoomDialog(props) {
     const handleCloseRoomDeleteConfirmationOK = () => {
         setOpenRoomDeleteConfirmation(false);
         props.handleDeleteRoom(deleteIdx)
-
+        setDeleteIdx(-1)
     };
 
     return (
@@ -165,14 +165,18 @@ export default function RoomDialog(props) {
             </Grid>
             </DialogContent>
         </Dialog>
-        <RoomDeleteConfirmation
-            openRoomDeleteConfirmation={openRoomDeleteConfirmation}
-            handleCloseRoomDeleteConfirmation={handleCloseRoomDeleteConfirmation}
-            handleCloseRoomDeleteConfirmationOK={handleCloseRoomDeleteConfirmationOK}
-            deleteIdx={deleteIdx}
-            rooms={props.rooms}
-            devices={props.devices}
-        />
+
+        { deleteIdx !== -1 && 
+            <RoomDeleteConfirmation
+                openRoomDeleteConfirmation={openRoomDeleteConfirmation}
+                handleCloseRoomDeleteConfirmation={handleCloseRoomDeleteConfirmation}
+                handleCloseRoomDeleteConfirmationOK={handleCloseRoomDeleteConfirmationOK}
+                deleteIdx={deleteIdx}
+                rooms={props.rooms}
+                devices={props.devices}
+            />
+        }
+        
         <Snackbar 
             anchorOrigin={{ vertical: "top", horizontal:"center" }}
             open={openErrorMsg1} 

@@ -8,138 +8,7 @@ import * as React from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
-
-
-const roomsTMP = [
-  {
-    id: 1,
-    name: "kitchen"
-  },
-  {
-    id: 2,
-    name: "bed"
-  },
-  {
-    id: 3,
-    name: "hallway"
-  },
-  {
-    id: 4,
-    name: "test"
-  }
-]
-
-const devicesTMP = 
-[
-    {
-        id: 1,
-        type: "Light",
-        room: "kitchen",
-        
-        name: "Kitchen (user writen)",
-        on: true,
-        brightness: 100,
-        color: "#FFFFFF"
-    },
-    {
-        id: 2,
-        type: "Light",
-        room: "bed",
-
-        name: "Bedroom (user writen)",
-        on: false,
-        brightness: 100,
-        color: "#FFFFFF"
-    },
-    {
-        id: 3,
-        type: "Temperature", // sensor temperature or Temperature
-        room: "kitchen",
-
-        name: "Kitchen",
-        on: true,
-        currentTemperature: 11,
-        targetTemperature: 23,
-    },
-    {
-        id: 4,
-        type: "Temperature", // sensor temperature or Temperature
-        room: "bed",
-
-        name: "Bed  (user writen)",
-        on: false,
-        currentTemperature: 7,
-        targetTemperature: 20,
-    },
-    {
-        id: 5,
-        type: "Temperature", // sensor temperature or Temperature
-        room: "hallway",
-
-        name: "hallway (user writen)",
-        on: true,
-        currentTemperature: 7,
-        targetTemperature: 20,
-    },
-    { //! ATENÇAO NAO MT BEM DEFINIDO
-        id: 6,
-        type: "Motion Sensor", // security and can be used for ligths in automation
-        room: "bed",
-
-        name: "sensor bed (user writen)",
-        on: false,
-        detectedMotion: true,
-    },
-    { //! ATENÇAO NAO MT BEM DEFINIDO
-      id: 19,
-      type: "Motion Sensor", // security and can be used for ligths in automation
-      room: "kitchen",
-
-      name: "sensor bed (user writen)",
-      on: true,
-      detectedMotion: true,
-    },
-    {
-        id: 7,
-        type: "Camera",
-        room: "bed",
-
-        name: "Hallway #2",
-        endpoint: "c4.png",
-    },
-    {
-        id: 8,
-        type: "Camera",
-        room: "kitchen",
-
-        name: "Hallway #1",
-        endpoint: "c3.png",
-  },
-]
-
-
-const cardsTMP = [
-  {
-    id: 1,
-    type: "Camera", 
-    room: "kitchen"
-  },
-  {
-    id: 2,
-    type: "Temperature",
-    room: "bed"
-  },
-  {
-    id: 3,
-    type: "Light",
-    room: "kitchen"
-  },  
-  {
-    id: 4,
-    type: "Motion Sensor", 
-    room: "bed"
-  }
-]
+import { getDevices, getRooms, getCards, postDevices, postRooms, postCards } from "../components/API";
 
 
 export default function Dashboard() {
@@ -153,13 +22,28 @@ export default function Dashboard() {
     }
   },[mobile]);
 
-  const [devices, setDevices] = React.useState([]);
-  const [rooms, setRooms] = React.useState([]);
-  const [cards, setCards] = React.useState([]);
+  const [devices, setDevices] = React.useState(null);
+  const [rooms, setRooms] = React.useState(null);
+  const [cards, setCards] = React.useState(null);
+
+  React.useEffect(()  => {
+    getDevices().then((res) => {
+        setDevices(res.data)
+      }
+    )
+    getRooms().then((res) => {
+        setRooms(res.data)
+      }
+    )
+    getCards().then((res) => {
+        setCards(res.data)
+      }
+    )  
+  },[]);
 
 
   const handleDeviceAdd = (deviceInfo,deviceName,type,room) => {
-    //! API CALL
+    
     let newID = devices[devices.length-1].id + 1
 
     for(let i=0;i<devices.length;i++){
@@ -170,32 +54,40 @@ export default function Dashboard() {
 
     if (type==="Light"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,brightness: 100,color: "#FFFFFF"}]);
+
+      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,brightness: 100,color: "#FFFFFF"}]) //! API CALL
     }
 
     if (type==="Temperature"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,currentTemperature: 0,targetTemperature: 15}]);
+
+      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,currentTemperature: 0,targetTemperature: 15}]) //! API CALL
     }
 
     if (type==="Motion Sensor"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,detectedMotion: false}]);
+
+      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,detectedMotion: false}]) //! API CALL
     }
 
     if (type==="Camera"){
       setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,endpoint: "c1.png"}]);
+
+      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,endpoint: "c1.png"}]) //! API CALL
     }
 
   };
 
   const handleDeleteDevice = (idx) => {
-    //! API CALL
 
     let tmp = [...devices];
     tmp.splice(idx, 1);
     setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
   };
 
-  const handleRoomAdd = (val) => {
-    //! API CALL
+  const handleRoomAdd = (val) => {    
 
     let newID
     if ( rooms.length != 0 ){
@@ -211,10 +103,11 @@ export default function Dashboard() {
     }
 
     setRooms([...rooms,{id:newID,name: val}]);
+
+    postRooms([...rooms,{id:newID,name: val}]); //! API CALL
   };
 
-  const handleDeleteRoom = (idx) => {
-    //! API CALL
+  const handleDeleteRoom = (idx) => {    
 
     let deviceDeleteIdx = []
 
@@ -226,24 +119,32 @@ export default function Dashboard() {
       }
     )
 
+    let devicesTmp = [...devices];
     let deleteCount = 0
     for(let i=0;i<deviceDeleteIdx.length;i++){
-        devices.splice(deviceDeleteIdx[i]-deleteCount,1)
+        devicesTmp.splice(deviceDeleteIdx[i]-deleteCount,1)
         deleteCount++
     }
 
-    let tmp = [...rooms];
-    tmp.splice(idx, 1);
-    setRooms(tmp);
+    setDevices(devicesTmp); 
+
+    postDevices(devicesTmp) //! API CALL
+
+    let roomsTmp = [...rooms];
+    roomsTmp.splice(idx, 1);
+    setRooms(roomsTmp);
+
+    postRooms(roomsTmp); //! API CALL
   };
 
   const handleTemperatureTarget = (val,idx) => {
-    const newTemp = parseInt(val);
-    //! API CALL
+    const newTemp = parseInt(val);    
 
     let tmp = [...devices];
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
+
+    postDevices(tmp) //! API CALL
   };
 
   const handleMinusTemperature = (idx) => {
@@ -251,11 +152,11 @@ export default function Dashboard() {
     if (devices[idx].on) {
       if (newTemp >= 15) {
 
-        //! API CALL
-
         let tmp = [...devices];
         tmp[idx].targetTemperature = newTemp;
         setDevices(tmp);
+
+        postDevices(tmp) //! API CALL
       }
     }
   };
@@ -265,49 +166,52 @@ export default function Dashboard() {
     if (devices[idx].on) {
       if (newTemp <= 30) {
 
-        //! API CALL
-
         let tmp = [...devices];
         tmp[idx].targetTemperature = newTemp;
         setDevices(tmp);
+
+        postDevices(tmp) //! API CALL
       }
     }
   };
 
   const handleTemperatureOnOff = (idx) => {
-    //! API CALL
 
     let tmp = [...devices];
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
+
+    postDevices(tmp) //! API CALL
   };
 
   const handleLightColor = (val,idx) => {
-    //! API CALL
 
     let tmp = [...devices];
     tmp[idx].color = val;
     setDevices(tmp);
+
+    postDevices(tmp) //! API CALL
   };
 
   const handleBrightnessChange = (val,idx) => {
-      //! API CALL
 
       let tmp = [...devices];
       tmp[idx].brightness = val;
       setDevices(tmp);
+
+      postDevices(tmp) //! API CALL
   };
 
   const handleLightOnOff = (idx) => {
-      //! API CALL
 
       let tmp = [...devices];
       tmp[idx].on = !tmp[idx].on;
       setDevices(tmp);
+
+      postDevices(tmp) //! API CALL
   };
 
   const handleCardAdd = (val) => {
-    //! API CALL
 
     let newID
     if ( cards.length != 0){
@@ -324,14 +228,16 @@ export default function Dashboard() {
 
     setCards([...cards,{id:newID, type: val.type, room: val.room}]);
 
+    postCards([...cards,{id:newID, type: val.type, room: val.room}]); //! API CALL
   };
 
   const handleCardDelete = (idx) => {
-    //! API CALL
 
     let tmp = [...cards];
     tmp.splice(idx, 1);
     setCards(tmp);
+
+    postCards(tmp); //! API CALL
   };
 
   const handleClickAlarm = (val) => {
@@ -345,18 +251,11 @@ export default function Dashboard() {
     }
     
     setDevices(tmp);
+
+    postDevices(tmp) //! API CALL
   }
 
-  //! DELETE !!!
-  React.useEffect( () => {
-    setTimeout(()=>{
-      setDevices(devicesTMP)
-      setRooms(roomsTMP)
-      setCards(cardsTMP)
-    }, 2000)
-  },[])
-
-  if ( devices.length === 0 || rooms.length === 0 ) {
+  if ( devices === null || rooms === null || cards === null) {
     return (
       <>
       <Grid container spacing={4}>

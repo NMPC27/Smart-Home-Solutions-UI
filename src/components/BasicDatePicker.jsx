@@ -6,6 +6,17 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function BasicDatePicker(props) {
 
+  const handleDateChange = (val) => {
+    
+    var dd = String(val.$D).padStart(2, '0');
+    var mm = String(val.$M + 1).padStart(2, '0');
+    var yyyy = val.$y;
+
+    var date = dd + '/' + mm + '/' + yyyy;
+
+    props.handleDateChange(date)
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer sx={{ marginBottom: "1vh" }} components={["DatePicker"]}>
@@ -19,7 +30,8 @@ export default function BasicDatePicker(props) {
             label: { color: "#FFFFFF" },
           }}
           label="Date Picker"
-          onChange={(val) => props.handleDateChange(val.toString())}
+          format="DD/MM/YYYY"
+          onChange={(val) => handleDateChange(val)}
         />
       </DemoContainer>
     </LocalizationProvider>

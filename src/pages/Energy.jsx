@@ -8,6 +8,7 @@ import * as React from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
+import { getEnergy } from "../components/API";
 
 const datatmp = {
 	consumption:{
@@ -32,26 +33,38 @@ export default function Energy() {
     }
   },[mobile]);
 
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState(null);
 
   const [date, setDate] = React.useState();
 
+
+  React.useEffect( () => {
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+
+    getEnergy(today).then((res) => {
+      setData(res.data)
+    })
+
+  },[])
+
+
   const handleDateChange = (val) => {
-    setDate(val); // Tue, 05 Dec 2023 00:00:00 GMT
+    setDate(val); 
 
-    //! API CALL
-
-    // setData()
+    getEnergy(val).then((res) => { //! API CALL
+      setData(res.data)
+    })
+  
   };
 
-    //! DELETE !!!
-    React.useEffect( () => {
-      setTimeout(()=>{
-        setData(datatmp)
-      }, 2000)
-    },[])
 
-  if (data.length === 0){
+  if (data === null){
     return (
       <>
         <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
