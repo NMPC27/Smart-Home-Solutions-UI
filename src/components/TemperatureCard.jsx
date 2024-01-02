@@ -78,8 +78,21 @@ export default function TemperatureCard(props) {
     }
   });
 
-  const [targetTemperature, setTargetTemperature] = React.useState();
-  const [arcColor, setArcColor] = React.useState();
+  const [targetTemperature, setTargetTemperature] = React.useState(() => {
+    if ( deviceIdx === -1 ){
+      return null
+    }else{
+      return props.devices[deviceIdx].targetTemperature
+    }
+  });
+
+  const [arcColor, setArcColor] = React.useState(() => {
+    if ( deviceIdx === -1 ){
+      return null
+    }else{
+      return colorsArray[props.devices[deviceIdx].targetTemperature - 15]
+    }
+  });
 
   const handleRoomChange = (val) => {
     setSelectedRoom(val);
@@ -102,14 +115,41 @@ export default function TemperatureCard(props) {
 
   };
 
+  const handleMinusTemperature = (val) => {
+    const newTemp = parseInt(props.devices[val].targetTemperature - 1);
+    if (props.devices[val].on) {
+      if (newTemp >= 15) {
+        setTargetTemperature(newTemp)
+        setArcColor(colorsArray[newTemp - 15])
 
-  React.useEffect(
+        props.handleMinusTemperature(val)
+      }
+    }
+  }
+
+  const handlePlusTemperature = (val) => {
+    const newTemp = parseInt(props.devices[val].targetTemperature + 1);
+    if (props.devices[val].on) {
+      if (newTemp <= 30) {
+        setTargetTemperature(newTemp)
+        setArcColor(colorsArray[newTemp - 15])
+
+        props.handlePlusTemperature(val)
+      }
+    }
+  };
+
+
+  React.useEffect( // when device deleted
     () => {
 
-      if (deviceIdx !== -1){
-        setTargetTemperature(props.devices[deviceIdx].targetTemperature)
-        setArcColor(colorsArray[props.devices[deviceIdx].targetTemperature - 15])
+      for(let i=0;i<props.devices.length;i++){
+        if (props.devices[i].type === "Temperature" && props.devices[i].room === selectedRoom){
+          return
+        }
       }
+
+      setDeviceIdx(-1)
 
     }, [props.devices]
   )
@@ -136,7 +176,7 @@ export default function TemperatureCard(props) {
             </FormControl>
           </Grid>
 
-          { deviceIdx !== -1 && 
+          { props.devices[deviceIdx] !== undefined &&
             <>
             <Grid item xs={12} ref={slider}>
               <CircularSliderWithChildren
@@ -184,7 +224,7 @@ export default function TemperatureCard(props) {
                 <Stack justifyContent="center" direction="row" spacing={4}>
                   {props.devices[deviceIdx].on ? (
                     <IconButton
-                      onClick={() => props.handleMinusTemperature(deviceIdx)}
+                      onClick={() => handleMinusTemperature(deviceIdx)}
                       sx={{
                         bgcolor: "#2196F3",
                         "&:hover": { bgcolor: "#1C7ECC" },
@@ -200,7 +240,7 @@ export default function TemperatureCard(props) {
 
                   {props.devices[deviceIdx].on ? (
                     <IconButton
-                      onClick={() => props.handlePlusTemperature(deviceIdx)}
+                      onClick={() => handlePlusTemperature(deviceIdx)}
                       sx={{
                         bgcolor: "#FF6F22",
                         "&:hover": { bgcolor: "#D95E1D" },

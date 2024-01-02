@@ -3,11 +3,10 @@
 - API login
 - upload
 - do filters of room
-- fix update cards when delete room
 - energy snackbar a dizer para rodar ecra
 - nos filtros por apenas as room onde esta aquele tipo de device
 - graficos quando no tele roda ficam cagados, usar vw
-- no calendario mobile tem 2 "-" (n me parece critico) - alterar para DD/MM/YYYY
+- no calendario mobile tem 2 "-" (n me parece critico) 
 
 
 in add dialog we must define type and room associated

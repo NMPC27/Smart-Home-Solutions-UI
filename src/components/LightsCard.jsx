@@ -64,6 +64,21 @@ export default function LightsCard(props) {
     setOpenDialog(false);
   };
 
+  React.useEffect( // no caso de eliminar uma luz seleciona outra e no caso de nao ter nenhuma fica a -1
+    () => {
+
+      let tmp = -1
+      for(let i=0;i<props.devices.length;i++){
+        if (props.devices[i].type === "Light"){
+          tmp=i
+          break
+        }
+      }
+
+      setDeviceIdx(tmp)
+
+    }, [props.devices])
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
@@ -122,7 +137,7 @@ export default function LightsCard(props) {
           })}
         </Grid>
       </InItem>
-      { deviceIdx !== -1 && 
+      { props.devices[deviceIdx] !== undefined && 
         <LightsDialog 
           openDialog={openDialog} 
           deviceIdx={deviceIdx}

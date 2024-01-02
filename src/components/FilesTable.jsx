@@ -80,7 +80,7 @@ export default function FilesTable() {
     }
 
     setPath(pathTMP2);
-    getFiles(pathTMP2+"/").then((res) => {
+    getFiles(pathTMP2).then((res) => {
       setData(res.data)
     })
   };
@@ -114,13 +114,13 @@ export default function FilesTable() {
       <OutItem elevation={5}>
         
         <Grid container>
-          <Grid item xs={11}>
+          <Grid item xs={10} sm={11} md={11.5}>
             <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Files: {path}</h2>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2} sm={1} md={0.5}>
             <IconButton
               onClick={() => handleUploadFile()}              
-              sx={{ color: "#FFFFFF", right: mobile && "3vw" }}
+              sx={{ color: "#FFFFFF" }}
             >
                 <UploadIcon fontSize="large"/>
             </IconButton>

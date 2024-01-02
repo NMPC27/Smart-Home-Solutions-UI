@@ -44,7 +44,12 @@ export default function Dashboard() {
 
   const handleDeviceAdd = (deviceInfo,deviceName,type,room) => {
     
-    let newID = devices[devices.length-1].id + 1
+    let newID
+    if ( devices.length != 0 ){
+      newID = devices[devices.length-1].id + 1
+    }else {
+      newID = 1
+    }
 
     for(let i=0;i<devices.length;i++){
       if (devices[i].id >= newID){
@@ -148,31 +153,23 @@ export default function Dashboard() {
   };
 
   const handleMinusTemperature = (idx) => {
-    const newTemp = parseInt(devices[idx].targetTemperature - 1);
-    if (devices[idx].on) {
-      if (newTemp >= 15) {
 
-        let tmp = [...devices];
-        tmp[idx].targetTemperature = newTemp;
-        setDevices(tmp);
+    let tmp = [...devices];
+    tmp[idx].targetTemperature = tmp[idx].targetTemperature-1;
+    setDevices(tmp);
 
-        postDevices(tmp) //! API CALL
-      }
-    }
+    postDevices(tmp) //! API CALL
+
   };
 
   const handlePlusTemperature = (idx) => {
-    const newTemp = parseInt(devices[idx].targetTemperature + 1);
-    if (devices[idx].on) {
-      if (newTemp <= 30) {
 
-        let tmp = [...devices];
-        tmp[idx].targetTemperature = newTemp;
-        setDevices(tmp);
+    let tmp = [...devices];
+    tmp[idx].targetTemperature = tmp[idx].targetTemperature+1;
+    setDevices(tmp);
 
-        postDevices(tmp) //! API CALL
-      }
-    }
+    postDevices(tmp) //! API CALL
+
   };
 
   const handleTemperatureOnOff = (idx) => {
