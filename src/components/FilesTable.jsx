@@ -55,28 +55,38 @@ export default function FilesTable() {
   const handleOpenFolder = (idx) => {
     setData([])
     let file = data[idx].fileName
-    setPath(path+file+"/");
-    getFiles(path+file+"/").then((res) => {
-      setData(res.data)
-    })
+
+    if (path === '/'){
+      setPath('/'+file);
+      getFiles('/'+file).then((res) => {
+        setData(res.data)
+      })
+    }else{ // /ola -> /ola/file
+      setPath(path+'/'+file);
+      getFiles(path+'/'+file).then((res) => {
+        setData(res.data)
+      })
+    }
+
+    
   };
 
   const handleGoBack = () => {
     setData([])
 
+    
     let pathTMP = path.split("/")
     pathTMP.pop()
-    pathTMP.pop()
 
-    let pathTMP2 = "/"
+    let pathTMP2 = ""
     for (let i=0;i<pathTMP.length;i++){
-      if ( pathTMP[i] === '' ){ continue }
 
-      if ( i === pathTMP.length-1 ) {
-        pathTMP2 = pathTMP2 + pathTMP[i]
+      if ( pathTMP[i] === '' ){ 
+        pathTMP2 = pathTMP2 + '/'
       }else{
-        pathTMP2 = pathTMP2 + pathTMP[i] + "/"
-      }      
+        pathTMP2 = pathTMP2 + pathTMP[i]
+      }
+
     }
 
     setPath(pathTMP2);
@@ -90,14 +100,14 @@ export default function FilesTable() {
     let fullPath
 
     if ( path === "/" ){
-      fullPath = path + data[idx].fileName
+      getFiles("/" + data[idx].fileName,true).then((res) => {
+        fileDownload(res.data, data[idx].fileName)
+      })
     }else{
-      fullPath = path + "/" + data[idx].fileName
+      getFiles(path + "/" + data[idx].fileName,true).then((res) => {
+        fileDownload(res.data, data[idx].fileName)
+      })
     }
-
-    getFiles(fullPath,true).then((res) => {
-      fileDownload(res.data, data[idx].fileName)
-    })
 
   };
 

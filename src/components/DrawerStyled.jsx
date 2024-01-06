@@ -9,13 +9,18 @@ import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function DrawerStyled(props) {
     let navigate = useNavigate();
 
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('md'))
+
+    const handleLogout= () => {
+      localStorage.removeItem('token')
+      navigate('/')      
+    }
 
     return (
         <Drawer
@@ -125,6 +130,17 @@ export default function DrawerStyled(props) {
             FILES
           </Button>
         </Stack>
+        <Stack spacing={2} sx={{ padding: "1vw",  marginTop: `auto`, marginBottom:"3vh" }}>
+          <Button 
+            sx={{ backgroundColor:"#E53935", color: "white", fontWeight: "bold" }} 
+            variant="contained"
+            onClick={() => handleLogout()}
+          > 
+            Logout 
+            <LogoutIcon sx={{marginLeft:"1vw"}}/> 
+          </Button>
+        </Stack>
+        
       </Drawer>
     );
 }

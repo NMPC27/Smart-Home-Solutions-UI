@@ -237,7 +237,7 @@ export default function DeviceDialog(props) {
                                 <Item>
                                     <Grid container spacing={2}>
                                         <Grid item xs={8}>
-                                            <h3 style={{marginTop:"1vh", marginBottom:"1vh"}}>{room.name}</h3>
+                                            <h3 style={{textAlign:"left", marginTop:"1vh", marginBottom:"1vh", marginLeft:"0.5vw"}}>{room.name}</h3>
                                         </Grid>
                                         <Grid item xs={4}>
                                         <IconButton

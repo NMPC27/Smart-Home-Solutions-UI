@@ -13,6 +13,14 @@ import LockIcon from '@mui/icons-material/Lock';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import { doLogin } from "../components/API";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Link from '@mui/material/Link';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 export default function LogIn() {
@@ -30,15 +38,35 @@ export default function LogIn() {
     }
   },[mobile]);
 
-  const handleLogIn = () => {
-    //! API call
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // fill all the fields!
+  const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // Incorrect username or password!
 
-    navigate("/dashboard");
-    document.body.style.margin = "5vw"
-    document.body.style.marginTop = "3vh"
+  const handleLogIn = () => {
+
+    if (email === "" || password === "") {
+      setOpenErrorMsg1(true)
+      return
+    }
+    
+    doLogin(email,password).then(//! API call
+      (response) => {
+        localStorage.setItem('token', response.data.access_token)
+
+        navigate("/dashboard");
+        document.body.style.margin = "5vw"
+        document.body.style.marginTop = "3vh"
+      },
+      (error) => {
+        setOpenErrorMsg2(true)
+      }
+    )
+
   };
 
   return (
+  <>
   <Grid container>
     <Grid item xs={0} sm={6} md={8}
        height="90vh"
@@ -79,12 +107,14 @@ export default function LogIn() {
                 input: { color: "#FFFFFF" },
                 label: { color: "#FFFFFF" },
               }}
+              onChange={e => setEmail(e.target.value)} 
             />
           </Grid>
           <Grid item xs={12} sx={{ marginTop:"5vh" }}>
             <TextField 
               label="Password" 
               variant="outlined" 
+              type="password"
               sx={{
                 width: "70%",
                 backgroundColor: "#374151",
@@ -94,7 +124,18 @@ export default function LogIn() {
                 input: { color: "#FFFFFF" },
                 label: { color: "#FFFFFF" },
               }}
+              onChange={e => setPassword(e.target.value)} 
             />
+          </Grid>
+          <Grid item xs={12} sx={{ marginTop:"1vh" }}>
+            <Link href="#" variant="body2">
+              Forgot password?
+            </Link>
+          </Grid>
+          <Grid item xs={12} sx={{ marginTop:"1vh" }}>
+            <Link href="/register" variant="body2">
+              Don't have an account? Sign Up
+            </Link>
           </Grid>
           <Grid item xs={12} sx={{ marginTop:"5vh" }}>
             <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => handleLogIn()}>Log In</Button>
@@ -103,5 +144,50 @@ export default function LogIn() {
       </Box>
     </Grid>
   </Grid>
+  <Snackbar 
+    anchorOrigin={{ vertical: "top", horizontal:"center" }}
+    open={openErrorMsg1} 
+    autoHideDuration={6000} 
+    onClose={(event, reason) => {
+        if (reason !== 'clickaway') {
+            setOpenErrorMsg1(false);
+        }
+    }}
+  >
+    <Alert 
+        severity="error" 
+        sx={{ width: '100%' }}
+        onClose={(event, reason) => {
+            if (reason !== 'clickaway') {
+                setOpenErrorMsg1(false);
+            }
+        }}
+    >
+        Fill all the fields!
+    </Alert>
+  </Snackbar>
+  <Snackbar 
+    anchorOrigin={{ vertical: "top", horizontal:"center" }}
+    open={openErrorMsg2} 
+    autoHideDuration={6000} 
+    onClose={(event, reason) => {
+        if (reason !== 'clickaway') {
+            setOpenErrorMsg2(false);
+        }
+    }}
+  >
+    <Alert 
+        severity="error" 
+        sx={{ width: '100%' }}
+        onClose={(event, reason) => {
+            if (reason !== 'clickaway') {
+                setOpenErrorMsg2(false);
+            }
+        }}
+    >
+        Incorrect username or password!
+    </Alert>
+  </Snackbar>
+  </>
   );
 }

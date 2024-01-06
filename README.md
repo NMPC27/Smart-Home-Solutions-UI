@@ -1,6 +1,9 @@
 # TODO:
 
 - API login
+- login
+- register
+
 - upload
 - do filters of room
 - energy snackbar a dizer para rodar ecra

@@ -2,39 +2,65 @@ import axios from "axios";
 
 const endpoint = "http://127.0.0.1:8000"
 
+export function doLogin(email,password) {
+
+    const form_data = new FormData()
+
+    form_data.append("username", email)
+    form_data.append("password", password)
+
+    return axios.post(endpoint+'/token', form_data);
+}
+
 export function getDevices() {
-  return axios.get(endpoint+'/devices', {});
+    let token = localStorage.getItem('token')
+
+  return axios.get(endpoint+'/devices', {headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function getRooms() {
-    return axios.get(endpoint+'/rooms', {});
+    let token = localStorage.getItem('token')
+
+    return axios.get(endpoint+'/rooms', {headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function getCards() {
-    return axios.get(endpoint+'/cards', {});
+    let token = localStorage.getItem('token')
+
+    return axios.get(endpoint+'/cards', {headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function postDevices(data) {
-    return axios.post(endpoint+'/devices', {data});
+    let token = localStorage.getItem('token')
+
+    return axios.post(endpoint+'/devices', {data}, {headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function postRooms(data) {
-    return axios.post(endpoint+'/rooms', {data});
+    let token = localStorage.getItem('token')
+
+    return axios.post(endpoint+'/rooms', {data}, {headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function postCards(data) {
-    return axios.post(endpoint+'/cards', {data});
+    let token = localStorage.getItem('token')
+
+    return axios.post(endpoint+'/cards', {data}, {headers: {"Authorization" : `Bearer ${token}`}});
 }  
 
 export function getEnergy(date) {
-    return axios.get(endpoint+`/energy?date=${date}`, {});
+    let token = localStorage.getItem('token')
+
+    return axios.get(endpoint+`/energy?date=${date}`, {headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function getFiles(file, download) {
+    let token = localStorage.getItem('token')
+
     if (download){
-        return axios.get(endpoint+`/files?file=${file}`, {responseType: 'blob'});
+        return axios.get(endpoint+`/files?file=${file}`, {headers: {"Authorization" : `Bearer ${token}`}, responseType: 'blob'});
     }else{
-        return axios.get(endpoint+`/files?file=${file}`, {});
+        return axios.get(endpoint+`/files?file=${file}`, {headers: {"Authorization" : `Bearer ${token}`}});
     }
 }
 

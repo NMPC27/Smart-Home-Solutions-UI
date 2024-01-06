@@ -9,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
 import { getEnergy } from "../components/API";
+import { useNavigate } from "react-router-dom";
 
 const datatmp = {
 	consumption:{
@@ -26,6 +27,8 @@ export default function Energy() {
 
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  let navigate = useNavigate();
 
   React.useEffect(()  => {
     if (mobile){
@@ -47,9 +50,14 @@ export default function Energy() {
 
     today = dd + '/' + mm + '/' + yyyy;
 
-    getEnergy(today).then((res) => {
-      setData(res.data)
-    })
+    getEnergy(today).then(
+      (res) => {
+        setData(res.data)
+      },
+      (error) => {
+        navigate("/");
+      }
+    )
 
   },[])
 

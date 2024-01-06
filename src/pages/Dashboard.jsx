@@ -9,12 +9,15 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
 import { getDevices, getRooms, getCards, postDevices, postRooms, postCards } from "../components/API";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Dashboard() {
 
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  let navigate = useNavigate();
 
   React.useEffect(()  => {
     if (mobile){
@@ -27,16 +30,26 @@ export default function Dashboard() {
   const [cards, setCards] = React.useState(null);
 
   React.useEffect(()  => {
-    getDevices().then((res) => {
+    getDevices().then(
+      (res) => {
         setDevices(res.data)
+      },
+      (error) => {
+        navigate("/");
       }
     )
     getRooms().then((res) => {
         setRooms(res.data)
+      },
+      (error) => {
+        navigate("/");
       }
     )
     getCards().then((res) => {
         setCards(res.data)
+      },
+      (error) => {
+        navigate("/");
       }
     )  
   },[]);

@@ -205,7 +205,7 @@ export default function TemperatureCard(props) {
                 }
                 arcBackgroundColor="#AAAAAA"
               >              
-              <div>
+              <div class="prevent-select">
                 {props.devices[deviceIdx].on ? (
                   <h2 style={{marginTop:"2vh"}}>Target {parseInt(targetTemperature)}°</h2>
                 ) : (
