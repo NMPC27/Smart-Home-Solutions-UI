@@ -12,23 +12,23 @@ import Stack from '@mui/material/Stack';
 import LockIcon from '@mui/icons-material/Lock';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
-import { doLogin } from "../components/API";
+import { signUp } from "../components/API";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
+import { useNavigate } from "react-router-dom";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 
-export default function LogIn() {
-
-  let navigate = useNavigate();
+export default function SignUp() {
 
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+  let navigate = useNavigate();
 
   React.useEffect(()  => {
     if (mobile){
@@ -38,30 +38,35 @@ export default function LogIn() {
     }
   },[mobile]);
 
+  const [name,setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [confPassword, setConfPassword] = React.useState("");
   const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // fill all the fields!
-  const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // Incorrect username or password!
+  const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // Passwords don't match!
+  const [openErrorMsg3, setOpenErrorMsg3] = React.useState(false); // email already in use
 
-  const handleLogIn = () => {
+  const handleSignUp = () => {
 
-    if (email === "" || password === "") {
+    if (name === "" || email === "" || password === "" || confPassword === "") {
       setOpenErrorMsg1(true)
       return
     }
-    
-    doLogin(email,password).then(//! API call
-      (response) => {
-        localStorage.setItem('token', response.data.access_token)
 
-        navigate("/dashboard");
-        document.body.style.margin = "5vw"
-        document.body.style.marginTop = "3vh"
-      },
-      (error) => {
-        setOpenErrorMsg2(true)
+    if (password !== confPassword) {
+      setOpenErrorMsg2(true)
+      return
+    }
+    
+    signUp({name,email,password}).then( (res) => {
+      console.log(res)
+      if (res.data.status === "error") {
+        setOpenErrorMsg3(true)
+      }else{
+        navigate("/");
       }
-    )
+    })
+
 
   };
 
@@ -92,7 +97,23 @@ export default function LogIn() {
             <LockIcon/>
           </Grid>
           <Grid item xs={12}>
-            <h2>Log In</h2>
+            <h2>Sign Up</h2>
+          </Grid>
+          <Grid item xs={12} sx={{ marginTop:"5vh" }}>
+            <TextField 
+              label="Name" 
+              variant="outlined" 
+              sx={{
+                width: "70%",
+                backgroundColor: "#374151",
+                borderRadius: "10px",
+                borderColor: "#FFFFFF",
+                svg: { color: "#FFFFFF" },
+                input: { color: "#FFFFFF" },
+                label: { color: "#FFFFFF" },
+              }}
+              onChange={e => setName(e.target.value)} 
+            />
           </Grid>
           <Grid item xs={12} sx={{ marginTop:"5vh" }}>
             <TextField 
@@ -127,18 +148,30 @@ export default function LogIn() {
               onChange={e => setPassword(e.target.value)} 
             />
           </Grid>
-          <Grid item xs={12} sx={{ marginTop:"1vh" }}>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
+          <Grid item xs={12} sx={{ marginTop:"5vh" }}>
+            <TextField 
+              label="Confirm Password" 
+              variant="outlined" 
+              type="password"
+              sx={{
+                width: "70%",
+                backgroundColor: "#374151",
+                borderRadius: "10px",
+                borderColor: "#FFFFFF",
+                svg: { color: "#FFFFFF" },
+                input: { color: "#FFFFFF" },
+                label: { color: "#FFFFFF" },
+              }}
+              onChange={e => setConfPassword(e.target.value)} 
+            />
           </Grid>
           <Grid item xs={12} sx={{ marginTop:"1vh" }}>
-            <Link href="/register" variant="body2">
-              Don't have an account? Sign Up
+            <Link href="/" variant="body2">
+              Already have an account? Sign In
             </Link>
           </Grid>
           <Grid item xs={12} sx={{ marginTop:"5vh" }}>
-            <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => handleLogIn()}>Log In</Button>
+            <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => handleSignUp()}>Sign Up</Button>
           </Grid>
         </Grid>
       </Box>
@@ -185,7 +218,29 @@ export default function LogIn() {
             }
         }}
     >
-        Incorrect username or password!
+        Passwords don't match!
+    </Alert>
+  </Snackbar>
+  <Snackbar 
+    anchorOrigin={{ vertical: "top", horizontal:"center" }}
+    open={openErrorMsg3} 
+    autoHideDuration={6000} 
+    onClose={(event, reason) => {
+        if (reason !== 'clickaway') {
+            setOpenErrorMsg3(false);
+        }
+    }}
+  >
+    <Alert 
+        severity="error" 
+        sx={{ width: '100%' }}
+        onClose={(event, reason) => {
+            if (reason !== 'clickaway') {
+                setOpenErrorMsg3(false);
+            }
+        }}
+    >
+        Email already in use!
     </Alert>
   </Snackbar>
   </>

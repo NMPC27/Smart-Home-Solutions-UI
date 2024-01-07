@@ -44,7 +44,7 @@ export default function FilesTable() {
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const [path, setPath] = React.useState("/");
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState(null);
 
   React.useEffect( () => {
     getFiles("/").then((res) => {
@@ -97,8 +97,6 @@ export default function FilesTable() {
 
   const handleDownloadFile = (idx) => {
 
-    let fullPath
-
     if ( path === "/" ){
       getFiles("/" + data[idx].fileName,true).then((res) => {
         fileDownload(res.data, data[idx].fileName)
@@ -115,7 +113,7 @@ export default function FilesTable() {
 
   };
 
-  if ( data.length === 0 ) {
+  if ( data === null ) {
     return (
       <Skeleton variant="rounded" height="70vh" sx={{ borderRadius:"20px" }} />
     );

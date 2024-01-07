@@ -6,12 +6,17 @@ import Dashboard from "./pages/Dashboard";
 import Energy from "./pages/Energy";
 import Files from "./pages/Files";
 import Automation from "./pages/Automation";
-import LogIn from "./pages/LogIn";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LogIn />,
+    element: <SignIn />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
   },
   {
     path: "/dashboard",
