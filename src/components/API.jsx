@@ -1,8 +1,8 @@
 import axios from "axios";
 
 
-//const endpoint = "http://127.0.0.1:8000"
-const endpoint = "https://smart-home-solutions-api.onrender.com"
+const endpoint = "http://127.0.0.1:8000"
+//const endpoint = "https://smart-home-solutions-api.onrender.com"
 
 export function doLogin(email,password) {
 

@@ -1,9 +1,9 @@
-import AppBarStyled from "../components/AppBarStyled";
-import LightsCard from "../components/LightsCard";
+import AppBarStyled from "../components/AppBar/AppBarStyled";
+import LightsCard from "../components/Dashboard/LightsCard";
 import Grid from "@mui/material/Grid";
-import TemperatureCard from "../components/TemperatureCard";
-import SecurityCard from "../components/SecurityCard";
-import CameraCard from "../components/CameraCard";
+import TemperatureCard from "../components/Dashboard/TemperatureCard";
+import SecurityCard from "../components/Dashboard/SecurityCard";
+import CameraCard from "../components/Dashboard/CameraCard";
 import * as React from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';

@@ -1,5 +1,5 @@
-import AppBarStyled from "../components/AppBarStyled";
-import FilesTable from "../components/FilesTable";
+import AppBarStyled from "../components/AppBar/AppBarStyled";
+import FilesTable from "../components/Files/FilesTable";
 import Grid from "@mui/material/Grid";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';

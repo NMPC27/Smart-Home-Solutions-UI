@@ -15,7 +15,7 @@ import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRig
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
-import { getFiles } from "../components/API";
+import { getFiles } from "../API";
 import fileDownload from 'js-file-download'
 import UploadIcon from '@mui/icons-material/Upload';
 import { Grid } from "@mui/material";

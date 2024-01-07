@@ -1,9 +1,9 @@
-import AppBarStyled from "../components/AppBarStyled";
+import AppBarStyled from "../components/AppBar/AppBarStyled";
 import Grid from "@mui/material/Grid";
-import EnergyConsumptionChart from "../components/EnergyConsumptionChart";
-import EnergyConsumptionPie from "../components/EnergyConsumptionPie";
-import EnergyProductionChart from "../components/EnergyProductionChart";
-import EnergyProductionPie from "../components/EnergyProductionPie";
+import EnergyConsumptionChart from "../components/Energy/EnergyConsumptionChart";
+import EnergyConsumptionPie from "../components/Energy/EnergyConsumptionPie";
+import EnergyProductionChart from "../components/Energy/EnergyProductionChart";
+import EnergyProductionPie from "../components/Energy/EnergyProductionPie";
 import * as React from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
