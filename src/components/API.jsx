@@ -11,7 +11,7 @@ export function doLogin(email,password) {
     form_data.append("username", email)
     form_data.append("password", password)
 
-    return axios.post(endpoint+'/token', form_data);
+    return axios.post(endpoint+'/token', form_data, {headers: {"Access-Control-Allow-Origin": endpoint}});
 }
 
 export function signUp(data) {
