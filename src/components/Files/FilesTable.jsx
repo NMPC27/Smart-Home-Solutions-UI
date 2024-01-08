@@ -5,12 +5,11 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import DownloadIcon from "@mui/icons-material/Download";
 import FolderIcon from "@mui/icons-material/Folder";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
@@ -138,15 +137,16 @@ export default function FilesTable() {
             </TableHead>
             <TableBody>
               {data.map((row, idx) => (
-                <TableRow key={idx}
+                <TableRow
+                  key={idx}
                   onClick={() => {
                     if (idx === 0 && path !== "/") {
                       handleGoBack();
                     } else if (row.type === "folder") {
                       handleOpenFolder(idx);
-                    } else if (row.type !== "folder" && idx !== 0){
+                    } else if (row.type !== "folder" && idx !== 0) {
                       handleDownloadFile(idx);
-                    }               
+                    }
                   }}
                   sx={{ "&:hover": { bgcolor: "#F5F5F5" } }}
                 >
@@ -161,7 +161,7 @@ export default function FilesTable() {
                         <FolderIcon />
                       </IconButton>
                     )}
-                    {row.type !== "folder" && idx !== 0 &&(
+                    {row.type !== "folder" && idx !== 0 && (
                       <IconButton onClick={() => handleDownloadFile(idx)}>
                         <InsertDriveFileIcon />
                       </IconButton>
