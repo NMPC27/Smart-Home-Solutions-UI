@@ -1,8 +1,6 @@
 # TODO:
 
-- API login
-- login
-- register
+- tests
 
 - upload
 - do filters of room

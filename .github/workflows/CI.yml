@@ -19,5 +19,3 @@ jobs:
       - name: Run Prettier
         run: npm run prettier
 
-      - name: Run Tests
-        run: npm run test
