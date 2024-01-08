@@ -9,8 +9,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Button from '@mui/material/Button';
-import SettingsIcon from '@mui/icons-material/Settings';
+import Button from "@mui/material/Button";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -30,31 +30,28 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-
 export default function LightsCard(props) {
-  const [deviceIdx, setDeviceIdx] = React.useState(
-    ()=> {
-      for(let i=0;i<props.devices.length;i++){
-        if (props.devices[i].type === "Light"){
-          return i
-        }
+  const [deviceIdx, setDeviceIdx] = React.useState(() => {
+    for (let i = 0; i < props.devices.length; i++) {
+      if (props.devices[i].type === "Light") {
+        return i;
       }
-      return -1
     }
-  );
+    return -1;
+  });
 
-  const [selectedRoom, setSelectedRoom] = React.useState(() => { 
-    if ( deviceIdx === -1 ){
-      return "all"
-    }else{
-      return props.devices[deviceIdx].room
+  const [selectedRoom, setSelectedRoom] = React.useState(() => {
+    if (deviceIdx === -1) {
+      return "all";
+    } else {
+      return props.devices[deviceIdx].room;
     }
   });
 
   const [openDialog, setOpenDialog] = React.useState(false);
 
-  const handleOpenDialog = (e,idx) => {
-    e.stopPropagation ();
+  const handleOpenDialog = (e, idx) => {
+    e.stopPropagation();
     setDeviceIdx(idx);
     setOpenDialog(true);
   };
@@ -63,20 +60,21 @@ export default function LightsCard(props) {
     setOpenDialog(false);
   };
 
-  React.useEffect( // no caso de eliminar uma luz seleciona outra e no caso de nao ter nenhuma fica a -1
+  React.useEffect(
+    // no caso de eliminar uma luz seleciona outra e no caso de nao ter nenhuma fica a -1
     () => {
-
-      let tmp = -1
-      for(let i=0;i<props.devices.length;i++){
-        if (props.devices[i].type === "Light"){
-          tmp=i
-          break
+      let tmp = -1;
+      for (let i = 0; i < props.devices.length; i++) {
+        if (props.devices[i].type === "Light") {
+          tmp = i;
+          break;
         }
       }
 
-      setDeviceIdx(tmp)
-
-    }, [props.devices])
+      setDeviceIdx(tmp);
+    },
+    [props.devices],
+  );
 
   return (
     <OutItem elevation={5}>
@@ -85,27 +83,34 @@ export default function LightsCard(props) {
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Room</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={selectedRoom}
-                  label="Room"
-                  onChange={(event) => setSelectedRoom(event.target.value)}
-                >
-                  <MenuItem key={0} value={"all"}>{"all"}</MenuItem>
-                  {props.rooms.map((room, idx) => (
-                    <MenuItem key={idx} value={room.name}>{room.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+              <InputLabel id="demo-simple-select-label">Room</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedRoom}
+                label="Room"
+                onChange={(event) => setSelectedRoom(event.target.value)}
+              >
+                <MenuItem key={0} value={"all"}>
+                  {"all"}
+                </MenuItem>
+                {props.rooms.map((room, idx) => (
+                  <MenuItem key={idx} value={room.name}>
+                    {room.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
 
           {props.devices.map((val, idx) => {
-            if ( val.type === "Light" && (val.room===selectedRoom || selectedRoom==="all")){
+            if (
+              val.type === "Light" &&
+              (val.room === selectedRoom || selectedRoom === "all")
+            ) {
               return (
-                <Grid item xs={12} key={idx} >
-                  <Button 
+                <Grid item xs={12} key={idx}>
+                  <Button
                     fullWidth
                     startIcon={
                       <IconButton>
@@ -114,7 +119,9 @@ export default function LightsCard(props) {
                     }
                     endIcon={
                       <IconButton>
-                        <SettingsIcon onClick={(e) => handleOpenDialog(e,idx)}/>
+                        <SettingsIcon
+                          onClick={(e) => handleOpenDialog(e, idx)}
+                        />
                       </IconButton>
                     }
                     sx={{
@@ -124,11 +131,9 @@ export default function LightsCard(props) {
                       color: val.on ? "#FFFFFF" : "#666666",
                       padding: "0.5vw",
                     }}
-                    onClick={() => props.handleLightOnOff(idx)}                    
+                    onClick={() => props.handleLightOnOff(idx)}
                   >
-
-                    <b style={{width:"100%"}}>{val.name}</b>
-                    
+                    <b style={{ width: "100%" }}>{val.name}</b>
                   </Button>
                 </Grid>
               );
@@ -136,9 +141,9 @@ export default function LightsCard(props) {
           })}
         </Grid>
       </InItem>
-      { props.devices[deviceIdx] !== undefined && 
-        <LightsDialog 
-          openDialog={openDialog} 
+      {props.devices[deviceIdx] !== undefined && (
+        <LightsDialog
+          openDialog={openDialog}
           deviceIdx={deviceIdx}
           devices={props.devices}
           handleCloseDialog={handleCloseDialog}
@@ -146,24 +151,27 @@ export default function LightsCard(props) {
           handleBrightnessChange={props.handleBrightnessChange}
           handleLightOnOff={props.handleLightOnOff}
         />
-      }        
+      )}
     </OutItem>
   );
 }
 
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 LightsCard.propTypes = {
-  devices: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    room: PropTypes.string.isRequired,
-    on: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-  })).isRequired,
-  rooms: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  })).isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      room: PropTypes.string.isRequired,
+      on: PropTypes.bool.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   handleLightOnOff: PropTypes.func.isRequired,
   handleLightColor: PropTypes.func.isRequired,
   handleBrightnessChange: PropTypes.func.isRequired,

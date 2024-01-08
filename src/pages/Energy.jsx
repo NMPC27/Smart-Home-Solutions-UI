@@ -5,79 +5,89 @@ import EnergyConsumptionPie from "../components/Energy/EnergyConsumptionPie";
 import EnergyProductionChart from "../components/Energy/EnergyProductionChart";
 import EnergyProductionPie from "../components/Energy/EnergyProductionPie";
 import * as React from "react";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import Skeleton from '@mui/material/Skeleton';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import Skeleton from "@mui/material/Skeleton";
 import { getEnergy } from "../components/API";
 import { useNavigate } from "react-router-dom";
 
 export default function Energy() {
-
   const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('md'))
+  const mobile = useMediaQuery(theme.breakpoints.down("md"));
 
   let navigate = useNavigate();
 
-  React.useEffect(()  => {
-    if (mobile){
-      document.body.style.margin = 0
+  React.useEffect(() => {
+    if (mobile) {
+      document.body.style.margin = 0;
     }
-  },[mobile]);
+  }, [mobile]);
 
   const [data, setData] = React.useState(null);
 
   const [date, setDate] = React.useState();
 
-
-  React.useEffect( () => {
-
+  React.useEffect(() => {
     var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0");
     var yyyy = today.getFullYear();
 
-    today = dd + '/' + mm + '/' + yyyy;
+    today = dd + "/" + mm + "/" + yyyy;
 
     getEnergy(today).then(
       (res) => {
-        setData(res.data)
+        setData(res.data);
       },
       () => {
         navigate("/");
-      }
-    )
-
-  },[])
-
+      },
+    );
+  }, []);
 
   const handleDateChange = (val) => {
-    setDate(val); 
+    setDate(val);
 
-    console.log(date) //! fix lint error
+    console.log(date); //! fix lint error
 
-    getEnergy(val).then((res) => { //! API CALL
-      setData(res.data)
-    })
-  
+    getEnergy(val).then((res) => {
+      //! API CALL
+      setData(res.data);
+    });
   };
 
-
-  if (data === null){
+  if (data === null) {
     return (
       <>
         <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={9}>
-            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }} />
+            <Skeleton
+              variant="rounded"
+              height="40vh"
+              sx={{ borderRadius: "20px" }}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
-            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }} />
+            <Skeleton
+              variant="rounded"
+              height="40vh"
+              sx={{ borderRadius: "20px" }}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={9}>
-            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }}/>
+            <Skeleton
+              variant="rounded"
+              height="40vh"
+              sx={{ borderRadius: "20px" }}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
-            <Skeleton variant="rounded" height="40vh" sx={{ borderRadius:"20px" }} />
+            <Skeleton
+              variant="rounded"
+              height="40vh"
+              sx={{ borderRadius: "20px" }}
+            />
           </Grid>
         </Grid>
       </>
@@ -86,22 +96,22 @@ export default function Energy() {
     return (
       <>
         <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
-  
+
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={9}>
-            <EnergyConsumptionChart consumption={data.consumption}/>
+            <EnergyConsumptionChart consumption={data.consumption} />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
-            <EnergyConsumptionPie consumption={data.consumption}/>
+            <EnergyConsumptionPie consumption={data.consumption} />
           </Grid>
           <Grid item xs={12} sm={12} md={9}>
-            <EnergyProductionChart production={data.production}/>
+            <EnergyProductionChart production={data.production} />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
-            <EnergyProductionPie production={data.production}/>
+            <EnergyProductionPie production={data.production} />
           </Grid>
         </Grid>
       </>
     );
-  } 
+  }
 }

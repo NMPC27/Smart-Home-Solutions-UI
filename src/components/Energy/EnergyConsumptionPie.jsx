@@ -40,10 +40,9 @@ function PieCenterLabel({ children }) {
 }
 
 const pieColors = ["#2E96FF", "#FFA500", "#CC0000"];
-const lables = [ "Grid", "Solar", "Gas" ];
+const lables = ["Grid", "Solar", "Gas"];
 
 export default function EnergyConsumptionPie(props) {
-
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
@@ -59,10 +58,28 @@ export default function EnergyConsumptionPie(props) {
                 cornerRadius: 5,
                 innerRadius: 80,
                 outerRadius: 125,
-                data:[
-                  { label: "Grid", value: props.consumption.grid.reduce((partialSum, a) => partialSum + a, 0) },
-                  { label: "Solar", value: props.consumption.solar.reduce((partialSum, a) => partialSum + a, 0) },
-                  { label: "Gas", value: props.consumption.solar.reduce((partialSum, a) => partialSum + a, 0) },
+                data: [
+                  {
+                    label: "Grid",
+                    value: props.consumption.grid.reduce(
+                      (partialSum, a) => partialSum + a,
+                      0,
+                    ),
+                  },
+                  {
+                    label: "Solar",
+                    value: props.consumption.solar.reduce(
+                      (partialSum, a) => partialSum + a,
+                      0,
+                    ),
+                  },
+                  {
+                    label: "Gas",
+                    value: props.consumption.solar.reduce(
+                      (partialSum, a) => partialSum + a,
+                      0,
+                    ),
+                  },
                 ],
               },
             ]}
@@ -70,12 +87,18 @@ export default function EnergyConsumptionPie(props) {
             legend={{ hidden: true }}
           >
             <PieCenterLabel>
-              {
-                props.consumption.grid.reduce((partialSum, a) => partialSum + a, 0) +
-                props.consumption.solar.reduce((partialSum, a) => partialSum + a, 0) +
-                props.consumption.gas.reduce((partialSum, a) => partialSum + a, 0)
-              } 
-              {" "} 
+              {props.consumption.grid.reduce(
+                (partialSum, a) => partialSum + a,
+                0,
+              ) +
+                props.consumption.solar.reduce(
+                  (partialSum, a) => partialSum + a,
+                  0,
+                ) +
+                props.consumption.gas.reduce(
+                  (partialSum, a) => partialSum + a,
+                  0,
+                )}{" "}
               kWh
             </PieCenterLabel>
           </PieChart>
@@ -106,8 +129,7 @@ export default function EnergyConsumptionPie(props) {
   );
 }
 
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 EnergyConsumptionPie.propTypes = {
   consumption: PropTypes.shape({
@@ -116,7 +138,6 @@ EnergyConsumptionPie.propTypes = {
     gas: PropTypes.arrayOf(PropTypes.number).isRequired,
   }).isRequired,
 };
-
 
 PieCenterLabel.propTypes = {
   children: PropTypes.node.isRequired,

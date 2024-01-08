@@ -39,8 +39,8 @@ function PieCenterLabel({ children }) {
   );
 }
 
-const pieColors = [ "#FFA500", "#CC0000"];
-const lables = [ "Solar", "Gas" ];
+const pieColors = ["#FFA500", "#CC0000"];
+const lables = ["Solar", "Gas"];
 
 export default function EnergyProductionPie(props) {
   return (
@@ -58,9 +58,21 @@ export default function EnergyProductionPie(props) {
                 cornerRadius: 5,
                 innerRadius: 80,
                 outerRadius: 125,
-                data:[
-                  { label: "Solar", value: props.production.solar.reduce((partialSum, a) => partialSum + a, 0) },
-                  { label: "Gas", value: props.production.solar.reduce((partialSum, a) => partialSum + a, 0) },
+                data: [
+                  {
+                    label: "Solar",
+                    value: props.production.solar.reduce(
+                      (partialSum, a) => partialSum + a,
+                      0,
+                    ),
+                  },
+                  {
+                    label: "Gas",
+                    value: props.production.solar.reduce(
+                      (partialSum, a) => partialSum + a,
+                      0,
+                    ),
+                  },
                 ],
               },
             ]}
@@ -68,11 +80,14 @@ export default function EnergyProductionPie(props) {
             legend={{ hidden: true }}
           >
             <PieCenterLabel>
-              {
-                props.production.solar.reduce((partialSum, a) => partialSum + a, 0) +
-                props.production.gas.reduce((partialSum, a) => partialSum + a, 0)
-              } 
-              {" "} 
+              {props.production.solar.reduce(
+                (partialSum, a) => partialSum + a,
+                0,
+              ) +
+                props.production.gas.reduce(
+                  (partialSum, a) => partialSum + a,
+                  0,
+                )}{" "}
               kWh
             </PieCenterLabel>
           </PieChart>
@@ -103,7 +118,7 @@ export default function EnergyProductionPie(props) {
   );
 }
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 EnergyProductionPie.propTypes = {
   production: PropTypes.shape({

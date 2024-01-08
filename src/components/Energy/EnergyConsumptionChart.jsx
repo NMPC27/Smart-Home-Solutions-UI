@@ -23,14 +23,13 @@ const InItem = styled(Paper)(({ theme }) => ({
 
 const xAxis = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  22, 23
+  22, 23,
 ];
 
 const chartColors = ["#2E96FF", "#FFA500", "#CC0000"];
-const lables = [ "Grid", "Solar", "Gas" ];
+const lables = ["Grid", "Solar", "Gas"];
 
 export default function EnergyConsumptionChart(props) {
-
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
@@ -76,8 +75,7 @@ export default function EnergyConsumptionChart(props) {
   );
 }
 
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 EnergyConsumptionChart.propTypes = {
   consumption: PropTypes.shape({

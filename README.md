@@ -9,8 +9,7 @@
 - energy snackbar a dizer para rodar ecra
 - nos filtros por apenas as room onde esta aquele tipo de device
 - graficos quando no tele roda ficam cagados, usar vw
-- no calendario mobile tem 2 "-" (n me parece critico) 
-
+- no calendario mobile tem 2 "-" (n me parece critico)
 
 in add dialog we must define type and room associated
 name is user writen
@@ -26,18 +25,18 @@ UI structure:
 
 ![alt text](UIstructure.drawio.png)
 
-
 data in dashboard:
+
 ```
 rooms = [ "kitchen", "bed", "ofice" ]
 
-devices: 
+devices:
 [
     {
         id: 1,
         type: "light",
         room: "kitchen",
-        
+
         name: "Kitchen (user writen)",
         on: true,
         brightness: 100,

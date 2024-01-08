@@ -4,16 +4,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function BasicDatePicker(props) {
-
   const handleDateChange = (val) => {
-    
-    var dd = String(val.$D).padStart(2, '0');
-    var mm = String(val.$M + 1).padStart(2, '0');
+    var dd = String(val.$D).padStart(2, "0");
+    var mm = String(val.$M + 1).padStart(2, "0");
     var yyyy = val.$y;
 
-    var date = dd + '/' + mm + '/' + yyyy;
+    var date = dd + "/" + mm + "/" + yyyy;
 
-    props.handleDateChange(date)
+    props.handleDateChange(date);
   };
 
   return (
@@ -37,8 +35,7 @@ export default function BasicDatePicker(props) {
   );
 }
 
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 BasicDatePicker.propTypes = {
   handleDateChange: PropTypes.func.isRequired,

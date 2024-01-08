@@ -23,9 +23,9 @@ const InItem = styled(Paper)(({ theme }) => ({
 
 export default function SecurityCard(props) {
   const [alarmOn, setAlarmOn] = React.useState(() => {
-    for(let i=0;i<props.devices.length;i++){
-      if (props.devices[i].type === "Motion Sensor"){
-        return props.devices[i].on
+    for (let i = 0; i < props.devices.length; i++) {
+      if (props.devices[i].type === "Motion Sensor") {
+        return props.devices[i].on;
       }
     }
   });
@@ -74,13 +74,14 @@ export default function SecurityCard(props) {
   );
 }
 
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 SecurityCard.propTypes = {
-  devices: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    on: PropTypes.bool.isRequired,
-  })).isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      on: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
   handleClickAlarm: PropTypes.func.isRequired,
 };

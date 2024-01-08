@@ -10,24 +10,22 @@ import BasicDatePicker from "./BasicDatePicker";
 import DrawerStyled from "./DrawerStyled";
 import RoomDialog from "./RoomDialog";
 import DeviceDialog from "./DeviceDialog";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import SettingsIcon from '@mui/icons-material/Settings';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import SettingsIcon from "@mui/icons-material/Settings";
 import SettingsDialog from "./SettingsDialog";
 
-
 export default function AppBarStyled(props) {
-
   const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
-  const [openRoomDialog,setOpenRoomDialog] = React.useState(false);
+  const [openRoomDialog, setOpenRoomDialog] = React.useState(false);
 
-  const [openDeviceDialog,setOpenDeviceDialog] = React.useState(false);
+  const [openDeviceDialog, setOpenDeviceDialog] = React.useState(false);
 
-  const [openSettingsDialog,setOpenSettingsDialog] = React.useState(false);
+  const [openSettingsDialog, setOpenSettingsDialog] = React.useState(false);
 
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
@@ -68,45 +66,62 @@ export default function AppBarStyled(props) {
           >
             AppName
           </Typography>
-          {props.navbar === "dashboard" && !mobile && 
+          {props.navbar === "dashboard" && !mobile && (
             <Stack direction="row" spacing={2}>
-              <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => setOpenRoomDialog(true)}>
+              <Button
+                variant="contained"
+                sx={{ fontWeight: "bold" }}
+                onClick={() => setOpenRoomDialog(true)}
+              >
                 + ROOM
               </Button>
-              <Button variant="contained" sx={{ fontWeight: "bold" }} onClick={() => setOpenDeviceDialog(true)} >
+              <Button
+                variant="contained"
+                sx={{ fontWeight: "bold" }}
+                onClick={() => setOpenDeviceDialog(true)}
+              >
                 + DEVICE
               </Button>
             </Stack>
-          }
-          {props.navbar === "dashboard" &&
+          )}
+          {props.navbar === "dashboard" && (
             <IconButton
               onClick={() => setOpenSettingsDialog(true)}
-              sx={{ color: "#FFFFFF", marginLeft:"1vw" }}
+              sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
             >
               <SettingsIcon />
-            </IconButton>            
-          }
-          {props.navbar === "energy" && !mobile && <BasicDatePicker handleDateChange={props.handleDateChange}/>}
+            </IconButton>
+          )}
+          {props.navbar === "energy" && !mobile && (
+            <BasicDatePicker handleDateChange={props.handleDateChange} />
+          )}
           {props.navbar === "files" && <></>}
         </Toolbar>
       </AppBar>
 
-      {props.navbar === "dashboard" && mobile && 
+      {props.navbar === "dashboard" && mobile && (
         <Stack spacing={2} alignItems="center" marginBottom={"3vh"}>
-          <Button variant="contained" sx={{ fontWeight: "bold", width:"70%" }} onClick={() => setOpenRoomDialog(true)}>
+          <Button
+            variant="contained"
+            sx={{ fontWeight: "bold", width: "70%" }}
+            onClick={() => setOpenRoomDialog(true)}
+          >
             + ROOM
           </Button>
-          <Button variant="contained" sx={{ fontWeight: "bold", width:"70%" }} onClick={() => setOpenDeviceDialog(true)} >
+          <Button
+            variant="contained"
+            sx={{ fontWeight: "bold", width: "70%" }}
+            onClick={() => setOpenDeviceDialog(true)}
+          >
             + DEVICE
           </Button>
         </Stack>
-      }
-      
-      {
-        props.navbar === "dashboard" && 
+      )}
+
+      {props.navbar === "dashboard" && (
         <>
-          <RoomDialog 
-            openRoomDialog={openRoomDialog} 
+          <RoomDialog
+            openRoomDialog={openRoomDialog}
             handleCloseRoomDialog={handleCloseRoomDialog}
             rooms={props.rooms}
             devices={props.devices}
@@ -115,7 +130,7 @@ export default function AppBarStyled(props) {
           />
 
           <DeviceDialog
-            openDeviceDialog={openDeviceDialog} 
+            openDeviceDialog={openDeviceDialog}
             handleCloseDeviceDialog={handleCloseDeviceDialog}
             rooms={props.rooms}
             devices={props.devices}
@@ -124,7 +139,7 @@ export default function AppBarStyled(props) {
           />
 
           <SettingsDialog
-            openSettingsDialog={openSettingsDialog} 
+            openSettingsDialog={openSettingsDialog}
             handleCloseSettingsDialog={handleCloseSettingsDialog}
             handleCardAdd={props.handleCardAdd}
             handleCardDelete={props.handleCardDelete}
@@ -132,16 +147,16 @@ export default function AppBarStyled(props) {
             rooms={props.rooms}
           />
         </>
-      }
+      )}
 
-      {props.navbar === "energy" && mobile && 
-        <div style={{ marginBottom:"3vh", width:"70%", margin:"auto" }} >
-          <BasicDatePicker handleDateChange={props.handleDateChange}/>
+      {props.navbar === "energy" && mobile && (
+        <div style={{ marginBottom: "3vh", width: "70%", margin: "auto" }}>
+          <BasicDatePicker handleDateChange={props.handleDateChange} />
         </div>
-      }
-      
-      <DrawerStyled 
-        openDrawer={openDrawer} 
+      )}
+
+      <DrawerStyled
+        openDrawer={openDrawer}
         handleCloseDrawer={handleCloseDrawer}
         navbar={props.navbar}
       />
@@ -149,8 +164,7 @@ export default function AppBarStyled(props) {
   );
 }
 
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 AppBarStyled.propTypes = {
   navbar: PropTypes.string.isRequired,

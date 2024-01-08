@@ -5,99 +5,184 @@ import TemperatureCard from "../components/Dashboard/TemperatureCard";
 import SecurityCard from "../components/Dashboard/SecurityCard";
 import CameraCard from "../components/Dashboard/CameraCard";
 import * as React from "react";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import Skeleton from '@mui/material/Skeleton';
-import { getDevices, getRooms, getCards, postDevices, postRooms, postCards } from "../components/API";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import Skeleton from "@mui/material/Skeleton";
+import {
+  getDevices,
+  getRooms,
+  getCards,
+  postDevices,
+  postRooms,
+  postCards,
+} from "../components/API";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Dashboard() {
-
   const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('md'))
+  const mobile = useMediaQuery(theme.breakpoints.down("md"));
 
   let navigate = useNavigate();
 
-  React.useEffect(()  => {
-    if (mobile){
-      document.body.style.margin = 0
+  React.useEffect(() => {
+    if (mobile) {
+      document.body.style.margin = 0;
     }
-  },[mobile]);
+  }, [mobile]);
 
   const [devices, setDevices] = React.useState(null);
   const [rooms, setRooms] = React.useState(null);
   const [cards, setCards] = React.useState(null);
 
-  React.useEffect(()  => {
+  React.useEffect(() => {
     getDevices().then(
       (res) => {
-        setDevices(res.data)
+        setDevices(res.data);
       },
       () => {
         navigate("/");
-      }
-    )
-    getRooms().then((res) => {
-        setRooms(res.data)
+      },
+    );
+    getRooms().then(
+      (res) => {
+        setRooms(res.data);
       },
       () => {
         navigate("/");
-      }
-    )
-    getCards().then((res) => {
-        setCards(res.data)
+      },
+    );
+    getCards().then(
+      (res) => {
+        setCards(res.data);
       },
       () => {
         navigate("/");
-      }
-    )  
-  },[]);
+      },
+    );
+  }, []);
 
-
-  const handleDeviceAdd = (deviceInfo,deviceName,type,room) => {
-    
-    let newID
-    if ( devices.length != 0 ){
-      newID = devices[devices.length-1].id + 1
-    }else {
-      newID = 1
+  const handleDeviceAdd = (deviceInfo, deviceName, type, room) => {
+    let newID;
+    if (devices.length != 0) {
+      newID = devices[devices.length - 1].id + 1;
+    } else {
+      newID = 1;
     }
 
-    for(let i=0;i<devices.length;i++){
-      if (devices[i].id >= newID){
-        newID=devices[i].id+1
+    for (let i = 0; i < devices.length; i++) {
+      if (devices[i].id >= newID) {
+        newID = devices[i].id + 1;
       }
     }
 
-    if (type==="Light"){
-      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,brightness: 100,color: "#FFFFFF"}]);
+    if (type === "Light") {
+      setDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          on: false,
+          brightness: 100,
+          color: "#FFFFFF",
+        },
+      ]);
 
-      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,brightness: 100,color: "#FFFFFF"}]) //! API CALL
+      postDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          on: false,
+          brightness: 100,
+          color: "#FFFFFF",
+        },
+      ]); //! API CALL
     }
 
-    if (type==="Temperature"){
-      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,currentTemperature: 0,targetTemperature: 15}]);
+    if (type === "Temperature") {
+      setDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          on: false,
+          currentTemperature: 0,
+          targetTemperature: 15,
+        },
+      ]);
 
-      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,currentTemperature: 0,targetTemperature: 15}]) //! API CALL
+      postDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          on: false,
+          currentTemperature: 0,
+          targetTemperature: 15,
+        },
+      ]); //! API CALL
     }
 
-    if (type==="Motion Sensor"){
-      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,detectedMotion: false}]);
+    if (type === "Motion Sensor") {
+      setDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          on: false,
+          detectedMotion: false,
+        },
+      ]);
 
-      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,on: false,detectedMotion: false}]) //! API CALL
+      postDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          on: false,
+          detectedMotion: false,
+        },
+      ]); //! API CALL
     }
 
-    if (type==="Camera"){
-      setDevices([...devices,{id:newID,type:type,room:room,name: deviceName,endpoint: "c1.png"}]);
+    if (type === "Camera") {
+      setDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          endpoint: "c1.png",
+        },
+      ]);
 
-      postDevices([...devices,{id:newID,type:type,room:room,name: deviceName,endpoint: "c1.png"}]) //! API CALL
+      postDevices([
+        ...devices,
+        {
+          id: newID,
+          type: type,
+          room: room,
+          name: deviceName,
+          endpoint: "c1.png",
+        },
+      ]); //! API CALL
     }
-
   };
 
   const handleDeleteDevice = (idx) => {
-
     let tmp = [...devices];
     tmp.splice(idx, 1);
     setDevices(tmp);
@@ -105,48 +190,44 @@ export default function Dashboard() {
     postDevices(tmp); //! API CALL
   };
 
-  const handleRoomAdd = (val) => {    
-
-    let newID
-    if ( rooms.length != 0 ){
-      newID = rooms[rooms.length-1].id + 1
-    }else {
-      newID = 1
+  const handleRoomAdd = (val) => {
+    let newID;
+    if (rooms.length != 0) {
+      newID = rooms[rooms.length - 1].id + 1;
+    } else {
+      newID = 1;
     }
 
-    for(let i=0;i<rooms.length;i++){
-      if (rooms[i].id >= newID){
-        newID=rooms[i].id+1
+    for (let i = 0; i < rooms.length; i++) {
+      if (rooms[i].id >= newID) {
+        newID = rooms[i].id + 1;
       }
     }
 
-    setRooms([...rooms,{id:newID,name: val}]);
+    setRooms([...rooms, { id: newID, name: val }]);
 
-    postRooms([...rooms,{id:newID,name: val}]); //! API CALL
+    postRooms([...rooms, { id: newID, name: val }]); //! API CALL
   };
 
-  const handleDeleteRoom = (idx) => {    
+  const handleDeleteRoom = (idx) => {
+    let deviceDeleteIdx = [];
 
-    let deviceDeleteIdx = []
-
-    devices.map(
-      (device,deviceIdx) => {
-        if (device.room === rooms[idx].name){
-          deviceDeleteIdx.push(deviceIdx)
-        }
+    devices.map((device, deviceIdx) => {
+      if (device.room === rooms[idx].name) {
+        deviceDeleteIdx.push(deviceIdx);
       }
-    )
+    });
 
     let devicesTmp = [...devices];
-    let deleteCount = 0
-    for(let i=0;i<deviceDeleteIdx.length;i++){
-        devicesTmp.splice(deviceDeleteIdx[i]-deleteCount,1)
-        deleteCount++
+    let deleteCount = 0;
+    for (let i = 0; i < deviceDeleteIdx.length; i++) {
+      devicesTmp.splice(deviceDeleteIdx[i] - deleteCount, 1);
+      deleteCount++;
     }
 
-    setDevices(devicesTmp); 
+    setDevices(devicesTmp);
 
-    postDevices(devicesTmp) //! API CALL
+    postDevices(devicesTmp); //! API CALL
 
     let roomsTmp = [...rooms];
     roomsTmp.splice(idx, 1);
@@ -155,94 +236,84 @@ export default function Dashboard() {
     postRooms(roomsTmp); //! API CALL
   };
 
-  const handleTemperatureTarget = (val,idx) => {
-    const newTemp = parseInt(val);    
+  const handleTemperatureTarget = (val, idx) => {
+    const newTemp = parseInt(val);
 
     let tmp = [...devices];
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    postDevices(tmp) //! API CALL
+    postDevices(tmp); //! API CALL
   };
 
   const handleMinusTemperature = (idx) => {
-
     let tmp = [...devices];
-    tmp[idx].targetTemperature = tmp[idx].targetTemperature-1;
+    tmp[idx].targetTemperature = tmp[idx].targetTemperature - 1;
     setDevices(tmp);
 
-    postDevices(tmp) //! API CALL
-
+    postDevices(tmp); //! API CALL
   };
 
   const handlePlusTemperature = (idx) => {
-
     let tmp = [...devices];
-    tmp[idx].targetTemperature = tmp[idx].targetTemperature+1;
+    tmp[idx].targetTemperature = tmp[idx].targetTemperature + 1;
     setDevices(tmp);
 
-    postDevices(tmp) //! API CALL
-
+    postDevices(tmp); //! API CALL
   };
 
   const handleTemperatureOnOff = (idx) => {
-
     let tmp = [...devices];
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    postDevices(tmp) //! API CALL
+    postDevices(tmp); //! API CALL
   };
 
-  const handleLightColor = (val,idx) => {
-
+  const handleLightColor = (val, idx) => {
     let tmp = [...devices];
     tmp[idx].color = val;
     setDevices(tmp);
 
-    postDevices(tmp) //! API CALL
+    postDevices(tmp); //! API CALL
   };
 
-  const handleBrightnessChange = (val,idx) => {
+  const handleBrightnessChange = (val, idx) => {
+    let tmp = [...devices];
+    tmp[idx].brightness = val;
+    setDevices(tmp);
 
-      let tmp = [...devices];
-      tmp[idx].brightness = val;
-      setDevices(tmp);
-
-      postDevices(tmp) //! API CALL
+    postDevices(tmp); //! API CALL
   };
 
   const handleLightOnOff = (idx) => {
+    let tmp = [...devices];
+    tmp[idx].on = !tmp[idx].on;
+    setDevices(tmp);
 
-      let tmp = [...devices];
-      tmp[idx].on = !tmp[idx].on;
-      setDevices(tmp);
-
-      postDevices(tmp) //! API CALL
+    postDevices(tmp); //! API CALL
   };
 
   const handleCardAdd = (val) => {
-
-    let newID
-    if ( cards.length != 0){
-      newID = cards[cards.length-1].id + 1
-    }else{
-      newID = 1
+    let newID;
+    if (cards.length != 0) {
+      newID = cards[cards.length - 1].id + 1;
+    } else {
+      newID = 1;
     }
 
-    for(let i=0;i<cards.length;i++){
-      if (cards[i].id >= newID){
-        newID=cards[i].id+1
+    for (let i = 0; i < cards.length; i++) {
+      if (cards[i].id >= newID) {
+        newID = cards[i].id + 1;
       }
     }
 
-    setCards([...cards,{id:newID, type: val.type, room: val.room}]);
+    setCards([...cards, { id: newID, type: val.type, room: val.room }]);
 
-    postCards([...cards,{id:newID, type: val.type, room: val.room}]); //! API CALL
+    postCards([...cards, { id: newID, type: val.type, room: val.room }]); //! API CALL
   };
 
   const handleCardDelete = (idx) => {
-
     let tmp = [...cards];
     tmp.splice(idx, 1);
     setCards(tmp);
@@ -251,62 +322,97 @@ export default function Dashboard() {
   };
 
   const handleClickAlarm = (val) => {
-
     let tmp = [...devices];
 
-    for(let i=0;i<tmp.length;i++){
-      if (tmp[i].type === "Motion Sensor"){
-        tmp[i].on=val
+    for (let i = 0; i < tmp.length; i++) {
+      if (tmp[i].type === "Motion Sensor") {
+        tmp[i].on = val;
       }
     }
-    
+
     setDevices(tmp);
 
-    postDevices(tmp) //! API CALL
-  }
+    postDevices(tmp); //! API CALL
+  };
 
-  if ( devices === null || rooms === null || cards === null) {
+  if (devices === null || rooms === null || cards === null) {
     return (
       <>
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Skeleton variant="rounded" height="7vh" sx={{ borderRadius:"20px" }} />
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Skeleton
+              variant="rounded"
+              height="7vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="30vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Skeleton variant="rounded" height="30vh" sx={{ borderRadius:"20px" }} />
-        </Grid>
-      </Grid>
       </>
     );
   }
 
   return (
     <>
-      <AppBarStyled 
-        navbar={"dashboard"} 
-        devices={devices} 
-        rooms={rooms} 
+      <AppBarStyled
+        navbar={"dashboard"}
+        devices={devices}
+        rooms={rooms}
         cards={cards}
         handleCardAdd={handleCardAdd}
         handleCardDelete={handleCardDelete}
@@ -317,27 +423,26 @@ export default function Dashboard() {
       />
 
       <Grid container spacing={4}>
-        { cards.map( (card,idx) => {
-
-          if (card.type === "Light"){
-            return(
+        {cards.map((card, idx) => {
+          if (card.type === "Light") {
+            return (
               <Grid item xs={12} sm={6} md={3} key={idx}>
-                <LightsCard 
-                  devices={devices} 
+                <LightsCard
+                  devices={devices}
                   rooms={rooms}
                   handleLightColor={handleLightColor}
                   handleBrightnessChange={handleBrightnessChange}
                   handleLightOnOff={handleLightOnOff}
                 />
               </Grid>
-            )
+            );
           }
 
-          if (card.type === "Temperature"){
-            return(
+          if (card.type === "Temperature") {
+            return (
               <Grid item xs={12} sm={6} md={3} key={idx}>
-                <TemperatureCard 
-                  devices={devices} 
+                <TemperatureCard
+                  devices={devices}
                   rooms={rooms}
                   handleTemperatureTarget={handleTemperatureTarget}
                   handleMinusTemperature={handleMinusTemperature}
@@ -345,27 +450,28 @@ export default function Dashboard() {
                   handleTemperatureOnOff={handleTemperatureOnOff}
                 />
               </Grid>
-            )
+            );
           }
 
-          if (card.type === "Camera"){
-            return(
+          if (card.type === "Camera") {
+            return (
               <Grid item xs={12} sm={12} md={6} key={idx}>
-                <CameraCard devices={devices} rooms={rooms}/>
+                <CameraCard devices={devices} rooms={rooms} />
               </Grid>
-            )
+            );
           }
 
-          if (card.type === "Motion Sensor"){
-            return(
+          if (card.type === "Motion Sensor") {
+            return (
               <Grid item xs={12} sm={6} md={2} key={idx}>
-                <SecurityCard devices={devices} handleClickAlarm={handleClickAlarm}/>
+                <SecurityCard
+                  devices={devices}
+                  handleClickAlarm={handleClickAlarm}
+                />
               </Grid>
-            )
+            );
           }
-
-        })
-        }
+        })}
       </Grid>
     </>
   );
