@@ -58,7 +58,7 @@ export default function CameraCard(props) {
 
   };
 
-  React.useEffect( //! not trigerring change in render
+  React.useEffect( 
     () => {
       for(let i=0;i<props.devices.length;i++){
         if (props.devices[i].type === "Camera" && props.devices[i].room === selectedRoom){
@@ -110,3 +110,17 @@ export default function CameraCard(props) {
     </OutItem>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+CameraCard.propTypes = {
+  devices: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    room: PropTypes.string.isRequired,
+    endpoint: PropTypes.string.isRequired,
+  })).isRequired,
+  rooms: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+};

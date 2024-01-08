@@ -73,3 +73,14 @@ export default function SecurityCard(props) {
     </OutItem>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+SecurityCard.propTypes = {
+  devices: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    on: PropTypes.bool.isRequired,
+  })).isRequired,
+  handleClickAlarm: PropTypes.func.isRequired,
+};

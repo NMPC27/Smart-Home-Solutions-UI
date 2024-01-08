@@ -1,30 +1,18 @@
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slider from "@mui/material/Slider";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import RoomDeleteConfirmation from "./RoomDeleteConfirmation";
 import AddIcon from '@mui/icons-material/Add';
 import SettingsDialogAdd from "./SettingsDialogAdd";
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#BDC3C7",
@@ -107,7 +95,7 @@ export default function SettingsDialog(props) {
                 </Grid>
                 { props.cards.map( (val,idx) => {
                     return(
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} key={idx}>
                             <Item>                        
                                 <b> {val.type} Card </b>
                                 <div>
@@ -149,3 +137,19 @@ export default function SettingsDialog(props) {
         </>
     );
   }
+
+
+import PropTypes from 'prop-types';
+  
+  SettingsDialog.propTypes = {
+    openSettingsDialog: PropTypes.bool.isRequired,
+    handleCloseSettingsDialog: PropTypes.func.isRequired,
+    handleCardDelete: PropTypes.func.isRequired,
+    handleCardAdd: PropTypes.func.isRequired,
+    rooms: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    })).isRequired,
+    cards: PropTypes.arrayOf(PropTypes.shape({
+      type: PropTypes.string.isRequired,
+    })).isRequired,
+  };

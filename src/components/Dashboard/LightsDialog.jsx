@@ -1,7 +1,5 @@
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slider from "@mui/material/Slider";
 import CloseIcon from "@mui/icons-material/Close";
@@ -64,7 +62,7 @@ export default function LightsDialog(props) {
                 sx={{ marginTop: "0.25vh" }}
             >
                 <Grid item xs={12}>
-                <h3 align="left" style={{ marginTop: 0, marginBottom: 0 }}>
+                <h3 style={{ marginTop: 0, marginBottom: 0, textAlign:"left" }}>
                     Color
                 </h3>
                 </Grid>
@@ -84,7 +82,7 @@ export default function LightsDialog(props) {
                 />
                 </Grid>
                 <Grid item xs={12}>
-                <h3 align="left" style={{ marginTop: 0, marginBottom: 0 }}>
+                <h3 style={{ marginTop: 0, marginBottom: 0, textAlign:"left" }}>
                     Brightness
                 </h3>
                 </Grid>
@@ -118,3 +116,18 @@ export default function LightsDialog(props) {
         </Dialog>
     );
   }
+
+import PropTypes from 'prop-types';
+  
+  LightsDialog.propTypes = {
+    openDialog: PropTypes.bool.isRequired,
+    handleCloseDialog: PropTypes.func.isRequired,
+    handleLightColor: PropTypes.func.isRequired,
+    handleBrightnessChange: PropTypes.func.isRequired,
+    handleLightOnOff: PropTypes.func.isRequired,
+    devices: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      on: PropTypes.bool.isRequired,
+    })).isRequired,
+    deviceIdx: PropTypes.number.isRequired,
+  };

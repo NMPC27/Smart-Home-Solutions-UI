@@ -105,3 +105,19 @@ export default function EnergyConsumptionPie(props) {
     </OutItem>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+EnergyConsumptionPie.propTypes = {
+  consumption: PropTypes.shape({
+    grid: PropTypes.arrayOf(PropTypes.number).isRequired,
+    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
+    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+};
+
+
+PieCenterLabel.propTypes = {
+  children: PropTypes.node.isRequired,
+};

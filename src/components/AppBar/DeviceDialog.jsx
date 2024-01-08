@@ -1,9 +1,7 @@
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slider from "@mui/material/Slider";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import * as React from "react";
@@ -234,7 +232,7 @@ export default function DeviceDialog(props) {
 
                         {
                             props.devices.map((room, idx) => (                             
-                                <Item>
+                                <Item key={idx} >
                                     <Grid container spacing={2}>
                                         <Grid item xs={8}>
                                             <h3 style={{textAlign:"left", marginTop:"1vh", marginBottom:"1vh", marginLeft:"0.5vw"}}>{room.name}</h3>
@@ -327,3 +325,19 @@ export default function DeviceDialog(props) {
         </>
     );
   }
+
+
+import PropTypes from 'prop-types';
+
+DeviceDialog.propTypes = {
+  openDeviceDialog: PropTypes.bool.isRequired,
+  handleCloseDeviceDialog: PropTypes.func.isRequired,
+  handleDeviceAdd: PropTypes.func.isRequired,
+  handleDeleteDevice: PropTypes.func.isRequired,
+  rooms: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  devices: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+};

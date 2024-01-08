@@ -34,21 +34,21 @@ export default function Dashboard() {
       (res) => {
         setDevices(res.data)
       },
-      (error) => {
+      () => {
         navigate("/");
       }
     )
     getRooms().then((res) => {
         setRooms(res.data)
       },
-      (error) => {
+      () => {
         navigate("/");
       }
     )
     getCards().then((res) => {
         setCards(res.data)
       },
-      (error) => {
+      () => {
         navigate("/");
       }
     )  
@@ -321,7 +321,7 @@ export default function Dashboard() {
 
           if (card.type === "Light"){
             return(
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs={12} sm={6} md={3} key={idx}>
                 <LightsCard 
                   devices={devices} 
                   rooms={rooms}
@@ -335,7 +335,7 @@ export default function Dashboard() {
 
           if (card.type === "Temperature"){
             return(
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs={12} sm={6} md={3} key={idx}>
                 <TemperatureCard 
                   devices={devices} 
                   rooms={rooms}
@@ -350,7 +350,7 @@ export default function Dashboard() {
 
           if (card.type === "Camera"){
             return(
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item xs={12} sm={12} md={6} key={idx}>
                 <CameraCard devices={devices} rooms={rooms}/>
               </Grid>
             )
@@ -358,7 +358,7 @@ export default function Dashboard() {
 
           if (card.type === "Motion Sensor"){
             return(
-              <Grid item xs={12} sm={6} md={2}>
+              <Grid item xs={12} sm={6} md={2} key={idx}>
                 <SecurityCard devices={devices} handleClickAlarm={handleClickAlarm}/>
               </Grid>
             )

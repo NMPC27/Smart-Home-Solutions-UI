@@ -102,3 +102,16 @@ export default function EnergyProductionPie(props) {
     </OutItem>
   );
 }
+
+import PropTypes from 'prop-types';
+
+EnergyProductionPie.propTypes = {
+  production: PropTypes.shape({
+    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
+    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+};
+
+PieCenterLabel.propTypes = {
+  children: PropTypes.node.isRequired,
+};

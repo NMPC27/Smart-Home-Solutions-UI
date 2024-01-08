@@ -1,9 +1,7 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
@@ -38,10 +36,10 @@ export default function RoomDeleteConfirmation(props) {
             </h4>
             <h4 style={{color:'#FF0000'}}>Room to be deleted: {props.rooms[props.deleteIdx].name}</h4>
             <h4 style={{color:'#FF0000'}}>Devices to be deleted:</h4>
-            {props.devices.map( (device) => {
+            {props.devices.map( (device, idx) => {
                 if( device.room === props.rooms[props.deleteIdx].name){
                     return (
-                        <h4 style={{color:'#FF0000', marginLeft:'3vw'}}>• {device.name}</h4>
+                        <h4 key={idx} style={{color:'#FF0000', marginLeft:'3vw'}}>• {device.name}</h4>
                     )
                 }
             })
@@ -64,3 +62,20 @@ export default function RoomDeleteConfirmation(props) {
       </Dialog>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+RoomDeleteConfirmation.propTypes = {
+  openRoomDeleteConfirmation: PropTypes.bool.isRequired,
+  handleCloseRoomDeleteConfirmation: PropTypes.func.isRequired,
+  handleCloseRoomDeleteConfirmationOK: PropTypes.func.isRequired,
+  rooms: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  deleteIdx: PropTypes.number.isRequired,
+  devices: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    room: PropTypes.string.isRequired,
+  })).isRequired,
+};

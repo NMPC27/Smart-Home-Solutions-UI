@@ -1,4 +1,3 @@
-import * as React from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -144,3 +143,12 @@ export default function DrawerStyled(props) {
       </Drawer>
     );
 }
+
+
+import PropTypes from 'prop-types';
+
+DrawerStyled.propTypes = {
+  openDrawer: PropTypes.bool.isRequired,
+  handleCloseDrawer: PropTypes.func.isRequired,
+  navbar: PropTypes.string.isRequired,
+};

@@ -22,8 +22,8 @@ export default function Files() {
 
   React.useEffect(() => {
     getFiles("/").then(
-      (res) => {},
-      (error) => {
+      () => {},
+      () => {
         navigate("/");
       }
     )

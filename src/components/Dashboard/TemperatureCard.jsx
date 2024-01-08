@@ -205,7 +205,7 @@ export default function TemperatureCard(props) {
                 }
                 arcBackgroundColor="#AAAAAA"
               >              
-              <div class="prevent-select">
+              <div className="prevent-select">
                 {props.devices[deviceIdx].on ? (
                   <h2 style={{marginTop:"2vh"}}>Target {parseInt(targetTemperature)}°</h2>
                 ) : (
@@ -277,3 +277,23 @@ export default function TemperatureCard(props) {
     </OutItem>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+TemperatureCard.propTypes = {
+  devices: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    room: PropTypes.string.isRequired,
+    on: PropTypes.bool.isRequired,
+    targetTemperature: PropTypes.number.isRequired,
+    currentTemperature: PropTypes.number.isRequired,
+  })).isRequired,
+  rooms: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  handleMinusTemperature: PropTypes.func.isRequired,
+  handlePlusTemperature: PropTypes.func.isRequired,
+  handleTemperatureTarget: PropTypes.func.isRequired,
+  handleTemperatureOnOff: PropTypes.func.isRequired,
+};

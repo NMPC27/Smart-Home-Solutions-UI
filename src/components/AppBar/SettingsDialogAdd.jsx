@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
@@ -11,7 +10,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Grid from '@mui/material/Grid';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
@@ -136,3 +134,15 @@ export default function SettingsDialogAdd(props) {
     </>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+SettingsDialogAdd.propTypes = {
+  openSettingsDialogAdd: PropTypes.bool.isRequired,
+  handleCloseSettingsDialogAdd: PropTypes.func.isRequired,
+  handleCardAdd: PropTypes.func.isRequired,
+  rooms: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+};

@@ -1,14 +1,8 @@
-import AppBarStyled from "../components/AppBar/AppBarStyled";
-import LightsCard from "../components/Dashboard/LightsCard";
 import Grid from "@mui/material/Grid";
-import TemperatureCard from "../components/Dashboard/TemperatureCard";
-import SecurityCard from "../components/Dashboard/SecurityCard";
-import CameraCard from "../components/Dashboard/CameraCard";
 import * as React from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import LockIcon from '@mui/icons-material/Lock';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -218,7 +212,7 @@ export default function SignUp() {
             }
         }}
     >
-        Passwords don't match!
+        {"Passwords don't match!"}
     </Alert>
   </Snackbar>
   <Snackbar 

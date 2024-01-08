@@ -148,3 +148,20 @@ export default function AppBarStyled(props) {
     </>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+AppBarStyled.propTypes = {
+  navbar: PropTypes.string.isRequired,
+  handleDateChange: PropTypes.func,
+  rooms: PropTypes.array,
+  devices: PropTypes.array,
+  handleRoomAdd: PropTypes.func,
+  handleDeleteRoom: PropTypes.func,
+  handleDeviceAdd: PropTypes.func,
+  handleDeleteDevice: PropTypes.func,
+  handleCardAdd: PropTypes.func,
+  handleCardDelete: PropTypes.func,
+  cards: PropTypes.array,
+};

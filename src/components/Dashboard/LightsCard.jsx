@@ -4,7 +4,6 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
 import LightsDialog from "./LightsDialog";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -151,3 +150,21 @@ export default function LightsCard(props) {
     </OutItem>
   );
 }
+
+
+import PropTypes from 'prop-types';
+
+LightsCard.propTypes = {
+  devices: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    room: PropTypes.string.isRequired,
+    on: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  rooms: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  handleLightOnOff: PropTypes.func.isRequired,
+  handleLightColor: PropTypes.func.isRequired,
+  handleBrightnessChange: PropTypes.func.isRequired,
+};
