@@ -1,5 +1,9 @@
 # TODO:
 
+- Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
+- No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof
+- ver resto das sugestoes
+
 - tests
 
 - upload

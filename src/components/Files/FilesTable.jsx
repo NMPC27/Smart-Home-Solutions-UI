@@ -10,7 +10,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
@@ -134,42 +134,43 @@ export default function FilesTable() {
                 <TableCell align="right">Date</TableCell>
                 {!mobile && <TableCell align="right">Type</TableCell>}
                 <TableCell align="right">Size</TableCell>
-                <TableCell align="right">Open</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {data.map((row, idx) => (
-                <TableRow key={idx}>
+                <TableRow key={idx}
+                  onClick={() => {
+                    if (idx === 0 && path !== "/") {
+                      handleGoBack();
+                    } else if (row.type === "folder") {
+                      handleOpenFolder(idx);
+                    } else if (row.type !== "folder" && idx !== 0){
+                      handleDownloadFile(idx);
+                    }               
+                  }}
+                  sx={{ "&:hover": { bgcolor: "#F5F5F5" } }}
+                >
                   <TableCell component="th" scope="row">
-                    {idx !== 0 && path !== "/" && (
-                      <SubdirectoryArrowRightIcon />
+                    {idx === 0 && path !== "/" && (
+                      <IconButton onClick={() => handleGoBack()}>
+                        <ArrowBackIcon />
+                      </IconButton>
+                    )}
+                    {row.type === "folder" && (
+                      <IconButton onClick={() => handleOpenFolder(idx)}>
+                        <FolderIcon />
+                      </IconButton>
+                    )}
+                    {row.type !== "folder" && idx !== 0 &&(
+                      <IconButton onClick={() => handleDownloadFile(idx)}>
+                        <InsertDriveFileIcon />
+                      </IconButton>
                     )}
                     {row.fileName}
                   </TableCell>
                   <TableCell align="right">{row.date}</TableCell>
                   {!mobile && <TableCell align="right">{row.type}</TableCell>}
                   <TableCell align="right">{row.size}</TableCell>
-                  {row.type === "folder" && (
-                    <TableCell align="right">
-                      <IconButton onClick={() => handleOpenFolder(idx)}>
-                        <FolderIcon />
-                      </IconButton>
-                    </TableCell>
-                  )}
-                  {row.id === 0 && (
-                    <TableCell align="right">
-                      <IconButton onClick={() => handleGoBack()}>
-                        <ArrowBackIcon />
-                      </IconButton>
-                    </TableCell>
-                  )}
-                  {row.type !== "folder" && row.id !== 0 && (
-                    <TableCell align="right">
-                      <IconButton onClick={() => handleDownloadFile(idx)}>
-                        <DownloadIcon />
-                      </IconButton>
-                    </TableCell>
-                  )}
                 </TableRow>
               ))}
             </TableBody>
