@@ -56,6 +56,12 @@ export default function SignIn() {
     );
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleLogIn();
+    }
+  };
+
   return (
     <>
       <Grid container>
@@ -105,6 +111,7 @@ export default function SignIn() {
                     label: { color: "#FFFFFF" },
                   }}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "5vh" }}>
@@ -122,6 +129,7 @@ export default function SignIn() {
                     label: { color: "#FFFFFF" },
                   }}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "1vh" }}>

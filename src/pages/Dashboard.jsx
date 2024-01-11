@@ -8,6 +8,10 @@ import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
 import {
   getDevices,
   getRooms,
@@ -33,6 +37,8 @@ export default function Dashboard() {
   const [devices, setDevices] = React.useState(null);
   const [rooms, setRooms] = React.useState(null);
   const [cards, setCards] = React.useState(null);
+
+  const [globalRoom, setGlobalRoom] = React.useState("Any");
 
   React.useEffect(() => {
     getDevices().then(
@@ -165,7 +171,8 @@ export default function Dashboard() {
           type: type,
           room: room,
           name: deviceName,
-          endpoint: "c1.png",
+          on: true,
+          endpoint: "https://www.youtube.com/embed/BAyh4ViTMz8",
         },
       ]);
 
@@ -335,6 +342,14 @@ export default function Dashboard() {
     postDevices(tmp); //! API CALL
   };
 
+  const handleCameraOnOff = (idx) => {
+    let tmp = [...devices];
+    tmp[idx].on = !tmp[idx].on;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
   if (devices === null || rooms === null || cards === null) {
     return (
       <>
@@ -423,16 +438,43 @@ export default function Dashboard() {
       />
 
       <Grid container spacing={4}>
+
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Room</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={globalRoom}
+                label="Room"
+                onChange={(event) => setGlobalRoom(event.target.value)}
+              >
+                <MenuItem value={"Any"}>
+                  Any
+                </MenuItem>
+                {rooms.map((room, idx) => {
+                  return (
+                    <MenuItem key={idx} value={room.name}>
+                      {room.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={8}></Grid>
+
         {cards.map((card, idx) => {
           if (card.type === "Light") {
             return (
-              <Grid item xs={12} sm={6} md={3} key={idx}>
+              <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
                 <LightsCard
                   devices={devices}
                   rooms={rooms}
                   handleLightColor={handleLightColor}
                   handleBrightnessChange={handleBrightnessChange}
                   handleLightOnOff={handleLightOnOff}
+                  globalRoom={globalRoom}
                 />
               </Grid>
             );
@@ -440,7 +482,7 @@ export default function Dashboard() {
 
           if (card.type === "Temperature") {
             return (
-              <Grid item xs={12} sm={6} md={3} key={idx}>
+              <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
                 <TemperatureCard
                   devices={devices}
                   rooms={rooms}
@@ -448,6 +490,7 @@ export default function Dashboard() {
                   handleMinusTemperature={handleMinusTemperature}
                   handlePlusTemperature={handlePlusTemperature}
                   handleTemperatureOnOff={handleTemperatureOnOff}
+                  globalRoom={globalRoom}
                 />
               </Grid>
             );
@@ -455,18 +498,24 @@ export default function Dashboard() {
 
           if (card.type === "Camera") {
             return (
-              <Grid item xs={12} sm={12} md={6} key={idx}>
-                <CameraCard devices={devices} rooms={rooms} />
+              <Grid item xs={12} sm={12} md={6} lg={6} xl={6} key={idx}>
+                <CameraCard 
+                  devices={devices} 
+                  rooms={rooms} 
+                  handleCameraOnOff={handleCameraOnOff}
+                  globalRoom={globalRoom}
+                />
               </Grid>
             );
           }
 
           if (card.type === "Motion Sensor") {
             return (
-              <Grid item xs={12} sm={6} md={2} key={idx}>
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={idx}>
                 <SecurityCard
                   devices={devices}
                   handleClickAlarm={handleClickAlarm}
+                  globalRoom={globalRoom}
                 />
               </Grid>
             );

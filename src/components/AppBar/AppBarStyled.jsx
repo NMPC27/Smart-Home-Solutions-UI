@@ -14,6 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SettingsDialog from "./SettingsDialog";
+import RssFeedIcon from '@mui/icons-material/RssFeed';
 
 export default function AppBarStyled(props) {
   const theme = useTheme();
@@ -64,8 +65,9 @@ export default function AppBarStyled(props) {
             component="div"
             sx={{ flexGrow: 1, fontWeight: "bold" }}
           >
-            AppName
-          </Typography>
+            Smartify
+            <RssFeedIcon />
+          </Typography>          
           {props.navbar === "dashboard" && !mobile && (
             <Stack direction="row" spacing={2}>
               <Button

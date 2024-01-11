@@ -6,6 +6,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import * as React from "react";
+import IconButton from "@mui/material/IconButton";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -69,6 +71,13 @@ export default function CameraCard(props) {
     setDeviceIdx(-1);
   }, [props.devices]);
 
+
+  React.useEffect(() => {
+    if (props.globalRoom !== "Any"){
+      handleRoomChange(props.globalRoom)
+    }
+  }, [props.globalRoom]);
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Camera</h2>
@@ -76,12 +85,12 @@ export default function CameraCard(props) {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Camera</InputLabel>
+              <InputLabel id="demo-simple-select-label">Room</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={selectedRoom}
-                label="Camera"
+                label="Room"
                 onChange={(event) => handleRoomChange(event.target.value)}
               >
                 {props.rooms.map((room, idx) => {
@@ -94,16 +103,47 @@ export default function CameraCard(props) {
               </Select>
             </FormControl>
           </Grid>
+          {deviceIdx !== -1 && props.devices[deviceIdx] && 
+          <>
           <Grid item xs={12}>
-            {deviceIdx !== -1 && props.devices[deviceIdx] && (
+            { props.devices[deviceIdx].on ?
+              <iframe 
+                width="100%" 
+                style={{aspectRatio:"16/9", borderRadius:"10px"}}
+                src={props.devices[deviceIdx].endpoint+"?autoplay=1"}
+                allow="fullscreen"
+                frameborder="0" 
+                >
+              </iframe>
+              :
               <img
-                width="100%"
-                style={{ marginTop: "2vh", borderRadius: "20px" }}
-                src={props.devices[deviceIdx].endpoint}
+                width="50%"
+                style={{ marginTop: "2vh", borderRadius: "20px",  }}
+                src={"no-video.png"}
                 alt="ERROR!"
               />
-            )}
+            }
+            
           </Grid>
+          <Grid item xs={12}>
+            <IconButton
+              onClick={() => props.handleCameraOnOff(deviceIdx)}
+              sx={{
+                bgcolor: props.devices[deviceIdx].on
+                  ? "#FFC107"
+                  : "#DDDEDF",
+                "&:hover": {
+                  bgcolor: props.devices[deviceIdx].on
+                    ? "#D9A406"
+                    : "#B6B7B8",
+                },
+              }}
+            >
+              <PowerSettingsNewIcon />
+            </IconButton>
+          </Grid>
+          </>
+          }
         </Grid>
       </InItem>
     </OutItem>

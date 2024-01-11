@@ -2,12 +2,12 @@
 
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof
-- ver resto das sugestoes
+- drag and drop? E não era claro que estas definições eram para editar o dashboard. Talvez mudar para um ícone de um lápis e não se chamar settings 
+- teus cards ficassem todos juntos uns aos outros, era para seguir um bocadinho a lógica deste site https://poki.com
 
 - tests
-
 - upload
-- do filters of room
+
 - energy snackbar a dizer para rodar ecra
 - nos filtros por apenas as room onde esta aquele tipo de device
 - graficos quando no tele roda ficam cagados, usar vw

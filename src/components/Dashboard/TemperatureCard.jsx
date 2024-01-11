@@ -159,6 +159,12 @@ export default function TemperatureCard(props) {
     [props.devices],
   );
 
+  React.useEffect(() => {
+    if (props.globalRoom !== "Any"){
+      handleRoomChange(props.globalRoom)
+    }
+  }, [props.globalRoom]);
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Temperature</h2>

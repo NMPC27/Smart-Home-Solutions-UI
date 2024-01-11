@@ -76,6 +76,12 @@ export default function LightsCard(props) {
     [props.devices],
   );
 
+  React.useEffect(() => {
+    if (props.globalRoom !== "Any"){
+      setSelectedRoom(props.globalRoom)
+    }
+  }, [props.globalRoom]);
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>

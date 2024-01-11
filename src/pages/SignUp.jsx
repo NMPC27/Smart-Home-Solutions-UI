@@ -59,6 +59,12 @@ export default function SignUp() {
     });
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSignUp();
+    }
+  };
+
   return (
     <>
       <Grid container>
@@ -108,6 +114,7 @@ export default function SignUp() {
                     label: { color: "#FFFFFF" },
                   }}
                   onChange={(e) => setName(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "5vh" }}>
@@ -124,6 +131,7 @@ export default function SignUp() {
                     label: { color: "#FFFFFF" },
                   }}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "5vh" }}>
@@ -141,6 +149,7 @@ export default function SignUp() {
                     label: { color: "#FFFFFF" },
                   }}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "5vh" }}>
@@ -158,6 +167,7 @@ export default function SignUp() {
                     label: { color: "#FFFFFF" },
                   }}
                   onChange={(e) => setConfPassword(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "1vh" }}>
