@@ -439,7 +439,7 @@ export default function Dashboard() {
 
       <Grid container spacing={4}>
 
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={6} md={5} lg={4} xl={3}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Room</InputLabel>
               <Select
@@ -462,7 +462,7 @@ export default function Dashboard() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={8}></Grid>
+          <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>
 
         {cards.map((card, idx) => {
           if (card.type === "Light") {
