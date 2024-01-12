@@ -30,7 +30,7 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     if (mobile) {
-      document.body.style.margin = 0;
+      document.body.style.margin = "1vw";
     }
   }, [mobile]);
 
@@ -447,7 +447,7 @@ export default function Dashboard() {
       <Grid container spacing={4}>
 
           <Grid item xs={12} sm={6} md={5} lg={4} xl={3}>
-            <FormControl sx={{ marginLeft:"1vw", width:"98%" }}>
+            <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Room</InputLabel>
               <Select
                 labelId="demo-simple-select-label"

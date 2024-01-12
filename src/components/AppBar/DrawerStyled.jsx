@@ -29,8 +29,8 @@ export default function DrawerStyled(props) {
           borderRadius: "20px",
           color: "#FFFFFF",
           width: "250px",
-          margin: mobile ? 0 : "5vw",
-          marginTop: mobile ? 0 : "3vh",
+          margin: mobile ? "1vw" : "5vw",
+          marginTop: mobile ? "1vw" : "3vh",
         },
       }}
       anchor={"left"}

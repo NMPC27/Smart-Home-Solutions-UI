@@ -15,7 +15,7 @@ export default function Files() {
 
   React.useEffect(() => {
     if (mobile) {
-      document.body.style.margin = 0;
+      document.body.style.margin = "1vw";
     }
   }, [mobile]);
 

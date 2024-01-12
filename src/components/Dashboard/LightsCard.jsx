@@ -42,7 +42,7 @@ export default function LightsCard(props) {
 
   const [selectedRoom, setSelectedRoom] = React.useState(() => {
     if (deviceIdx === -1) {
-      return "all";
+      return "All";
     } else {
       return props.devices[deviceIdx].room;
     }
@@ -97,8 +97,8 @@ export default function LightsCard(props) {
                 label="Room"
                 onChange={(event) => setSelectedRoom(event.target.value)}
               >
-                <MenuItem key={0} value={"all"}>
-                  {"all"}
+                <MenuItem key={0} value={"All"}>
+                  {"All"}
                 </MenuItem>
                 {props.rooms.map((room, idx) => (
                   <MenuItem key={idx} value={room.name}>
@@ -112,7 +112,7 @@ export default function LightsCard(props) {
           {props.devices.map((val, idx) => {
             if (
               val.type === "Light" &&
-              (val.room === selectedRoom || selectedRoom === "all")
+              (val.room === selectedRoom || selectedRoom === "All")
             ) {
               return (
                 <Grid item xs={12} key={idx}>

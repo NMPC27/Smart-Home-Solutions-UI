@@ -19,7 +19,7 @@ export default function Energy() {
 
   React.useEffect(() => {
     if (mobile) {
-      document.body.style.margin = 0;
+      document.body.style.margin = "1vw";
     }
   }, [mobile]);
 

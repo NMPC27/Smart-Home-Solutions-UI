@@ -88,8 +88,8 @@ export default function SignUp() {
           <Box
             sx={{
               backgroundColor: "#111827",
-              borderTopRightRadius: "20px",
-              borderBottomRightRadius: "20px",
+              borderTopRightRadius: mobile ? 0 : "20px",
+              borderBottomRightRadius: mobile ? 0 : "20px",
             }}
             height={mobile ? "100vh" : "100%"}
           >
