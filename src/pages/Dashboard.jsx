@@ -24,15 +24,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down("md"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   let navigate = useNavigate();
 
   React.useEffect(() => {
-    if (mobile) {
+    if (tablet) {
       document.body.style.margin = "1vw";
     }
-  }, [mobile]);
+  }, [tablet]);
 
   const [devices, setDevices] = React.useState(null);
   const [rooms, setRooms] = React.useState(null);
@@ -469,7 +470,9 @@ export default function Dashboard() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>
+          { !mobile &&
+            <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>
+          }
 
         {cards.map((card, idx) => {
           if (card.type === "Light") {

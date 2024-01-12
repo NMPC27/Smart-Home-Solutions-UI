@@ -1,5 +1,6 @@
 import * as React from "react";
-import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
+import FlashOnIcon from '@mui/icons-material/FlashOn';
+import FlashOffIcon from '@mui/icons-material/FlashOff';
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -11,6 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Stack from '@mui/material/Stack';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -86,7 +88,7 @@ export default function LightsCard(props) {
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
       <InItem>
-        <Grid container spacing={4}>
+        <Grid container spacing={3} alignItems="center" >
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Room</InputLabel>
@@ -108,6 +110,7 @@ export default function LightsCard(props) {
               </Select>
             </FormControl>
           </Grid>
+        
 
           {props.devices.map((val, idx) => {
             if (
@@ -115,33 +118,33 @@ export default function LightsCard(props) {
               (val.room === selectedRoom || selectedRoom === "All")
             ) {
               return (
-                <Grid item xs={12} key={idx}>
-                  <Button
-                    fullWidth
-                    startIcon={
-                      <IconButton>
-                        <LightbulbOutlinedIcon />
-                      </IconButton>
-                    }
-                    endIcon={
-                      <IconButton>
-                        <SettingsIcon
-                          onClick={(e) => handleOpenDialog(e, idx)}
-                        />
-                      </IconButton>
-                    }
-                    sx={{
-                      borderRadius: "10px",
-                      bgcolor: val.on ? "#FFC107" : "#DDDEDF",
-                      "&:hover": { bgcolor: val.on ? "#D9A406" : "#B6B7B8" },
-                      color: val.on ? "#FFFFFF" : "#666666",
-                      padding: "0.5vw",
-                    }}
-                    onClick={() => props.handleLightOnOff(idx)}
-                  >
-                    <b style={{ width: "100%" }}>{val.name}</b>
-                  </Button>
+                <>
+                <Grid item xs={2}>
+                  <IconButton onClick={(e) => handleOpenDialog(e, idx)}>
+                    <SettingsIcon />
+                  </IconButton>
                 </Grid>
+                
+                <Grid item xs={7.5}>
+                  <h3>{val.name}</h3>
+                </Grid>
+
+                <Grid item xs={2.5}>
+                  <IconButton 
+                    onClick={() => props.handleLightOnOff(idx)}
+                    sx={{
+                      bgcolor: val.on && "#FFC107" ,
+                      "&:hover": { bgcolor: val.on && "#D9A406" },
+                    }}
+                  >
+                    { val.on ? 
+                      <FlashOnIcon /> 
+                      :
+                      <FlashOffIcon />
+                    }
+                  </IconButton>                  
+                </Grid>
+                </>
               );
             }
           })}
