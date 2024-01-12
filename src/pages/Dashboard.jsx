@@ -350,6 +350,12 @@ export default function Dashboard() {
     postDevices(tmp); //! API CALL
   };
 
+  const handleSetLayout = (val) => {
+    setCards(val);
+
+    postCards(val); //! API CALL
+  };
+
   if (devices === null || rooms === null || cards === null) {
     return (
       <>
@@ -435,12 +441,13 @@ export default function Dashboard() {
         handleDeleteRoom={handleDeleteRoom}
         handleDeviceAdd={handleDeviceAdd}
         handleDeleteDevice={handleDeleteDevice}
+        handleSetLayout={handleSetLayout}
       />
 
       <Grid container spacing={4}>
 
           <Grid item xs={12} sm={6} md={5} lg={4} xl={3}>
-            <FormControl fullWidth>
+            <FormControl sx={{ marginLeft:"1vw", width:"98%" }}>
               <InputLabel id="demo-simple-select-label">Room</InputLabel>
               <Select
                 labelId="demo-simple-select-label"

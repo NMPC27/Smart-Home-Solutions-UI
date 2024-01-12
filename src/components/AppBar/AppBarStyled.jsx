@@ -12,8 +12,8 @@ import RoomDialog from "./RoomDialog";
 import DeviceDialog from "./DeviceDialog";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import SettingsIcon from "@mui/icons-material/Settings";
-import SettingsDialog from "./SettingsDialog";
+import EditIcon from '@mui/icons-material/Edit';
+import EditDialog from "./EditDialog";
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 
 export default function AppBarStyled(props) {
@@ -26,7 +26,7 @@ export default function AppBarStyled(props) {
 
   const [openDeviceDialog, setOpenDeviceDialog] = React.useState(false);
 
-  const [openSettingsDialog, setOpenSettingsDialog] = React.useState(false);
+  const [openEditDialog, setOpenEditDialog] = React.useState(false);
 
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
@@ -40,8 +40,8 @@ export default function AppBarStyled(props) {
     setOpenDeviceDialog(false);
   };
 
-  const handleCloseSettingsDialog = () => {
-    setOpenSettingsDialog(false);
+  const handleCloseEditDialog = () => {
+    setOpenEditDialog(false);
   };
 
   return (
@@ -88,10 +88,10 @@ export default function AppBarStyled(props) {
           )}
           {props.navbar === "dashboard" && (
             <IconButton
-              onClick={() => setOpenSettingsDialog(true)}
+              onClick={() => setOpenEditDialog(true)}
               sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
             >
-              <SettingsIcon />
+              <EditIcon />
             </IconButton>
           )}
           {props.navbar === "energy" && !mobile && (
@@ -140,13 +140,14 @@ export default function AppBarStyled(props) {
             handleDeleteDevice={props.handleDeleteDevice}
           />
 
-          <SettingsDialog
-            openSettingsDialog={openSettingsDialog}
-            handleCloseSettingsDialog={handleCloseSettingsDialog}
+          <EditDialog
+            openEditDialog={openEditDialog}
+            handleCloseEditDialog={handleCloseEditDialog}
             handleCardAdd={props.handleCardAdd}
             handleCardDelete={props.handleCardDelete}
             cards={props.cards}
             rooms={props.rooms}
+            handleSetLayout={props.handleSetLayout}
           />
         </>
       )}

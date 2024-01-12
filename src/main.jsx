@@ -8,6 +8,7 @@ import Files from "./pages/Files";
 import Automation from "./pages/Automation";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     path: "/files",
     element: <Files />,
   },
+  {
+    path: "*",
+    element: <NotFound />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

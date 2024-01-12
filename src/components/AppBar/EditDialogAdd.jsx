@@ -19,12 +19,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const suportedDevices = ["Light", "Temperature", "Motion Sensor", "Camera"];
 
-export default function SettingsDialogAdd(props) {
+export default function EditDialogAdd(props) {
   const [selectedType, setSelectedType] = React.useState();
   const [selectedRoom, setSelectedRoom] = React.useState();
   const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // Select a type and room
 
-  const handleCloseSettingsDialogAddOK = () => {
+  const handleCloseEditDialogAddOK = () => {
     if (!selectedType || !selectedRoom) {
       setOpenErrorMsg(true);
       return;
@@ -32,21 +32,21 @@ export default function SettingsDialogAdd(props) {
 
     props.handleCardAdd({ type: selectedType, room: selectedRoom });
 
-    props.handleCloseSettingsDialogAdd();
+    props.handleCloseEditDialogAdd();
   };
 
   return (
     <>
       <Dialog
         fullWidth
-        open={props.openSettingsDialogAdd}
-        onClose={() => props.handleCloseSettingsDialogAdd()}
+        open={props.openEditDialogAdd}
+        onClose={() => props.handleCloseEditDialogAdd()}
         PaperProps={{ sx: { borderRadius: "20px" } }}
       >
         <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
           <h3 style={{ marginTop: 0, marginBottom: 0 }}>Add Card</h3>
           <IconButton
-            onClick={() => props.handleCloseSettingsDialogAdd()}
+            onClick={() => props.handleCloseEditDialogAdd()}
             sx={{
               position: "absolute",
               right: 12,
@@ -96,13 +96,13 @@ export default function SettingsDialogAdd(props) {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => props.handleCloseSettingsDialogAdd()}
+            onClick={() => props.handleCloseEditDialogAdd()}
             sx={{ borderRadius: "20px", fontWeight: "bold", color: "#000000" }}
           >
             Cancel
           </Button>
           <Button
-            onClick={() => handleCloseSettingsDialogAddOK()}
+            onClick={() => handleCloseEditDialogAddOK()}
             sx={{
               borderRadius: "20px",
               fontWeight: "bold",
@@ -143,9 +143,9 @@ export default function SettingsDialogAdd(props) {
 
 import PropTypes from "prop-types";
 
-SettingsDialogAdd.propTypes = {
-  openSettingsDialogAdd: PropTypes.bool.isRequired,
-  handleCloseSettingsDialogAdd: PropTypes.func.isRequired,
+EditDialogAdd.propTypes = {
+  openEditDialogAdd: PropTypes.bool.isRequired,
+  handleCloseEditDialogAdd: PropTypes.func.isRequired,
   handleCardAdd: PropTypes.func.isRequired,
   rooms: PropTypes.arrayOf(
     PropTypes.shape({

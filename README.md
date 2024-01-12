@@ -2,8 +2,13 @@
 
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof
-- drag and drop? E não era claro que estas definições eram para editar o dashboard. Talvez mudar para um ícone de um lápis e não se chamar settings 
 - teus cards ficassem todos juntos uns aos outros, era para seguir um bocadinho a lógica deste site https://poki.com
+- improve edit (resize de cards e por onde quiser)
+
+- mudar lights
+- fzr variaas tabs de dashboard
+- editar name dos devices
+- selecionar no grafico - tipo escolher a cor e so aparecer essa
 
 - tests
 - upload

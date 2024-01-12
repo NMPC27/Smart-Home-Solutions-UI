@@ -12,7 +12,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
-import SettingsDialogAdd from "./SettingsDialogAdd";
+import EditDialogAdd from "./EditDialogAdd";
+import GridLayout from "react-grid-layout";
+import Button from "@mui/material/Button";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#BDC3C7",
@@ -48,15 +50,55 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function SettingsDialog(props) {
+export default function EditDialog(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  const [openSettingsDialogAdd, setOpenSettingsDialogAdd] =
+  const [size, setSize] = React.useState(null);
+
+  const [numCol, setNumCol] = React.useState(() => {
+    if (mobile){
+      return 1;
+    }else if(tablet){
+      return 2;
+    }else{
+      return 4;
+    }
+  });
+
+  const dialogGrid = React.useCallback((node) => {
+    //! Resize grid
+    if (node !== null) {
+      setSize(node.getBoundingClientRect().width);
+    }
+  }, []);
+
+  const [openEditDialogAdd, setOpenEditDialogAdd] =
     React.useState(false);
 
-  const handleCloseSettingsDialogAdd = () => {
-    setOpenSettingsDialogAdd(false);
+  const handleCloseEditDialogAdd = () => {
+    setOpenEditDialogAdd(false);
+  };
+
+  const handleLayoutChange = (currentLayout) => {
+
+    const tmp = [];
+
+    for(let i=0;i<currentLayout.length;i++){
+      let newIdx = currentLayout[i].x + currentLayout[i].y*numCol
+      tmp[newIdx] = props.cards[i]
+    }
+
+    const order = []
+
+    for(let i=0;i<tmp.length;i++){
+      if(tmp[i] !== undefined){
+        order.push(tmp[i])
+      }
+    }
+
+    props.handleSetLayout(order)
   };
 
   return (
@@ -64,17 +106,17 @@ export default function SettingsDialog(props) {
       <Dialog
         fullWidth
         maxWidth={"md"}
-        open={props.openSettingsDialog}
+        open={props.openEditDialog}
         TransitionComponent={Transition}
         keepMounted
-        onClose={() => props.handleCloseSettingsDialog()}
+        onClose={() => props.handleCloseEditDialog()}
         PaperProps={{ sx: { borderRadius: "20px" } }}
       >
         <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
-          <h3 style={{ marginTop: 0, marginBottom: 0 }}>Settings</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 0 }}>Edit</h3>
 
           <IconButton
-            onClick={() => props.handleCloseSettingsDialog()}
+            onClick={() => props.handleCloseEditDialog()}
             sx={{
               position: "absolute",
               right: 12,
@@ -87,20 +129,42 @@ export default function SettingsDialog(props) {
         </DialogTitle>
         <DialogContent
           style={mobile ? { height: "60vh" } : { aspectRatio: "16/9" }}
+          ref={dialogGrid}
         >
-          <Grid container spacing={2} marginTop={"0.2vh"}>
-            <Grid item xs={12}>
-              <h3 style={{ marginTop: "0vh", marginBottom: "0vh" }}>
+          <Grid container spacing={2}>
+            <Grid item xs={mobile ? 12 : 10}>
+              <h3 style={{ marginTop: "1.6vh", marginBottom: "0vh" }}>
                 Select order of the cards
               </h3>
             </Grid>
+            <Grid item xs={ mobile ? 12 : 2} textAlign={mobile ? 'center' : "right"}>
+              <Button
+                variant="contained"
+                sx={{ fontWeight: "bold", marginTop: "1vh", marginBottom: "0vh"}}
+                onClick={() => setOpenEditDialogAdd(true)}                
+              >
+                + Card
+              </Button>
+            </Grid>
+          </Grid>
+
+          <GridLayout 
+            className="layout" 
+            cols={numCol} 
+            margin={[30, 30]} 
+            rowHeight={120} 
+            width={size-70} 
+            isResizable={false}
+            onLayoutChange={ (currentLayout) => handleLayoutChange(currentLayout) }
+          >
             {props.cards.map((val, idx) => {
               return (
-                <Grid item xs={12} sm={6} md={3} key={idx}>
-                  <Item>
-                    <b> {val.type} Card </b>
+                  <Item key={val.id} data-grid={{ x: idx%numCol, y: Math.floor(idx / numCol) , w: 1, h: 1 }}>
+                    <b className="prevent-select"> {val.type} Card </b>
                     <div>
                       <IconButton
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onTouchStart={(e) => e.stopPropagation()}
                         onClick={() => props.handleCardDelete(idx)}
                         sx={{
                           color: "#FFFFFF",
@@ -110,25 +174,15 @@ export default function SettingsDialog(props) {
                       </IconButton>
                     </div>
                   </Item>
-                </Grid>
               );
             })}
-
-            <Grid item xs={12} sm={6} md={3}>
-              <ItemAdd elevation={0}>
-                <div>
-                  <IconButton onClick={() => setOpenSettingsDialogAdd(true)}>
-                    <AddIcon />
-                  </IconButton>
-                </div>
-              </ItemAdd>
-            </Grid>
-          </Grid>
+          </GridLayout>
+            
         </DialogContent>
       </Dialog>
-      <SettingsDialogAdd
-        openSettingsDialogAdd={openSettingsDialogAdd}
-        handleCloseSettingsDialogAdd={handleCloseSettingsDialogAdd}
+      <EditDialogAdd
+        openEditDialogAdd={openEditDialogAdd}
+        handleCloseEditDialogAdd={handleCloseEditDialogAdd}
         handleCardAdd={props.handleCardAdd}
         rooms={props.rooms}
       />
@@ -138,9 +192,9 @@ export default function SettingsDialog(props) {
 
 import PropTypes from "prop-types";
 
-SettingsDialog.propTypes = {
-  openSettingsDialog: PropTypes.bool.isRequired,
-  handleCloseSettingsDialog: PropTypes.func.isRequired,
+EditDialog.propTypes = {
+  openEditDialog: PropTypes.bool.isRequired,
+  handleCloseEditDialog: PropTypes.func.isRequired,
   handleCardDelete: PropTypes.func.isRequired,
   handleCardAdd: PropTypes.func.isRequired,
   rooms: PropTypes.arrayOf(

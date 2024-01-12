@@ -111,7 +111,7 @@ export default function CameraCard(props) {
                 width="100%" 
                 style={{aspectRatio:"16/9", borderRadius:"10px"}}
                 src={props.devices[deviceIdx].endpoint+"?autoplay=1"}
-                allow="fullscreen"
+                allow="fullscreen; autoplay;"
                 frameborder="0" 
                 >
               </iframe>
