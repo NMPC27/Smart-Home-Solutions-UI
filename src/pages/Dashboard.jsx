@@ -19,6 +19,8 @@ import {
   postDevices,
   postRooms,
   postCards,
+  getNotifications,
+  postNotifications
 } from "../components/API";
 import { useNavigate } from "react-router-dom";
 
@@ -38,8 +40,20 @@ export default function Dashboard() {
   const [devices, setDevices] = React.useState(null);
   const [rooms, setRooms] = React.useState(null);
   const [cards, setCards] = React.useState(null);
+  const [notifications, setNotifications] = React.useState([]);
 
   const [globalRoom, setGlobalRoom] = React.useState("Any");
+
+  React.useEffect(() => {
+    setInterval(() => {
+      getNotifications().then(
+        (res) => {
+          setNotifications(res.data);
+        }
+      )
+    }
+    , 5000);
+  },[])
 
   React.useEffect(() => {
     getDevices().then(
@@ -357,6 +371,14 @@ export default function Dashboard() {
     postCards(val); //! API CALL
   };
 
+  const handleDeleteNotification = (idx) => {
+    let tmp = [...notifications];
+    tmp.splice(idx, 1);
+    setNotifications(tmp);
+
+    postNotifications(tmp); //! API CALL
+  };
+
   if (devices === null || rooms === null || cards === null) {
     return (
       <>
@@ -443,6 +465,8 @@ export default function Dashboard() {
         handleDeviceAdd={handleDeviceAdd}
         handleDeleteDevice={handleDeleteDevice}
         handleSetLayout={handleSetLayout}
+        notifications={notifications}
+        handleDeleteNotification={handleDeleteNotification}
       />
 
       <Grid container spacing={4}>

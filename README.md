@@ -9,6 +9,7 @@
 - editar name dos devices
 - mostrar nome do device
 - selecionar no grafico - tipo escolher a cor e so aparecer essa
+- enviar email em caso de intrusao
 
 - tests
 - upload

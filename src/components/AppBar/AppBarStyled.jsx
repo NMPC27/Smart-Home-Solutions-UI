@@ -15,6 +15,11 @@ import { useTheme } from "@mui/material/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import EditDialog from "./EditDialog";
 import RssFeedIcon from '@mui/icons-material/RssFeed';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Badge from '@mui/material/Badge';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function AppBarStyled(props) {
   const theme = useTheme();
@@ -27,6 +32,8 @@ export default function AppBarStyled(props) {
   const [openDeviceDialog, setOpenDeviceDialog] = React.useState(false);
 
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
+
+  const [openNotifications, setOpenNotifications] = React.useState(false);
 
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
@@ -87,12 +94,56 @@ export default function AppBarStyled(props) {
             </Stack>
           )}
           {props.navbar === "dashboard" && (
+            <>
             <IconButton
               onClick={() => setOpenEditDialog(true)}
               sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
             >
               <EditIcon />
             </IconButton>
+
+            <IconButton
+              onClick={() => setOpenNotifications(true)}
+              sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
+            >
+              <Badge badgeContent={props.notifications.length} color="primary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+
+            <Menu
+              id="menu-appbar"
+              anchorEl={openNotifications}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={openNotifications}
+              onClose={() => setOpenNotifications(false)}
+            >
+              {props.notifications.map((notification,idx) => {
+
+                return(
+                  <MenuItem>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <h4>{notification.msg}</h4>
+                      <IconButton
+                        onClick={() => props.handleDeleteNotification(idx)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Stack>
+                  </MenuItem>
+                )
+              })}
+              
+            </Menu>
+            </>
           )}
           {props.navbar === "energy" && !mobile && (
             <BasicDatePicker handleDateChange={props.handleDateChange} />

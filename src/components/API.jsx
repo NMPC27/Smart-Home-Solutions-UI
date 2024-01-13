@@ -1,6 +1,6 @@
 import axios from "axios";
 
-//const endpoint = "http://127.0.0.1:8000";
+// const endpoint = "http://127.0.0.1:8000";
 const endpoint = "https://smart-home-solutions-api.onrender.com";
 
 export function doLogin(email, password) {
@@ -53,6 +53,18 @@ export function getCards() {
   });
 }
 
+export function getNotifications() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/notifications", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+
 export function postDevices(data) {
   let token = localStorage.getItem("token");
 
@@ -88,6 +100,21 @@ export function postCards(data) {
 
   return axios.post(
     endpoint + "/cards",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function postNotifications(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/notifications",
     { data },
     {
       headers: {
