@@ -10,9 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Stack from '@mui/material/Stack';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -184,4 +182,5 @@ LightsCard.propTypes = {
   handleLightOnOff: PropTypes.func.isRequired,
   handleLightColor: PropTypes.func.isRequired,
   handleBrightnessChange: PropTypes.func.isRequired,
+  globalRoom: PropTypes.string.isRequired,
 };

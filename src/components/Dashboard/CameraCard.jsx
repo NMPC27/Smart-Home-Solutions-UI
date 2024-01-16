@@ -112,7 +112,7 @@ export default function CameraCard(props) {
                 style={{aspectRatio:"16/9", borderRadius:"10px"}}
                 src={props.devices[deviceIdx].endpoint+"?autoplay=1"}
                 allow="fullscreen; autoplay;"
-                frameborder="0" 
+                frameBorder="0" 
                 >
               </iframe>
               :
@@ -155,14 +155,17 @@ import PropTypes from "prop-types";
 CameraCard.propTypes = {
   devices: PropTypes.arrayOf(
     PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      room: PropTypes.string.isRequired,
-      endpoint: PropTypes.string.isRequired,
-    }),
+      type: PropTypes.string,
+      room: PropTypes.string,
+      on: PropTypes.bool,
+      endpoint: PropTypes.string,
+    })
   ).isRequired,
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
+      name: PropTypes.string,
+    })
   ).isRequired,
+  globalRoom: PropTypes.string.isRequired,
+  handleCameraOnOff: PropTypes.func.isRequired,
 };

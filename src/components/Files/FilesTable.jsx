@@ -22,7 +22,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: "center",
+  textAlign: "left",
   color: "#FFFFFF",
   borderRadius: "20px",
 }));
@@ -111,7 +111,7 @@ export default function FilesTable() {
       <OutItem elevation={5}>
         <Grid container>
           <Grid item xs={10} sm={11} md={11.5}>
-            <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
+            <h2 style={{ marginTop: "1vh", marginBottom: "2vh", marginLeft: "1vw" }}>
               Files: {path}
             </h2>
           </Grid>

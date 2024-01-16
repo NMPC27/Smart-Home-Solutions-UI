@@ -11,7 +11,6 @@ import { styled } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import AddIcon from "@mui/icons-material/Add";
 import EditDialogAdd from "./EditDialogAdd";
 import GridLayout from "react-grid-layout";
 import Button from "@mui/material/Button";
@@ -30,22 +29,6 @@ const Item = styled(Paper)(({ theme }) => ({
   justifyContent: "center",
 }));
 
-const ItemAdd = styled(Paper)(({ theme }) => ({
-  borderWidth: 2,
-  borderStyle: "dashed",
-  borderColor: "#95A5A6",
-  "&:hover": { backgroundColor: "#E5E7E9" },
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: "#95A5A6",
-  borderRadius: "20px",
-  aspectRatio: "16/9",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-}));
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -57,7 +40,8 @@ export default function EditDialog(props) {
 
   const [size, setSize] = React.useState(null);
 
-  const [numCol, setNumCol] = React.useState(() => {
+    // const [numCol, setNumCol] = React.useState(() => {
+  const [numCol, ] = React.useState(() => {
     if (mobile){
       return 1;
     }else if(tablet){
@@ -197,6 +181,7 @@ EditDialog.propTypes = {
   handleCloseEditDialog: PropTypes.func.isRequired,
   handleCardDelete: PropTypes.func.isRequired,
   handleCardAdd: PropTypes.func.isRequired,
+  handleSetLayout: PropTypes.func.isRequired,
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

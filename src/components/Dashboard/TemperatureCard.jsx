@@ -312,4 +312,5 @@ TemperatureCard.propTypes = {
   handlePlusTemperature: PropTypes.func.isRequired,
   handleTemperatureTarget: PropTypes.func.isRequired,
   handleTemperatureOnOff: PropTypes.func.isRequired,
+  globalRoom: PropTypes.string.isRequired,
 };
