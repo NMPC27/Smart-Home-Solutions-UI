@@ -47,7 +47,7 @@ export default function EditDialog(props) {
     }else if(tablet){
       return 2;
     }else{
-      return 4;
+      return 12;
     }
   });
 
@@ -67,22 +67,21 @@ export default function EditDialog(props) {
 
   const handleLayoutChange = (currentLayout) => {
 
-    const tmp = [];
+    const newLayout = []
 
-    for(let i=0;i<currentLayout.length;i++){
-      let newIdx = currentLayout[i].x + currentLayout[i].y*numCol
-      tmp[newIdx] = props.cards[i]
+    for (let i = 0; i < props.cards.length; i++) {
+      newLayout.push({
+        type: props.cards[i].type, 
+        room: props.cards[i].room,
+        i: ''+i,
+        x: currentLayout[i].x,
+        y: currentLayout[i].y,
+        w: currentLayout[i].w,
+        h: currentLayout[i].h,
+      })
     }
 
-    const order = []
-
-    for(let i=0;i<tmp.length;i++){
-      if(tmp[i] !== undefined){
-        order.push(tmp[i])
-      }
-    }
-
-    props.handleSetLayout(order)
+    props.handleSetLayout(newLayout)
   };
 
   return (
@@ -136,14 +135,15 @@ export default function EditDialog(props) {
             className="layout" 
             cols={numCol} 
             margin={[30, 30]} 
-            rowHeight={120} 
+            rowHeight={100} 
             width={size-70} 
             isResizable={false}
+            layout={props.cards}
             onLayoutChange={ (currentLayout) => handleLayoutChange(currentLayout) }
           >
             {props.cards.map((val, idx) => {
               return (
-                  <Item key={val.id} data-grid={{ x: idx%numCol, y: Math.floor(idx / numCol) , w: 1, h: 1 }}>
+                  <Item key={val.i}>
                     <b className="prevent-select"> {val.type} Card </b>
                     <div>
                       <IconButton
