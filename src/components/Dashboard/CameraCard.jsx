@@ -76,10 +76,9 @@ export default function CameraCard(props) {
     setDeviceIdx(-1);
   }, [props.devices]);
 
-
   React.useEffect(() => {
-    if (props.globalRoom !== "Any"){
-      handleRoomChange(props.globalRoom)
+    if (props.globalRoom !== "Any") {
+      handleRoomChange(props.globalRoom);
     }
   }, [props.globalRoom]);
 
@@ -108,55 +107,53 @@ export default function CameraCard(props) {
               </Select>
             </FormControl>
           </Grid>
-          {deviceIdx !== -1 && props.devices[deviceIdx] && 
-          <>
-          <Grid item xs={12}>
-            { props.devices[deviceIdx].on ?
-              <iframe 
-                width="100%" 
-                style={{aspectRatio:"16/9", borderRadius:"10px"}}
-                src={props.devices[deviceIdx].endpoint+"?autoplay=1"}
-                allow="fullscreen; autoplay;"
-                frameBorder="0" 
-                >
-              </iframe>
-              :
-              <img
-                width="50%"
-                style={{ marginTop: "2vh", borderRadius: "20px",  }}
-                src={"no-video.png"}
-                alt="ERROR!"
-              />
-            }
-            
-          </Grid>
-          
-          { !mobile && 
-            <Grid item xs={5.5}></Grid>
-          }
+          {deviceIdx !== -1 && props.devices[deviceIdx] && (
+            <>
+              <Grid item xs={12}>
+                {props.devices[deviceIdx].on ? (
+                  <iframe
+                    width="100%"
+                    style={{ aspectRatio: "16/9", borderRadius: "10px" }}
+                    src={props.devices[deviceIdx].endpoint + "?autoplay=1"}
+                    allow="fullscreen; autoplay;"
+                    frameBorder="0"
+                  ></iframe>
+                ) : (
+                  <img
+                    width="50%"
+                    style={{ marginTop: "2vh", borderRadius: "20px" }}
+                    src={"no-video.png"}
+                    alt="ERROR!"
+                  />
+                )}
+              </Grid>
 
-          <Grid item xs={1}>
-            <IconButton
-              onClick={() => props.handleCameraOnOff(deviceIdx)}
-              sx={{
-                bgcolor: props.devices[deviceIdx].on
-                  ? "#FFC107"
-                  : "#DDDEDF",
-                "&:hover": {
-                  bgcolor: props.devices[deviceIdx].on
-                    ? "#D9A406"
-                    : "#B6B7B8",
-                },
-              }}
-            >
-              <PowerSettingsNewIcon />
-            </IconButton>
-          </Grid>
-          <Grid item xs={!mobile ? 5.5 : 11}>
-            <h3 style={{marginBottom:0, marginTop:"1vh"}} >Camera: {props.devices[deviceIdx].name}</h3>
-          </Grid>
-          </>
-          }
+              {!mobile && <Grid item xs={5.5}></Grid>}
+
+              <Grid item xs={1}>
+                <IconButton
+                  onClick={() => props.handleCameraOnOff(deviceIdx)}
+                  sx={{
+                    bgcolor: props.devices[deviceIdx].on
+                      ? "#FFC107"
+                      : "#DDDEDF",
+                    "&:hover": {
+                      bgcolor: props.devices[deviceIdx].on
+                        ? "#D9A406"
+                        : "#B6B7B8",
+                    },
+                  }}
+                >
+                  <PowerSettingsNewIcon />
+                </IconButton>
+              </Grid>
+              <Grid item xs={!mobile ? 5.5 : 11}>
+                <h3 style={{ marginBottom: 0, marginTop: "1vh" }}>
+                  Camera: {props.devices[deviceIdx].name}
+                </h3>
+              </Grid>
+            </>
+          )}
         </Grid>
       </InItem>
     </OutItem>
@@ -172,12 +169,13 @@ CameraCard.propTypes = {
       room: PropTypes.string,
       on: PropTypes.bool,
       endpoint: PropTypes.string,
-    })
+      name: PropTypes.string.isRequired,
+    }),
   ).isRequired,
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-    })
+    }),
   ).isRequired,
   globalRoom: PropTypes.string.isRequired,
   handleCameraOnOff: PropTypes.func.isRequired,

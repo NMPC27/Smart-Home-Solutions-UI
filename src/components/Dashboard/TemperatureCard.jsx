@@ -166,8 +166,8 @@ export default function TemperatureCard(props) {
   );
 
   React.useEffect(() => {
-    if (props.globalRoom !== "Any"){
-      handleRoomChange(props.globalRoom)
+    if (props.globalRoom !== "Any") {
+      handleRoomChange(props.globalRoom);
     }
   }, [props.globalRoom]);
 
@@ -197,7 +197,15 @@ export default function TemperatureCard(props) {
 
           {props.devices[deviceIdx] !== undefined && (
             <>
-              <h2 style={{textAlign:"center", width:"100%", marginLeft:"1vw"}}>{props.devices[deviceIdx].name}</h2>
+              <h2
+                style={{
+                  textAlign: "center",
+                  width: "100%",
+                  marginLeft: "1vw",
+                }}
+              >
+                {props.devices[deviceIdx].name}
+              </h2>
               <Grid item xs={12} marginBottom="2vh" ref={slider}>
                 <CircularSliderWithChildren
                   disabled={!props.devices[deviceIdx].on}
@@ -223,19 +231,19 @@ export default function TemperatureCard(props) {
                 >
                   <div className="prevent-select">
                     {props.devices[deviceIdx].on ? (
-                      <h2 
-                        style={{ 
-                          marginTop: "2vh", 
-                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em"
+                      <h2
+                        style={{
+                          marginTop: "2vh",
+                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em",
                         }}
                       >
                         Target {parseInt(targetTemperature)}°
                       </h2>
                     ) : (
-                      <h2 
-                        style={{ 
+                      <h2
+                        style={{
                           marginTop: "2vh",
-                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em"
+                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em",
                         }}
                       >
                         OFF
@@ -251,8 +259,8 @@ export default function TemperatureCard(props) {
                       }}
                     />
                     <h2
-                      style={{ 
-                        fontSize: pcMG && !pcG ? "1.6em" : "2.1em"
+                      style={{
+                        fontSize: pcMG && !pcG ? "1.6em" : "2.1em",
                       }}
                     >
                       Now {props.devices[deviceIdx].currentTemperature}°
@@ -326,6 +334,7 @@ TemperatureCard.propTypes = {
       on: PropTypes.bool.isRequired,
       targetTemperature: PropTypes.number.isRequired,
       currentTemperature: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
     }),
   ).isRequired,
   rooms: PropTypes.arrayOf(
@@ -338,4 +347,5 @@ TemperatureCard.propTypes = {
   handleTemperatureTarget: PropTypes.func.isRequired,
   handleTemperatureOnOff: PropTypes.func.isRequired,
   globalRoom: PropTypes.string.isRequired,
+  sliderSize: PropTypes.number,
 };

@@ -40,13 +40,13 @@ export default function EditDialog(props) {
 
   const [size, setSize] = React.useState(null);
 
-    // const [numCol, setNumCol] = React.useState(() => {
-  const [numCol, ] = React.useState(() => {
-    if (mobile){
+  // const [numCol, setNumCol] = React.useState(() => {
+  const [numCol] = React.useState(() => {
+    if (mobile) {
       return 1;
-    }else if(tablet){
+    } else if (tablet) {
       return 2;
-    }else{
+    } else {
       return 12;
     }
   });
@@ -58,33 +58,30 @@ export default function EditDialog(props) {
     }
   }, []);
 
-  const [openEditDialogAdd, setOpenEditDialogAdd] =
-    React.useState(false);
+  const [openEditDialogAdd, setOpenEditDialogAdd] = React.useState(false);
 
   const handleCloseEditDialogAdd = () => {
     setOpenEditDialogAdd(false);
   };
 
   const handleLayoutChange = (currentLayout) => {
-
-    const newLayout = []
+    const newLayout = [];
 
     for (let i = 0; i < props.cards.length; i++) {
       newLayout.push({
-        type: props.cards[i].type, 
+        type: props.cards[i].type,
         room: props.cards[i].room,
-        i: ''+i,
+        i: "" + i,
         x: currentLayout[i].x,
         y: currentLayout[i].y,
         w: currentLayout[i].w,
         h: currentLayout[i].h,
-      })
+      });
     }
 
-    if(!tablet){
-      props.handleSetLayout(newLayout)
+    if (!tablet) {
+      props.handleSetLayout(newLayout);
     }
-    
   };
 
   return (
@@ -123,48 +120,57 @@ export default function EditDialog(props) {
                 Select order of the cards
               </h3>
             </Grid>
-            <Grid item xs={ mobile ? 12 : 2} textAlign={mobile ? 'center' : "right"}>
+            <Grid
+              item
+              xs={mobile ? 12 : 2}
+              textAlign={mobile ? "center" : "right"}
+            >
               <Button
                 variant="contained"
-                sx={{ fontWeight: "bold", marginTop: "1vh", marginBottom: "0vh"}}
-                onClick={() => setOpenEditDialogAdd(true)}                
+                sx={{
+                  fontWeight: "bold",
+                  marginTop: "1vh",
+                  marginBottom: "0vh",
+                }}
+                onClick={() => setOpenEditDialogAdd(true)}
               >
                 + Card
               </Button>
             </Grid>
           </Grid>
 
-          <GridLayout 
-            className="layout" 
-            cols={numCol} 
-            margin={[30, 30]} 
-            rowHeight={100} 
-            width={size-70} 
+          <GridLayout
+            className="layout"
+            cols={numCol}
+            margin={[30, 30]}
+            rowHeight={100}
+            width={size - 70}
             isResizable={false}
             layout={props.cards}
-            onLayoutChange={ (currentLayout) => handleLayoutChange(currentLayout) }
+            onLayoutChange={(currentLayout) =>
+              handleLayoutChange(currentLayout)
+            }
           >
             {props.cards.map((val, idx) => {
               return (
-                  <Item key={val.i}>
-                    <b className="prevent-select"> {val.type} Card </b>
-                    <div>
-                      <IconButton
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onTouchStart={(e) => e.stopPropagation()}
-                        onClick={() => props.handleCardDelete(idx)}
-                        sx={{
-                          color: "#FFFFFF",
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </div>
-                  </Item>
+                <Item key={val.i}>
+                  <b className="prevent-select"> {val.type} Card </b>
+                  <div>
+                    <IconButton
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => e.stopPropagation()}
+                      onClick={() => props.handleCardDelete(idx)}
+                      sx={{
+                        color: "#FFFFFF",
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
+                </Item>
               );
             })}
           </GridLayout>
-            
         </DialogContent>
       </Dialog>
       <EditDialogAdd
@@ -193,6 +199,12 @@ EditDialog.propTypes = {
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
+      room: PropTypes.string.isRequired,
+      i: PropTypes.string.isRequired,
+      x: PropTypes.number.isRequired,
+      y: PropTypes.number.isRequired,
+      w: PropTypes.number.isRequired,
+      h: PropTypes.number.isRequired,
     }),
   ).isRequired,
 };

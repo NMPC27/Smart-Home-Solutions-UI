@@ -57,7 +57,7 @@ export default function SignIn() {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleLogIn();
     }
   };

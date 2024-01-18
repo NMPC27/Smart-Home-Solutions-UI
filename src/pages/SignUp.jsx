@@ -60,7 +60,7 @@ export default function SignUp() {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleSignUp();
     }
   };

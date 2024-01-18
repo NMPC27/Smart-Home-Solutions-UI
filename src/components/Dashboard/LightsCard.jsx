@@ -1,6 +1,6 @@
 import * as React from "react";
-import FlashOnIcon from '@mui/icons-material/FlashOn';
-import FlashOffIcon from '@mui/icons-material/FlashOff';
+import FlashOnIcon from "@mui/icons-material/FlashOn";
+import FlashOffIcon from "@mui/icons-material/FlashOff";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -77,78 +77,73 @@ export default function LightsCard(props) {
   );
 
   React.useEffect(() => {
-    if (props.globalRoom !== "Any"){
-      setSelectedRoom(props.globalRoom)
+    if (props.globalRoom !== "Any") {
+      setSelectedRoom(props.globalRoom);
     }
   }, [props.globalRoom]);
 
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
-      <div style={{maxHeight:"340vh", overflow:"auto"}}>
-      <InItem>
-        <Grid container spacing={3} alignItems="center">
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Room</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedRoom}
-                label="Room"
-                onChange={(event) => setSelectedRoom(event.target.value)}
-              >
-                <MenuItem key={0} value={"All"}>
-                  {"All"}
-                </MenuItem>
-                {props.rooms.map((room, idx) => (
-                  <MenuItem key={idx} value={room.name}>
-                    {room.name}
+      <div style={{ maxHeight: "340vh", overflow: "auto" }}>
+        <InItem>
+          <Grid container spacing={3} alignItems="center">
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Room</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedRoom}
+                  label="Room"
+                  onChange={(event) => setSelectedRoom(event.target.value)}
+                >
+                  <MenuItem key={0} value={"All"}>
+                    {"All"}
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                  {props.rooms.map((room, idx) => (
+                    <MenuItem key={idx} value={room.name}>
+                      {room.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {props.devices.map((val, idx) => {
+              if (
+                val.type === "Light" &&
+                (val.room === selectedRoom || selectedRoom === "All")
+              ) {
+                return (
+                  <>
+                    <Grid item xs={2}>
+                      <IconButton onClick={(e) => handleOpenDialog(e, idx)}>
+                        <SettingsIcon />
+                      </IconButton>
+                    </Grid>
+
+                    <Grid item xs={7.5}>
+                      <h3>{val.name}</h3>
+                    </Grid>
+
+                    <Grid item xs={2.5}>
+                      <IconButton
+                        onClick={() => props.handleLightOnOff(idx)}
+                        sx={{
+                          bgcolor: val.on && "#FFC107",
+                          "&:hover": { bgcolor: val.on && "#D9A406" },
+                        }}
+                      >
+                        {val.on ? <FlashOnIcon /> : <FlashOffIcon />}
+                      </IconButton>
+                    </Grid>
+                  </>
+                );
+              }
+            })}
           </Grid>
-        
-
-          {props.devices.map((val, idx) => {
-            if (
-              val.type === "Light" &&
-              (val.room === selectedRoom || selectedRoom === "All")
-            ) {
-              return (
-                <>
-                <Grid item xs={2}>
-                  <IconButton onClick={(e) => handleOpenDialog(e, idx)}>
-                    <SettingsIcon />
-                  </IconButton>
-                </Grid>
-                
-                <Grid item xs={7.5}>
-                  <h3>{val.name}</h3>
-                </Grid>
-
-                <Grid item xs={2.5}>
-                  <IconButton 
-                    onClick={() => props.handleLightOnOff(idx)}
-                    sx={{
-                      bgcolor: val.on && "#FFC107" ,
-                      "&:hover": { bgcolor: val.on && "#D9A406" },
-                    }}
-                  >
-                    { val.on ? 
-                      <FlashOnIcon /> 
-                      :
-                      <FlashOffIcon />
-                    }
-                  </IconButton>                  
-                </Grid>
-                </>
-              );
-            }
-          })}
-        </Grid>
-      </InItem>
+        </InItem>
       </div>
       {props.devices[deviceIdx] !== undefined && (
         <LightsDialog

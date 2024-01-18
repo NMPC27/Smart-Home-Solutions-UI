@@ -111,7 +111,13 @@ export default function FilesTable() {
       <OutItem elevation={5}>
         <Grid container>
           <Grid item xs={10} sm={11} md={11.5}>
-            <h2 style={{ marginTop: "1vh", marginBottom: "2vh", marginLeft: "1vw" }}>
+            <h2
+              style={{
+                marginTop: "1vh",
+                marginBottom: "2vh",
+                marginLeft: "1vw",
+              }}
+            >
               Files: {path}
             </h2>
           </Grid>

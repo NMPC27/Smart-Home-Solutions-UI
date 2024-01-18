@@ -12,14 +12,14 @@ import RoomDialog from "./RoomDialog";
 import DeviceDialog from "./DeviceDialog";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import EditDialog from "./EditDialog";
-import RssFeedIcon from '@mui/icons-material/RssFeed';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import DeleteIcon from '@mui/icons-material/Delete';
+import RssFeedIcon from "@mui/icons-material/RssFeed";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function AppBarStyled(props) {
   const theme = useTheme();
@@ -74,7 +74,7 @@ export default function AppBarStyled(props) {
           >
             Smartify
             <RssFeedIcon />
-          </Typography>          
+          </Typography>
           {props.navbar === "dashboard" && !mobile && (
             <Stack direction="row" spacing={2}>
               <Button
@@ -95,54 +95,55 @@ export default function AppBarStyled(props) {
           )}
           {props.navbar === "dashboard" && (
             <>
-            <IconButton
-              onClick={() => setOpenEditDialog(true)}
-              sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
-            >
-              <EditIcon />
-            </IconButton>
+              <IconButton
+                onClick={() => setOpenEditDialog(true)}
+                sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
+              >
+                <EditIcon />
+              </IconButton>
 
-            <IconButton
-              onClick={() => setOpenNotifications(true)}
-              sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
-            >
-              <Badge badgeContent={props.notifications.length} color="primary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+              <IconButton
+                onClick={() => setOpenNotifications(true)}
+                sx={{ color: "#FFFFFF", marginLeft: "1vw" }}
+              >
+                <Badge
+                  badgeContent={props.notifications.length}
+                  color="primary"
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
 
-            <Menu
-              id="menu-appbar"
-              anchorEl={openNotifications}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={openNotifications}
-              onClose={() => setOpenNotifications(false)}
-            >
-              {props.notifications.map((notification,idx) => {
-
-                return(
-                  <MenuItem key={idx}>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                      <h4>{notification.msg}</h4>
-                      <IconButton
-                        onClick={() => props.handleDeleteNotification(idx)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Stack>
-                  </MenuItem>
-                )
-              })}
-              
-            </Menu>
+              <Menu
+                id="menu-appbar"
+                anchorEl={openNotifications}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={openNotifications}
+                onClose={() => setOpenNotifications(false)}
+              >
+                {props.notifications.map((notification, idx) => {
+                  return (
+                    <MenuItem key={idx}>
+                      <Stack direction="row" spacing={2} alignItems="center">
+                        <h4>{notification.msg}</h4>
+                        <IconButton
+                          onClick={() => props.handleDeleteNotification(idx)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Stack>
+                    </MenuItem>
+                  );
+                })}
+              </Menu>
             </>
           )}
           {props.navbar === "energy" && !mobile && (

@@ -21,7 +21,7 @@ import {
   postRooms,
   postCards,
   getNotifications,
-  postNotifications
+  postNotifications,
 } from "../components/API";
 import { useNavigate } from "react-router-dom";
 
@@ -39,21 +39,7 @@ export default function Dashboard() {
     }
   }, [tablet]);
 
-
-
-
   const [sizeGrid, setSizeGrid] = React.useState(null);
-
-    // const [numCol, setNumCol] = React.useState(() => {
-  const [numCol, ] = React.useState(() => {
-    if (mobile){
-      return 1;
-    }else if(tablet){
-      return 2;
-    }else{
-      return 12;
-    }
-  });
 
   const dialogGrid = React.useCallback((node) => {
     //! Resize grid
@@ -71,14 +57,11 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     setInterval(() => {
-      getNotifications().then(
-        (res) => {
-          setNotifications(res.data);
-        }
-      )
-    }
-    , 5000);
-  },[])
+      getNotifications().then((res) => {
+        setNotifications(res.data);
+      });
+    }, 5000);
+  }, []);
 
   React.useEffect(() => {
     getDevices().then(
@@ -358,26 +341,47 @@ export default function Dashboard() {
 
     // tamanho do card
 
-    let h=0
-    let w=0
-    if (val.type === "Light"){
-      w=3
-      h=2
-    }else if(val.type === "Temperature"){
-      w=3
-      h=3
-    }else if(val.type === "Camera"){
-      w=6
-      h=3
-    }else if(val.type === "Motion Sensor"){
-      w=3
-      h=1
+    let h = 0;
+    let w = 0;
+    if (val.type === "Light") {
+      w = 3;
+      h = 2;
+    } else if (val.type === "Temperature") {
+      w = 3;
+      h = 3;
+    } else if (val.type === "Camera") {
+      w = 6;
+      h = 3;
+    } else if (val.type === "Motion Sensor") {
+      w = 3;
+      h = 1;
     }
 
+    setCards([
+      ...cards,
+      {
+        type: val.type,
+        room: val.room,
+        i: newID.toString(),
+        x: 0,
+        y: Infinity,
+        w: w,
+        h: h,
+      },
+    ]);
 
-    setCards([...cards, {type: val.type, room: val.room, i: newID.toString(), x: 0, y: Infinity, w: w, h: h }]);
-
-    postCards([...cards, {type: val.type, room: val.room, i: newID.toString(), x: 0, y: Infinity, w: w, h: h }]); //! API CALL
+    postCards([
+      ...cards,
+      {
+        type: val.type,
+        room: val.room,
+        i: newID.toString(),
+        x: 0,
+        y: Infinity,
+        w: w,
+        h: h,
+      },
+    ]); //! API CALL
   };
 
   const handleSetLayout = (val) => {
@@ -515,172 +519,163 @@ export default function Dashboard() {
       />
 
       <Grid container spacing={4} ref={dialogGrid}>
-          <Grid item xs={12} sm={6} md={5} lg={4} xl={3}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Room</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={globalRoom}
-                label="Room"
-                onChange={(event) => setGlobalRoom(event.target.value)}
-              >
-                <MenuItem value={"Any"}>
-                  Any
-                </MenuItem>
-                {rooms.map((room, idx) => {
-                  return (
-                    <MenuItem key={idx} value={room.name}>
-                      {room.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </Grid>
-          { !mobile &&
-            <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>
-          }
+        <Grid item xs={12} sm={6} md={5} lg={4} xl={3}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Room</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={globalRoom}
+              label="Room"
+              onChange={(event) => setGlobalRoom(event.target.value)}
+            >
+              <MenuItem value={"Any"}>Any</MenuItem>
+              {rooms.map((room, idx) => {
+                return (
+                  <MenuItem key={idx} value={room.name}>
+                    {room.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Grid>
+        {!mobile && <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>}
 
-      { smallPC &&
-        <>
-        {cards.map((card, idx) => {
-          if (card.type === "Light") {
-            return (
-              <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
-                <LightsCard
-                  devices={devices}
-                  rooms={rooms}
-                  handleLightColor={handleLightColor}
-                  handleBrightnessChange={handleBrightnessChange}
-                  handleLightOnOff={handleLightOnOff}
-                  globalRoom={globalRoom}
-                />
-              </Grid>
-            );
-          }
+        {smallPC && (
+          <>
+            {cards.map((card, idx) => {
+              if (card.type === "Light") {
+                return (
+                  <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
+                    <LightsCard
+                      devices={devices}
+                      rooms={rooms}
+                      handleLightColor={handleLightColor}
+                      handleBrightnessChange={handleBrightnessChange}
+                      handleLightOnOff={handleLightOnOff}
+                      globalRoom={globalRoom}
+                    />
+                  </Grid>
+                );
+              }
 
-          if (card.type === "Temperature") {
-            return (
-              <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
-                <TemperatureCard
-                  devices={devices}
-                  rooms={rooms}
-                  handleTemperatureTarget={handleTemperatureTarget}
-                  handleMinusTemperature={handleMinusTemperature}
-                  handlePlusTemperature={handlePlusTemperature}
-                  handleTemperatureOnOff={handleTemperatureOnOff}
-                  globalRoom={globalRoom}
-                />
-              </Grid>
-            );
-          }
+              if (card.type === "Temperature") {
+                return (
+                  <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
+                    <TemperatureCard
+                      devices={devices}
+                      rooms={rooms}
+                      handleTemperatureTarget={handleTemperatureTarget}
+                      handleMinusTemperature={handleMinusTemperature}
+                      handlePlusTemperature={handlePlusTemperature}
+                      handleTemperatureOnOff={handleTemperatureOnOff}
+                      globalRoom={globalRoom}
+                    />
+                  </Grid>
+                );
+              }
 
-          if (card.type === "Camera") {
-            return (
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6} key={idx}>
-                <CameraCard 
-                  devices={devices} 
-                  rooms={rooms} 
-                  handleCameraOnOff={handleCameraOnOff}
-                  globalRoom={globalRoom}
-                />
-              </Grid>
-            );
-          }
+              if (card.type === "Camera") {
+                return (
+                  <Grid item xs={12} sm={12} md={6} lg={6} xl={6} key={idx}>
+                    <CameraCard
+                      devices={devices}
+                      rooms={rooms}
+                      handleCameraOnOff={handleCameraOnOff}
+                      globalRoom={globalRoom}
+                    />
+                  </Grid>
+                );
+              }
 
-          if (card.type === "Motion Sensor") {
-            return (
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={idx}>
-                <SecurityCard
-                  devices={devices}
-                  handleClickAlarm={handleClickAlarm}
-                  globalRoom={globalRoom}
-                />
-              </Grid>
-            );
-          }
-        })}
-        </>
-      }
-
+              if (card.type === "Motion Sensor") {
+                return (
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={idx}>
+                    <SecurityCard
+                      devices={devices}
+                      handleClickAlarm={handleClickAlarm}
+                      globalRoom={globalRoom}
+                    />
+                  </Grid>
+                );
+              }
+            })}
+          </>
+        )}
       </Grid>
 
-      { !smallPC &&        
-        <GridLayout 
-        className="layout" 
-        cols={12} 
-        margin={[30, 30]} 
-        rowHeight={200} 
-        width={sizeGrid-40} 
-        isResizable={false}
-        isDraggable={false}
-        layout={cards}
-      >
+      {!smallPC && (
+        <GridLayout
+          className="layout"
+          cols={12}
+          margin={[30, 30]}
+          rowHeight={200}
+          width={sizeGrid - 40}
+          isResizable={false}
+          isDraggable={false}
+          layout={cards}
+        >
+          {cards.map((card) => {
+            if (card.type === "Light") {
+              return (
+                <div key={card.i}>
+                  <LightsCard
+                    devices={devices}
+                    rooms={rooms}
+                    handleLightColor={handleLightColor}
+                    handleBrightnessChange={handleBrightnessChange}
+                    handleLightOnOff={handleLightOnOff}
+                    globalRoom={globalRoom}
+                  />
+                </div>
+              );
+            }
 
-      { cards.map((card, idx) => {
+            if (card.type === "Temperature") {
+              return (
+                <div key={card.i}>
+                  <TemperatureCard
+                    devices={devices}
+                    rooms={rooms}
+                    handleTemperatureTarget={handleTemperatureTarget}
+                    handleMinusTemperature={handleMinusTemperature}
+                    handlePlusTemperature={handlePlusTemperature}
+                    handleTemperatureOnOff={handleTemperatureOnOff}
+                    globalRoom={globalRoom}
+                    sliderSize={sizeGrid / 4 - 120}
+                  />
+                </div>
+              );
+            }
 
-        if (card.type === "Light") {
-          return (
-            <div key={card.i}>
-              <LightsCard
-                devices={devices}
-                rooms={rooms}
-                handleLightColor={handleLightColor}
-                handleBrightnessChange={handleBrightnessChange}
-                handleLightOnOff={handleLightOnOff}
-                globalRoom={globalRoom}
-              />
-            </div>
-          );
-        }
+            if (card.type === "Camera") {
+              return (
+                <div key={card.i}>
+                  <CameraCard
+                    devices={devices}
+                    rooms={rooms}
+                    handleCameraOnOff={handleCameraOnOff}
+                    globalRoom={globalRoom}
+                  />
+                </div>
+              );
+            }
 
-        if (card.type === "Temperature") {
-          return (
-            <div key={card.i}>
-              <TemperatureCard
-                devices={devices}
-                rooms={rooms}
-                handleTemperatureTarget={handleTemperatureTarget}
-                handleMinusTemperature={handleMinusTemperature}
-                handlePlusTemperature={handlePlusTemperature}
-                handleTemperatureOnOff={handleTemperatureOnOff}
-                globalRoom={globalRoom}
-                sliderSize={sizeGrid/4-120}
-              />
-            </div>
-          );
-        }
-
-        if (card.type === "Camera") {
-          return (
-            <div key={card.i}>
-              <CameraCard 
-                devices={devices} 
-                rooms={rooms} 
-                handleCameraOnOff={handleCameraOnOff}
-                globalRoom={globalRoom}
-              />
-            </div>
-          );
-        }
-
-        if (card.type === "Motion Sensor") {
-          return (
-            <div key={card.i}>
-              <SecurityCard
-                devices={devices}
-                handleClickAlarm={handleClickAlarm}
-                globalRoom={globalRoom}
-              />
-            </div>
-          );
-        }
-      })
-      }
-      </GridLayout>
-
-      }      
+            if (card.type === "Motion Sensor") {
+              return (
+                <div key={card.i}>
+                  <SecurityCard
+                    devices={devices}
+                    handleClickAlarm={handleClickAlarm}
+                    globalRoom={globalRoom}
+                  />
+                </div>
+              );
+            }
+          })}
+        </GridLayout>
+      )}
     </>
   );
 }
