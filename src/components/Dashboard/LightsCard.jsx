@@ -85,7 +85,7 @@ export default function LightsCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
-      <div style={{ maxHeight: "340vh", overflow: "auto" }}>
+      <div style={{ maxHeight: "40vh", overflow: "auto" }}>
         <InItem>
           <Grid container spacing={3} alignItems="center">
             <Grid item xs={12}>
