@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const theme = useTheme();
+  const smallPC = useMediaQuery(theme.breakpoints.down("lg"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -541,7 +542,7 @@ export default function Dashboard() {
             <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>
           }
 
-      { tablet &&
+      { smallPC &&
         <>
         {cards.map((card, idx) => {
           if (card.type === "Light") {
@@ -605,7 +606,7 @@ export default function Dashboard() {
 
       </Grid>
 
-      { !tablet &&        
+      { !smallPC &&        
         <GridLayout 
         className="layout" 
         cols={12} 
@@ -645,6 +646,7 @@ export default function Dashboard() {
                 handlePlusTemperature={handlePlusTemperature}
                 handleTemperatureOnOff={handleTemperatureOnOff}
                 globalRoom={globalRoom}
+                sliderSize={sizeGrid/4-120}
               />
             </div>
           );

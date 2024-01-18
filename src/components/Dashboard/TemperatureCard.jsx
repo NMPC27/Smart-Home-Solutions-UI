@@ -13,6 +13,8 @@ import IconButton from "@mui/material/IconButton";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -52,6 +54,10 @@ const colorsArray = [
 ];
 
 export default function TemperatureCard(props) {
+  const theme = useTheme();
+  const pcMG = useMediaQuery(theme.breakpoints.down("xl"));
+  const pcG = useMediaQuery(theme.breakpoints.down("lg"));
+
   const [size, setSize] = React.useState(null);
 
   const slider = React.useCallback((node) => {
@@ -192,10 +198,10 @@ export default function TemperatureCard(props) {
           {props.devices[deviceIdx] !== undefined && (
             <>
               <h2 style={{textAlign:"center", width:"100%", marginLeft:"1vw"}}>{props.devices[deviceIdx].name}</h2>
-              <Grid item xs={12} ref={slider}>
+              <Grid item xs={12} marginBottom="2vh" ref={slider}>
                 <CircularSliderWithChildren
                   disabled={!props.devices[deviceIdx].on}
-                  size={size}
+                  size={pcG ? size : props.sliderSize}
                   trackWidth={10}
                   handleSize={10}
                   minValue={15}
@@ -217,11 +223,23 @@ export default function TemperatureCard(props) {
                 >
                   <div className="prevent-select">
                     {props.devices[deviceIdx].on ? (
-                      <h2 style={{ marginTop: "2vh" }}>
+                      <h2 
+                        style={{ 
+                          marginTop: "2vh", 
+                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em"
+                        }}
+                      >
                         Target {parseInt(targetTemperature)}°
                       </h2>
                     ) : (
-                      <h2 style={{ marginTop: "2vh" }}>OFF</h2>
+                      <h2 
+                        style={{ 
+                          marginTop: "2vh",
+                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em"
+                        }}
+                      >
+                        OFF
+                      </h2>
                     )}
 
                     <Divider
@@ -232,7 +250,13 @@ export default function TemperatureCard(props) {
                         borderRadius: "5px",
                       }}
                     />
-                    <h2>Now {props.devices[deviceIdx].currentTemperature}°</h2>
+                    <h2
+                      style={{ 
+                        fontSize: pcMG && !pcG ? "1.6em" : "2.1em"
+                      }}
+                    >
+                      Now {props.devices[deviceIdx].currentTemperature}°
+                    </h2>
                     <Stack justifyContent="center" direction="row" spacing={4}>
                       {props.devices[deviceIdx].on ? (
                         <IconButton
