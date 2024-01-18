@@ -15,7 +15,6 @@ import { useTheme } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
 import { getFiles } from "../API";
 import fileDownload from "js-file-download";
-import UploadIcon from "@mui/icons-material/Upload";
 import { Grid } from "@mui/material";
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -100,8 +99,6 @@ export default function FilesTable() {
     }
   };
 
-  const handleUploadFile = () => {};
-
   if (data === null) {
     return (
       <Skeleton variant="rounded" height="70vh" sx={{ borderRadius: "20px" }} />
@@ -110,7 +107,7 @@ export default function FilesTable() {
     return (
       <OutItem elevation={5}>
         <Grid container>
-          <Grid item xs={10} sm={11} md={11.5}>
+          <Grid item xs={12}>
             <h2
               style={{
                 marginTop: "1vh",
@@ -120,14 +117,6 @@ export default function FilesTable() {
             >
               Files: {path}
             </h2>
-          </Grid>
-          <Grid item xs={2} sm={1} md={0.5}>
-            <IconButton
-              onClick={() => handleUploadFile()}
-              sx={{ color: "#FFFFFF" }}
-            >
-              <UploadIcon fontSize="large" />
-            </IconButton>
           </Grid>
         </Grid>
 

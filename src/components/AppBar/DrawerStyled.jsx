@@ -98,24 +98,6 @@ export default function DrawerStyled(props) {
             my: 2,
             color: "white",
             fontWeight: "bold",
-            bgcolor: props.navbar == "automation" && "#374151",
-            "&:hover":
-              props.navbar == "automation"
-                ? { bgcolor: "#111827" }
-                : { bgcolor: "#374151" },
-          }}
-          onClick={() => {
-            navigate("/automation");
-          }}
-        >
-          AUTOMATION
-        </Button>
-
-        <Button
-          sx={{
-            my: 2,
-            color: "white",
-            fontWeight: "bold",
             bgcolor: props.navbar == "files" && "#374151",
             "&:hover":
               props.navbar == "files"
