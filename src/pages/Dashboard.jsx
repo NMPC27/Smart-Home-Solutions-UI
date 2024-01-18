@@ -367,7 +367,7 @@ export default function Dashboard() {
       h=3
     }else if(val.type === "Camera"){
       w=6
-      h=4
+      h=3
     }else if(val.type === "Motion Sensor"){
       w=3
       h=1
@@ -540,18 +540,81 @@ export default function Dashboard() {
           { !mobile &&
             <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>
           }
+
+      { tablet &&
+        <>
+        {cards.map((card, idx) => {
+          if (card.type === "Light") {
+            return (
+              <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
+                <LightsCard
+                  devices={devices}
+                  rooms={rooms}
+                  handleLightColor={handleLightColor}
+                  handleBrightnessChange={handleBrightnessChange}
+                  handleLightOnOff={handleLightOnOff}
+                  globalRoom={globalRoom}
+                />
+              </Grid>
+            );
+          }
+
+          if (card.type === "Temperature") {
+            return (
+              <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
+                <TemperatureCard
+                  devices={devices}
+                  rooms={rooms}
+                  handleTemperatureTarget={handleTemperatureTarget}
+                  handleMinusTemperature={handleMinusTemperature}
+                  handlePlusTemperature={handlePlusTemperature}
+                  handleTemperatureOnOff={handleTemperatureOnOff}
+                  globalRoom={globalRoom}
+                />
+              </Grid>
+            );
+          }
+
+          if (card.type === "Camera") {
+            return (
+              <Grid item xs={12} sm={12} md={6} lg={6} xl={6} key={idx}>
+                <CameraCard 
+                  devices={devices} 
+                  rooms={rooms} 
+                  handleCameraOnOff={handleCameraOnOff}
+                  globalRoom={globalRoom}
+                />
+              </Grid>
+            );
+          }
+
+          if (card.type === "Motion Sensor") {
+            return (
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={idx}>
+                <SecurityCard
+                  devices={devices}
+                  handleClickAlarm={handleClickAlarm}
+                  globalRoom={globalRoom}
+                />
+              </Grid>
+            );
+          }
+        })}
+        </>
+      }
+
       </Grid>
 
-      <GridLayout 
+      { !tablet &&        
+        <GridLayout 
         className="layout" 
         cols={12} 
         margin={[30, 30]} 
-        rowHeight={180} 
+        rowHeight={200} 
         width={sizeGrid-40} 
         isResizable={false}
         isDraggable={false}
         layout={cards}
-        onLayoutChange={ (currentLayout) => console.log(currentLayout) }
       >
 
       { cards.map((card, idx) => {
@@ -614,6 +677,8 @@ export default function Dashboard() {
       })
       }
       </GridLayout>
+
+      }      
     </>
   );
 }

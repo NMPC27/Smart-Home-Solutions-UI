@@ -191,6 +191,7 @@ export default function TemperatureCard(props) {
 
           {props.devices[deviceIdx] !== undefined && (
             <>
+              <h2 style={{textAlign:"center", width:"100%", marginLeft:"1vw"}}>{props.devices[deviceIdx].name}</h2>
               <Grid item xs={12} ref={slider}>
                 <CircularSliderWithChildren
                   disabled={!props.devices[deviceIdx].on}

@@ -81,7 +81,10 @@ export default function EditDialog(props) {
       })
     }
 
-    props.handleSetLayout(newLayout)
+    if(!tablet){
+      props.handleSetLayout(newLayout)
+    }
+    
   };
 
   return (

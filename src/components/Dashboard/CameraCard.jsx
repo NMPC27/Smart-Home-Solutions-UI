@@ -8,6 +8,8 @@ import Grid from "@mui/material/Grid";
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -28,6 +30,9 @@ const InItem = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CameraCard(props) {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [deviceIdx, setDeviceIdx] = React.useState(() => {
     for (let i = 0; i < props.devices.length; i++) {
       if (props.devices[i].type === "Camera") {
@@ -125,7 +130,12 @@ export default function CameraCard(props) {
             }
             
           </Grid>
-          <Grid item xs={12}>
+          
+          { !mobile && 
+            <Grid item xs={5.5}></Grid>
+          }
+
+          <Grid item xs={1}>
             <IconButton
               onClick={() => props.handleCameraOnOff(deviceIdx)}
               sx={{
@@ -141,6 +151,9 @@ export default function CameraCard(props) {
             >
               <PowerSettingsNewIcon />
             </IconButton>
+          </Grid>
+          <Grid item xs={!mobile ? 5.5 : 11}>
+            <h3 style={{marginBottom:0, marginTop:"1vh"}} >Camera: {props.devices[deviceIdx].name}</h3>
           </Grid>
           </>
           }
