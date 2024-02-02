@@ -14,6 +14,8 @@ import { useTheme } from "@mui/material/styles";
 import EditDialogAdd from "./EditDialogAdd";
 import GridLayout from "react-grid-layout";
 import Button from "@mui/material/Button";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#BDC3C7",
@@ -39,6 +41,7 @@ export default function EditDialog(props) {
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const [size, setSize] = React.useState(null);
+  const [selectedTab, setSelectedTab] = React.useState(0);
 
   // const [numCol, setNumCol] = React.useState(() => {
   const [numCol] = React.useState(() => {
@@ -67,10 +70,10 @@ export default function EditDialog(props) {
   const handleLayoutChange = (currentLayout) => {
     const newLayout = [];
 
-    for (let i = 0; i < props.cards.length; i++) {
+    for (let i = 0; i < props.cards[selectedTab].length; i++) {
       newLayout.push({
-        type: props.cards[i].type,
-        room: props.cards[i].room,
+        type: props.cards[selectedTab][i].type,
+        room: props.cards[selectedTab][i].room,
         i: "" + i,
         x: currentLayout[i].x,
         y: currentLayout[i].y,
@@ -80,7 +83,7 @@ export default function EditDialog(props) {
     }
 
     if (!tablet) {
-      props.handleSetLayout(newLayout);
+      props.handleSetLayout(selectedTab,newLayout);
     }
   };
 
@@ -115,16 +118,28 @@ export default function EditDialog(props) {
           ref={dialogGrid}
         >
           <Grid container spacing={2}>
-            <Grid item xs={mobile ? 12 : 10}>
+            <Grid item xs={mobile ? 12 : 8}>
               <h3 style={{ marginTop: "1.6vh", marginBottom: "0vh" }}>
                 Select order of the cards
               </h3>
             </Grid>
             <Grid
               item
-              xs={mobile ? 12 : 2}
+              xs={mobile ? 12 : 4}
               textAlign={mobile ? "center" : "right"}
             >
+              <Button
+                variant="contained"
+                sx={{
+                  fontWeight: "bold",
+                  marginTop: "1vh",
+                  marginBottom: "0vh",
+                  marginRight: "1vw"
+                }}
+                onClick={() => props.handleAddDashboard()}
+              >
+                + Dashboard
+              </Button>
               <Button
                 variant="contained"
                 sx={{
@@ -135,8 +150,17 @@ export default function EditDialog(props) {
                 onClick={() => setOpenEditDialogAdd(true)}
               >
                 + Card
-              </Button>
+              </Button>              
             </Grid>
+            <Grid item xs={12}>
+            <Tabs value={selectedTab} onChange={(event, newValue) => setSelectedTab(newValue)}>
+              {props.cards.map((card, idx) => {
+                return <Tab label={"Dashboard "+idx} value={idx}/>
+              })
+              }
+            </Tabs>
+        </Grid>
+            
           </Grid>
 
           <GridLayout
@@ -146,12 +170,12 @@ export default function EditDialog(props) {
             rowHeight={100}
             width={size - 70}
             isResizable={false}
-            layout={props.cards}
+            layout={props.cards[selectedTab]}
             onLayoutChange={(currentLayout) =>
               handleLayoutChange(currentLayout)
             }
           >
-            {props.cards.map((val, idx) => {
+            {props.cards[selectedTab].map((val, idx) => {
               return (
                 <Item key={val.i}>
                   <b className="prevent-select"> {val.type} Card </b>
@@ -178,6 +202,7 @@ export default function EditDialog(props) {
         handleCloseEditDialogAdd={handleCloseEditDialogAdd}
         handleCardAdd={props.handleCardAdd}
         rooms={props.rooms}
+        selectedTab={selectedTab}
       />
     </>
   );

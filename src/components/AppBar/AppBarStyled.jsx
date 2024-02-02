@@ -200,6 +200,7 @@ export default function AppBarStyled(props) {
             cards={props.cards}
             rooms={props.rooms}
             handleSetLayout={props.handleSetLayout}
+            handleAddDashboard={props.handleAddDashboard}
           />
         </>
       )}

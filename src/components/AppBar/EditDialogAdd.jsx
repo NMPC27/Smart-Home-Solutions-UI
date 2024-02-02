@@ -30,7 +30,7 @@ export default function EditDialogAdd(props) {
       return;
     }
 
-    props.handleCardAdd({ type: selectedType, room: selectedRoom });
+    props.handleCardAdd(props.selectedTab,{ type: selectedType, room: selectedRoom });
 
     props.handleCloseEditDialogAdd();
   };

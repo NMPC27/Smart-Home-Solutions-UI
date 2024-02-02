@@ -13,6 +13,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import GridLayout from "react-grid-layout";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import {
   getDevices,
   getRooms,
@@ -54,6 +56,7 @@ export default function Dashboard() {
   const [notifications, setNotifications] = React.useState([]);
 
   const [globalRoom, setGlobalRoom] = React.useState("Any");
+  const [selectedTab, setSelectedTab] = React.useState(0);
 
   React.useEffect(() => {
     setInterval(() => {
@@ -325,17 +328,22 @@ export default function Dashboard() {
     postDevices(tmp); //! API CALL
   };
 
-  const handleCardAdd = (val) => {
+  const handleAddDashboard = () => {
+    setCards([...cards,[]]);
+    postCards([...cards,[]]);
+  }
+
+  const handleCardAdd = (idx,val) => {
     let newID;
-    if (cards.length != 0) {
-      newID = cards[cards.length - 1].i + 1;
+    if (cards[idx].length != 0) {
+      newID = cards[idx][cards[idx].length - 1].i + 1;
     } else {
       newID = 0;
     }
 
-    for (let i = 0; i < cards.length; i++) {
-      if (cards[i].i >= newID) {
-        newID = cards[i].i + 1;
+    for (let i = 0; i < cards[idx].length; i++) {
+      if (cards[idx][i].i >= newID) {
+        newID = cards[idx][i].i + 1;
       }
     }
 
@@ -357,21 +365,9 @@ export default function Dashboard() {
       h = 1;
     }
 
-    setCards([
-      ...cards,
-      {
-        type: val.type,
-        room: val.room,
-        i: newID.toString(),
-        x: 0,
-        y: Infinity,
-        w: w,
-        h: h,
-      },
-    ]);
+    let tmp = [...cards];
 
-    postCards([
-      ...cards,
+    tmp[idx].push(
       {
         type: val.type,
         room: val.room,
@@ -381,13 +377,21 @@ export default function Dashboard() {
         w: w,
         h: h,
       },
-    ]); //! API CALL
+    );
+
+    setCards(tmp);
+
+    postCards(tmp); //! API CALL
   };
 
-  const handleSetLayout = (val) => {
-    setCards(val);
+  const handleSetLayout = (idx,val) => {
 
-    postCards(val); //! API CALL
+    let tmp = [...cards];
+
+    tmp[idx] = val;
+
+    setCards(tmp);
+    postCards(tmp); //! API CALL
   };
 
   const handleCardDelete = (idx) => {
@@ -516,6 +520,7 @@ export default function Dashboard() {
         handleSetLayout={handleSetLayout}
         notifications={notifications}
         handleDeleteNotification={handleDeleteNotification}
+        handleAddDashboard={handleAddDashboard}
       />
 
       <Grid container spacing={4} ref={dialogGrid}>
@@ -542,9 +547,18 @@ export default function Dashboard() {
         </Grid>
         {!mobile && <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>}
 
+        <Grid item xs={12}>
+          <Tabs value={selectedTab} onChange={(event, newValue) => setSelectedTab(newValue)}>
+            {cards.map((card, idx) => {
+              return <Tab label={"Dashboard "+idx} value={idx}/>
+            })
+            }
+          </Tabs>
+        </Grid>
+
         {smallPC && (
           <>
-            {cards.map((card, idx) => {
+            {cards[selectedTab].map((card, idx) => {
               if (card.type === "Light") {
                 return (
                   <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
@@ -614,9 +628,9 @@ export default function Dashboard() {
           width={sizeGrid - 40}
           isResizable={false}
           isDraggable={false}
-          layout={cards}
+          layout={cards[selectedTab]}
         >
-          {cards.map((card) => {
+          {cards[selectedTab].map((card) => {
             if (card.type === "Light") {
               return (
                 <div key={card.i}>
