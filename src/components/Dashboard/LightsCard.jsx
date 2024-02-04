@@ -60,22 +60,6 @@ export default function LightsCard(props) {
     setOpenDialog(false);
   };
 
-  // React.useEffect(
-  //   // no caso de eliminar uma luz seleciona outra e no caso de nao ter nenhuma fica a -1
-  //   () => {
-  //     let tmp = -1;
-  //     for (let i = 0; i < props.devices.length; i++) {
-  //       if (props.devices[i].type === "Light") {
-  //         tmp = i;
-  //         break;
-  //       }
-  //     }
-
-  //     setDeviceIdx(tmp);
-  //   },
-  //   [props.devices],
-  // );
-
   React.useEffect(() => {
     if (props.globalRoom !== "Any") {
       setSelectedRoom(props.globalRoom);

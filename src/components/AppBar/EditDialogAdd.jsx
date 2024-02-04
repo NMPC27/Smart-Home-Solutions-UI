@@ -21,16 +21,15 @@ const suportedDevices = ["Light", "Temperature", "Motion Sensor", "Camera"];
 
 export default function EditDialogAdd(props) {
   const [selectedType, setSelectedType] = React.useState();
-  const [selectedRoom, setSelectedRoom] = React.useState();
   const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // Select a type and room
 
   const handleCloseEditDialogAddOK = () => {
-    if (!selectedType || !selectedRoom) {
+    if (!selectedType) {
       setOpenErrorMsg(true);
       return;
     }
 
-    props.handleCardAdd(props.selectedTab,{ type: selectedType, room: selectedRoom });
+    props.handleCardAdd(props.selectedTab,{ type: selectedType });
 
     props.handleCloseEditDialogAdd();
   };
@@ -71,24 +70,6 @@ export default function EditDialogAdd(props) {
               {suportedDevices.map((type, idx) => (
                 <MenuItem key={idx} value={type}>
                   {type}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <h4>Card Predefined Room:</h4>
-          <FormControl fullWidth>
-            <InputLabel id="room-device">Room</InputLabel>
-            <Select
-              labelId="room-device"
-              id="room"
-              value={selectedRoom}
-              label="Room"
-              onChange={(event) => setSelectedRoom(event.target.value)}
-            >
-              {props.rooms.map((room, idx) => (
-                <MenuItem key={idx} value={room.name}>
-                  {room.name}
                 </MenuItem>
               ))}
             </Select>

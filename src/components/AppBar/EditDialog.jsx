@@ -16,6 +16,7 @@ import GridLayout from "react-grid-layout";
 import Button from "@mui/material/Button";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#BDC3C7",
@@ -42,6 +43,11 @@ export default function EditDialog(props) {
 
   const [size, setSize] = React.useState(null);
   const [selectedTab, setSelectedTab] = React.useState(0);
+  const [device, setDevice] = React.useState(()=>{
+    if (mobile) { return "mobile" }
+    else if (tablet) { return "tablet" }
+    else { return "pc" }
+  });
 
   // const [numCol, setNumCol] = React.useState(() => {
   const [numCol] = React.useState(() => {
@@ -133,8 +139,7 @@ export default function EditDialog(props) {
                 sx={{
                   fontWeight: "bold",
                   marginTop: "1vh",
-                  marginBottom: "0vh",
-                  marginRight: "1vw"
+                  marginBottom: "0vh",                  
                 }}
                 onClick={() => props.handleAddDashboard()}
               >
@@ -146,20 +151,33 @@ export default function EditDialog(props) {
                   fontWeight: "bold",
                   marginTop: "1vh",
                   marginBottom: "0vh",
+                  marginLeft: "1vw"
                 }}
                 onClick={() => setOpenEditDialogAdd(true)}
               >
                 + Card
               </Button>              
             </Grid>
+            <Grid item xs={12} sx={{textAlign: "center"}}>
+
+              <ButtonGroup>
+                <Button variant={device==="pc" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("pc")}}>PC</Button>
+                <Button variant={device==="tablet" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("tablet")}}>Tablet</Button>
+                <Button variant={device==="mobile" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("mobile")}}>Mobile</Button>
+              </ButtonGroup>
+
+            </Grid>
             <Grid item xs={12}>
-            <Tabs value={selectedTab} onChange={(event, newValue) => setSelectedTab(newValue)}>
-              {props.cards.map((card, idx) => {
-                return <Tab label={"Dashboard "+idx} value={idx}/>
-              })
-              }
-            </Tabs>
-        </Grid>
+              <Tabs 
+                value={selectedTab} 
+                onChange={(event, newValue) => setSelectedTab(newValue)}
+              >
+                {props.cards.map((card, idx) => {
+                  return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}}/>
+                })
+                }
+              </Tabs>
+            </Grid>
             
           </Grid>
 

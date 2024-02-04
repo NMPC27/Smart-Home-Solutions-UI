@@ -370,7 +370,6 @@ export default function Dashboard() {
     tmp[idx].push(
       {
         type: val.type,
-        room: val.room,
         i: newID.toString(),
         x: 0,
         y: Infinity,
@@ -548,9 +547,12 @@ export default function Dashboard() {
         {!mobile && <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>}
 
         <Grid item xs={12}>
-          <Tabs value={selectedTab} onChange={(event, newValue) => setSelectedTab(newValue)}>
+          <Tabs 
+            value={selectedTab} 
+            onChange={(event, newValue) => setSelectedTab(newValue)}
+          >
             {cards.map((card, idx) => {
-              return <Tab label={"Dashboard "+idx} value={idx}/>
+              return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}}/>
             })
             }
           </Tabs>
