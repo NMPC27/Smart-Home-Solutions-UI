@@ -227,6 +227,15 @@ export default function Dashboard() {
     }
   };
 
+  const editDeviceName = (idx,name) => {
+    let tmp = [...devices];
+    tmp[idx].name = name;
+    
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  }
+
   const handleDeleteDevice = (idx) => {
     let tmp = [...devices];
     tmp.splice(idx, 1);
@@ -253,6 +262,28 @@ export default function Dashboard() {
 
     postRooms([...rooms, { id: newID, name: val }]); //! API CALL
   };
+
+  const editRoomName = (idx,name) => {
+
+    let tmp_devices = [...devices];
+
+    for(let i=0;i<tmp_devices.length;i++){
+      if(tmp_devices[i].room === rooms[idx].name){
+        tmp_devices[i].room = name;
+      }
+    }
+
+    setDevices(tmp_devices);
+
+    postDevices(tmp_devices);//! API CALL
+
+
+    let tmp_rooms = [...rooms];
+    tmp_rooms[idx].name = name;
+    setRooms(tmp_rooms);
+
+    postRooms(tmp_rooms); //! API CALL
+  }
 
   const handleDeleteRoom = (idx) => {
     let deviceDeleteIdx = [];
@@ -548,6 +579,8 @@ export default function Dashboard() {
         notifications={notifications}
         handleDeleteNotification={handleDeleteNotification}
         handleAddDashboard={handleAddDashboard}
+        editRoomName={editRoomName}
+        editDeviceName={editDeviceName}
       />
 
       <Grid container spacing={4} ref={dialogGrid}>

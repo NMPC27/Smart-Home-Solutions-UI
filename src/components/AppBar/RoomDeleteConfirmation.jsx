@@ -37,11 +37,11 @@ export default function RoomDeleteConfirmation(props) {
         <h4 style={{ color: "#FF0000" }}>
           Room to be deleted: {props.rooms[props.deleteIdx].name}
         </h4>
-        <h4 style={{ color: "#FF0000" }}>Devices to be deleted:</h4>
+        <h4 style={{ color: "#FF0000", marginBottom: "1vh" }}>Devices to be deleted:</h4>
         {props.devices.map((device, idx) => {
           if (device.room === props.rooms[props.deleteIdx].name) {
             return (
-              <h4 key={idx} style={{ color: "#FF0000", marginLeft: "3vw" }}>
+              <h4 key={idx} style={{ color: "#FF0000", marginLeft: "3vw", marginTop: "0vh", marginBottom: "0vh" }}>
                 • {device.name}
               </h4>
             );

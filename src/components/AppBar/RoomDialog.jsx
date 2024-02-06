@@ -17,6 +17,9 @@ import { useTheme } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import RoomDeleteConfirmation from "./RoomDeleteConfirmation";
+import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -40,6 +43,8 @@ export default function RoomDialog(props) {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [roomName, setRoomName] = React.useState("");
+  const [roomNewName, setRoomNewName] = React.useState("");
+  const [editIdx, setEditIdx] = React.useState(-1);
 
   const [openRoomDeleteConfirmation, setOpenRoomDeleteConfirmation] =
     React.useState(false);
@@ -69,6 +74,21 @@ export default function RoomDialog(props) {
   const handleDeleteRoom = (idx) => {
     setDeleteIdx(idx);
     setOpenRoomDeleteConfirmation(true);
+  };
+
+  const handleEditRoom = (idx) => {
+    setEditIdx(idx);
+  };
+
+  const handleKeyDown = (event,idx) => {
+    if (event.key === "Enter") {
+      editRoomName(idx);
+    }
+  };
+
+  const editRoomName = (idx) => {
+    setEditIdx(-1)
+    props.editRoomName(idx,roomNewName);
   };
 
   const handleCloseRoomDeleteConfirmation = () => {
@@ -141,27 +161,78 @@ export default function RoomDialog(props) {
                 {props.rooms.map((room, idx) => (
                   <Item key={idx}>
                     <Grid container spacing={2}>
-                      <Grid item xs={8}>
-                        <h3
-                          style={{
-                            textAlign: "left",
-                            marginTop: "1vh",
-                            marginBottom: "1vh",
-                            marginLeft: "0.5vw",
-                          }}
-                        >
-                          {room.name}
-                        </h3>
+                      <Grid item xs={2}>
+                        { editIdx === idx ?
+                          <IconButton
+                            onClick={() => setEditIdx(-1)}
+                            sx={{
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                          :
+                          <IconButton
+                              onClick={() => handleEditRoom(idx)}
+                              sx={{
+                                color: "#FFFFFF",
+                              }}
+                            >
+                            <EditIcon />
+                          </IconButton>
+                        }                      
                       </Grid>
-                      <Grid item xs={4}>
-                        <IconButton
-                          onClick={() => handleDeleteRoom(idx)}
-                          sx={{
-                            color: "#FFFFFF",
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                      <Grid item xs={8}>
+                        { editIdx === idx ?
+                            <TextField
+                              label="Room Name"
+                              variant="outlined"
+                              size="small"
+                              sx={{
+                                width: "100%",
+                                backgroundColor: "#374151",
+                                borderRadius: "10px",
+                                borderColor: "#FFFFFF",
+                                svg: { color: "#FFFFFF" },
+                                input: { color: "#FFFFFF" },
+                                label: { color: "#FFFFFF" },
+                              }}
+                              onChange={(e) => setRoomNewName(e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e,idx)}
+                            />
+                          :
+                          <h3
+                            style={{
+                              textAlign: "left",
+                              marginTop: "1vh",
+                              marginBottom: "1vh",
+                              marginLeft: "0.5vw",
+                            }}
+                          >
+                            {room.name}
+                          </h3>
+                        }                        
+                      </Grid>
+                      <Grid item xs={2}>
+                        { editIdx === idx ?
+                          <IconButton
+                            onClick={() => editRoomName(idx)}
+                            sx={{
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            <CheckIcon />
+                          </IconButton>                          
+                        :
+                          <IconButton
+                            onClick={() => handleDeleteRoom(idx)}
+                            sx={{
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        }                        
                       </Grid>
                     </Grid>
                   </Item>

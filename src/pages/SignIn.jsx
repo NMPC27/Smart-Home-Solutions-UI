@@ -133,6 +133,11 @@ export default function SignIn() {
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "1vh" }}>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item xs={12} sx={{ marginTop: "1vh" }}>
                 <Link href="/signUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>

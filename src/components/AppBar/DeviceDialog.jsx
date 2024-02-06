@@ -21,6 +21,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -68,6 +71,9 @@ export default function DeviceDialog(props) {
   const [selectedType, setSelectedType] = React.useState();
   const [selectedRoom, setSelectedRoom] = React.useState();
 
+  const [deviceNewName, setDeviceNewName] = React.useState("");
+  const [editIdx, setEditIdx] = React.useState(-1);
+
   const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // fill all the fields!
   const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // no devices found!
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // device addded
@@ -80,7 +86,7 @@ export default function DeviceDialog(props) {
       let rand = Math.random();
       let tmpState;
 
-      if (rand < 0.5) {
+      if (rand < 0.8) {
         tmpState = "found";
       } else {
         tmpState = "notFound";
@@ -107,6 +113,21 @@ export default function DeviceDialog(props) {
     setOpenSuccessMsg(true);
 
     setSearchDevicesStatus("notStarted");
+  };
+
+  const handleEditDevice = (idx) => {
+    setEditIdx(idx);
+  };
+
+  const handleKeyDown = (event,idx) => {
+    if (event.key === "Enter") {
+      editDeviceName(idx);
+    }
+  };
+
+  const editDeviceName = (idx) => {
+    setEditIdx(-1)
+    props.editDeviceName(idx,deviceNewName);
   };
 
   return (
@@ -257,27 +278,78 @@ export default function DeviceDialog(props) {
                 {props.devices.map((room, idx) => (
                   <Item key={idx}>
                     <Grid container spacing={2}>
-                      <Grid item xs={8}>
-                        <h3
-                          style={{
-                            textAlign: "left",
-                            marginTop: "1vh",
-                            marginBottom: "1vh",
-                            marginLeft: "0.5vw",
-                          }}
-                        >
-                          {room.name}
-                        </h3>
+                    <Grid item xs={2}>
+                        { editIdx === idx ?
+                          <IconButton
+                            onClick={() => setEditIdx(-1)}
+                            sx={{
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                          :
+                          <IconButton
+                              onClick={() => handleEditDevice(idx)}
+                              sx={{
+                                color: "#FFFFFF",
+                              }}
+                            >
+                            <EditIcon />
+                          </IconButton>
+                        }                      
                       </Grid>
-                      <Grid item xs={4}>
-                        <IconButton
-                          onClick={() => props.handleDeleteDevice(idx)}
-                          sx={{
-                            color: "#FFFFFF",
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                      <Grid item xs={8}>
+                        { editIdx === idx ?
+                            <TextField
+                              label="Device Name"
+                              variant="outlined"
+                              size="small"
+                              sx={{
+                                width: "100%",
+                                backgroundColor: "#374151",
+                                borderRadius: "10px",
+                                borderColor: "#FFFFFF",
+                                svg: { color: "#FFFFFF" },
+                                input: { color: "#FFFFFF" },
+                                label: { color: "#FFFFFF" },
+                              }}
+                              onChange={(e) => setDeviceNewName(e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e,idx)}
+                            />
+                          :
+                          <h3
+                            style={{
+                              textAlign: "left",
+                              marginTop: "1vh",
+                              marginBottom: "1vh",
+                              marginLeft: "0.5vw",
+                            }}
+                          >
+                            {room.name}
+                          </h3>
+                        }                        
+                      </Grid>
+                      <Grid item xs={2}>
+                        { editIdx === idx ?
+                          <IconButton
+                            onClick={() => editDeviceName(idx)}
+                            sx={{
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            <CheckIcon />
+                          </IconButton>                          
+                        :
+                          <IconButton
+                            onClick={() => props.handleDeleteDevice(idx)}
+                            sx={{
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        }                        
                       </Grid>
                     </Grid>
                   </Item>
