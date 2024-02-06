@@ -435,7 +435,7 @@ export default function Dashboard() {
       },
     );
 
-    tmp[deviceSelected][selectedTab] = tmp2;
+    tmp[deviceSelected][tab] = tmp2;
 
     setCards(tmp);
 
