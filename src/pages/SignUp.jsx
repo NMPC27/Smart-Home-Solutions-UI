@@ -50,7 +50,6 @@ export default function SignUp() {
     }
 
     signUp({ name, email, password }).then((res) => {
-      console.log(res);
       if (res.data.status === "error") {
         setOpenErrorMsg3(true);
       } else {

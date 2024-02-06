@@ -43,21 +43,17 @@ export default function EditDialog(props) {
 
   const [size, setSize] = React.useState(null);
   const [selectedTab, setSelectedTab] = React.useState(0);
+
   const [device, setDevice] = React.useState(()=>{
     if (mobile) { return "mobile" }
     else if (tablet) { return "tablet" }
     else { return "pc" }
   });
 
-  // const [numCol, setNumCol] = React.useState(() => {
-  const [numCol] = React.useState(() => {
-    if (mobile) {
-      return 1;
-    } else if (tablet) {
-      return 2;
-    } else {
-      return 12;
-    }
+  const [numCol,setNumCol] = React.useState(() => {
+    if (mobile) { return 1 } 
+    else if (tablet) { return 2 } 
+    else { return 4 }
   });
 
   const dialogGrid = React.useCallback((node) => {
@@ -76,10 +72,10 @@ export default function EditDialog(props) {
   const handleLayoutChange = (currentLayout) => {
     const newLayout = [];
 
-    for (let i = 0; i < props.cards[selectedTab].length; i++) {
+    for (let i = 0; i < props.cards[device][selectedTab].length; i++) {
       newLayout.push({
-        type: props.cards[selectedTab][i].type,
-        room: props.cards[selectedTab][i].room,
+        type: props.cards[device][selectedTab][i].type,
+        room: props.cards[device][selectedTab][i].room,
         i: "" + i,
         x: currentLayout[i].x,
         y: currentLayout[i].y,
@@ -88,9 +84,9 @@ export default function EditDialog(props) {
       });
     }
 
-    if (!tablet) {
-      props.handleSetLayout(selectedTab,newLayout);
-    }
+
+    props.handleSetLayout(device,selectedTab,newLayout);
+
   };
 
   return (
@@ -141,7 +137,7 @@ export default function EditDialog(props) {
                   marginTop: "1vh",
                   marginBottom: "0vh",                  
                 }}
-                onClick={() => props.handleAddDashboard()}
+                onClick={() => props.handleAddDashboard(device)}
               >
                 + Dashboard
               </Button>
@@ -161,9 +157,9 @@ export default function EditDialog(props) {
             <Grid item xs={12} sx={{textAlign: "center"}}>
 
               <ButtonGroup>
-                <Button variant={device==="pc" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("pc")}}>PC</Button>
-                <Button variant={device==="tablet" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("tablet")}}>Tablet</Button>
-                <Button variant={device==="mobile" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("mobile")}}>Mobile</Button>
+                <Button variant={device==="pc" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("pc");setNumCol(4)}}>PC</Button>
+                <Button variant={device==="tablet" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("tablet");setNumCol(2)}}>Tablet</Button>
+                <Button variant={device==="mobile" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("mobile");setNumCol(1)}}>Mobile</Button>
               </ButtonGroup>
 
             </Grid>
@@ -172,7 +168,7 @@ export default function EditDialog(props) {
                 value={selectedTab} 
                 onChange={(event, newValue) => setSelectedTab(newValue)}
               >
-                {props.cards.map((card, idx) => {
+                {props.cards[device].map((card, idx) => {
                   return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}}/>
                 })
                 }
@@ -188,12 +184,12 @@ export default function EditDialog(props) {
             rowHeight={100}
             width={size - 70}
             isResizable={false}
-            layout={props.cards[selectedTab]}
+            layout={props.cards[device][selectedTab]}
             onLayoutChange={(currentLayout) =>
               handleLayoutChange(currentLayout)
             }
           >
-            {props.cards[selectedTab].map((val, idx) => {
+            {props.cards[device][selectedTab].map((val, idx) => {
               return (
                 <Item key={val.i}>
                   <b className="prevent-select"> {val.type} Card </b>
@@ -201,7 +197,7 @@ export default function EditDialog(props) {
                     <IconButton
                       onMouseDown={(e) => e.stopPropagation()}
                       onTouchStart={(e) => e.stopPropagation()}
-                      onClick={() => props.handleCardDelete(idx)}
+                      onClick={() => props.handleCardDelete(device,selectedTab,idx)}
                       sx={{
                         color: "#FFFFFF",
                       }}
@@ -221,6 +217,7 @@ export default function EditDialog(props) {
         handleCardAdd={props.handleCardAdd}
         rooms={props.rooms}
         selectedTab={selectedTab}
+        device={device}
       />
     </>
   );

@@ -29,7 +29,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const theme = useTheme();
-  const smallPC = useMediaQuery(theme.breakpoints.down("lg"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -49,6 +48,18 @@ export default function Dashboard() {
       setSizeGrid(node.getBoundingClientRect().width);
     }
   }, []);
+
+  const [device, setDevice] = React.useState(()=>{
+    if (mobile) { return "mobile" }
+    else if (tablet) { return "tablet" }
+    else { return "pc" }
+  });
+
+  const [numCol] = React.useState(() => {
+    if (mobile) { return 1 } 
+    else if (tablet) { return 2 } 
+    else { return 4 }
+  });
 
   const [devices, setDevices] = React.useState(null);
   const [rooms, setRooms] = React.useState(null);
@@ -328,76 +339,93 @@ export default function Dashboard() {
     postDevices(tmp); //! API CALL
   };
 
-  const handleAddDashboard = () => {
-    setCards([...cards,[]]);
-    postCards([...cards,[]]);
+  const handleAddDashboard = (deviceSelected) => {
+    let tmp = {...cards};
+    tmp[deviceSelected].push([]);
+
+    setCards(tmp);
+    postCards(tmp);
   }
 
-  const handleCardAdd = (idx,val) => {
+  const handleCardAdd = (deviceSelected,tab,val) => {
+
     let newID;
-    if (cards[idx].length != 0) {
-      newID = cards[idx][cards[idx].length - 1].i + 1;
+    if (cards[deviceSelected][tab].length != 0) {
+      newID = cards[deviceSelected][tab][cards[deviceSelected][tab].length - 1].i + 1;
     } else {
       newID = 0;
     }
 
-    for (let i = 0; i < cards[idx].length; i++) {
-      if (cards[idx][i].i >= newID) {
-        newID = cards[idx][i].i + 1;
+    for (let i = 0; i < cards[deviceSelected][tab].length; i++) {
+      if (cards[deviceSelected][tab][i].i >= newID) {
+        newID = cards[deviceSelected][tab][i].i + 1;
       }
     }
 
     // tamanho do card
 
-    let h = 0;
-    let w = 0;
+    let card_h = 0;
+    let card_w = 0;
     if (val.type === "Light") {
-      w = 3;
-      h = 2;
+      card_w = 1;
+      card_h = 2;
     } else if (val.type === "Temperature") {
-      w = 3;
-      h = 3;
+      card_w = 1;
+      card_h = 3;
     } else if (val.type === "Camera") {
-      w = 6;
-      h = 3;
+
+      if (device === "mobile") {
+        card_w = 1;
+        card_h = 2;
+      }else{
+        card_w = 2;
+        card_h = 3;
+      }
+
     } else if (val.type === "Motion Sensor") {
-      w = 3;
-      h = 1;
+      card_w = 1;
+      card_h = 1;
     }
 
-    let tmp = [...cards];
+    let tmp = {...cards};
 
-    tmp[idx].push(
+    //! it needs to be like this bc of pointers and create new objects
+    //! tmp[deviceSelected][tab].push will eventualy fail it caused bugs
+    let tmp2 = [...cards[deviceSelected][tab]]; 
+
+    tmp2.push(
       {
         type: val.type,
         i: newID.toString(),
         x: 0,
         y: Infinity,
-        w: w,
-        h: h,
+        w: card_w,
+        h: card_h,
       },
     );
 
+    tmp[deviceSelected][selectedTab] = tmp2;
+
     setCards(tmp);
 
     postCards(tmp); //! API CALL
   };
 
-  const handleSetLayout = (idx,val) => {
+  const handleSetLayout = (deviceSelected,tab,val) => {
 
-    let tmp = [...cards];
+    let tmp = {...cards};
 
-    tmp[idx] = val;
+    tmp[deviceSelected][tab] = val;
 
     setCards(tmp);
     postCards(tmp); //! API CALL
   };
 
-  const handleCardDelete = (idx) => {
-    let tmp = [...cards];
-    tmp.splice(idx, 1);
-    setCards(tmp);
+  const handleCardDelete = (deviceSelected,tab,idx) => {
+    let tmp = {...cards};
+    tmp[deviceSelected][tab].splice(idx, 1);
 
+    setCards(tmp);
     postCards(tmp); //! API CALL
   };
 
@@ -551,147 +579,84 @@ export default function Dashboard() {
             value={selectedTab} 
             onChange={(event, newValue) => setSelectedTab(newValue)}
           >
-            {cards.map((card, idx) => {
+            {cards[device].map((card, idx) => {
               return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}}/>
             })
             }
           </Tabs>
         </Grid>
-
-        {smallPC && (
-          <>
-            {cards[selectedTab].map((card, idx) => {
-              if (card.type === "Light") {
-                return (
-                  <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
-                    <LightsCard
-                      devices={devices}
-                      rooms={rooms}
-                      handleLightColor={handleLightColor}
-                      handleBrightnessChange={handleBrightnessChange}
-                      handleLightOnOff={handleLightOnOff}
-                      globalRoom={globalRoom}
-                    />
-                  </Grid>
-                );
-              }
-
-              if (card.type === "Temperature") {
-                return (
-                  <Grid item xs={12} sm={6} md={5} lg={4} xl={3} key={idx}>
-                    <TemperatureCard
-                      devices={devices}
-                      rooms={rooms}
-                      handleTemperatureTarget={handleTemperatureTarget}
-                      handleMinusTemperature={handleMinusTemperature}
-                      handlePlusTemperature={handlePlusTemperature}
-                      handleTemperatureOnOff={handleTemperatureOnOff}
-                      globalRoom={globalRoom}
-                    />
-                  </Grid>
-                );
-              }
-
-              if (card.type === "Camera") {
-                return (
-                  <Grid item xs={12} sm={12} md={6} lg={6} xl={6} key={idx}>
-                    <CameraCard
-                      devices={devices}
-                      rooms={rooms}
-                      handleCameraOnOff={handleCameraOnOff}
-                      globalRoom={globalRoom}
-                    />
-                  </Grid>
-                );
-              }
-
-              if (card.type === "Motion Sensor") {
-                return (
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={idx}>
-                    <SecurityCard
-                      devices={devices}
-                      handleClickAlarm={handleClickAlarm}
-                      globalRoom={globalRoom}
-                    />
-                  </Grid>
-                );
-              }
-            })}
-          </>
-        )}
       </Grid>
 
-      {!smallPC && (
-        <GridLayout
-          className="layout"
-          cols={12}
-          margin={[30, 30]}
-          rowHeight={200}
-          width={sizeGrid - 40}
-          isResizable={false}
-          isDraggable={false}
-          layout={cards[selectedTab]}
-        >
-          {cards[selectedTab].map((card) => {
-            if (card.type === "Light") {
-              return (
-                <div key={card.i}>
-                  <LightsCard
-                    devices={devices}
-                    rooms={rooms}
-                    handleLightColor={handleLightColor}
-                    handleBrightnessChange={handleBrightnessChange}
-                    handleLightOnOff={handleLightOnOff}
-                    globalRoom={globalRoom}
-                  />
-                </div>
-              );
-            }
+      <GridLayout
+        className="layout"
+        cols={numCol}
+        margin={[30, 30]}
+        rowHeight={200}
+        width={sizeGrid - 40}
+        isResizable={false}
+        isDraggable={false}
+        layout={cards[device][selectedTab]}
+      >
+        {cards[device][selectedTab].map((card) => {
+          if (card.type === "Light") {
+            return (
+              <div key={card.i}>
+                <LightsCard
+                  devices={devices}
+                  rooms={rooms}
+                  handleLightColor={handleLightColor}
+                  handleBrightnessChange={handleBrightnessChange}
+                  handleLightOnOff={handleLightOnOff}
+                  globalRoom={globalRoom}
+                />
+              </div>
+            );
+          }
 
-            if (card.type === "Temperature") {
-              return (
-                <div key={card.i}>
-                  <TemperatureCard
-                    devices={devices}
-                    rooms={rooms}
-                    handleTemperatureTarget={handleTemperatureTarget}
-                    handleMinusTemperature={handleMinusTemperature}
-                    handlePlusTemperature={handlePlusTemperature}
-                    handleTemperatureOnOff={handleTemperatureOnOff}
-                    globalRoom={globalRoom}
-                    sliderSize={sizeGrid / 4 - 120}
-                  />
-                </div>
-              );
-            }
+          if (card.type === "Temperature") {
+            return (
+              <div key={card.i}>
+                <TemperatureCard
+                  devices={devices}
+                  rooms={rooms}
+                  handleTemperatureTarget={handleTemperatureTarget}
+                  handleMinusTemperature={handleMinusTemperature}
+                  handlePlusTemperature={handlePlusTemperature}
+                  handleTemperatureOnOff={handleTemperatureOnOff}
+                  globalRoom={globalRoom}
+                  sliderSize={sizeGrid / 4 - 120}
+                />
+              </div>
+            );
+          }
 
-            if (card.type === "Camera") {
-              return (
-                <div key={card.i}>
-                  <CameraCard
-                    devices={devices}
-                    rooms={rooms}
-                    handleCameraOnOff={handleCameraOnOff}
-                    globalRoom={globalRoom}
-                  />
-                </div>
-              );
-            }
+          if (card.type === "Camera") {
+            return (
+              <div key={card.i}>
+                <CameraCard
+                  devices={devices}
+                  rooms={rooms}
+                  handleCameraOnOff={handleCameraOnOff}
+                  globalRoom={globalRoom}
+                />
+              </div>
+            );
+          }
 
-            if (card.type === "Motion Sensor") {
-              return (
-                <div key={card.i}>
-                  <SecurityCard
-                    devices={devices}
-                    handleClickAlarm={handleClickAlarm}
-                    globalRoom={globalRoom}
-                  />
-                </div>
-              );
-            }
-          })}
-        </GridLayout>
-      )}
+          if (card.type === "Motion Sensor") {
+            return (
+              <div key={card.i}>
+                <SecurityCard
+                  devices={devices}
+                  handleClickAlarm={handleClickAlarm}
+                  globalRoom={globalRoom}
+                />
+              </div>
+            );
+          }
+        })}
+      </GridLayout>
+
     </>
   );
 }

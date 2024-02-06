@@ -127,8 +127,72 @@ const datatmp = {
 ```
 
 
+"cards": {
+        "mobile": [
+            [
+                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+            ],
+            [
+                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+            ]
+        ],
+        "tablet": [
+            [
+                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+            ],
+            [
+                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+            ]
+        ],
+        "pc":[
+            [
+                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+            ],
+            [
+                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+            ]
+        ]
+}
+
+
+
+```
 "cards": [
-    [{"type": "Motion Sensor", "room": "sala", "i": "0", "x": 0, "y": 2, "w": 3, "h": 1}, {"type": "Camera", "room": "sala", "i": "1", "x": 6, "y": 0, "w": 6, "h": 3}, {"type": "Light", "room": "Kitchen", "i": "2", "x": 0, "y": 0, "w": 3, "h": 2}, {"type": "Temperature", "room": "Bedroom", "i": "3", "x": 3, "y": 0, "w": 3, "h": 3}],
-    [{"type": "Motion Sensor", "room": "sala", "i": "0", "x": 0, "y": 2, "w": 3, "h": 1}, {"type": "Camera", "room": "sala", "i": "1", "x": 6, "y": 0, "w": 6, "h": 3}, {"type": "Light", "room": "Kitchen", "i": "2", "x": 0, "y": 0, "w": 3, "h": 2}],
-    []
+    [
+        "name": "Dashboard X",
+        "mobile": [
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+        ],
+        "tablet": [
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+        ],
+        "pc": [
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+        ]
+    ], 
+    [
+        "name": "Dashboard I",
+        "mobile": [
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+        ],
+        "tablet": [
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+        ],
+        "pc": [
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+        ]
+    ], 
 ]
+```

@@ -29,7 +29,7 @@ export default function EditDialogAdd(props) {
       return;
     }
 
-    props.handleCardAdd(props.selectedTab,{ type: selectedType });
+    props.handleCardAdd(props.device,props.selectedTab,{ type: selectedType });
 
     props.handleCloseEditDialogAdd();
   };
