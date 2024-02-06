@@ -5,8 +5,7 @@
 - teus cards ficassem todos juntos uns aos outros, era para seguir um bocadinho a lógica deste site https://poki.com
 - improve edit (resize de cards e por onde quiser)
 
-- fzr variaas tabs de dashboard
-- editar name dos devices
+
 - selecionar no grafico - tipo escolher a cor e so aparecer essa
 - enviar email em caso de intrusao
 

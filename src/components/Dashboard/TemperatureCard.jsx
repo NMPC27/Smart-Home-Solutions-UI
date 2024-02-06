@@ -58,14 +58,14 @@ export default function TemperatureCard(props) {
   const pcMG = useMediaQuery(theme.breakpoints.down("xl"));
   const pcG = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const [size, setSize] = React.useState(null);
+  // const [size, setSize] = React.useState(null);
 
-  const slider = React.useCallback((node) => {
-    //! Resize slider
-    if (node !== null) {
-      setSize(node.getBoundingClientRect().width);
-    }
-  }, []);
+  // const slider = React.useCallback((node) => {
+  //   //! Resize slider
+  //   if (node !== null) {
+  //     setSize(node.getBoundingClientRect().width);
+  //   }
+  // }, []);
 
   const [deviceIdx, setDeviceIdx] = React.useState(() => {
     for (let i = 0; i < props.devices.length; i++) {
@@ -206,10 +206,10 @@ export default function TemperatureCard(props) {
               >
                 {props.devices[deviceIdx].name}
               </h2>
-              <Grid item xs={12} marginBottom="2vh" ref={slider}>
+              <Grid item xs={12} marginBottom="2vh">
                 <CircularSliderWithChildren
                   disabled={!props.devices[deviceIdx].on}
-                  size={pcG ? size : props.sliderSize}
+                  size={props.sliderSize}
                   trackWidth={10}
                   handleSize={10}
                   minValue={15}

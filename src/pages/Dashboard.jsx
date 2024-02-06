@@ -230,7 +230,7 @@ export default function Dashboard() {
   const editDeviceName = (idx,name) => {
     let tmp = [...devices];
     tmp[idx].name = name;
-    
+
     setDevices(tmp);
 
     postDevices(tmp); //! API CALL
@@ -657,7 +657,7 @@ export default function Dashboard() {
                   handlePlusTemperature={handlePlusTemperature}
                   handleTemperatureOnOff={handleTemperatureOnOff}
                   globalRoom={globalRoom}
-                  sliderSize={sizeGrid / 4 - 120}
+                  sliderSize={sizeGrid / numCol - 120}
                 />
               </div>
             );
