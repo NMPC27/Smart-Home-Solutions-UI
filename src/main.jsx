@@ -8,6 +8,7 @@ import Files from "./pages/Files";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
+import Automation from "./pages/Automation";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/automation",
+    element: <Automation />,
   },
   {
     path: "/energy",

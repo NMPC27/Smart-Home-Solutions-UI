@@ -1,9 +1,17 @@
 # TODO:
+- forgot password
+
+- Implementar triggers
+- 2 hubs para redundância
+- poder desenhar casa no UI
+- empresa/organização -> ter admin com acesso a tudo e dps várias pessoas com acessos diferentes
+- Voice commands feitos pelo user
+- energy (future work) -> machine learning para criar algoritmos de agendamento de dispositivos
+
 
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof
-- teus cards ficassem todos juntos uns aos outros, era para seguir um bocadinho a lógica deste site https://poki.com
-- improve edit (resize de cards e por onde quiser)
+
 
 
 - selecionar no grafico - tipo escolher a cor e so aparecer essa

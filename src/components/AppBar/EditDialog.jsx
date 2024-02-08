@@ -167,11 +167,40 @@ export default function EditDialog(props) {
               <Tabs 
                 value={selectedTab} 
                 onChange={(event, newValue) => setSelectedTab(newValue)}
+                variant="scrollable"
+                scrollButtons="auto"
               >
                 {props.cards[device].map((card, idx) => {
-                  return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}}/>
+                  return (
+                    <Tab 
+                    label={          
+                    <span>
+                      Dashboard {idx} 
+                      <IconButton size="small" 
+                        onClick={() => {
+                          let tmp = selectedTab-1
+                          if (tmp < 0) { tmp = 0 }
+
+                          setSelectedTab(tmp)
+                          props.handleDeleteDashboard(device,idx)
+                        }}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </span>
+                    } 
+                    value={idx} 
+                    style={{fontWeight:"bold"}}
+                  />
+                  )
                 })
                 }
+
+              <Tab 
+                label={"+ Add"} 
+                value={props.cards[device].length} 
+                style={{fontWeight:"bold"}}
+                onClick={() => props.handleAddDashboard(device)}
+              />
               </Tabs>
             </Grid>
             

@@ -378,6 +378,14 @@ export default function Dashboard() {
     postCards(tmp);
   }
 
+  const handleDeleteDashboard = (deviceSelected,idx) => {
+    let tmp = {...cards};
+    tmp[deviceSelected].splice(idx, 1);
+
+    setCards(tmp);
+    postCards(tmp);
+  }
+
   const handleCardAdd = (deviceSelected,tab,val) => {
 
     let newID;
@@ -581,6 +589,7 @@ export default function Dashboard() {
         handleAddDashboard={handleAddDashboard}
         editRoomName={editRoomName}
         editDeviceName={editDeviceName}
+        handleDeleteDashboard={handleDeleteDashboard}
       />
 
       <Grid container spacing={4} ref={dialogGrid}>
@@ -611,6 +620,9 @@ export default function Dashboard() {
           <Tabs 
             value={selectedTab} 
             onChange={(event, newValue) => setSelectedTab(newValue)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{color: "#000000"}}
           >
             {cards[device].map((card, idx) => {
               return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}}/>

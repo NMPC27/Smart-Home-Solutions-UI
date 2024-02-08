@@ -203,6 +203,7 @@ export default function AppBarStyled(props) {
             rooms={props.rooms}
             handleSetLayout={props.handleSetLayout}
             handleAddDashboard={props.handleAddDashboard}
+            handleDeleteDashboard={props.handleDeleteDashboard}
           />
         </>
       )}
