@@ -429,21 +429,3 @@ export default function DeviceDialog(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-DeviceDialog.propTypes = {
-  openDeviceDialog: PropTypes.bool.isRequired,
-  handleCloseDeviceDialog: PropTypes.func.isRequired,
-  handleDeviceAdd: PropTypes.func.isRequired,
-  handleDeleteDevice: PropTypes.func.isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-};

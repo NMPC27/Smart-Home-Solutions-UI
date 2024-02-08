@@ -325,28 +325,3 @@ export default function TemperatureCard(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-TemperatureCard.propTypes = {
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      room: PropTypes.string.isRequired,
-      on: PropTypes.bool.isRequired,
-      targetTemperature: PropTypes.number.isRequired,
-      currentTemperature: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  handleMinusTemperature: PropTypes.func.isRequired,
-  handlePlusTemperature: PropTypes.func.isRequired,
-  handleTemperatureTarget: PropTypes.func.isRequired,
-  handleTemperatureOnOff: PropTypes.func.isRequired,
-  globalRoom: PropTypes.string.isRequired,
-  sliderSize: PropTypes.number,
-};

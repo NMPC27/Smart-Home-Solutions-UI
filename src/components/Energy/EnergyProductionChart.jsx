@@ -74,11 +74,3 @@ export default function EnergyProductionChart(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-EnergyProductionChart.propTypes = {
-  production: PropTypes.shape({
-    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
-    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
-  }).isRequired,
-};

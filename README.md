@@ -11,6 +11,7 @@
 - Voice commands feitos pelo user
 - energy (future work) -> machine learning para criar algoritmos de agendamento de dispositivos
 
+- PropTypes
 
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof

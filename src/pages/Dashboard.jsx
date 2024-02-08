@@ -627,7 +627,7 @@ export default function Dashboard() {
             sx={{color: "#000000"}}
           >
             {cards[device].map((card, idx) => {
-              return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}}/>
+              return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}} key={idx}/>
             })
             }
           </Tabs>

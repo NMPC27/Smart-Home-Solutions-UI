@@ -149,11 +149,3 @@ export default function DrawerStyled(props) {
     </Drawer>
   );
 }
-
-import PropTypes from "prop-types";
-
-DrawerStyled.propTypes = {
-  openDrawer: PropTypes.bool.isRequired,
-  handleCloseDrawer: PropTypes.func.isRequired,
-  navbar: PropTypes.string.isRequired,
-};

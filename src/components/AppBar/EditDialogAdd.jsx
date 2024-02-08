@@ -122,15 +122,3 @@ export default function EditDialogAdd(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-EditDialogAdd.propTypes = {
-  openEditDialogAdd: PropTypes.bool.isRequired,
-  handleCloseEditDialogAdd: PropTypes.func.isRequired,
-  handleCardAdd: PropTypes.func.isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-};

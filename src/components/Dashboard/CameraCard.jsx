@@ -160,23 +160,3 @@ export default function CameraCard(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-CameraCard.propTypes = {
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string,
-      room: PropTypes.string,
-      on: PropTypes.bool,
-      endpoint: PropTypes.string,
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-    }),
-  ).isRequired,
-  globalRoom: PropTypes.string.isRequired,
-  handleCameraOnOff: PropTypes.func.isRequired,
-};

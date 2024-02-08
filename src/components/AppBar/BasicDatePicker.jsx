@@ -35,8 +35,3 @@ export default function BasicDatePicker(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-BasicDatePicker.propTypes = {
-  handleDateChange: PropTypes.func.isRequired,
-};

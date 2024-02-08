@@ -326,22 +326,4 @@ export default function RoomDialog(props) {
   );
 }
 
-import PropTypes from "prop-types";
 
-RoomDialog.propTypes = {
-  openRoomDialog: PropTypes.bool.isRequired,
-  handleCloseRoomDialog: PropTypes.func.isRequired,
-  handleRoomAdd: PropTypes.func.isRequired,
-  handleDeleteRoom: PropTypes.func.isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      room: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-};

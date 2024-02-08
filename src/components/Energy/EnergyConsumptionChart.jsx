@@ -74,13 +74,3 @@ export default function EnergyConsumptionChart(props) {
     </OutItem>
   );
 }
-
-import PropTypes from "prop-types";
-
-EnergyConsumptionChart.propTypes = {
-  consumption: PropTypes.shape({
-    grid: PropTypes.arrayOf(PropTypes.number).isRequired,
-    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
-    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
-  }).isRequired,
-};

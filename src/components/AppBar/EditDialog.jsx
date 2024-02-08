@@ -210,6 +210,7 @@ export default function EditDialog(props) {
                     } 
                     value={idx} 
                     style={{fontWeight:"bold"}}
+                    key={idx}
                   />
                   )
                 })
@@ -272,28 +273,3 @@ export default function EditDialog(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-EditDialog.propTypes = {
-  openEditDialog: PropTypes.bool.isRequired,
-  handleCloseEditDialog: PropTypes.func.isRequired,
-  handleCardDelete: PropTypes.func.isRequired,
-  handleCardAdd: PropTypes.func.isRequired,
-  handleSetLayout: PropTypes.func.isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  cards: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      room: PropTypes.string.isRequired,
-      i: PropTypes.string.isRequired,
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-      w: PropTypes.number.isRequired,
-      h: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
-};

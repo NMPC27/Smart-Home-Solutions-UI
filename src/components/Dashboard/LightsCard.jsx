@@ -146,24 +146,3 @@ export default function LightsCard(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-LightsCard.propTypes = {
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      room: PropTypes.string.isRequired,
-      on: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  handleLightOnOff: PropTypes.func.isRequired,
-  handleLightColor: PropTypes.func.isRequired,
-  handleBrightnessChange: PropTypes.func.isRequired,
-  globalRoom: PropTypes.string.isRequired,
-};

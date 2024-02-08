@@ -72,22 +72,3 @@ export default function RoomDeleteConfirmation(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-RoomDeleteConfirmation.propTypes = {
-  openRoomDeleteConfirmation: PropTypes.bool.isRequired,
-  handleCloseRoomDeleteConfirmation: PropTypes.func.isRequired,
-  handleCloseRoomDeleteConfirmationOK: PropTypes.func.isRequired,
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  deleteIdx: PropTypes.number.isRequired,
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      room: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-};

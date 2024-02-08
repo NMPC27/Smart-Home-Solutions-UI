@@ -118,19 +118,3 @@ export default function LightsDialog(props) {
   );
 }
 
-import PropTypes from "prop-types";
-
-LightsDialog.propTypes = {
-  openDialog: PropTypes.bool.isRequired,
-  handleCloseDialog: PropTypes.func.isRequired,
-  handleLightColor: PropTypes.func.isRequired,
-  handleBrightnessChange: PropTypes.func.isRequired,
-  handleLightOnOff: PropTypes.func.isRequired,
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      on: PropTypes.bool.isRequired,
-    }),
-  ).isRequired,
-  deviceIdx: PropTypes.number.isRequired,
-};
