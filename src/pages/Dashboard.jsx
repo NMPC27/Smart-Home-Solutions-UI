@@ -671,7 +671,7 @@ export default function Dashboard() {
                   handlePlusTemperature={handlePlusTemperature}
                   handleTemperatureOnOff={handleTemperatureOnOff}
                   globalRoom={globalRoom}
-                  sliderSize={sizeGrid / numCol - 120}
+                  sliderSize={sizeGrid / numCol - 130}
                 />
               </div>
             );

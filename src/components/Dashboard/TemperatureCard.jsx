@@ -56,8 +56,7 @@ const colorsArray = [
 
 export default function TemperatureCard(props) {
   const theme = useTheme();
-  const pcMG = useMediaQuery(theme.breakpoints.down("xl"));
-  const pcG = useMediaQuery(theme.breakpoints.down("lg"));
+  const pclg = useMediaQuery(theme.breakpoints.down("lg"));
 
   // const [size, setSize] = React.useState(null);
 
@@ -236,7 +235,7 @@ export default function TemperatureCard(props) {
                       <h2
                         style={{
                           marginTop: "2vh",
-                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em",
+                          fontSize: pclg ? "1.9em" :"2.1em",
                         }}
                       >
                         Target {parseInt(targetTemperature)}°
@@ -245,7 +244,7 @@ export default function TemperatureCard(props) {
                       <h2
                         style={{
                           marginTop: "2vh",
-                          fontSize: pcMG && !pcG ? "1.6em" : "2.1em",
+                          fontSize: pclg ? "1.9em" :"2.1em",
                         }}
                       >
                         OFF
@@ -262,7 +261,7 @@ export default function TemperatureCard(props) {
                     />
                     <h2
                       style={{
-                        fontSize: pcMG && !pcG ? "1.6em" : "2.1em",
+                        fontSize: pclg ? "1.9em" :"2.1em",
                       }}
                     >
                       Now {props.devices[deviceIdx].currentTemperature}°
