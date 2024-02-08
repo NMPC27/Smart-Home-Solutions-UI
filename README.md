@@ -1,5 +1,5 @@
 # TODO:
-- fix change device - edit
+
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)
 - ver console errors

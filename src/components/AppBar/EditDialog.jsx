@@ -159,9 +159,27 @@ export default function EditDialog(props) {
             <Grid item xs={12} sx={{textAlign: "center"}}>
 
               <ButtonGroup>
-                <Button variant={device==="pc" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("pc");setNumCol(4)}}>PC</Button>
-                <Button variant={device==="tablet" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("tablet");setNumCol(2)}}>Tablet</Button>
-                <Button variant={device==="mobile" ? "contained" : "outlined"} sx={{fontWeight: 'bold'}} onClick={()=>{setDevice("mobile");setNumCol(1)}}>Mobile</Button>
+                <Button 
+                  variant={device==="pc" ? "contained" : "outlined"} 
+                  sx={{fontWeight: 'bold'}} 
+                  onClick={()=>{setDevice("pc");setNumCol(4);setSelectedTab(0)}}
+                >
+                  PC
+                </Button>
+                <Button 
+                  variant={device==="tablet" ? "contained" : "outlined"} 
+                  sx={{fontWeight: 'bold'}} 
+                  onClick={()=>{setDevice("tablet");setNumCol(2);setSelectedTab(0)}}
+                >
+                  Tablet
+                </Button>
+                <Button 
+                  variant={device==="mobile" ? "contained" : "outlined"} 
+                  sx={{fontWeight: 'bold'}} 
+                  onClick={()=>{setDevice("mobile");setNumCol(1);setSelectedTab(0)}}
+                >
+                  Mobile
+                </Button>
               </ButtonGroup>
 
             </Grid>
