@@ -27,6 +27,8 @@ import {
 } from "../components/API";
 import { useNavigate } from "react-router-dom";
 
+let _1vh = Math.round(window.innerHeight / 100)
+
 export default function Dashboard() {
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -635,8 +637,8 @@ export default function Dashboard() {
       <GridLayout
         className="layout"
         cols={numCol}
-        margin={[30, 30]}
-        rowHeight={200}
+        margin={[_1vh*4, _1vh*4]}
+        rowHeight={_1vh*22}
         width={sizeGrid - 40}
         isResizable={false}
         isDraggable={false}

@@ -32,6 +32,7 @@ const InItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
+  minHeight: "57vh",
 }));
 
 const colorsArray = [
@@ -202,6 +203,7 @@ export default function TemperatureCard(props) {
                   textAlign: "center",
                   width: "100%",
                   marginLeft: "1vw",
+                  marginTop:"6vh"
                 }}
               >
                 {props.devices[deviceIdx].name}

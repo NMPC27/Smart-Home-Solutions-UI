@@ -18,6 +18,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+let _1vh = Math.round(window.innerHeight / 100)
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#BDC3C7",
   "&:hover": { backgroundColor: "#999DA1" },
@@ -209,8 +211,8 @@ export default function EditDialog(props) {
           <GridLayout
             className="layout"
             cols={numCol}
-            margin={[30, 30]}
-            rowHeight={100}
+            margin={[_1vh*4, _1vh*4]}
+            rowHeight={_1vh*10}
             width={size - 70}
             isResizable={false}
             layout={props.cards[device][selectedTab]}

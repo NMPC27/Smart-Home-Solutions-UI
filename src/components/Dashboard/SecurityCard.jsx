@@ -15,7 +15,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
 const InItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#FFFFFF",
   ...theme.typography.body2,
-  padding: theme.spacing(4),
+  padding: theme.spacing(5),
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",

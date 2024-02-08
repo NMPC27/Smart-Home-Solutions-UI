@@ -1,4 +1,5 @@
 # TODO:
+- fix change device - edit
 - forgot password
 
 - Implementar triggers
