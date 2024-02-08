@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import Button from '@mui/material/Button';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -28,6 +29,12 @@ export default function Nodes(props) {
         </h2>
         <InItem>
         
+        <Button variant="contained">Event</Button>
+        <Button variant="contained">Wait until</Button>
+        <Button variant="contained">Device</Button>
+        <Button variant="contained">Time</Button>
+        <Button variant="contained">API</Button>
+
         </InItem>
       </OutItem>
     );

@@ -101,7 +101,7 @@ export default function Flow(props) {
             />
           
           </Tabs>
-          <div style={{ width: '100%', height: '65vh', marginTop: '1vh' }}>
+          <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }}>
             <ReactFlow
               nodes={nodes}
               edges={edges}
