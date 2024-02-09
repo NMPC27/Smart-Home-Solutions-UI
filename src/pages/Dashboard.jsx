@@ -637,7 +637,7 @@ export default function Dashboard() {
       <GridLayout
         className="layout"
         cols={numCol}
-        margin={[_1vh*4, _1vh*4]}
+        margin={mobile ? [_1vh*4, _1vh*8] : [_1vh*4, _1vh*4]}
         rowHeight={_1vh*22}
         width={sizeGrid - 40}
         isResizable={false}
