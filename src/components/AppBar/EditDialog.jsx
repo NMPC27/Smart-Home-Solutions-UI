@@ -17,6 +17,13 @@ import Button from "@mui/material/Button";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Link from "@mui/material/Link";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 let _1vh = Math.round(window.innerHeight / 100)
 
@@ -42,6 +49,8 @@ export default function EditDialog(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one dashboard
 
   const [size, setSize] = React.useState(null);
   const [selectedTab, setSelectedTab] = React.useState(0);
@@ -207,7 +216,13 @@ export default function EditDialog(props) {
                           if (tmp < 0) { tmp = 0 }
 
                           setSelectedTab(tmp)
-                          props.handleDeleteDashboard(device,idx)
+
+                          if (props.cards[device].length === 1) {
+                            setOpenErrorMsg1(true);
+                          }else{
+                            props.handleDeleteDashboard(device,idx)
+                          }
+                          
                         }}>
                         <DeleteIcon />
                       </IconButton>
@@ -274,6 +289,28 @@ export default function EditDialog(props) {
         selectedTab={selectedTab}
         device={device}
       />
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg1}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg1(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg1(false);
+            }
+          }}
+        >
+          Must have at least one Dashboard!
+        </Alert>
+      </Snackbar>
     </>
   );
 }
