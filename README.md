@@ -1,8 +1,8 @@
 # TODO:
+- fix delete card mobile
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)
-- ver console errors
 
 - Implementar triggers
 - 2 hubs para redundância

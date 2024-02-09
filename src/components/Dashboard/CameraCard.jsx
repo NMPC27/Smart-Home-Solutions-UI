@@ -23,7 +23,6 @@ const OutItem = styled(Paper)(({ theme }) => ({
 const InItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#FFFFFF",
   ...theme.typography.body2,
-  padding: theme.spacing(4),
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
@@ -85,7 +84,7 @@ export default function CameraCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Camera</h2>
-      <InItem sx={{  minHeight: mobile ? "29vh": "57vh" }}>
+      <InItem sx={{  minHeight: mobile ? "29vh": "57vh", padding: mobile ? 1: 4 }}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <FormControl fullWidth>

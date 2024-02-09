@@ -91,6 +91,11 @@ export default function EditDialog(props) {
 
   };
 
+  const handleCardDeleteMobile = (e,device,selectedTab,idx) => {
+    e.stopPropagation();
+    props.handleCardDelete(device,selectedTab,idx);
+  }
+
   return (
     <>
       <Dialog
@@ -246,7 +251,7 @@ export default function EditDialog(props) {
                   <div>
                     <IconButton
                       onMouseDown={(e) => e.stopPropagation()}
-                      onTouchStart={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => handleCardDeleteMobile(e,device,selectedTab,idx)}
                       onClick={() => props.handleCardDelete(device,selectedTab,idx)}
                       sx={{
                         color: "#FFFFFF",
