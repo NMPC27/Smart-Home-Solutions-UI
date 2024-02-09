@@ -2,8 +2,6 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -24,9 +22,6 @@ const InItem = styled(Paper)(({ theme }) => ({
 }));
 
 export default function SecurityCard(props) {
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   const [alarmOn, setAlarmOn] = React.useState(() => {
     for (let i = 0; i < props.devices.length; i++) {
       if (props.devices[i].type === "Motion Sensor") {
@@ -44,7 +39,7 @@ export default function SecurityCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Security</h2>
-      <InItem sx={{ padding: mobile ? 1: 4 }}>
+      <InItem>
         {alarmOn ? (
           <Button
             variant="contained"
@@ -78,4 +73,3 @@ export default function SecurityCard(props) {
     </OutItem>
   );
 }
-

@@ -57,7 +57,6 @@ const colorsArray = [
 export default function TemperatureCard(props) {
   const theme = useTheme();
   const pclg = useMediaQuery(theme.breakpoints.down("lg"));
-  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // const [size, setSize] = React.useState(null);
 
@@ -175,7 +174,7 @@ export default function TemperatureCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Temperature</h2>
-      <InItem sx={{ padding: mobile ? 1: 4 }}>
+      <InItem>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -325,4 +324,3 @@ export default function TemperatureCard(props) {
     </OutItem>
   );
 }
-
