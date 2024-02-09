@@ -52,7 +52,7 @@ export default function Dashboard() {
     });
 
     const resizer = setInterval(() => { 
-      console.log("interval")
+
       if (document.getElementById("dialogGrid") !== null) { 
         resizeObserver.observe(document.getElementById("dialogGrid"));
         clearInterval(resizer);
@@ -649,7 +649,7 @@ export default function Dashboard() {
         cols={numCol}
         margin={mobile ? [_1vh*4, _1vh*8] : [_1vh*4, _1vh*4]}
         rowHeight={_1vh*22}
-        width={sizeGrid - 40}
+        width={sizeGrid}
         isResizable={false}
         isDraggable={false}
         layout={cards[device][selectedTab]}
