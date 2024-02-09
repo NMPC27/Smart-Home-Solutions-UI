@@ -44,12 +44,22 @@ export default function Dashboard() {
 
   const [sizeGrid, setSizeGrid] = React.useState(null);
 
-  const dialogGrid = React.useCallback((node) => {
-    //! Resize grid
-    if (node !== null) {
-      setSizeGrid(node.getBoundingClientRect().width);
-    }
-  }, []);
+  React.useEffect(() => {
+    const resizeObserver = new ResizeObserver((event) => {
+        // Depending on the layout, you may need to swap inlineSize with blockSize
+        // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry/contentBoxSize
+        setSizeGrid(event[0].contentBoxSize[0].inlineSize);
+    });
+
+    const resizer = setInterval(() => { 
+      console.log("interval")
+      if (document.getElementById("dialogGrid") !== null) { 
+        resizeObserver.observe(document.getElementById("dialogGrid"));
+        clearInterval(resizer);
+      }
+     },100)
+    
+  },[]);
 
   const [device, setDevice] = React.useState(()=>{
     if (mobile) { return "mobile" }
@@ -594,7 +604,7 @@ export default function Dashboard() {
         handleDeleteDashboard={handleDeleteDashboard}
       />
 
-      <Grid container spacing={4} ref={dialogGrid}>
+      <Grid container spacing={4}>
         <Grid item xs={12} sm={6} md={5} lg={4} xl={3}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Room</InputLabel>
@@ -618,7 +628,7 @@ export default function Dashboard() {
         </Grid>
         {!mobile && <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>}
 
-        <Grid item xs={12}>
+        <Grid item xs={12} id="dialogGrid">
           <Tabs 
             value={selectedTab} 
             onChange={(event, newValue) => setSelectedTab(newValue)}

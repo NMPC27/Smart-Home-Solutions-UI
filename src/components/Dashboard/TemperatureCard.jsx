@@ -58,7 +58,7 @@ export default function TemperatureCard(props) {
   const theme = useTheme();
   const pclg = useMediaQuery(theme.breakpoints.down("lg"));
 
-  // const [size, setSize] = React.useState(null);
+  const [size, setSize] = React.useState(null);
 
   // const slider = React.useCallback((node) => {
   //   //! Resize slider
@@ -66,6 +66,16 @@ export default function TemperatureCard(props) {
   //     setSize(node.getBoundingClientRect().width);
   //   }
   // }, []);
+
+  React.useEffect(() => {
+    const resizeObserver = new ResizeObserver((event) => {
+        // Depending on the layout, you may need to swap inlineSize with blockSize
+        // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry/contentBoxSize
+        setSize(event[0].contentBoxSize[0].inlineSize);
+    });
+
+    resizeObserver.observe(document.getElementById("slider"));
+});
 
   const [deviceIdx, setDeviceIdx] = React.useState(() => {
     for (let i = 0; i < props.devices.length; i++) {
@@ -207,10 +217,10 @@ export default function TemperatureCard(props) {
               >
                 {props.devices[deviceIdx].name}
               </h2>
-              <Grid item xs={12} marginBottom="2vh">
+              <Grid item xs={12} marginBottom="2vh" id="slider">
                 <CircularSliderWithChildren
                   disabled={!props.devices[deviceIdx].on}
-                  size={props.sliderSize}
+                  size={size}
                   trackWidth={10}
                   handleSize={10}
                   minValue={15}
@@ -235,7 +245,7 @@ export default function TemperatureCard(props) {
                       <h2
                         style={{
                           marginTop: "2vh",
-                          fontSize: pclg ? "1.9em" :"2.1em",
+                          fontSize: pclg ? "1.8em" :"2.1em",
                         }}
                       >
                         Target {parseInt(targetTemperature)}°
@@ -244,7 +254,7 @@ export default function TemperatureCard(props) {
                       <h2
                         style={{
                           marginTop: "2vh",
-                          fontSize: pclg ? "1.9em" :"2.1em",
+                          fontSize: pclg ? "1.8em" :"2.1em",
                         }}
                       >
                         OFF
@@ -261,7 +271,7 @@ export default function TemperatureCard(props) {
                     />
                     <h2
                       style={{
-                        fontSize: pclg ? "1.9em" :"2.1em",
+                        fontSize: pclg ? "1.8em" :"2.1em",
                       }}
                     >
                       Now {props.devices[deviceIdx].currentTemperature}°
