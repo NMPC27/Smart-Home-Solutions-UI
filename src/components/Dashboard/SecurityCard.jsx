@@ -15,7 +15,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
 const InItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#FFFFFF",
   ...theme.typography.body2,
-  padding: theme.spacing(5),
+  padding: theme.spacing(4),
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
@@ -44,6 +44,7 @@ export default function SecurityCard(props) {
           <Button
             variant="contained"
             fullWidth
+            size="large"
             sx={{
               bgcolor: "#C7F7C7",
               color: "#0D4A0D",
@@ -58,6 +59,7 @@ export default function SecurityCard(props) {
           <Button
             variant="contained"
             fullWidth
+            size="large"
             sx={{
               bgcolor: "#F7C5C5",
               color: "#7D1212",

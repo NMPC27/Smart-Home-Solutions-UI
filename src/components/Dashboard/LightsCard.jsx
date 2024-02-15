@@ -29,7 +29,6 @@ const InItem = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   borderRadius: "20px",
   minHeight: "32vh",
-  marginLeft: "7px",
 }));
 
 export default function LightsCard(props) {
@@ -71,8 +70,7 @@ export default function LightsCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
-      <div style={{ maxHeight: "39vh", overflow: "auto" }}>
-        <InItem>
+        <InItem style={{ maxHeight: "32vh", overflow: "auto" }}>
           <Grid container spacing={2.5} alignItems="center">
             <Grid item xs={12}>
               <FormControl fullWidth>
@@ -130,7 +128,6 @@ export default function LightsCard(props) {
             })}
           </Grid>
         </InItem>
-      </div>
       {props.devices[deviceIdx] !== undefined && (
         <LightsDialog
           openDialog={openDialog}

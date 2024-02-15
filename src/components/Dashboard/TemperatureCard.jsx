@@ -36,23 +36,23 @@ const InItem = styled(Paper)(({ theme }) => ({
 }));
 
 const colorsArray = [
-  "#0000ff",
-  "#1100ee",
-  "#2200dd",
-  "#3300cc",
-  "#4400bb",
-  "#5500aa",
-  "#660099",
-  "#770088",
-  "#880077",
-  "#990066",
-  "#aa0055",
-  "#bb0044",
-  "#cc0033",
-  "#dd0022",
-  "#ee0011",
-  "#ff0000",
-];
+  '#4F6596', '#526f97', '#567998', '#59839a',
+  '#5c8d9b', '#60969c', '#63a09d', '#66aa9f',
+  '#6ab4a0', '#6DBEA1', '#75c2a6', '#7dc5ac',
+  '#84c9b1', '#8cccb7', '#94d0bc', '#9cd3c2',
+  '#a3d7c7', '#abdacd', '#B3DED2', '#b9e0ca',
+  '#bfe1c3', '#c6e3bb', '#cce5b4', '#d2e6ac',
+  '#d8e8a5', '#dfea9d', '#e5eb96', '#EBED8E',
+  '#edeb8d', '#eeea8b', '#f0e88a', '#f1e789',
+  '#f3e587', '#f4e486', '#f6e285', '#f7e183',
+  '#F9DF82', '#f9d97f', '#f9d37c', '#f9cd78',
+  '#f9c775', '#f9c172', '#f9bb6f', '#f9b56b',
+  '#f9af68', '#F9A965', '#f8a261', '#f79a5e',
+  '#f5935a', '#f48b57', '#f38453', '#f27c50',
+  '#f0754c', '#ef6d49', '#EE6645', '#e96045',
+  '#e45a45', '#de5445', '#d94e45', '#d44845',
+  '#cf4245', '#c93c45', '#c43645', '#BF3045'
+]
 
 export default function TemperatureCard(props) {
   const theme = useTheme();
@@ -74,7 +74,9 @@ export default function TemperatureCard(props) {
         setSize(event[0].contentBoxSize[0].inlineSize);
     });
 
-    resizeObserver.observe(document.getElementById("slider"));
+    if (document.getElementById("slider")) {
+      resizeObserver.observe(document.getElementById("slider"));
+    }
 });
 
   const [deviceIdx, setDeviceIdx] = React.useState(() => {
@@ -231,7 +233,7 @@ export default function TemperatureCard(props) {
                     value: targetTemperature,
                     onChange: (v) => {
                       setTargetTemperature(v);
-                      setArcColor(colorsArray[parseInt(v) - 15]);
+                      setArcColor(colorsArray[parseInt((targetTemperature - 15)*4)]);
                     },
                   }}
                   onControlFinished={() =>
