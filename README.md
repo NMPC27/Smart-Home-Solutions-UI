@@ -1,5 +1,9 @@
 # TODO:
 - fix delete card mobile
+- for draw allow upload a picture as background
+- https://nebula.gl/docs/interactive-examples/react-map-gl-draw-example
+- https://visgl.github.io/react-map-gl/examples/draw-polygon
+
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)

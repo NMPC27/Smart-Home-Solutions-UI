@@ -98,6 +98,24 @@ export default function DrawerStyled(props) {
             my: 2,
             color: "white",
             fontWeight: "bold",
+            bgcolor: props.navbar == "building" && "#374151",
+            "&:hover":
+              props.navbar == "building"
+                ? { bgcolor: "#111827" }
+                : { bgcolor: "#374151" },
+          }}
+          onClick={() => {
+            navigate("/building");
+          }}
+        >
+          BUILDING
+        </Button>
+
+        <Button
+          sx={{
+            my: 2,
+            color: "white",
+            fontWeight: "bold",
             bgcolor: props.navbar == "energy" && "#374151",
             "&:hover":
               props.navbar == "energy"
