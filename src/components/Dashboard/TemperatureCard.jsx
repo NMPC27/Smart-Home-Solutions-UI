@@ -107,7 +107,7 @@ export default function TemperatureCard(props) {
     if (deviceIdx === -1) {
       return null;
     } else {
-      return colorsArray[props.devices[deviceIdx].targetTemperature - 15];
+      return colorsArray[(props.devices[deviceIdx].targetTemperature - 15)*4];
     }
   });
 
@@ -141,7 +141,7 @@ export default function TemperatureCard(props) {
     if (props.devices[val].on) {
       if (newTemp >= 15) {
         setTargetTemperature(newTemp);
-        setArcColor(colorsArray[newTemp - 15]);
+        setArcColor(colorsArray[(newTemp - 15) * 4]);
 
         props.handleMinusTemperature(val);
       }
@@ -153,7 +153,7 @@ export default function TemperatureCard(props) {
     if (props.devices[val].on) {
       if (newTemp <= 30) {
         setTargetTemperature(newTemp);
-        setArcColor(colorsArray[newTemp - 15]);
+        setArcColor(colorsArray[(newTemp - 15) * 4]);
 
         props.handlePlusTemperature(val);
       }
