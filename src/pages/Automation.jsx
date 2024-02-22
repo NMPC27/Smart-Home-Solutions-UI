@@ -20,6 +20,26 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
+import {
+  getDevices,
+  getRooms,
+} from "../components/API";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import TextField from "@mui/material/TextField";
+
+import DeviceSelectorNode from '../components/Automation/DeviceNode';
+import TimeNode from '../components/Automation/TimeNode';
+import WaitNode from "../components/Automation/WaitNode";
+import EventNode from "../components/Automation/EventNode";
+
+const nodeTypes = {
+  deviceNode: DeviceSelectorNode,
+  timeNode: TimeNode,
+  waitNode: WaitNode,
+  eventNode: EventNode,
+};
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -39,8 +59,6 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-const tabsTMP = [0, 1, 2, 3, 4, 5];
-
 export default function Automation() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -53,24 +71,96 @@ export default function Automation() {
     }
   }, [mobile]);
 
+  const [devices, setDevices] = React.useState([]);
+
+  React.useEffect(() => {
+    getDevices().then(
+      (res) => {
+        setDevices(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+  }, []);
+
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const [tabs, setTabs] = React.useState(tabsTMP);
+  const [tabs, setTabs] = React.useState(["Flow 0"]);
+  const [editIdx, setEditIdx] = React.useState(-1);
+  const [tabName, setTabName] = React.useState("");
+
+  const [globalNodes, setGlobalNodes] = React.useState([]);
+  const [globalEdges, setGlobalEdges] = React.useState([]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+  React.useEffect(() => {
+
+    if (tabs.length === 0) { return; }
+
+    let tmpNodes = [...globalNodes];
+    let tmpEdges = [...globalEdges];
+
+    tmpNodes[selectedTab] = nodes;
+    tmpEdges[selectedTab] = edges;
+
+    setGlobalNodes(tmpNodes);
+    setGlobalEdges(tmpEdges);
+  },[nodes, edges])
+
+  const handleKeyDown = (event,idx) => {
+    if (event.key === "Enter") {
+      handleChangeTabName(idx);
+    }
+  };
+
+  const handleChangeTabName = (idx) => {
+    setEditIdx(-1)
+
+    let tmp = [...tabs];
+    tmp[idx] = tabName;
+    setTabs(tmp);
+  }
+
   const handleAddTab = () => {
 
     let tmp = [...tabs];
-    tmp.push(tmp.length);
+    tmp.push("Flow "+tmp.length);
+
+    setGlobalNodes([...globalNodes, []]);
+    setGlobalEdges([...globalEdges, []]);
 
     setTabs(tmp);
   }
 
   const handleDeleteTab = (idx) => {
+
+    if (tabs.length === 1) { return; } //! throw error must have at leat one tab
+
     let tmp = [...tabs];
     tmp.splice(idx, 1);
     setTabs(tmp);
+
+    let tmpNodes = [...globalNodes];
+    let tmpEdges = [...globalEdges];
+
+    tmpNodes.splice(idx, 1);
+    tmpEdges.splice(idx, 1);
+
+    setGlobalNodes(tmpNodes);
+    setGlobalEdges(tmpEdges);
+
+  }
+
+  const handleChangeTab = (newValue) => {
+    setSelectedTab(newValue);
+
+    if (tabs.length === newValue) { return; }
+
+    setNodes(globalNodes[newValue])
+    setEdges(globalEdges[newValue])
+
   }
 
   const onConnect = React.useCallback(
@@ -83,9 +173,12 @@ export default function Automation() {
     [setEdges],
   );
 
-  React.useEffect(() => {
-    console.log(edges);
-  }, [edges]);
+  const verifyFlow = () => {
+    //! verificar se o flow esta bem feito
+    //! se nao dar erro
+    //! se sim, aplicar o flow
+  }
+
 
   return (
     <>
@@ -96,8 +189,8 @@ export default function Automation() {
             <OutItem elevation={5}>
               <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
                 Nodes
-              </h2>
-              <InItem>
+              </h2>              
+              <InItem style={{ height:'70vh' }}>
                 <Grid container spacing={4}>
                   <Grid item xs={12} sm={12} md={6}>
                     <Button 
@@ -107,16 +200,37 @@ export default function Automation() {
                         [
                           ...nodes,
                           { 
-                            id: ''+nodes.length, 
+                            id: ''+nodes.length,   
+                            type: 'eventNode',                            
                             position: { x: 20, y: 20 }, 
-                            data: { label: 'Event' },
+                            data: { devices: devices},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
                       )}
                       >
-                        Event
+                        <b>Event</b>
+                      </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={6}>
+                    <Button 
+                      fullWidth 
+                      variant="contained" 
+                      onClick={() => setNodes(
+                        [
+                          ...nodes,
+                          { 
+                            id: ''+nodes.length,   
+                            type: 'waitNode',                          
+                            position: { x: 20, y: 20 }, 
+                            targetPosition: 'left',
+                            sourcePosition: 'right',
+                          }
+                        ]
+                      )}
+                      >
+                        <b>Wait</b>
                       </Button>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
@@ -128,15 +242,16 @@ export default function Automation() {
                           ...nodes,
                           { 
                             id: ''+nodes.length, 
+                            type: 'deviceNode',
                             position: { x: 20, y: 20 }, 
-                            data: { label: 'Wait until' },
+                            data: { devices: devices},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
                       )}
                       >
-                        Wait until
+                        <b>Device</b>
                       </Button>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
@@ -148,35 +263,15 @@ export default function Automation() {
                           ...nodes,
                           { 
                             id: ''+nodes.length, 
+                            type: 'timeNode',
                             position: { x: 20, y: 20 }, 
-                            data: { label: 'Device' },
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
                       )}
                       >
-                        Device
-                      </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
-                    <Button 
-                      fullWidth 
-                      variant="contained" 
-                      onClick={() => setNodes(
-                        [
-                          ...nodes,
-                          { 
-                            id: ''+nodes.length, 
-                            position: { x: 20, y: 20 }, 
-                            data: { label: 'Time' },
-                            targetPosition: 'left',
-                            sourcePosition: 'right',
-                          }
-                        ]
-                      )}
-                      >
-                        Time
+                        <b>Time</b>
                       </Button>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
@@ -196,7 +291,7 @@ export default function Automation() {
                         ]
                       )}
                       >
-                        API
+                        <b>API</b>
                       </Button>
                   </Grid>
                 </Grid>
@@ -205,22 +300,58 @@ export default function Automation() {
           </Grid>
           <Grid item xs={12} sm={12} md={9}>
             <OutItem elevation={5}>
-              <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
-                Flow
-              </h2>
-              <InItem>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={12} md={10}>
+                  <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
+                    Flow
+                  </h2>
+                </Grid>
+                <Grid item xs={12} sm={12} md={2}>
+                  <Button sx={{marginTop:'0.5vh'}} onClick={() => verifyFlow()} variant="contained">
+                    APPLY FLOW
+                  </Button>
+                </Grid>
+              </Grid>
+              <InItem style={{ height:'70vh' }}>
                 <Tabs 
                   value={selectedTab} 
-                  onChange={(event, newValue) => setSelectedTab(newValue)}
+                  onChange={(event, newValue) => handleChangeTab(newValue)}
                   variant="scrollable"
                   scrollButtons="auto"
                 >
-                  {tabs.map((card, idx) => {
-                    return <Tab 
-                      label={          
+                  {tabs.map((val, idx) => {
+                    return <Tab
+                      label={ 
+                      editIdx === idx ?         
+                        <span>
+                          <IconButton
+                            sx={{marginRight: "1vw"}}
+                            onClick={() => setEditIdx(-1)}
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                          <TextField
+                              label="Flow Name"
+                              variant="outlined"
+                              size="small"
+                              sx={{width: '50%'}}
+                              onChange={(e) => setTabName(e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e,idx)}
+                            />
+                          <IconButton
+                            onClick={() => handleChangeTabName(idx)}
+                            sx={{marginLeft: "1vw"}}
+                          >
+                            <CheckIcon />
+                          </IconButton>   
+                        </span>
+                      :
                       <span>
-                        Flow {idx} 
-                        <IconButton size="small" onClick={() => handleDeleteTab(idx)}>
+                        <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => setEditIdx(idx)}>
+                          <EditIcon />
+                        </IconButton>
+                        {val}
+                        <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={() => handleDeleteTab(idx)}>
                           <DeleteIcon />
                         </IconButton>
                       </span>
@@ -244,6 +375,7 @@ export default function Automation() {
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
+                    nodeTypes={nodeTypes}
                   >
                     <Background variant="dots" gap={12} size={1} />
                   </ReactFlow>

@@ -6,6 +6,7 @@
 - https://visgl.github.io/react-map-gl/examples/draw-polygon
 - https://github.com/marcveens/react-drawio?tab=readme-ov-file#examples
 - https://github.com/mydraft-cc/ui
+- fix pie chart
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)
