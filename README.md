@@ -1,9 +1,11 @@
 # TODO:
+
 - fix delete card mobile
 - for draw allow upload a picture as background
 - https://nebula.gl/docs/interactive-examples/react-map-gl-draw-example
 - https://visgl.github.io/react-map-gl/examples/draw-polygon
-
+- https://github.com/marcveens/react-drawio?tab=readme-ov-file#examples
+- https://github.com/mydraft-cc/ui
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)
@@ -19,8 +21,6 @@
 
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof
-
-
 
 - selecionar no grafico - tipo escolher a cor e so aparecer essa
 - enviar email em caso de intrusao
@@ -141,73 +141,70 @@ const datatmp = {
 }
 ```
 
-
 "cards": {
-        "mobile": [
-            [
-                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
-                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-            ],
-            [
-                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
-                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-            ]
-        ],
-        "tablet": [
-            [
-                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
-                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-            ],
-            [
-                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
-                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-            ]
-        ],
-        "pc":[
-            [
-                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
-                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-            ],
-            [
-                {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
-                {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-            ]
-        ]
+"mobile": [
+[
+{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
+{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+],
+[
+{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
+{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+]
+],
+"tablet": [
+[
+{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
+{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+],
+[
+{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
+{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+]
+],
+"pc":[
+[
+{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
+{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+],
+[
+{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
+{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
+]
+]
 }
-
-
 
 ```
 "cards": [
     [
         "name": "Dashboard X",
         "mobile": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
             {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
         ],
         "tablet": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
             {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
         ],
         "pc": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
             {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
         ]
-    ], 
+    ],
     [
         "name": "Dashboard I",
         "mobile": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
             {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
         ],
         "tablet": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
             {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
         ],
         "pc": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2}, 
+            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
             {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
         ]
-    ], 
+    ],
 ]
 ```

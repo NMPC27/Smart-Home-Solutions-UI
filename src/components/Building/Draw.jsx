@@ -1,33 +1,36 @@
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import React, { useCallback, useRef } from 'react';
-import ReactFlow, {
-  useNodesState,
-  useEdgesState,
-  addEdge,
-  useReactFlow,
-  Background
-} from 'reactflow';
-import 'reactflow/dist/style.css';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
+import React, { Component } from "react";
+import ReactDom from "react-dom";
+import MapGL from "react-map-gl";
+import {
+  Editor,
+  EditingMode,
+  DrawLineStringMode,
+  DrawPolygonMode,
+} from "react-map-gl-draw";
 
-import 'reactflow/dist/style.css';
-import '../../index.css';
- 
-const initialNodes = [
-  {
-    id: '0',
-    type: 'input',
-    position: { x: 0, y: 50 },
-  },
+const MAPBOX_TOKEN =
+  "pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2pwY3owbGFxMDVwNTNxcXdwMms2OWtzbiJ9.1PPVl0VLUQgqrosrI2nUhg";
+
+const MODES = [
+  { id: "drawPolyline", text: "Draw Polyline", handler: DrawLineStringMode },
+  { id: "drawPolygon", text: "Draw Polygon", handler: DrawPolygonMode },
+  { id: "editing", text: "Edit Feature", handler: EditingMode }
 ];
 
-let id = 1;
-const getId = () => `${id++}`;
+const DEFAULT_VIEWPORT = {
+  width: 800,
+  height: 600,
+  longitude: -122.45,
+  latitude: 37.78,
+  zoom: 14
+};
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -68,51 +71,7 @@ export default function Draw(props) {
     setTabs(tmp);
   }
 
-  const reactFlowWrapper = useRef(null);
-  const connectingNodeId = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition } = useReactFlow();
-  const onConnect = useCallback(
-    (params) => {
-      // reset the start node on connections
-      connectingNodeId.current = null;
-      setEdges((eds) => addEdge(params, eds))
-    },
-    [],
-  );
-
-  const onConnectStart = useCallback((_, { nodeId }) => {
-    connectingNodeId.current = nodeId;
-  }, []);
-
-  const onConnectEnd = useCallback(
-    (event) => {
-      if (!connectingNodeId.current) return;
-
-      const targetIsPane = event.target.classList.contains('react-flow__pane');
-
-      if (targetIsPane) {
-        // we need to remove the wrapper bounds, in order to get the correct position
-        const id = getId();
-        const newNode = {
-          id,
-          position: screenToFlowPosition({
-            x: event.clientX,
-            y: event.clientY,
-          }),
-          data: { label: `Node ${id}` },
-          origin: [0.5, 0.0],
-        };
-
-        setNodes((nds) => nds.concat(newNode));
-        setEdges((eds) =>
-          eds.concat({ id, source: connectingNodeId.current, target: id }),
-        );
-      }
-    },
-    [screenToFlowPosition],
-  );
+  const [viewport, setViewport] = React.useState(DEFAULT_VIEWPORT);
 
     return (
       <OutItem elevation={5}>
@@ -148,21 +107,18 @@ export default function Draw(props) {
             />
           
           </Tabs>
-          <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} className="wrapper" ref={reactFlowWrapper} >
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              onConnectStart={onConnectStart}
-              onConnectEnd={onConnectEnd}
-              fitView
-              fitViewOptions={{ padding: 2 }}
-              nodeOrigin={[0.5, 0]}
-            >
-              <Background variant="dots" gap={12} size={1} />
-            </ReactFlow>
+          <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} >
+            
+          <MapGL width="100%" height="100%">
+            <Editor
+              // to make the lines/vertices easier to interact with
+              clickRadius={12}
+              mode={new DrawPolygonMode()}
+              onSelect={(_) => {}}
+            />
+
+          </MapGL>
+            
           </div>
         </InItem>
     </OutItem>
