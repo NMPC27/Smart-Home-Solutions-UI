@@ -48,7 +48,7 @@ export default function Dashboard() {
     const resizeObserver = new ResizeObserver((event) => {
         // Depending on the layout, you may need to swap inlineSize with blockSize
         // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry/contentBoxSize
-        setSizeGrid(event[0].contentBoxSize[0].inlineSize);
+        setSizeGrid(event[0].contentBoxSize[0].inlineSize + _1vh*8); // 8vh to match new with
     });
 
     const resizer = setInterval(() => { 
@@ -645,6 +645,7 @@ export default function Dashboard() {
       </Grid>
 
       <GridLayout
+        style={{ marginLeft: "-4vh", marginRight: "-4vh"}}
         className="layout"
         cols={numCol}
         margin={mobile ? [_1vh*4, _1vh*8] : [_1vh*4, _1vh*4]}
