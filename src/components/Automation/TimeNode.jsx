@@ -9,6 +9,10 @@ export default memo(({ data, isConnectable }) => {
   const [hour, setHour] = React.useState('00');
   const [min, setMin] = React.useState('00');
 
+  const handleDeleteTime = (e) => {
+    e.stopPropagation();
+    data.handleDeleteNode(data.id)
+  }
 
   return (
     <>
@@ -43,7 +47,7 @@ export default memo(({ data, isConnectable }) => {
         />
       </div>
       <div className="nodrag">
-          <IconButton size="small" onClick={() => handleDeleteDevice}>
+          <IconButton size="small" onClick={(e) => handleDeleteTime(e)}>
               <DeleteIcon />
           </IconButton>
       </div>

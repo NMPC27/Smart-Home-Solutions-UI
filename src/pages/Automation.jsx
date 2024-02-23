@@ -163,6 +163,24 @@ export default function Automation() {
 
   }
 
+  const handleDeleteNode = (id) => { 
+    let tmpNodes = [...nodes]; //! empty??
+    let tmpEdges = [...edges];
+
+    let newEdges = tmpEdges.filter((edge) => {
+      return edge.source !== id && edge.target !== id;
+    });
+
+    setEdges(newEdges);
+
+    let nodeIndex = tmpNodes.findIndex(node => node.id === id);
+    if (nodeIndex !== -1) {
+      tmpNodes.splice(nodeIndex, 1);
+    }
+
+    setNodes(tmpNodes);
+  }
+
   const onConnect = React.useCallback(
     (params) => setEdges((eds) => addEdge(
       {
@@ -203,7 +221,7 @@ export default function Automation() {
                             id: ''+nodes.length,   
                             type: 'eventNode',                            
                             position: { x: 20, y: 20 }, 
-                            data: { devices: devices},
+                            data: { devices: devices, handleDeleteNode: handleDeleteNode, id: nodes.length},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
@@ -224,6 +242,7 @@ export default function Automation() {
                             id: ''+nodes.length,   
                             type: 'waitNode',                          
                             position: { x: 20, y: 20 }, 
+                            data: { handleDeleteNode: handleDeleteNode, id: nodes.length},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
@@ -244,7 +263,7 @@ export default function Automation() {
                             id: ''+nodes.length, 
                             type: 'deviceNode',
                             position: { x: 20, y: 20 }, 
-                            data: { devices: devices},
+                            data: { devices: devices, handleDeleteNode: handleDeleteNode, id: nodes.length},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
@@ -265,6 +284,7 @@ export default function Automation() {
                             id: ''+nodes.length, 
                             type: 'timeNode',
                             position: { x: 20, y: 20 }, 
+                            data: { handleDeleteNode: handleDeleteNode, id: nodes.length},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
@@ -276,6 +296,7 @@ export default function Automation() {
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
                     <Button 
+                      sx={{ backgroundColor: "red"}}
                       fullWidth 
                       variant="contained" 
                       onClick={() => setNodes(
@@ -308,7 +329,7 @@ export default function Automation() {
                 </Grid>
                 <Grid item xs={12} sm={12} md={2}>
                   <Button sx={{marginTop:'0.5vh'}} onClick={() => verifyFlow()} variant="contained">
-                    APPLY FLOW
+                    <b>APPLY FLOW</b>
                   </Button>
                 </Grid>
               </Grid>

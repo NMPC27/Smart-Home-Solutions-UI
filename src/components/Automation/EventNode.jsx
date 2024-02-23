@@ -34,8 +34,9 @@ export default memo(({ data, isConnectable }) => {
         }
     }
 
-    const handleDeleteDevice = () => {
-        //! do something
+    const handleDeleteEvent = (e) => {
+      e.stopPropagation();
+      data.handleDeleteNode(data.id)
     }
 
 
@@ -106,7 +107,7 @@ export default memo(({ data, isConnectable }) => {
         </>
       }
         <div className="nodrag">
-            <IconButton size="small" onClick={() => handleDeleteDevice}>
+            <IconButton size="small" onClick={(e) => handleDeleteEvent(e)}>
                 <DeleteIcon />
             </IconButton>
         </div>
