@@ -2,6 +2,7 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import * as React from "react";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -30,6 +31,9 @@ const chartColors = ["#FFA500", "#CC0000"];
 const lables = ["Solar", "Gas"];
 
 export default function EnergyProductionChart(props) {
+
+  const [select, setSelect] = React.useState("All");
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
@@ -42,8 +46,8 @@ export default function EnergyProductionChart(props) {
             xAxis={[{ data: xAxis, label: "Hour" }]}
             yAxis={[{ label: "kWh" }]}
             series={[
-              { data: props.production.solar, label: "Solar Production" },
-              { data: props.production.gas, label: "Gas Production" },
+              { data: select === 'Solar' || select === 'All' ? props.production.solar : [], label: "Solar Production" },
+              { data: select === 'Gas' || select === 'All' ? props.production.gas : [], label: "Gas Production" },
             ]}
             legend={{ hidden: true }}
           />
@@ -58,13 +62,28 @@ export default function EnergyProductionChart(props) {
             return (
               <>
                 <div
+                  onClick={() => {
+                    if (select === item) {
+                      setSelect("All");
+                    } else {
+                      setSelect(item);
+                    }
+                  }}
                   style={{
                     width: "2vh",
                     height: "2vh",
                     backgroundColor: chartColors[index],
                   }}
                 />
-                <h4>{item}</h4>
+                <h4
+                  onClick={() => {
+                    if (select === item) {
+                      setSelect("All");
+                    } else {
+                      setSelect(item);
+                    }
+                  }}
+                >{item}</h4>
               </>
             );
           })}

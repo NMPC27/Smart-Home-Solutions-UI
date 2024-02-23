@@ -1,5 +1,5 @@
 # TODO:
-
+- add automation skeleton
 - fix delete card mobile
 - for draw allow upload a picture as background
 - https://nebula.gl/docs/interactive-examples/react-map-gl-draw-example
@@ -23,7 +23,6 @@
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof
 
-- selecionar no grafico - tipo escolher a cor e so aparecer essa
 - enviar email em caso de intrusao
 
 - tests
