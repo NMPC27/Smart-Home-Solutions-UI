@@ -155,6 +155,9 @@ export default function Automation() {
     setGlobalNodes([...globalNodes, []]);
     setGlobalEdges([...globalEdges, []]);
 
+    setNodes([])
+    setEdges([])
+
     setTabs(tmp);
   }
 
