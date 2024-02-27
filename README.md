@@ -1,23 +1,15 @@
 # TODO:
 - add automation skeleton
 - fix delete card mobile
-- for draw allow upload a picture as background
-- https://nebula.gl/docs/interactive-examples/react-map-gl-draw-example
-- https://visgl.github.io/react-map-gl/examples/draw-polygon
-- https://github.com/marcveens/react-drawio?tab=readme-ov-file#examples
-- https://github.com/mydraft-cc/ui
 - fix pie chart
 - lista de compras
 - tempo 
-- historico do device (quando foi ligado/desligado) tipo a energy
 - ver skeletons
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)
 
-- Implementar triggers
 - 2 hubs para redundância
-- poder desenhar casa no UI
 - empresa/organização -> ter admin com acesso a tudo e dps várias pessoas com acessos diferentes
 - Voice commands feitos pelo user
 - energy (future work) -> machine learning para criar algoritmos de agendamento de dispositivos

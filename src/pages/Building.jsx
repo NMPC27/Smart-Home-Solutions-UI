@@ -18,6 +18,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
 import { getDevices} from "../components/API";
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -72,21 +73,27 @@ export default function Building() {
   const [tabName, setTabName] = React.useState("");
 
   const [imgData, setImgData] = React.useState(null);
+  const [house, setHouse] = React.useState([null]);
 
-  const [editMode, setEditMode] = React.useState(false);
+  const [mode, setMode] = React.useState(0);
 
   const handleAddTab = () => {
 
     let tmp = [...tabs];
     tmp.push("Floor "+tmp.length);
 
+    setHouse([...house, null])
     setTabs(tmp);
+    setMode('view')
   }
 
   const handleDeleteTab = (idx) => {
     let tmp = [...tabs];
+    let tmpHouse = [...house];
     tmp.splice(idx, 1);
+    tmpHouse.splice(idx, 1);
     setTabs(tmp);
+    setHouse(tmpHouse)
   }
 
   
@@ -136,15 +143,23 @@ export default function Building() {
           <Grid item xs={12} sm={12} md={9}>
             <OutItem elevation={5}>
               <Grid container spacing={0}>
-                <Grid item xs={9} sm={10} md={10}>
+                <Grid item xs={12} sm={8} md={9}>
                   <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
                     Build
                   </h2>
                 </Grid>
-                <Grid item xs={3} sm={2} md={2}>
-                  <Button sx={{marginTop:'0.5vh'}} onClick={() => setEditMode(!editMode)} variant="contained">
-                    <b>EDIT</b>
-                  </Button>
+                <Grid item xs={12} sm={4} md={3}>
+                  <ButtonGroup sx={{marginTop:'0.5vh', marginBottom: '0.5vh'}}>
+                    <Button onClick={() => setMode('draw')} variant={mode === 'draw' ? "contained" : "outlined"}>
+                      <b>DRAW</b>
+                    </Button>
+                    <Button onClick={() => setMode('edit')} variant={mode === 'edit' ? "contained" : "outlined"}>
+                      <b>EDIT</b>
+                    </Button>
+                    <Button onClick={() => setMode('view')} variant={mode === 'view' ? "contained" : "outlined"}>
+                      <b>VIEW</b>
+                    </Button>
+                  </ButtonGroup>
                 </Grid>
               </Grid>
               <InItem>
@@ -204,15 +219,23 @@ export default function Building() {
                 
                 </Tabs>
                 <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} >
-                  { editMode ?
+                  { mode === 'draw' &&
                     <DrawIoEmbed 
-                      xml={imgData}
-                      onExport={(data) =>  setImgData(data.data)}
-                      onClose={() => setEditMode(false)} 
+                      xml={house[selectedTab]}
+                      onExport={(data) =>  {
+                        let tmp = [...house];
+                        tmp[selectedTab] = data.data;
+                        setHouse(tmp);
+                      }}
+                      onClose={() => setMode('view')} 
                     />
-                  :                    
-                    imgData && <img src={imgData}/>
-                  }                  
+                  }
+                  { mode === 'edit' &&                  
+                    house[selectedTab] && <img src={house[selectedTab]}/>
+                  }        
+                  { mode === 'view' &&                  
+                    house[selectedTab] && <img src={house[selectedTab]}/>
+                  }            
                 </div>
                 
               </InItem>
