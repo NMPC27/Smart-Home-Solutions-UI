@@ -6,31 +6,8 @@ import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import React, { Component } from "react";
-import ReactDom from "react-dom";
-import MapGL from "react-map-gl";
-import {
-  Editor,
-  EditingMode,
-  DrawLineStringMode,
-  DrawPolygonMode,
-} from "react-map-gl-draw";
 
-const MAPBOX_TOKEN =
-  "pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2pwY3owbGFxMDVwNTNxcXdwMms2OWtzbiJ9.1PPVl0VLUQgqrosrI2nUhg";
 
-const MODES = [
-  { id: "drawPolyline", text: "Draw Polyline", handler: DrawLineStringMode },
-  { id: "drawPolygon", text: "Draw Polygon", handler: DrawPolygonMode },
-  { id: "editing", text: "Edit Feature", handler: EditingMode }
-];
-
-const DEFAULT_VIEWPORT = {
-  width: 800,
-  height: 600,
-  longitude: -122.45,
-  latitude: 37.78,
-  zoom: 14
-};
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -109,15 +86,7 @@ export default function Draw(props) {
           </Tabs>
           <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} >
             
-          <MapGL width="100%" height="100%">
-            <Editor
-              // to make the lines/vertices easier to interact with
-              clickRadius={12}
-              mode={new DrawPolygonMode()}
-              onSelect={(_) => {}}
-            />
-
-          </MapGL>
+         TBD
             
           </div>
         </InItem>

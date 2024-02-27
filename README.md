@@ -7,6 +7,8 @@
 - https://github.com/marcveens/react-drawio?tab=readme-ov-file#examples
 - https://github.com/mydraft-cc/ui
 - fix pie chart
+- lista de compras
+- tempo 
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)
