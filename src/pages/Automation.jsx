@@ -340,12 +340,12 @@ export default function Automation() {
           <Grid item xs={12} sm={12} md={9}>
             <OutItem elevation={5}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={12} md={10}>
+                <Grid item xs={6} sm={9} md={10}>
                   <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
                     Flow
                   </h2>
                 </Grid>
-                <Grid item xs={12} sm={12} md={2}>
+                <Grid item xs={6} sm={3} md={2}>
                   <Button sx={{marginTop:'0.5vh'}} onClick={() => verifyFlow()} variant="contained">
                     <b>APPLY FLOW</b>
                   </Button>

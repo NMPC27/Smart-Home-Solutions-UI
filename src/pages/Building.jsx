@@ -12,6 +12,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { DrawIoEmbed } from 'react-drawio';
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import TextField from "@mui/material/TextField";
+import { getDevices} from "../components/API";
 
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -46,13 +52,33 @@ export default function Building() {
     }
   }, [mobile]);
 
+  const [devices, setDevices] = React.useState(null);
+
+  React.useEffect(() => {
+    getDevices().then(
+      (res) => {
+        setDevices(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+  }, []);
+
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const [tabs, setTabs] = React.useState(tabsTMP);
+
+  const [tabs, setTabs] = React.useState(["Floor 0"]);
+  const [editIdx, setEditIdx] = React.useState(-1);
+  const [tabName, setTabName] = React.useState("");
+
+  const [imgData, setImgData] = React.useState(null);
+
+  const [editMode, setEditMode] = React.useState(false);
 
   const handleAddTab = () => {
 
     let tmp = [...tabs];
-    tmp.push(tmp.length);
+    tmp.push("Floor "+tmp.length);
 
     setTabs(tmp);
   }
@@ -60,6 +86,27 @@ export default function Building() {
   const handleDeleteTab = (idx) => {
     let tmp = [...tabs];
     tmp.splice(idx, 1);
+    setTabs(tmp);
+  }
+
+  
+  const handleChangeTab = (newValue) => {
+    setSelectedTab(newValue);
+
+    if (tabs.length === newValue) { return; }
+  }
+
+  const handleKeyDown = (event,idx) => {
+    if (event.key === "Enter") {
+      handleChangeTabName(idx);
+    }
+  };
+
+  const handleChangeTabName = (idx) => {
+    setEditIdx(-1)
+
+    let tmp = [...tabs];
+    tmp[idx] = tabName;
     setTabs(tmp);
   }
 
@@ -74,34 +121,72 @@ export default function Building() {
               Devices
               </h2>
               <InItem>
-              
-              <Button variant="contained">Event</Button>
-              <Button variant="contained">Wait until</Button>
-              <Button variant="contained">Device</Button>
-              <Button variant="contained">Time</Button>
-              <Button variant="contained">API</Button>
-
+                <Grid container spacing={4}>
+                  { devices && devices.map((device, idx) => {
+                    return (
+                      <Grid item xs={12} sm={12} md={6}>
+                        <Button fullWidth variant="contained">{device.name}</Button>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
               </InItem>
             </OutItem>
           </Grid>
           <Grid item xs={12} sm={12} md={9}>
             <OutItem elevation={5}>
-              <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
-                Draw
-              </h2>
+              <Grid container spacing={0}>
+                <Grid item xs={9} sm={10} md={10}>
+                  <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
+                    Build
+                  </h2>
+                </Grid>
+                <Grid item xs={3} sm={2} md={2}>
+                  <Button sx={{marginTop:'0.5vh'}} onClick={() => setEditMode(!editMode)} variant="contained">
+                    <b>EDIT</b>
+                  </Button>
+                </Grid>
+              </Grid>
               <InItem>
-                <Tabs 
+              <Tabs 
                   value={selectedTab} 
-                  onChange={(event, newValue) => setSelectedTab(newValue)}
+                  onChange={(event, newValue) => handleChangeTab(newValue)}
                   variant="scrollable"
                   scrollButtons="auto"
                 >
-                  {tabs.map((card, idx) => {
-                    return <Tab 
-                      label={          
+                  {tabs.map((val, idx) => {
+                    return <Tab
+                      label={ 
+                      editIdx === idx ?         
+                        <span>
+                          <IconButton
+                            sx={{marginRight: "1vw"}}
+                            onClick={() => setEditIdx(-1)}
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                          <TextField
+                              label="Flow Name"
+                              variant="outlined"
+                              size="small"
+                              sx={{width: '50%'}}
+                              onChange={(e) => setTabName(e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e,idx)}
+                            />
+                          <IconButton
+                            onClick={() => handleChangeTabName(idx)}
+                            sx={{marginLeft: "1vw"}}
+                          >
+                            <CheckIcon />
+                          </IconButton>   
+                        </span>
+                      :
                       <span>
-                        Flow {idx} 
-                        <IconButton size="small" onClick={() => handleDeleteTab(idx)}>
+                        <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => setEditIdx(idx)}>
+                          <EditIcon />
+                        </IconButton>
+                        {val}
+                        <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={() => handleDeleteTab(idx)}>
                           <DeleteIcon />
                         </IconButton>
                       </span>
@@ -119,8 +204,17 @@ export default function Building() {
                 
                 </Tabs>
                 <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} >
-
+                  { editMode ?
+                    <DrawIoEmbed 
+                      xml={imgData}
+                      onExport={(data) =>  setImgData(data.data)}
+                      onClose={() => setEditMode(false)} 
+                    />
+                  :                    
+                    imgData && <img src={imgData}/>
+                  }                  
                 </div>
+                
               </InItem>
             </OutItem>
           </Grid>
