@@ -9,6 +9,8 @@
 - fix pie chart
 - lista de compras
 - tempo 
+- historico do device (quando foi ligado/desligado) tipo a energy
+- ver skeletons
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)

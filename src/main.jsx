@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import Automation from "./pages/Automation";
 import Building from "./pages/Building";
+import History from "./pages/History";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     path: "/energy",
     element: <Energy />,
   },
+  {
+    path: "/history",
+    element: <History />,
+  }, 
   {
     path: "/files",
     element: <Files />,
