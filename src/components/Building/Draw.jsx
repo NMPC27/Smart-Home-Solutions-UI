@@ -48,7 +48,6 @@ export default function Draw(props) {
     setTabs(tmp);
   }
 
-  const [viewport, setViewport] = React.useState(DEFAULT_VIEWPORT);
 
     return (
       <OutItem elevation={5}>

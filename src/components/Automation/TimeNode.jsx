@@ -1,17 +1,19 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, Position, useReactFlow } from 'reactflow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 
 
-export default memo(({ data, isConnectable }) => {
+export default memo(({ id, isConnectable }) => {
+
+  const { deleteElements } = useReactFlow();
 
   const [hour, setHour] = React.useState('00');
   const [min, setMin] = React.useState('00');
 
   const handleDeleteTime = (e) => {
     e.stopPropagation();
-    data.handleDeleteNode(data.id)
+    deleteElements({ nodes: [{ id }] });
   }
 
   return (

@@ -28,17 +28,24 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 import DeviceSelectorNode from '../components/Automation/DeviceNode';
 import TimeNode from '../components/Automation/TimeNode';
 import WaitNode from "../components/Automation/WaitNode";
 import EventNode from "../components/Automation/EventNode";
+import CustomEdge from "../components/Automation/CustomEdge";
 
 const nodeTypes = {
   deviceNode: DeviceSelectorNode,
   timeNode: TimeNode,
   waitNode: WaitNode,
   eventNode: EventNode,
+};
+
+const edgeTypes = {
+  customedge: CustomEdge,
 };
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -59,9 +66,15 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function Automation() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one flow
 
   let navigate = useNavigate();
 
@@ -94,6 +107,17 @@ export default function Automation() {
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const [newID, setNewID] = React.useState(()=>{
+    let max = 0;
+    nodes.forEach((node) => {
+      if (parseInt(node.id) > max) {
+        max = parseInt(node.id);
+      }
+    });
+    return max + 1;
+  });
+
 
   React.useEffect(() => {
 
@@ -136,7 +160,7 @@ export default function Automation() {
 
   const handleDeleteTab = (idx) => {
 
-    if (tabs.length === 1) { return; } //! throw error must have at leat one tab
+    if (tabs.length === 1) { setOpenErrorMsg1(true); return }
 
     let tmp = [...tabs];
     tmp.splice(idx, 1);
@@ -163,28 +187,11 @@ export default function Automation() {
 
   }
 
-  const handleDeleteNode = (id) => { 
-    let tmpNodes = [...nodes]; //! empty??
-    let tmpEdges = [...edges];
-
-    let newEdges = tmpEdges.filter((edge) => {
-      return edge.source !== id && edge.target !== id;
-    });
-
-    setEdges(newEdges);
-
-    let nodeIndex = tmpNodes.findIndex(node => node.id === id);
-    if (nodeIndex !== -1) {
-      tmpNodes.splice(nodeIndex, 1);
-    }
-
-    setNodes(tmpNodes);
-  }
-
   const onConnect = React.useCallback(
     (params) => setEdges((eds) => addEdge(
       {
         ...params, 
+        type: 'customedge',
         markerEnd: { type: MarkerType.ArrowClosed }, 
         style: { strokeWidth: 2 },
       }, eds)),
@@ -214,19 +221,21 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => setNodes(
+                      onClick={() => {setNodes(
                         [
                           ...nodes,
                           { 
-                            id: ''+nodes.length,   
+                            id: ''+newID,   
                             type: 'eventNode',                            
                             position: { x: 20, y: 20 }, 
-                            data: { devices: devices, handleDeleteNode: handleDeleteNode, id: nodes.length},
+                            data: { devices: devices },
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
-                      )}
+                      );
+                      setNewID(newID + 1);
+                    }}
                       >
                         <b>Event</b>
                       </Button>
@@ -235,19 +244,20 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => setNodes(
+                      onClick={() => {setNodes(
                         [
                           ...nodes,
                           { 
-                            id: ''+nodes.length,   
+                            id: ''+newID,   
                             type: 'waitNode',                          
                             position: { x: 20, y: 20 }, 
-                            data: { handleDeleteNode: handleDeleteNode, id: nodes.length},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
-                      )}
+                      );
+                      setNewID(newID + 1);
+                    }}
                       >
                         <b>Wait</b>
                       </Button>
@@ -256,19 +266,21 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => setNodes(
+                      onClick={() => {setNodes(
                         [
                           ...nodes,
                           { 
-                            id: ''+nodes.length, 
+                            id: ''+newID, 
                             type: 'deviceNode',
                             position: { x: 20, y: 20 }, 
-                            data: { devices: devices, handleDeleteNode: handleDeleteNode, id: nodes.length},
+                            data: { devices: devices },
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
-                      )}
+                      );                      
+                      setNewID(newID + 1);
+                    }}
                       >
                         <b>Device</b>
                       </Button>
@@ -277,19 +289,20 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => setNodes(
+                      onClick={() => {setNodes(
                         [
                           ...nodes,
                           { 
-                            id: ''+nodes.length, 
+                            id: ''+newID, 
                             type: 'timeNode',
                             position: { x: 20, y: 20 }, 
-                            data: { handleDeleteNode: handleDeleteNode, id: nodes.length},
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
-                      )}
+                      );
+                      setNewID(newID + 1);
+                    }}
                       >
                         <b>Time</b>
                       </Button>
@@ -299,18 +312,20 @@ export default function Automation() {
                       sx={{ backgroundColor: "red"}}
                       fullWidth 
                       variant="contained" 
-                      onClick={() => setNodes(
+                      onClick={() => {setNodes(
                         [
                           ...nodes,
                           { 
-                            id: ''+nodes.length, 
+                            id: ''+newID, 
                             position: { x: 20, y: 20 }, 
                             data: { label: 'API' },
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
                         ]
-                      )}
+                      );
+                      setNewID(newID + 1);
+                    }}
                       >
                         <b>API</b>
                       </Button>
@@ -397,6 +412,7 @@ export default function Automation() {
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
                     nodeTypes={nodeTypes}
+                    edgeTypes={edgeTypes}
                   >
                     <Background variant="dots" gap={12} size={1} />
                   </ReactFlow>
@@ -405,6 +421,28 @@ export default function Automation() {
             </OutItem>
           </Grid>
       </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg1}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg1(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg1(false);
+            }
+          }}
+        >
+          Must have at least one flow!
+        </Alert>
+      </Snackbar>
     </>    
   );
 }

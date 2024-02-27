@@ -1,11 +1,13 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, Position, useReactFlow } from 'reactflow';
 import { useDebounce } from "use-debounce";
 import Slider from "@mui/material/Slider";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 
-export default memo(({ data, isConnectable }) => {
+export default memo(({ id, data, isConnectable }) => {
+
+    const { deleteElements } = useReactFlow();
 
     const [deviceIdx, setDeviceIdx] = React.useState(0);
     const [deviceState, setDeviceState] = React.useState("turnOff");
@@ -49,7 +51,7 @@ export default memo(({ data, isConnectable }) => {
 
     const handleDeleteDevice = (e) => {
       e.stopPropagation();
-      data.handleDeleteNode(data.id)
+      deleteElements({ nodes: [{ id }] });
     }
 
 
