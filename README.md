@@ -5,6 +5,7 @@
 - lista de compras
 - tempo 
 - ver skeletons
+- ver isto https://reactflow.dev/examples/interaction/drag-and-drop
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)

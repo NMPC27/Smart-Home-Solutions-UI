@@ -19,6 +19,46 @@ import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
 import { getDevices} from "../components/API";
 import ButtonGroup from '@mui/material/ButtonGroup';
+import ReactFlow, {
+  useNodesState
+} from 'reactflow';
+
+import CameraNode from "../components/Building/CameraNode";
+import LightsNode from "../components/Building/LightsNode";
+import TemperatureNode from "../components/Building/TemperatureNode";
+import MotionSensorNode from "../components/Building/MotionSensorNode";
+
+import 'reactflow/dist/style.css';
+
+const initialNodes = [
+  {
+    id: 'interaction-1',
+    type: 'cameraNode',  
+    position: { x: 250, y: 5 },
+  },
+  {
+    id: 'interaction-2',
+    type: 'lightsNode', 
+    position: { x: 100, y: 100 },
+  },
+  {
+    id: 'interaction-3',
+    type: 'temperatureNode', 
+    position: { x: 400, y: 100 },
+  },
+  {
+    id: 'interaction-4',
+    type: 'motionSensorNode', 
+    position: { x: 400, y: 200 },
+  },
+];
+
+const nodeTypes = {
+  cameraNode: CameraNode,
+  lightsNode: LightsNode,
+  temperatureNode: TemperatureNode,
+  motionSensorNode: MotionSensorNode,
+};
 
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -66,16 +106,17 @@ export default function Building() {
     );
   }, []);
 
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   const [tabs, setTabs] = React.useState(["Floor 0"]);
   const [editIdx, setEditIdx] = React.useState(-1);
   const [tabName, setTabName] = React.useState("");
 
-  const [imgData, setImgData] = React.useState(null);
   const [house, setHouse] = React.useState([null]);
 
-  const [mode, setMode] = React.useState(0);
+  const [mode, setMode] = React.useState("view");
 
   const handleAddTab = () => {
 
@@ -132,7 +173,7 @@ export default function Building() {
                   { devices && devices.map((device, idx) => {
                     return (
                       <Grid item xs={12} sm={12} md={6}>
-                        <Button fullWidth variant="contained">{device.name}</Button>
+                        <Button fullWidth variant="contained"><b>{device.name}</b></Button>
                       </Grid>
                     );
                   })}
@@ -230,12 +271,22 @@ export default function Building() {
                       onClose={() => setMode('view')} 
                     />
                   }
-                  { mode === 'edit' &&                  
-                    house[selectedTab] && <img src={house[selectedTab]}/>
+
+                  { (mode === 'edit' || mode === 'view' ) && house[selectedTab] && 
+                      <ReactFlow
+                        nodes={nodes}
+                        onNodesChange={onNodesChange}
+                        nodesDraggable={mode === 'edit' ? true : false}
+                        zoomOnScroll={false}
+                        panOnDrag={false}
+                        elementsSelectable={false}
+                        nodeTypes={nodeTypes}
+                        fitView
+                      >
+                        <img src={house[selectedTab]} width='100%' height='100%'/>
+                      </ReactFlow> 
+
                   }        
-                  { mode === 'view' &&                  
-                    house[selectedTab] && <img src={house[selectedTab]}/>
-                  }            
                 </div>
                 
               </InItem>
