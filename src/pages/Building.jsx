@@ -17,41 +17,27 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
-import { getDevices} from "../components/API";
+import { getDevices, postDevices } from "../components/API";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ReactFlow, {
   useNodesState
 } from 'reactflow';
+import Skeleton from "@mui/material/Skeleton";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+import LightsDialog from "../components/Building/LightsDialog";
+import CameraDialog from "../components/Building/CameraDialog";
+import TemperatureDialog from "../components/Building/TemperatureDialog";
 
 import CameraNode from "../components/Building/CameraNode";
 import LightsNode from "../components/Building/LightsNode";
 import TemperatureNode from "../components/Building/TemperatureNode";
 import MotionSensorNode from "../components/Building/MotionSensorNode";
 
+
 import 'reactflow/dist/style.css';
 
-const initialNodes = [
-  {
-    id: 'interaction-1',
-    type: 'cameraNode',  
-    position: { x: 250, y: 5 },
-  },
-  {
-    id: 'interaction-2',
-    type: 'lightsNode', 
-    position: { x: 100, y: 100 },
-  },
-  {
-    id: 'interaction-3',
-    type: 'temperatureNode', 
-    position: { x: 400, y: 100 },
-  },
-  {
-    id: 'interaction-4',
-    type: 'motionSensorNode', 
-    position: { x: 400, y: 200 },
-  },
-];
 
 const nodeTypes = {
   cameraNode: CameraNode,
@@ -59,6 +45,10 @@ const nodeTypes = {
   temperatureNode: TemperatureNode,
   motionSensorNode: MotionSensorNode,
 };
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -79,7 +69,6 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-const tabsTMP = [0,1,2,3];
 
 export default function Building() {
   const theme = useTheme();
@@ -106,7 +95,94 @@ export default function Building() {
     );
   }, []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one flow
+
+  const [openDialogLights, setOpenDialogLights] = React.useState(false);
+  const [openDialogCamera, setOpenDialogCamera] = React.useState(false);
+  const [openDialogTemperature, setOpenDialogTemperature] = React.useState(false);
+  const [deviceIdx, setDeviceIdx] = React.useState(-1);
+
+  const openDialog = (deviceIndex, type) => {
+    setDeviceIdx(deviceIndex)
+
+    if (type === "Camera") {
+      setOpenDialogCamera(true);
+    }else if (type === "Lights") {
+      setOpenDialogLights(true);
+    }else if (type === "Temperature") {
+      setOpenDialogTemperature(true);
+    }
+
+  }
+  
+  const handleLightColor = (val, idx) => {
+    let tmp = [...devices];
+    tmp[idx].color = val;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+  const handleBrightnessChange = (val, idx) => {
+    let tmp = [...devices];
+    tmp[idx].brightness = val;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+  const handleLightOnOff = (idx) => {
+    let tmp = [...devices];
+    tmp[idx].on = !tmp[idx].on;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+  const handleCameraOnOff = (idx) => {
+    let tmp = [...devices];
+    tmp[idx].on = !tmp[idx].on;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+  const handleTemperatureTarget = (val, idx) => {
+    const newTemp = parseInt(val);
+
+    let tmp = [...devices];
+    tmp[idx].targetTemperature = newTemp;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+  const handleMinusTemperature = (idx) => {
+    let tmp = [...devices];
+    tmp[idx].targetTemperature = tmp[idx].targetTemperature - 1;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+  const handlePlusTemperature = (idx) => {
+    let tmp = [...devices];
+    tmp[idx].targetTemperature = tmp[idx].targetTemperature + 1;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+  const handleTemperatureOnOff = (idx) => {
+    let tmp = [...devices];
+    tmp[idx].on = !tmp[idx].on;
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
+
+
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
 
   const [selectedTab, setSelectedTab] = React.useState(0);
 
@@ -114,7 +190,9 @@ export default function Building() {
   const [editIdx, setEditIdx] = React.useState(-1);
   const [tabName, setTabName] = React.useState("");
 
-  const [house, setHouse] = React.useState([null]);
+  const [houseLayout, setHouseLayout] = React.useState([null]);
+
+  const [globalNodes, setGlobalNodes] = React.useState([]);
 
   const [mode, setMode] = React.useState("view");
 
@@ -123,18 +201,30 @@ export default function Building() {
     let tmp = [...tabs];
     tmp.push("Floor "+tmp.length);
 
-    setHouse([...house, null])
+    setHouseLayout([...houseLayout, null])
+
+    setGlobalNodes([...globalNodes, []]);
+    setNodes([])
+
     setTabs(tmp);
     setMode('view')
   }
 
   const handleDeleteTab = (idx) => {
+
+    if (tabs.length === 1) { setOpenErrorMsg1(true); return }
+
     let tmp = [...tabs];
-    let tmpHouse = [...house];
     tmp.splice(idx, 1);
-    tmpHouse.splice(idx, 1);
     setTabs(tmp);
-    setHouse(tmpHouse)
+
+    let tmpHouse = [...houseLayout];
+    tmpHouse.splice(idx, 1);
+    setHouseLayout(tmpHouse);
+
+    let tmpNodes = [...globalNodes];
+    tmpNodes.splice(idx, 1);
+    setGlobalNodes(tmpNodes);
   }
 
   
@@ -142,6 +232,8 @@ export default function Building() {
     setSelectedTab(newValue);
 
     if (tabs.length === newValue) { return; }
+
+    setNodes(globalNodes[newValue]);
   }
 
   const handleKeyDown = (event,idx) => {
@@ -156,6 +248,47 @@ export default function Building() {
     let tmp = [...tabs];
     tmp[idx] = tabName;
     setTabs(tmp);
+  }
+
+  React.useEffect(() => {
+
+    if (tabs.length === 0) { return; }
+
+    let tmpNodes = [...globalNodes];
+
+    tmpNodes[selectedTab] = nodes;
+
+    setGlobalNodes(tmpNodes);
+  },[nodes])
+
+  if (devices === null) {
+    return (
+      <>
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Skeleton
+              variant="rounded"
+              height="7vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <Skeleton
+              variant="rounded"
+              height="60vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={9}>
+            <Skeleton
+              variant="rounded"
+              height="60vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
+        </Grid>
+      </>
+    );
   }
 
   return (
@@ -173,7 +306,37 @@ export default function Building() {
                   { devices && devices.map((device, idx) => {
                     return (
                       <Grid item xs={12} sm={12} md={6}>
-                        <Button fullWidth variant="contained"><b>{device.name}</b></Button>
+                        <Button 
+                          fullWidth 
+                          variant="contained"
+                          onClick={() => {
+                            let tmpType = null
+
+                            if (device.type === "Camera") {
+                              tmpType = "cameraNode"
+                            } else if (device.type === "Light") {
+                              tmpType = "lightsNode"
+                            } else if (device.type === "Temperature") {
+                              tmpType = "temperatureNode"
+                            } else if (device.type === "Motion Sensor") {
+                              tmpType = "motionSensorNode"
+                            }
+
+                            setNodes(
+                              [
+                                ...nodes,
+                                { 
+                                  id: ''+idx,   
+                                  type: tmpType,                           
+                                  position: { x: 20, y: 20 }, 
+                                  data: { openDialog: openDialog, name: device.name },
+                                }
+                              ]
+                            );
+                          }}
+                          >
+                            <b>{device.name}</b>
+                        </Button>
                       </Grid>
                     );
                   })}
@@ -262,30 +425,29 @@ export default function Building() {
                 <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} >
                   { mode === 'draw' &&
                     <DrawIoEmbed 
-                      xml={house[selectedTab]}
+                      xml={houseLayout[selectedTab]}
                       onExport={(data) =>  {
-                        let tmp = [...house];
+                        let tmp = [...houseLayout];
                         tmp[selectedTab] = data.data;
-                        setHouse(tmp);
+                        setHouseLayout(tmp);
                       }}
                       onClose={() => setMode('view')} 
                     />
                   }
 
-                  { (mode === 'edit' || mode === 'view' ) && house[selectedTab] && 
+                  { (mode === 'edit' || mode === 'view' ) && houseLayout[selectedTab] && 
                       <ReactFlow
                         nodes={nodes}
                         onNodesChange={onNodesChange}
                         nodesDraggable={mode === 'edit' ? true : false}
                         zoomOnScroll={false}
                         panOnDrag={false}
-                        elementsSelectable={false}
+                        elementsSelectable={true}
                         nodeTypes={nodeTypes}
                         fitView
                       >
-                        <img src={house[selectedTab]} width='100%' height='100%'/>
+                        <img src={houseLayout[selectedTab]} width='100%' height='100%'/>
                       </ReactFlow> 
-
                   }        
                 </div>
                 
@@ -293,6 +455,58 @@ export default function Building() {
             </OutItem>
           </Grid>
       </Grid>
+      {devices[deviceIdx] !== undefined &&
+        <>
+          <LightsDialog
+            openDialog={openDialogLights}
+            deviceIdx={deviceIdx}
+            devices={devices}
+            handleCloseDialog={() => setOpenDialogLights(false)}
+            handleLightColor={handleLightColor}
+            handleBrightnessChange={handleBrightnessChange}
+            handleLightOnOff={handleLightOnOff}
+          />
+          <CameraDialog
+            openDialog={openDialogCamera}
+            deviceIdx={deviceIdx}
+            devices={devices}
+            handleCloseDialog={() => setOpenDialogCamera(false)}
+            handleCameraOnOff={handleCameraOnOff}
+          />
+          <TemperatureDialog 
+            openDialog={openDialogTemperature}
+            deviceIdx={deviceIdx}
+            devices={devices}
+            handleCloseDialog={() => setOpenDialogTemperature(false)}
+            handleTemperatureTarget={handleTemperatureTarget}
+            handlePlusTemperature={handlePlusTemperature}
+            handleMinusTemperature={handleMinusTemperature}
+            handleTemperatureOnOff={handleTemperatureOnOff}
+          />
+        </>
+      }
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg1}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg1(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg1(false);
+            }
+          }}
+        >
+          Must have at least one Floor!
+        </Alert>
+      </Snackbar>
     </>    
   );
 }

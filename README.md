@@ -6,6 +6,9 @@
 - tempo 
 - ver skeletons
 - ver isto https://reactflow.dev/examples/interaction/drag-and-drop
+- can not store the token in the local storage !! vulnerability
+    https://stackoverflow.com/questions/71815202/is-it-safe-and-convenient-to-store-jwt-token-in-localstorage-or-cookies-and-to-s
+    https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 
 - forgot password
 - melhorar as responsividade dos resizes (dahsboard e temp)
