@@ -29,6 +29,7 @@ import MuiAlert from "@mui/material/Alert";
 import LightsDialog from "../components/Building/LightsDialog";
 import CameraDialog from "../components/Building/CameraDialog";
 import TemperatureDialog from "../components/Building/TemperatureDialog";
+import MotionSensorDialog from "../components/Building/MotionSensorDialog";
 
 import CameraNode from "../components/Building/CameraNode";
 import LightsNode from "../components/Building/LightsNode";
@@ -100,6 +101,7 @@ export default function Building() {
   const [openDialogLights, setOpenDialogLights] = React.useState(false);
   const [openDialogCamera, setOpenDialogCamera] = React.useState(false);
   const [openDialogTemperature, setOpenDialogTemperature] = React.useState(false);
+  const [openDialogMotionSensor, setOpenDialogMotionSensor] = React.useState(false);
   const [deviceIdx, setDeviceIdx] = React.useState(-1);
 
   const openDialog = (deviceIndex, type) => {
@@ -111,8 +113,9 @@ export default function Building() {
       setOpenDialogLights(true);
     }else if (type === "Temperature") {
       setOpenDialogTemperature(true);
+    }else if (type === "Motion Sensor") {
+      setOpenDialogMotionSensor(true);
     }
-
   }
   
   const handleLightColor = (val, idx) => {
@@ -249,6 +252,16 @@ export default function Building() {
     tmp[idx] = tabName;
     setTabs(tmp);
   }
+
+  const handleClickAlarm = (val,idx) => {
+    let tmp = [...devices];
+
+    tmp[idx].on = val;
+
+    setDevices(tmp);
+
+    postDevices(tmp); //! API CALL
+  };
 
   React.useEffect(() => {
 
@@ -482,6 +495,13 @@ export default function Building() {
             handlePlusTemperature={handlePlusTemperature}
             handleMinusTemperature={handleMinusTemperature}
             handleTemperatureOnOff={handleTemperatureOnOff}
+          />
+          <MotionSensorDialog
+            openDialog={openDialogMotionSensor}
+            deviceIdx={deviceIdx}
+            devices={devices}
+            handleCloseDialog={() => setOpenDialogMotionSensor(false)}
+            handleClickAlarm={handleClickAlarm}
           />
         </>
       }

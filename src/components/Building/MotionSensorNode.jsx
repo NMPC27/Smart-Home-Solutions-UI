@@ -15,7 +15,7 @@ export default memo(({ id, isConnectable, data }) => {
 
   return (
     <>
-      <IconButton sx={{padding: 0}}>
+      <IconButton sx={{padding: 0}} onClick={()=> data.openDialog(parseInt(id),"Motion Sensor")}>
           <SensorsIcon />
       </IconButton>
       <p style={{marginTop: 0, marginBottom:0, fontSize: "0.6em"}}><b>{data.name}</b></p>
