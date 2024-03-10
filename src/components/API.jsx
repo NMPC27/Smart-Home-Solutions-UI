@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const endpoint = "http://127.0.0.1:8000";
-const endpoint = "https://smart-home-solutions-api.onrender.com";
+const endpoint = "http://127.0.0.1:8000";
+// const endpoint = "https://smart-home-solutions-api.onrender.com";
 
 export function doLogin(email, password) {
   const form_data = new FormData();
@@ -45,7 +45,7 @@ export function getRooms() {
 export function getCards() {
   let token = localStorage.getItem("token");
 
-  return axios.get(endpoint + "/cards", {
+  return axios.get(endpoint + "/dashboards", {
     headers: {
       Authorization: `Bearer ${token}`,
       "Access-Control-Allow-Origin": endpoint,
@@ -64,11 +64,11 @@ export function getNotifications() {
   });
 }
 
-export function postDevices(data) {
+export function deviceAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/devices",
+    endpoint + "/devices/add",
     { data },
     {
       headers: {
@@ -79,11 +79,131 @@ export function postDevices(data) {
   );
 }
 
-export function postRooms(data) {
+export function deviceEdit(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/rooms",
+    endpoint + "/devices/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function deviceRemove(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/devices/remove",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function deviceOn(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/devices/on",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function deviceTemperatureTarget(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/devices/temperature/target",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function deviceLightColor(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/devices/light/color",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function deviceLightBrightness(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/devices/light/brightness",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function roomAdd(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/rooms/add",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function roomEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/rooms/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function roomRemove(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/rooms/remove",
     { data },
     {
       headers: {
@@ -109,11 +229,11 @@ export function postCards(data) {
   );
 }
 
-export function postNotifications(data) {
+export function notificationsDelete(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/notifications",
+    endpoint + "/notifications/delete",
     { data },
     {
       headers: {
@@ -155,3 +275,6 @@ export function getFiles(file, download) {
     });
   }
 }
+
+
+export function postDevices(data) {} //! DELETE
