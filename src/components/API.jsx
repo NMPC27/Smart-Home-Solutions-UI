@@ -319,6 +319,100 @@ export function notificationsDelete(data) {
   );
 }
 
+export function getFlowTabs(date) {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/flows/tabs", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+
+export function flowTabAdd(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/tab/add",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function flowTabEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/tab/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function flowTabRemove(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/tab/remove",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function getFlowNodes() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/flows/nodes", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+export function getFlowEdges() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/flows/edges", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+export function flowEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
 export function getEnergy(date) {
   let token = localStorage.getItem("token");
 

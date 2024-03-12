@@ -1,10 +1,14 @@
 # TODO:
+- use debounce on api of nodes edit (automation)
+- atençao as coisas modificadas dentro do node nao estão a ser guardadas
+
 - fix sync problem between same cards (duplicated)
 - add automation skeleton
 - fix delete card mobile
 - fix pie chart
 - lista de compras
 - tempo 
+- try to improve notification, not getting every 5s
 - ver skeletons
 - ver isto https://reactflow.dev/examples/interaction/drag-and-drop
 - can not store the token in the local storage !! vulnerability

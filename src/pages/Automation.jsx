@@ -22,7 +22,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import {
   getDevices,
-  getRooms,
+  getFlowTabs,
+  flowTabAdd,
+  flowTabEdit,
+  flowTabRemove,
+  flowEdit,
+  getFlowNodes,
+  getFlowEdges
 } from "../components/API";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
@@ -84,7 +90,14 @@ export default function Automation() {
     }
   }, [mobile]);
 
-  const [devices, setDevices] = React.useState([]);
+  const [devices, setDevices] = React.useState(null);
+  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [tabs, setTabs] = React.useState(null);
+  const [editIdx, setEditIdx] = React.useState(-1);
+  const [tabName, setTabName] = React.useState("");
+
+  const [globalNodes, setGlobalNodes] = React.useState(null); //! iniciate at null
+  const [globalEdges, setGlobalEdges] = React.useState(null); //! iniciate at null
 
   React.useEffect(() => {
     getDevices().then(
@@ -95,18 +108,54 @@ export default function Automation() {
         navigate("/");
       },
     );
+
+    getFlowTabs().then(
+      (res) => {
+        setTabs(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+    
+    getFlowNodes().then(
+      (res) => {
+        setGlobalNodes(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+
+    getFlowEdges().then(
+      (res) => {
+        setGlobalEdges(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+    
   }, []);
 
-  const [selectedTab, setSelectedTab] = React.useState(0);
-  const [tabs, setTabs] = React.useState(["Flow 0"]);
-  const [editIdx, setEditIdx] = React.useState(-1);
-  const [tabName, setTabName] = React.useState("");
 
-  const [globalNodes, setGlobalNodes] = React.useState([]);
-  const [globalEdges, setGlobalEdges] = React.useState([]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const [loaded, setLoaded] = React.useState(false); 
+  React.useEffect(() => {  //! para carregar os nodes e edges globais e fazer set deles
+
+    if (globalNodes !== null && globalEdges !== null && !loaded) {
+
+      setNodes(globalNodes[selectedTab])
+      setEdges(globalEdges[selectedTab])
+
+      setLoaded(true);
+
+    }
+
+  },[globalNodes, globalEdges])
 
   const [newID, setNewID] = React.useState(()=>{
     let max = 0;
@@ -121,6 +170,7 @@ export default function Automation() {
 
   React.useEffect(() => {
 
+    if (tabs === null) { return; }
     if (tabs.length === 0) { return; }
 
     let tmpNodes = [...globalNodes];
@@ -131,6 +181,8 @@ export default function Automation() {
 
     setGlobalNodes(tmpNodes);
     setGlobalEdges(tmpEdges);
+
+    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}) //! API call
   },[nodes, edges])
 
   const handleKeyDown = (event,idx) => {
@@ -145,12 +197,15 @@ export default function Automation() {
     let tmp = [...tabs];
     tmp[idx] = tabName;
     setTabs(tmp);
+
+    flowTabEdit({name: tabName, idx: idx}) //! API call
   }
 
   const handleAddTab = () => {
 
     let tmp = [...tabs];
-    tmp.push("Flow "+tmp.length);
+    let len = tmp.length;
+    tmp.push("Flow "+len);
 
     setGlobalNodes([...globalNodes, []]);
     setGlobalEdges([...globalEdges, []]);
@@ -159,6 +214,8 @@ export default function Automation() {
     setEdges([])
 
     setTabs(tmp);
+
+    flowTabAdd({name: "Flow "+len}) //! API call
   }
 
   const handleDeleteTab = (idx) => {
@@ -178,6 +235,7 @@ export default function Automation() {
     setGlobalNodes(tmpNodes);
     setGlobalEdges(tmpEdges);
 
+    flowTabRemove({idx: idx}) //! API call
   }
 
   const handleChangeTab = (newValue) => {
@@ -205,6 +263,12 @@ export default function Automation() {
     //! verificar se o flow esta bem feito
     //! se nao dar erro
     //! se sim, aplicar o flow
+  }
+
+
+
+  if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { //! por skeleton
+    return <></>;
   }
 
 
