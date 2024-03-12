@@ -1,4 +1,5 @@
 # TODO:
+- fix sync problem between same cards (duplicated)
 - add automation skeleton
 - fix delete card mobile
 - fix pie chart

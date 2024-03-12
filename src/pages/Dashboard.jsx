@@ -254,7 +254,7 @@ export default function Dashboard() {
 
     setDevices(tmp);
 
-    deviceEdit({"id": tmp[idx].id, "name": name}); //! API CALL
+    deviceEdit({id: tmp[idx].id, name: name}); //! API CALL
   }
 
   const handleDeleteDevice = (idx) => {
@@ -263,7 +263,7 @@ export default function Dashboard() {
     tmp.splice(idx, 1);
     setDevices(tmp);
 
-    deviceRemove({"id": id}); //! API CALL
+    deviceRemove({id: id}); //! API CALL
   };
 
   const handleRoomAdd = (val) => {
@@ -298,10 +298,11 @@ export default function Dashboard() {
     setDevices(tmp_devices);
 
     let tmp_rooms = [...rooms];
+    let oldName = tmp_rooms[idx].name;
     tmp_rooms[idx].name = name;
     setRooms(tmp_rooms);
 
-    roomEdit({ id: tmp_rooms[idx].id, name: name }); //! API CALL ja trata da modificação dos devices
+    roomEdit({ id: tmp_rooms[idx].id, newName: name, oldName: oldName }); //! API CALL ja trata da modificação dos devices
   }
 
   const handleDeleteRoom = (idx) => {
@@ -324,10 +325,11 @@ export default function Dashboard() {
 
     let roomsTmp = [...rooms];
     let id = roomsTmp[idx].id;
+    let name = roomsTmp[idx].name;
     roomsTmp.splice(idx, 1);
     setRooms(roomsTmp);
 
-    roomRemove({"id": id}); //! API CALL ja trata da modificação dos devices
+    roomRemove({id: id, name: name}); //! API CALL ja trata da modificação dos devices
   };
 
   const handleTemperatureTarget = (val, idx) => {
@@ -469,12 +471,16 @@ export default function Dashboard() {
     setCards(tmp);
 
     dashboardCardAdd({
-      type: val.type,
-      i: newID.toString(),
-      x: 0,
-      y: Infinity,
-      w: card_w,
-      h: card_h,
+      deviceSelected: deviceSelected,
+      tab: tab,
+      card: {
+        type: val.type,
+        i: newID.toString(),
+        x: 0,
+        y: Infinity,
+        w: card_w,
+        h: card_h,
+      }
     }); //! API CALL
   };
 
