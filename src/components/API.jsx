@@ -169,6 +169,21 @@ export function deviceLightBrightness(data) {
   );
 }
 
+export function deviceAlarm(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/devices/alarm",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
 export function roomAdd(data) {
   let token = localStorage.getItem("token");
 
@@ -214,11 +229,71 @@ export function roomRemove(data) {
   );
 }
 
-export function postCards(data) {
+export function dashboardAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/cards",
+    endpoint + "/dashboards/add",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function dashboardRemove(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/dashboards/remove",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function dashboardCardAdd(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/dashboards/card/add",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function dashboardCardEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/dashboards/card/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function dashboardCardRemove(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/dashboards/card/remove",
     { data },
     {
       headers: {

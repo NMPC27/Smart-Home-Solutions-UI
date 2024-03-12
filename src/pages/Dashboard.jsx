@@ -26,10 +26,15 @@ import {
   deviceTemperatureTarget,
   deviceLightColor,
   deviceLightBrightness,
+  deviceAlarm,
   roomAdd,
   roomEdit,
   roomRemove,
-  postCards,
+  dashboardAdd,
+  dashboardRemove,
+  dashboardCardAdd,
+  dashboardCardEdit,
+  dashboardCardRemove,
   getNotifications,
   notificationsDelete,
 } from "../components/API";
@@ -391,7 +396,7 @@ export default function Dashboard() {
     tmp[deviceSelected].push([]);
 
     setCards(tmp);
-    postCards(tmp);
+    dashboardAdd({deviceSelected: deviceSelected}); //! API CALL
   }
 
   const handleDeleteDashboard = (deviceSelected,idx) => {
@@ -399,7 +404,7 @@ export default function Dashboard() {
     tmp[deviceSelected].splice(idx, 1);
 
     setCards(tmp);
-    postCards(tmp);
+    dashboardRemove({deviceSelected: deviceSelected, tab: idx}); //! API CALL
   }
 
   const handleCardAdd = (deviceSelected,tab,val) => {
@@ -463,7 +468,14 @@ export default function Dashboard() {
 
     setCards(tmp);
 
-    postCards(tmp); //! API CALL
+    dashboardCardAdd({
+      type: val.type,
+      i: newID.toString(),
+      x: 0,
+      y: Infinity,
+      w: card_w,
+      h: card_h,
+    }); //! API CALL
   };
 
   const handleSetLayout = (deviceSelected,tab,val) => {
@@ -473,7 +485,7 @@ export default function Dashboard() {
     tmp[deviceSelected][tab] = val;
 
     setCards(tmp);
-    postCards(tmp); //! API CALL
+    dashboardCardEdit({deviceSelected: deviceSelected, tab: tab, layout: val}); //! API CALL
   };
 
   const handleCardDelete = (deviceSelected,tab,idx) => {
@@ -481,7 +493,7 @@ export default function Dashboard() {
     tmp[deviceSelected][tab].splice(idx, 1);
 
     setCards(tmp);
-    postCards(tmp); //! API CALL
+    dashboardCardRemove({deviceSelected: deviceSelected, tab: tab, idx: idx}); //! API CALL
   };
 
   const handleClickAlarm = (val) => {
@@ -495,7 +507,7 @@ export default function Dashboard() {
 
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceAlarm({on: val}); //! API CALL
   };
 
   const handleCameraOnOff = (idx) => {
