@@ -413,6 +413,114 @@ export function flowEdit(data) {
   );
 }
 
+export function getBuildTabs() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/builds/tabs", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+export function buildTabAdd(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/builds/tab/add",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function buildTabEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/builds/tab/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function buildTabRemove(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/builds/tab/remove",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function getBuildHouseLayout() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/builds/layout", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+export function buildsHouseLayoutEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/builds/layout/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function getBuildsHouseLayoutDevices() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/builds/layout/devices", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+export function buildsHouseLayoutDevicesEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/builds/layout/devices/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
 export function getEnergy(date) {
   let token = localStorage.getItem("token");
 

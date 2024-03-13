@@ -17,7 +17,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
-import { getDevices, postDevices } from "../components/API";
+import { 
+  getDevices, 
+  postDevices,
+  getBuildTabs,
+  buildTabAdd,
+  buildTabEdit,
+  buildTabRemove,
+  getBuildHouseLayout,
+  getBuildsHouseLayoutDevices,
+  buildsHouseLayoutEdit,
+  buildsHouseLayoutDevicesEdit,
+} from "../components/API";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ReactFlow, {
   useNodesState
@@ -84,11 +95,51 @@ export default function Building() {
   }, [mobile]);
 
   const [devices, setDevices] = React.useState(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+
+  const [selectedTab, setSelectedTab] = React.useState(0);
+
+  const [tabs, setTabs] = React.useState(null);
+  const [editIdx, setEditIdx] = React.useState(-1);
+  const [tabName, setTabName] = React.useState("");
+
+  const [houseLayout, setHouseLayout] = React.useState(null); //! set null
+
+  const [globalNodes, setGlobalNodes] = React.useState(null); //! set null
+
+  const [mode, setMode] = React.useState("view");
 
   React.useEffect(() => {
     getDevices().then(
       (res) => {
         setDevices(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+
+    getBuildTabs().then(
+      (res) => {
+        setTabs(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+
+    getBuildHouseLayout().then(
+      (res) => {
+        setHouseLayout(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+
+    getBuildsHouseLayoutDevices().then(
+      (res) => {
+        setGlobalNodes(res.data);
       },
       () => {
         navigate("/");
@@ -184,25 +235,11 @@ export default function Building() {
     postDevices(tmp); //! API CALL
   };
 
-
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-
-  const [selectedTab, setSelectedTab] = React.useState(0);
-
-  const [tabs, setTabs] = React.useState(["Floor 0"]);
-  const [editIdx, setEditIdx] = React.useState(-1);
-  const [tabName, setTabName] = React.useState("");
-
-  const [houseLayout, setHouseLayout] = React.useState([null]);
-
-  const [globalNodes, setGlobalNodes] = React.useState([]);
-
-  const [mode, setMode] = React.useState("view");
-
   const handleAddTab = () => {
 
     let tmp = [...tabs];
-    tmp.push("Floor "+tmp.length);
+    let name = "Floor "+tmp.length;
+    tmp.push(name);
 
     setHouseLayout([...houseLayout, null])
 
@@ -211,6 +248,8 @@ export default function Building() {
 
     setTabs(tmp);
     setMode('view')
+
+    buildTabAdd({name: name}); //! API CALL
   }
 
   const handleDeleteTab = (idx) => {
@@ -228,6 +267,8 @@ export default function Building() {
     let tmpNodes = [...globalNodes];
     tmpNodes.splice(idx, 1);
     setGlobalNodes(tmpNodes);
+
+    buildTabRemove({idx: idx}); //! API CALL
   }
 
   
@@ -251,6 +292,8 @@ export default function Building() {
     let tmp = [...tabs];
     tmp[idx] = tabName;
     setTabs(tmp);
+
+    buildTabEdit({idx: idx, name: tabName}); //! API CALL
   }
 
   const handleClickAlarm = (val,idx) => {
@@ -263,8 +306,21 @@ export default function Building() {
     postDevices(tmp); //! API CALL
   };
 
-  React.useEffect(() => {
+  const [loaded, setLoaded] = React.useState(false); 
+  React.useEffect(() => {  //! para carregar os nodes globais e fazer set deles pq no 1 load n faz
 
+    if (globalNodes !== null && !loaded) {
+
+      setNodes(globalNodes[selectedTab])
+
+      setLoaded(true);
+
+    }
+
+  },[globalNodes])
+
+  React.useEffect(() => {
+    if (tabs === null) { return; }
     if (tabs.length === 0) { return; }
 
     let tmpNodes = [...globalNodes];
@@ -272,9 +328,19 @@ export default function Building() {
     tmpNodes[selectedTab] = nodes;
 
     setGlobalNodes(tmpNodes);
+
+    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}); //! API CALL
   },[nodes])
 
-  if (devices === null) {
+  const handleSave = (data) => {
+    let tmp = [...houseLayout];
+    tmp[selectedTab] = data.data;
+    setHouseLayout(tmp);
+
+    buildsHouseLayoutEdit({idx: selectedTab, img: data.data}); //! API CALL
+  }
+
+  if (devices === null || tabs === null || houseLayout === null || globalNodes === null) {
     return (
       <>
         <Grid container spacing={4}>
@@ -342,7 +408,7 @@ export default function Building() {
                                   id: ''+idx,   
                                   type: tmpType,                           
                                   position: { x: 20, y: 20 }, 
-                                  data: { openDialog: openDialog, name: device.name },
+                                  data: { openDialog: openDialog, name: device.name, on: device.on },
                                 }
                               ]
                             );
@@ -439,11 +505,7 @@ export default function Building() {
                   { mode === 'draw' &&
                     <DrawIoEmbed 
                       xml={houseLayout[selectedTab]}
-                      onExport={(data) =>  {
-                        let tmp = [...houseLayout];
-                        tmp[selectedTab] = data.data;
-                        setHouseLayout(tmp);
-                      }}
+                      onExport={(data) =>  handleSave(data)}
                       onClose={() => setMode('view')} 
                     />
                   }

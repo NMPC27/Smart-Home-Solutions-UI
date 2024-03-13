@@ -144,7 +144,7 @@ export default function Automation() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const [loaded, setLoaded] = React.useState(false); 
-  React.useEffect(() => {  //! para carregar os nodes e edges globais e fazer set deles
+  React.useEffect(() => {  //! para carregar os nodes e edges globais e fazer set deles pq no 1 load n faz
 
     if (globalNodes !== null && globalEdges !== null && !loaded) {
 
