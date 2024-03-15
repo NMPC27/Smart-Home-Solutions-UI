@@ -149,7 +149,6 @@ export default function AppBarStyled(props) {
           {(props.navbar === "energy" || props.navbar === "history") && !mobile && (
             <BasicDatePicker handleDateChange={props.handleDateChange} />
           )}
-          {props.navbar === "files" && <></>}
         </Toolbar>
       </AppBar>
 

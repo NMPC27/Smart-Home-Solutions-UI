@@ -531,27 +531,3 @@ export function getEnergy(date) {
     },
   });
 }
-
-export function getFiles(file, download) {
-  let token = localStorage.getItem("token");
-
-  if (download) {
-    return axios.get(endpoint + `/files?file=${file}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      responseType: "blob",
-    });
-  } else {
-    return axios.get(endpoint + `/files?file=${file}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-    });
-  }
-}
-
-
-export function postDevices(data) {} //! DELETE
