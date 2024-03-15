@@ -146,7 +146,7 @@ export default function AppBarStyled(props) {
               </Menu>
             </>
           )}
-          {props.navbar === "energy" || props.navbar === "history" && !mobile && (
+          {(props.navbar === "energy" || props.navbar === "history") && !mobile && (
             <BasicDatePicker handleDateChange={props.handleDateChange} />
           )}
           {props.navbar === "files" && <></>}
@@ -208,7 +208,7 @@ export default function AppBarStyled(props) {
         </>
       )}
 
-      {props.navbar === "energy" || props.navbar === "history" && mobile && (
+      {(props.navbar === "energy" || props.navbar === "history") && mobile && (
         <div style={{ marginBottom: "3vh", width: "70%", margin: "auto" }}>
           <BasicDatePicker handleDateChange={props.handleDateChange} />
         </div>
