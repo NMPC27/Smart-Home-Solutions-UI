@@ -19,7 +19,11 @@ import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
 import { 
   getDevices, 
-  postDevices,
+  deviceOn,
+  deviceTemperatureTarget,
+  deviceLightColor,
+  deviceLightBrightness,
+  deviceAlarm,
   getBuildTabs,
   buildTabAdd,
   buildTabEdit,
@@ -174,7 +178,7 @@ export default function Building() {
     tmp[idx].color = val;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceLightColor({ id: tmp[idx].id, color: val})//! API CALL
   };
 
   const handleBrightnessChange = (val, idx) => {
@@ -182,7 +186,7 @@ export default function Building() {
     tmp[idx].brightness = val;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceLightBrightness({ id: tmp[idx].id, brightness: val}) //! API CALL
   };
 
   const handleLightOnOff = (idx) => {
@@ -190,7 +194,7 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
   };
 
   const handleCameraOnOff = (idx) => {
@@ -198,7 +202,7 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
   };
 
   const handleTemperatureTarget = (val, idx) => {
@@ -208,7 +212,7 @@ export default function Building() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
   };
 
   const handleMinusTemperature = (idx) => {
@@ -216,7 +220,7 @@ export default function Building() {
     tmp[idx].targetTemperature = tmp[idx].targetTemperature - 1;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
   };
 
   const handlePlusTemperature = (idx) => {
@@ -224,7 +228,7 @@ export default function Building() {
     tmp[idx].targetTemperature = tmp[idx].targetTemperature + 1;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
   };
 
   const handleTemperatureOnOff = (idx) => {
@@ -232,7 +236,7 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
   };
 
   const handleAddTab = () => {
@@ -303,7 +307,7 @@ export default function Building() {
 
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceAlarm({on: val}); //! API CALL
   };
 
   const [loaded, setLoaded] = React.useState(false); 
