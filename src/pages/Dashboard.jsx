@@ -19,11 +19,24 @@ import {
   getDevices,
   getRooms,
   getCards,
-  postDevices,
-  postRooms,
-  postCards,
+  deviceAdd,
+  deviceEdit,
+  deviceRemove,
+  deviceOn,
+  deviceTemperatureTarget,
+  deviceLightColor,
+  deviceLightBrightness,
+  deviceAlarm,
+  roomAdd,
+  roomEdit,
+  roomRemove,
+  dashboardAdd,
+  dashboardRemove,
+  dashboardCardAdd,
+  dashboardCardEdit,
+  dashboardCardRemove,
   getNotifications,
-  postNotifications,
+  notificationsDelete,
 } from "../components/API";
 import { useNavigate } from "react-router-dom";
 
@@ -144,8 +157,7 @@ export default function Dashboard() {
         },
       ]);
 
-      postDevices([
-        ...devices,
+      deviceAdd(
         {
           id: newID,
           type: type,
@@ -155,7 +167,7 @@ export default function Dashboard() {
           brightness: 100,
           color: "#FFFFFF",
         },
-      ]); //! API CALL
+      ); //! API CALL
     }
 
     if (type === "Temperature") {
@@ -172,8 +184,7 @@ export default function Dashboard() {
         },
       ]);
 
-      postDevices([
-        ...devices,
+      deviceAdd(
         {
           id: newID,
           type: type,
@@ -183,7 +194,7 @@ export default function Dashboard() {
           currentTemperature: 0,
           targetTemperature: 15,
         },
-      ]); //! API CALL
+      ); //! API CALL
     }
 
     if (type === "Motion Sensor") {
@@ -199,8 +210,7 @@ export default function Dashboard() {
         },
       ]);
 
-      postDevices([
-        ...devices,
+      deviceAdd(
         {
           id: newID,
           type: type,
@@ -209,7 +219,7 @@ export default function Dashboard() {
           on: false,
           detectedMotion: false,
         },
-      ]); //! API CALL
+      ); //! API CALL
     }
 
     if (type === "Camera") {
@@ -225,8 +235,7 @@ export default function Dashboard() {
         },
       ]);
 
-      postDevices([
-        ...devices,
+      deviceAdd(
         {
           id: newID,
           type: type,
@@ -235,7 +244,7 @@ export default function Dashboard() {
           on: true,
           endpoint: "https://www.youtube.com/embed/BAyh4ViTMz8",
         },
-      ]); //! API CALL
+      ); //! API CALL
     }
   };
 
@@ -245,15 +254,16 @@ export default function Dashboard() {
 
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceEdit({id: tmp[idx].id, name: name}); //! API CALL
   }
 
   const handleDeleteDevice = (idx) => {
     let tmp = [...devices];
+    let id = tmp[idx].id;
     tmp.splice(idx, 1);
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceRemove({id: id}); //! API CALL
   };
 
   const handleRoomAdd = (val) => {
@@ -272,7 +282,7 @@ export default function Dashboard() {
 
     setRooms([...rooms, { id: newID, name: val }]);
 
-    postRooms([...rooms, { id: newID, name: val }]); //! API CALL
+    roomAdd({ id: newID, name: val }); //! API CALL
   };
 
   const editRoomName = (idx,name) => {
@@ -287,14 +297,12 @@ export default function Dashboard() {
 
     setDevices(tmp_devices);
 
-    postDevices(tmp_devices);//! API CALL
-
-
     let tmp_rooms = [...rooms];
+    let oldName = tmp_rooms[idx].name;
     tmp_rooms[idx].name = name;
     setRooms(tmp_rooms);
 
-    postRooms(tmp_rooms); //! API CALL
+    roomEdit({ id: tmp_rooms[idx].id, newName: name, oldName: oldName }); //! API CALL ja trata da modificação dos devices
   }
 
   const handleDeleteRoom = (idx) => {
@@ -315,13 +323,13 @@ export default function Dashboard() {
 
     setDevices(devicesTmp);
 
-    postDevices(devicesTmp); //! API CALL
-
     let roomsTmp = [...rooms];
+    let id = roomsTmp[idx].id;
+    let name = roomsTmp[idx].name;
     roomsTmp.splice(idx, 1);
     setRooms(roomsTmp);
 
-    postRooms(roomsTmp); //! API CALL
+    roomRemove({id: id, name: name}); //! API CALL ja trata da modificação dos devices
   };
 
   const handleTemperatureTarget = (val, idx) => {
@@ -331,23 +339,26 @@ export default function Dashboard() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
   };
 
   const handleMinusTemperature = (idx) => {
     let tmp = [...devices];
-    tmp[idx].targetTemperature = tmp[idx].targetTemperature - 1;
+    let newTemp = tmp[idx].targetTemperature - 1;
+    tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
   };
 
   const handlePlusTemperature = (idx) => {
     let tmp = [...devices];
-    tmp[idx].targetTemperature = tmp[idx].targetTemperature + 1;
+    let newTemp = tmp[idx].targetTemperature + 1;
+    tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
   };
 
   const handleTemperatureOnOff = (idx) => {
@@ -355,7 +366,7 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
   };
 
   const handleLightColor = (val, idx) => {
@@ -363,7 +374,7 @@ export default function Dashboard() {
     tmp[idx].color = val;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceLightColor({ id: tmp[idx].id, color: val})//! API CALL
   };
 
   const handleBrightnessChange = (val, idx) => {
@@ -371,7 +382,7 @@ export default function Dashboard() {
     tmp[idx].brightness = val;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceLightBrightness({ id: tmp[idx].id, brightness: val}) //! API CALL
   };
 
   const handleLightOnOff = (idx) => {
@@ -379,7 +390,7 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
   };
 
   const handleAddDashboard = (deviceSelected) => {
@@ -387,7 +398,7 @@ export default function Dashboard() {
     tmp[deviceSelected].push([]);
 
     setCards(tmp);
-    postCards(tmp);
+    dashboardAdd({deviceSelected: deviceSelected}); //! API CALL
   }
 
   const handleDeleteDashboard = (deviceSelected,idx) => {
@@ -395,7 +406,7 @@ export default function Dashboard() {
     tmp[deviceSelected].splice(idx, 1);
 
     setCards(tmp);
-    postCards(tmp);
+    dashboardRemove({deviceSelected: deviceSelected, tab: idx}); //! API CALL
   }
 
   const handleCardAdd = (deviceSelected,tab,val) => {
@@ -459,7 +470,18 @@ export default function Dashboard() {
 
     setCards(tmp);
 
-    postCards(tmp); //! API CALL
+    dashboardCardAdd({
+      deviceSelected: deviceSelected,
+      tab: tab,
+      card: {
+        type: val.type,
+        i: newID.toString(),
+        x: 0,
+        y: Infinity,
+        w: card_w,
+        h: card_h,
+      }
+    }); //! API CALL
   };
 
   const handleSetLayout = (deviceSelected,tab,val) => {
@@ -469,7 +491,7 @@ export default function Dashboard() {
     tmp[deviceSelected][tab] = val;
 
     setCards(tmp);
-    postCards(tmp); //! API CALL
+    dashboardCardEdit({deviceSelected: deviceSelected, tab: tab, layout: val}); //! API CALL
   };
 
   const handleCardDelete = (deviceSelected,tab,idx) => {
@@ -477,7 +499,7 @@ export default function Dashboard() {
     tmp[deviceSelected][tab].splice(idx, 1);
 
     setCards(tmp);
-    postCards(tmp); //! API CALL
+    dashboardCardRemove({deviceSelected: deviceSelected, tab: tab, idx: idx}); //! API CALL
   };
 
   const handleClickAlarm = (val) => {
@@ -491,7 +513,7 @@ export default function Dashboard() {
 
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceAlarm({on: val}); //! API CALL
   };
 
   const handleCameraOnOff = (idx) => {
@@ -499,15 +521,16 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    postDevices(tmp); //! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
   };
 
   const handleDeleteNotification = (idx) => {
     let tmp = [...notifications];
+    let id = tmp[idx].id;
     tmp.splice(idx, 1);
     setNotifications(tmp);
 
-    postNotifications(tmp); //! API CALL
+    notificationsDelete({"id":id}); //! API CALL
   };
 
   if (devices === null || rooms === null || cards === null) {

@@ -4,7 +4,6 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Energy from "./pages/Energy";
-import Files from "./pages/Files";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
     path: "/history",
     element: <History />,
   }, 
-  {
-    path: "/files",
-    element: <Files />,
-  },
   {
     path: "*",
     element: <NotFound />,

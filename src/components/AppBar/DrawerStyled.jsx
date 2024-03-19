@@ -146,24 +146,6 @@ export default function DrawerStyled(props) {
         >
           ENERGY
         </Button>
-
-        <Button
-          sx={{
-            my: 2,
-            color: "white",
-            fontWeight: "bold",
-            bgcolor: props.navbar == "files" && "#374151",
-            "&:hover":
-              props.navbar == "files"
-                ? { bgcolor: "#111827" }
-                : { bgcolor: "#374151" },
-          }}
-          onClick={() => {
-            navigate("/files");
-          }}
-        >
-          FILES
-        </Button>
       </Stack>
       <Stack
         spacing={2}

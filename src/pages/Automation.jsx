@@ -22,7 +22,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import {
   getDevices,
-  getRooms,
+  getFlowTabs,
+  flowTabAdd,
+  flowTabEdit,
+  flowTabRemove,
+  flowEdit,
+  getFlowNodes,
+  getFlowEdges
 } from "../components/API";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
@@ -30,6 +36,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useDebounce } from "use-debounce";
 
 import DeviceSelectorNode from '../components/Automation/DeviceNode';
 import TimeNode from '../components/Automation/TimeNode';
@@ -84,7 +91,14 @@ export default function Automation() {
     }
   }, [mobile]);
 
-  const [devices, setDevices] = React.useState([]);
+  const [devices, setDevices] = React.useState(null);
+  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [tabs, setTabs] = React.useState(null);
+  const [editIdx, setEditIdx] = React.useState(-1);
+  const [tabName, setTabName] = React.useState("");
+
+  const [globalNodes, setGlobalNodes] = React.useState(null); //! iniciate at null
+  const [globalEdges, setGlobalEdges] = React.useState(null); //! iniciate at null
 
   React.useEffect(() => {
     getDevices().then(
@@ -95,32 +109,77 @@ export default function Automation() {
         navigate("/");
       },
     );
+
+    getFlowTabs().then(
+      (res) => {
+        setTabs(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+    
+    getFlowNodes().then(
+      (res) => {
+        setGlobalNodes(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+
+    getFlowEdges().then(
+      (res) => {
+        setGlobalEdges(res.data);
+      },
+      () => {
+        navigate("/");
+      },
+    );
+    
   }, []);
 
-  const [selectedTab, setSelectedTab] = React.useState(0);
-  const [tabs, setTabs] = React.useState(["Flow 0"]);
-  const [editIdx, setEditIdx] = React.useState(-1);
-  const [tabName, setTabName] = React.useState("");
 
-  const [globalNodes, setGlobalNodes] = React.useState([]);
-  const [globalEdges, setGlobalEdges] = React.useState([]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  const [newID, setNewID] = React.useState(()=>{
-    let max = 0;
-    nodes.forEach((node) => {
-      if (parseInt(node.id) > max) {
-        max = parseInt(node.id);
+  const [nodesFinal] = useDebounce(nodes, 1000);
+  const [edgesFinal] = useDebounce(edges, 1000);
+  const [tabChanged, setTabChanged] = React.useState(false);
+
+  const [newID, setNewID] = React.useState(0);
+  const [loaded, setLoaded] = React.useState(false); 
+  React.useEffect(() => {  //! para carregar os nodes e edges globais e fazer set deles pq no 1 load n faz
+
+    if (globalNodes !== null && globalEdges !== null && !loaded) {
+
+      setNodes(globalNodes[selectedTab])
+      setEdges(globalEdges[selectedTab])
+
+      setLoaded(true);
+
+      let max = 0;
+      for (let i=0;i<globalNodes.length;i++){
+        if (globalNodes[i].length !== 0) { 
+          globalNodes[i].forEach((node) => {
+            if (parseInt(node.id) > max) {
+              max = parseInt(node.id);
+            }
+          });
+        }
       }
-    });
-    return max + 1;
-  });
+
+      setNewID(max+1)
+
+    }
+
+  },[globalNodes, globalEdges])
 
 
   React.useEffect(() => {
 
+    if (tabs === null) { return; }
     if (tabs.length === 0) { return; }
 
     let tmpNodes = [...globalNodes];
@@ -131,7 +190,18 @@ export default function Automation() {
 
     setGlobalNodes(tmpNodes);
     setGlobalEdges(tmpEdges);
+
   },[nodes, edges])
+
+  React.useEffect(() => {
+    if (loaded){
+      if (tabChanged){
+        setTabChanged(false);
+      }else{
+        flowEdit({nodes: nodesFinal, edges: edgesFinal, idx: selectedTab}) //! API call
+      }
+    }
+  },[nodesFinal, edgesFinal])
 
   const handleKeyDown = (event,idx) => {
     if (event.key === "Enter") {
@@ -145,12 +215,17 @@ export default function Automation() {
     let tmp = [...tabs];
     tmp[idx] = tabName;
     setTabs(tmp);
+
+    flowTabEdit({name: tabName, idx: idx}) //! API call
   }
 
   const handleAddTab = () => {
+    setTabChanged(true)
+    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}) //! API call -> save the currentab nodes
 
     let tmp = [...tabs];
-    tmp.push("Flow "+tmp.length);
+    let len = tmp.length;
+    tmp.push("Flow "+len);
 
     setGlobalNodes([...globalNodes, []]);
     setGlobalEdges([...globalEdges, []]);
@@ -159,6 +234,8 @@ export default function Automation() {
     setEdges([])
 
     setTabs(tmp);
+
+    flowTabAdd({name: "Flow "+len}) //! API call
   }
 
   const handleDeleteTab = (idx) => {
@@ -178,9 +255,12 @@ export default function Automation() {
     setGlobalNodes(tmpNodes);
     setGlobalEdges(tmpEdges);
 
+    flowTabRemove({idx: idx}) //! API call
   }
 
   const handleChangeTab = (newValue) => {
+    setTabChanged(true)
+    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}) //! API call
     setSelectedTab(newValue);
 
     if (tabs.length === newValue) { return; }
@@ -205,6 +285,12 @@ export default function Automation() {
     //! verificar se o flow esta bem feito
     //! se nao dar erro
     //! se sim, aplicar o flow
+  }
+
+
+
+  if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { //! por skeleton
+    return <></>;
   }
 
 

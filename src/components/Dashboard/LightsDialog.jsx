@@ -17,12 +17,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function LightsDialog(props) {
-  const [lightColor, setLightColor] = React.useState("#1F2937");
+  const [lightColor, setLightColor] = React.useState(props.devices[props.deviceIdx].color);
   const [lightColorFinal] = useDebounce(lightColor, 1000);
+
+  const [ brightness, setBrightness ] = React.useState(props.devices[props.deviceIdx].brightness);
 
   const handleLightColor = (val) => {
     setLightColor(val);
   };
+
+  React.useEffect(() => {
+    setLightColor(props.devices[props.deviceIdx].color);
+    setBrightness(props.devices[props.deviceIdx].brightness);
+  }, [props.deviceIdx]);
 
   React.useEffect(() => {
     props.handleLightColor(lightColorFinal, props.deviceIdx);
@@ -83,7 +90,8 @@ export default function LightsDialog(props) {
           </Grid>
           <Grid item xs={12}>
             <Slider
-              defaultValue={100}
+              value={brightness}
+              onChange={(_, val) => setBrightness(val)}
               onChangeCommitted={(_, val) =>
                 props.handleBrightnessChange(val, props.deviceIdx)
               }
