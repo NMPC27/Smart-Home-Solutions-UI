@@ -40,6 +40,7 @@ import ReactFlow, {
 import Skeleton from "@mui/material/Skeleton";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useDebounce } from "use-debounce";
 
 import LightsDialog from "../components/Building/LightsDialog";
 import CameraDialog from "../components/Building/CameraDialog";
@@ -100,6 +101,9 @@ export default function Building() {
 
   const [devices, setDevices] = React.useState(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
+
+  const [nodesFinal] = useDebounce(nodes, 1000);
+  const [tabChanged, setTabChanged] = React.useState(false);
 
   const [selectedTab, setSelectedTab] = React.useState(0);
 
@@ -240,6 +244,8 @@ export default function Building() {
   };
 
   const handleAddTab = () => {
+    setTabChanged(true)
+    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}); //! API CALL
 
     let tmp = [...tabs];
     let name = "Floor "+tmp.length;
@@ -277,6 +283,9 @@ export default function Building() {
 
   
   const handleChangeTab = (newValue) => {
+    setTabChanged(true)
+    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}); //! API CALL
+
     setSelectedTab(newValue);
 
     if (tabs.length === newValue) { return; }
@@ -333,8 +342,17 @@ export default function Building() {
 
     setGlobalNodes(tmpNodes);
 
-    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}); //! API CALL
   },[nodes])
+
+  React.useEffect(() => {
+    if (loaded){
+      if (tabChanged){
+        setTabChanged(false);
+      }else{
+        buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodesFinal}); //! API CALL
+      }
+    }
+  },[nodesFinal])
 
   const handleSave = (data) => {
     let tmp = [...houseLayout];
@@ -409,7 +427,7 @@ export default function Building() {
                               [
                                 ...nodes,
                                 { 
-                                  id: ''+idx,   
+                                  id: ''+device.id,   
                                   type: tmpType,                           
                                   position: { x: 20, y: 20 }, 
                                   data: { openDialog: openDialog, name: device.name, on: device.on },
