@@ -17,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import TextField from "@mui/material/TextField";
+import UploadIcon from '@mui/icons-material/Upload';
 import { 
   getDevices, 
   deviceOn,
@@ -362,6 +363,21 @@ export default function Building() {
     buildsHouseLayoutEdit({idx: selectedTab, img: data.data}); //! API CALL
   }
 
+  const uploadImg = (e) => {
+    let reader = new FileReader();
+
+    reader.readAsDataURL(e.target.files[0]);
+
+    reader.onload = function () {
+      let tmp = [...houseLayout];
+      tmp[selectedTab] = reader.result;
+      setHouseLayout(tmp);
+
+      buildsHouseLayoutEdit({idx: selectedTab, img: reader.result}); //! API CALL
+    }
+
+  }
+
   if (devices === null || tabs === null || houseLayout === null || globalNodes === null) {
     return (
       <>
@@ -453,7 +469,19 @@ export default function Building() {
                     Build
                   </h2>
                 </Grid>
-                <Grid item xs={12} sm={4} md={3}>
+                <Grid item xs={12} sm={4} md={3}>    
+                  <IconButton
+                    sx={{ color: "#FFFFFF", marginRight: "0.5vw" }}
+                    component="label"
+                  >
+                      <UploadIcon fontSize="large"/>
+                      <input 
+                        accept="image/*" 
+                        type="file" 
+                        hidden
+                        onChange={(e) => uploadImg(e)}
+                      />
+                  </IconButton>
                   <ButtonGroup sx={{marginTop:'0.5vh', marginBottom: '0.5vh'}}>
                     <Button onClick={() => setMode('draw')} variant={mode === 'draw' ? "contained" : "outlined"}>
                       <b>DRAW</b>

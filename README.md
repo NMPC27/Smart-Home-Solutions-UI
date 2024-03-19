@@ -1,5 +1,5 @@
 # TODO:
-- use debounce on api of nodes edit (automation)
+- ao dar update a pagina o react flow esquece as funçoes dos nodes
 - atençao as coisas modificadas dentro do node nao estão a ser guardadas
 - mudar a cor dos devices no building
 
