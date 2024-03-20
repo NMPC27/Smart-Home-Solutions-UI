@@ -3,8 +3,9 @@
 - atençao as coisas modificadas dentro do node nao estão a ser guardadas
 - mudar a cor dos devices no building
 
-- fix sync problem between same cards (duplicated)
-- add automation skeleton
+- fix sync problem between same cards (duplicated) -> falta alarme
+
+
 - fix delete card mobile
 - fix pie chart
 - lista de compras

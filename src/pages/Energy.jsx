@@ -59,8 +59,14 @@ export default function Energy() {
   if (data === null) {
     return (
       <>
-        <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
         <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Skeleton
+              variant="rounded"
+              height="7vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
           <Grid item xs={12} sm={12} md={9}>
             <Skeleton
               variant="rounded"

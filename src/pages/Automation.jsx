@@ -20,6 +20,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
+import Skeleton from "@mui/material/Skeleton";
 import {
   getDevices,
   getFlowTabs,
@@ -289,8 +290,34 @@ export default function Automation() {
 
 
 
-  if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { //! por skeleton
-    return <></>;
+  if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { 
+    return (
+      <>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Skeleton
+            variant="rounded"
+            height="7vh"
+            sx={{ borderRadius: "20px" }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={3}>
+          <Skeleton
+            variant="rounded"
+            height="60vh"
+            sx={{ borderRadius: "20px" }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={9}>
+          <Skeleton
+            variant="rounded"
+            height="60vh"
+            sx={{ borderRadius: "20px" }}
+          />
+        </Grid>
+      </Grid>
+    </>
+    );
   }
 
 

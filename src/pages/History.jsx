@@ -151,30 +151,15 @@ export default function History() {
   if (devices === null) {
     return (
       <>
-        <AppBarStyled navbar={"history"} handleDateChange={handleDateChange} />
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12}>
             <Skeleton
               variant="rounded"
-              height="40vh"
+              height="7vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={3}>
-            <Skeleton
-              variant="rounded"
-              height="40vh"
-              sx={{ borderRadius: "20px" }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={9}>
-            <Skeleton
-              variant="rounded"
-              height="40vh"
-              sx={{ borderRadius: "20px" }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12}>
             <Skeleton
               variant="rounded"
               height="40vh"

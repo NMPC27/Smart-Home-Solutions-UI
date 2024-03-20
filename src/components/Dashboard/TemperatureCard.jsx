@@ -159,18 +159,11 @@ export default function TemperatureCard(props) {
   };
 
   React.useEffect(
-    // when device deleted
     () => {
-      for (let i = 0; i < props.devices.length; i++) {
-        if (
-          props.devices[i].type === "Temperature" &&
-          props.devices[i].room === selectedRoom
-        ) {
-          return;
-        }
-      }
+      let temp = props.devices[deviceIdx].targetTemperature
 
-      setDeviceIdx(-1);
+      setTargetTemperature(temp);
+      setArcColor(colorsArray[(temp - 15) * 4]);
     },
     [props.devices],
   );

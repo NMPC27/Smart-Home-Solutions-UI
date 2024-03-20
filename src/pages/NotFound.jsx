@@ -11,6 +11,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: "#FFFFFF",
   borderRadius: "20px",
   margin: "auto",
+  height: "82vh"
 }));
 
 export default function NotFound() {
