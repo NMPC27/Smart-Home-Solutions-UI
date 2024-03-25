@@ -11,7 +11,6 @@
 - lista de compras
 - tempo 
 - try to improve notification, not getting every 5s
-- ver skeletons
 - ver isto https://reactflow.dev/examples/interaction/drag-and-drop
 - can not store the token in the local storage !! vulnerability
     https://stackoverflow.com/questions/71815202/is-it-safe-and-convenient-to-store-jwt-token-in-localstorage-or-cookies-and-to-s

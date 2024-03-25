@@ -16,12 +16,12 @@ export default memo(({ id, isConnectable, data }) => {
   return (
     <>
       <IconButton sx={{padding: 0}} onClick={()=> data.openDialog(parseInt(id),"Motion Sensor")}>
-          <SensorsIcon sx={{ color: data.on && "#D9A406" }}/>
+          <SensorsIcon fontSize='large' sx={{ color: data.on && "#D9A406" }}/>
       </IconButton>
-      <p style={{marginTop: 0, marginBottom:0, fontSize: "0.6em"}}><b>{data.name}</b></p>
+      <p style={{marginTop: 0, marginBottom:0, fontSize: "1em"}}><b>{data.name}</b></p>
       <div className="nodrag">
         <IconButton sx={{padding: 0, marginTop: -1}} onClick={(e) => handleDelete(e)}>
-            <DeleteIcon sx={{ fontSize: 12 }}/>
+            <DeleteIcon sx={{ fontSize: 20 }}/>
         </IconButton>
       </div>
     </>

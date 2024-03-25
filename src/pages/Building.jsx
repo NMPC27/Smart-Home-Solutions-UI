@@ -177,7 +177,7 @@ export default function Building() {
       setOpenDialogMotionSensor(true);
     }
   }
-  
+
   const handleLightColor = (val, idx) => {
     let tmp = [...devices];
     tmp[idx].color = val;
@@ -445,7 +445,7 @@ export default function Building() {
                                 { 
                                   id: ''+device.id,   
                                   type: tmpType,                           
-                                  position: { x: 20, y: 20 }, 
+                                  position: { x: 50, y: 50 }, 
                                   data: { openDialog: openDialog, name: device.name, on: device.on },
                                 }
                               ]
@@ -569,7 +569,7 @@ export default function Building() {
                         panOnDrag={false}
                         elementsSelectable={true}
                         nodeTypes={nodeTypes}
-                        fitView
+                        translateExtent={[[0,0],[100,100]]}
                       >
                         <img src={houseLayout[selectedTab]} width='100%' height='100%'/>
                       </ReactFlow> 

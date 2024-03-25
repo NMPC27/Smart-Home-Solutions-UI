@@ -531,3 +531,14 @@ export function getEnergy(date) {
     },
   });
 }
+
+export function getHistory(date) {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + `/history?date=${date}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}

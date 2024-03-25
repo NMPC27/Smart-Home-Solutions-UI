@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import LogoutIcon from "@mui/icons-material/Logout";
+import RssFeedIcon from "@mui/icons-material/RssFeed";
 
 export default function DrawerStyled(props) {
   let navigate = useNavigate();
@@ -52,7 +53,8 @@ export default function DrawerStyled(props) {
           component="div"
           sx={{ flexGrow: 1, fontWeight: "bold" }}
         >
-          AppName
+          Smartify
+          <RssFeedIcon />
         </Typography>
       </Toolbar>
 

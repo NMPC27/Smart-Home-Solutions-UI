@@ -529,6 +529,7 @@ export default function Automation() {
                     onConnect={onConnect}
                     nodeTypes={nodeTypes}
                     edgeTypes={edgeTypes}
+                    fitView
                   >
                     <Background variant="dots" gap={12} size={1} />
                   </ReactFlow>

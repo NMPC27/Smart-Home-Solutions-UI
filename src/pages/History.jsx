@@ -5,7 +5,6 @@ import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
-import { getDevices} from "../components/API";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -19,7 +18,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import Link from "@mui/material/Link";
+import { getHistory} from "../components/API";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -31,26 +30,6 @@ const xAxis = [
 ];
 
 const chartColors = ["#2E96FF", "#FFA500", "#CC0000"];
-
-
-const datatmp = {
-  1: {
-    name: "AC bedroom",
-    data: [0,0,0,1,1,1,1,0,0,0,0,1,1,1,0,1,1,1,0,0,0,1,1,1]
-  },
-  2:{
-    name: "Lamp",
-    data: [0,1,0,0,0,1,1,1,1,1,0,1,1,1,0,1,1,1,0,0,0,1,1,1]
-  }, 
-  3:{
-    name: "Light 1",
-    data: [1,1,1,1,1,0,0,0,0,0,0,0,0,1,0,1,1,1,0,0,0,1,1,1]
-  }, 
-  4:{
-    name: "Light 2",
-    data: [0,0,0,0,0,1,1,1,1,1,1,1,1,0,1,0,0,0,1,1,1,0,0,0]
-  }
-}
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -93,6 +72,8 @@ export default function History() {
     }
   }, [mobile]);
 
+  const [history, setHistory] = React.useState(null);
+
   React.useEffect(() => {
 
     var today = new Date();
@@ -104,31 +85,35 @@ export default function History() {
 
     //! API CALL with date
 
-    getDevices().then(
+    getHistory(today).then(
       (res) => {
-        setDevices(res.data);
+        setHistory(res.data);
       },
       () => {
         navigate("/");
       },
     );
+
   }, []);
 
   const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // Select a maximum of 3 devices at a time
 
-  const [devices, setDevices] = React.useState(null);
   const [selectedDevicesIdx, setSelectedDevicesIdx] = React.useState([]);
   const [data, setData] = React.useState([]);
 
-  const [date, setDate] = React.useState();
-
   const handleDateChange = (val) => {
-    setDate(val);
 
-    // getEnergy(val).then((res) => {
-    //   //! API CALL
-    //   setData(res.data);
-    // });
+    getHistory(val).then((res) => {
+      setHistory(res.data);
+
+      let tmp = [];
+      for (let i = 0; i < selectedDevicesIdx.length; i++) {
+        tmp.push( {data: res.data[selectedDevicesIdx[i]].history, label: res.data[selectedDevicesIdx[i]].name, curve: "stepBefore"} );
+      }
+  
+      setData(tmp);
+    });
+
   };
 
   const handleChangeDevices = (event) => {
@@ -142,13 +127,14 @@ export default function History() {
 
     let tmp = [];
     for (let i = 0; i < event.target.value.length; i++) {
-      tmp.push( {data: datatmp[event.target.value[i]].data, label: datatmp[event.target.value[i]].name, curve: "stepBefore"} );
+      tmp.push( {data: history[event.target.value[i]].history, label: history[event.target.value[i]].name, curve: "stepBefore"} );
     }
+
     setData(tmp);
   };
 
 
-  if (devices === null) {
+  if (history === null) {
     return (
       <>
         <Grid container spacing={4}>
@@ -188,15 +174,15 @@ export default function History() {
                 renderValue={(selected) => {
                   let tmp = [];
                   for (let i = 0; i < selected.length; i++) {
-                    tmp.push(datatmp[selected[i]].name);
+                    tmp.push(history[selected[i]].name);
                   }
                   return tmp.join(", ");
                 }}
                 MenuProps={MenuProps}
               >
-                {devices.map((device,idx) => (
-                  <MenuItem key={device.id} value={device.id}>
-                    <Checkbox checked={selectedDevicesIdx.indexOf(device.id) > -1} />
+                {history.map((device,idx) => (
+                  <MenuItem key={idx} value={idx}>
+                    <Checkbox checked={selectedDevicesIdx.indexOf(idx) > -1} />
                     <ListItemText primary={device.name} />
                   </MenuItem>
                 ))}
@@ -234,7 +220,7 @@ export default function History() {
                             backgroundColor: chartColors[idx],
                           }}
                         />
-                        <h4>{datatmp[item].name}</h4>
+                        <h4>{history[item].name}</h4>
                       </>
                     );
                   })}
