@@ -1,4 +1,5 @@
 # TODO:
+- device deleted and edited building
 - fix ids and idx building??
 - atençao as coisas modificadas dentro do node nao estão a ser guardadas
 

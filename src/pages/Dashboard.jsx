@@ -231,7 +231,7 @@ export default function Dashboard() {
           room: room,
           name: deviceName,
           on: true,
-          endpoint: "https://www.youtube.com/embed/BAyh4ViTMz8",
+          endpoint: "https://www.youtube.com/embed/y77y9tacA2c",
         },
       ]);
 
@@ -242,7 +242,7 @@ export default function Dashboard() {
           room: room,
           name: deviceName,
           on: true,
-          endpoint: "https://www.youtube.com/embed/BAyh4ViTMz8",
+          endpoint: "https://www.youtube.com/embed/y77y9tacA2c",
         },
       ); //! API CALL
     }
