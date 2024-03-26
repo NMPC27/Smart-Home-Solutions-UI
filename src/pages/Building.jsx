@@ -118,6 +118,26 @@ export default function Building() {
 
   const [mode, setMode] = React.useState("view");
 
+  const [openDialogLights, setOpenDialogLights] = React.useState(false);
+  const [openDialogCamera, setOpenDialogCamera] = React.useState(false);
+  const [openDialogTemperature, setOpenDialogTemperature] = React.useState(false);
+  const [openDialogMotionSensor, setOpenDialogMotionSensor] = React.useState(false);
+  const [deviceIdx, setDeviceIdx] = React.useState(-1);
+
+  const openDialog = (deviceIndex, type) => {
+    setDeviceIdx(deviceIndex)
+
+    if (type === "Camera") {
+      setOpenDialogCamera(true);
+    }else if (type === "Lights") {
+      setOpenDialogLights(true);
+    }else if (type === "Temperature") {
+      setOpenDialogTemperature(true);
+    }else if (type === "Motion Sensor") {
+      setOpenDialogMotionSensor(true);
+    }
+  }
+
   React.useEffect(() => {
     getDevices().then(
       (res) => {
@@ -148,6 +168,12 @@ export default function Building() {
 
     getBuildsHouseLayoutDevices().then(
       (res) => {
+        for(let tab=0; tab<res.data.length; tab++){
+          for(let i = 0; i < res.data[tab].length; i++){
+            res.data[tab][i].data.openDialog = openDialog
+          }
+        }
+
         setGlobalNodes(res.data);
       },
       () => {
@@ -157,26 +183,6 @@ export default function Building() {
   }, []);
 
   const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one flow
-
-  const [openDialogLights, setOpenDialogLights] = React.useState(false);
-  const [openDialogCamera, setOpenDialogCamera] = React.useState(false);
-  const [openDialogTemperature, setOpenDialogTemperature] = React.useState(false);
-  const [openDialogMotionSensor, setOpenDialogMotionSensor] = React.useState(false);
-  const [deviceIdx, setDeviceIdx] = React.useState(-1);
-
-  const openDialog = (deviceIndex, type) => {
-    setDeviceIdx(deviceIndex)
-
-    if (type === "Camera") {
-      setOpenDialogCamera(true);
-    }else if (type === "Lights") {
-      setOpenDialogLights(true);
-    }else if (type === "Temperature") {
-      setOpenDialogTemperature(true);
-    }else if (type === "Motion Sensor") {
-      setOpenDialogMotionSensor(true);
-    }
-  }
 
   const handleLightColor = (val, idx) => {
     let tmp = [...devices];
@@ -354,6 +360,23 @@ export default function Building() {
       }
     }
   },[nodesFinal])
+
+  React.useEffect(() => {
+
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === (''+deviceIdx)) {
+          node.data = {
+            ...node.data,
+            on: devices[deviceIdx].on,
+          };
+        }
+
+        return node;
+      })
+    );
+
+  },[devices])
 
   const handleSave = (data) => {
     let tmp = [...houseLayout];
