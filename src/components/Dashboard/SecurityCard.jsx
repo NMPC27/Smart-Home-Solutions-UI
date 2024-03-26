@@ -36,6 +36,15 @@ export default function SecurityCard(props) {
     setAlarmOn(!alarmOn);
   };
 
+  React.useEffect(() => {
+    for (let i = 0; i < props.devices.length; i++) {
+      if (props.devices[i].type === "Motion Sensor") {
+        setAlarmOn(props.devices[i].on);
+        break;
+      }
+    }
+  }, [props.devices]);
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Security</h2>
