@@ -342,6 +342,7 @@ export default function Building() {
   React.useEffect(() => {
     if (tabs === null) { return; }
     if (tabs.length === 0) { return; }
+    if (globalNodes === null) { return; }
 
     let tmpNodes = [...globalNodes];
 
