@@ -53,13 +53,11 @@ export default function TemperatureDialog(props) {
     }
   });
 
-  const [targetTemperature, setTargetTemperature] = React.useState(() => {
-    if (props.deviceIdx === -1) {
-      return null;
-    } else {
-      return props.devices[props.deviceIdx].targetTemperature;
-    }
-  });
+  const [targetTemperature, setTargetTemperature] = React.useState(null);
+
+  React.useEffect(() => {
+    setTargetTemperature(props.devices[props.deviceIdx].targetTemperature)
+  }, [props.deviceIdx]);
 
   const [arcColor, setArcColor] = React.useState(() => {
     if (props.deviceIdx === -1) {

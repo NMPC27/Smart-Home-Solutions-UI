@@ -466,7 +466,7 @@ export default function Building() {
                               [
                                 ...nodes,
                                 { 
-                                  id: ''+device.id,   
+                                  id: ''+idx,   
                                   type: tmpType,                           
                                   position: { x: 50, y: 50 }, 
                                   data: { openDialog: openDialog, name: device.name, on: device.on },
@@ -591,6 +591,7 @@ export default function Building() {
                         zoomOnScroll={false}
                         panOnDrag={false}
                         elementsSelectable={true}
+                        zoomOnDoubleClick={false}
                         nodeTypes={nodeTypes}
                         translateExtent={[[0,0],[100,100]]}
                       >
