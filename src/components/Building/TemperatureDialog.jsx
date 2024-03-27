@@ -41,6 +41,13 @@ export default function TemperatureDialog(props) {
 
   const [size, setSize] = React.useState(null);
 
+  const [deviceIdx, setDeviceIdx] = React.useState(-1);
+
+  React.useEffect(() => {
+    let idx = props.devices.findIndex((device) => device.id === props.deviceID);
+    setDeviceIdx(idx)
+  }, [props.deviceID]);
+
   React.useEffect(() => {
     const resizeObserver = new ResizeObserver((event) => {
         // Depending on the layout, you may need to swap inlineSize with blockSize
@@ -54,18 +61,13 @@ export default function TemperatureDialog(props) {
   });
 
   const [targetTemperature, setTargetTemperature] = React.useState(null);
+  const [arcColor, setArcColor] = React.useState(null);
 
   React.useEffect(() => {
-    setTargetTemperature(props.devices[props.deviceIdx].targetTemperature)
-  }, [props.deviceIdx]);
-
-  const [arcColor, setArcColor] = React.useState(() => {
-    if (props.deviceIdx === -1) {
-      return null;
-    } else {
-      return colorsArray[(props.devices[props.deviceIdx].targetTemperature - 15)*4];
-    }
-  });
+    if (deviceIdx === -1) { return }
+    setTargetTemperature(props.devices[deviceIdx].targetTemperature)
+    setArcColor(colorsArray[(props.devices[deviceIdx].targetTemperature - 15)*4])
+  }, [deviceIdx]);
 
   const handleMinusTemperature = (val) => {
     const newTemp = parseInt(props.devices[val].targetTemperature - 1);
@@ -91,6 +93,8 @@ export default function TemperatureDialog(props) {
     }
   };
 
+  if (deviceIdx === -1) { return }
+
   return (
     <Dialog
       fullWidth
@@ -102,7 +106,7 @@ export default function TemperatureDialog(props) {
     >
       <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
         <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-          {props.devices[props.deviceIdx].name} Temperature
+          {props.devices[deviceIdx].name} Temperature
         </h3>
 
         <IconButton
@@ -121,7 +125,7 @@ export default function TemperatureDialog(props) {
         <Grid container spacing={2} align="center" sx={{ marginTop: "0.25vh" }}>
           <Grid item xs={12} marginBottom="2vh" id="slider">
             <CircularSliderWithChildren
-              disabled={!props.devices[props.deviceIdx].on}
+              disabled={!props.devices[deviceIdx].on}
               size={size}
               trackWidth={10}
               handleSize={10}
@@ -137,13 +141,13 @@ export default function TemperatureDialog(props) {
                 },
               }}
               onControlFinished={() =>
-                props.handleTemperatureTarget(targetTemperature, props.deviceIdx)
+                props.handleTemperatureTarget(targetTemperature, deviceIdx)
               }
-              arcColor={props.devices[props.deviceIdx].on ? arcColor : "#787878"}
+              arcColor={props.devices[deviceIdx].on ? arcColor : "#787878"}
               arcBackgroundColor="#AAAAAA"
             >
               <div className="prevent-select">
-                {props.devices[props.deviceIdx].on ? (
+                {props.devices[deviceIdx].on ? (
                   <h2
                     style={{
                       marginTop: "2vh",
@@ -176,12 +180,12 @@ export default function TemperatureDialog(props) {
                     fontSize: "1.6em",
                   }}
                 >
-                  Now {props.devices[props.deviceIdx].currentTemperature}°
+                  Now {props.devices[deviceIdx].currentTemperature}°
                 </h2>
                 <Stack justifyContent="center" direction="row" spacing={4}>
-                  {props.devices[props.deviceIdx].on ? (
+                  {props.devices[deviceIdx].on ? (
                     <IconButton
-                      onClick={() => handleMinusTemperature(props.deviceIdx)}
+                      onClick={() => handleMinusTemperature(deviceIdx)}
                       sx={{
                         bgcolor: "#2196F3",
                         "&:hover": { bgcolor: "#1C7ECC" },
@@ -195,9 +199,9 @@ export default function TemperatureDialog(props) {
                     </IconButton>
                   )}
 
-                  {props.devices[props.deviceIdx].on ? (
+                  {props.devices[deviceIdx].on ? (
                     <IconButton
-                      onClick={() => handlePlusTemperature(props.deviceIdx)}
+                      onClick={() => handlePlusTemperature(deviceIdx)}
                       sx={{
                         bgcolor: "#FF6F22",
                         "&:hover": { bgcolor: "#D95E1D" },
@@ -212,13 +216,13 @@ export default function TemperatureDialog(props) {
                   )}
                 </Stack>
                 <IconButton
-                  onClick={() => props.handleTemperatureOnOff(props.deviceIdx)}
+                  onClick={() => props.handleTemperatureOnOff(deviceIdx)}
                   sx={{
-                    bgcolor: props.devices[props.deviceIdx].on
+                    bgcolor: props.devices[deviceIdx].on
                       ? "#FFC107"
                       : "#DDDEDF",
                     "&:hover": {
-                      bgcolor: props.devices[props.deviceIdx].on
+                      bgcolor: props.devices[deviceIdx].on
                         ? "#D9A406"
                         : "#B6B7B8",
                     },

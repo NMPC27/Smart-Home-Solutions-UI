@@ -18,13 +18,26 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function MotionSensorDialog(props) {
 
-  const [alarmOn, setAlarmOn] = React.useState(props.devices[props.deviceIdx].on);
+  const [deviceIdx, setDeviceIdx] = React.useState(-1);
+
+  const [alarmOn, setAlarmOn] = React.useState(null);
+
+  React.useEffect(() => {
+    let idx = props.devices.findIndex((device) => device.id === props.deviceID);
+    
+    if (idx === -1) { return }
+    setDeviceIdx(idx)
+    setAlarmOn(props.devices[idx].on);
+
+  }, [props.deviceID]);
 
   const handleClickAlarm = () => {
-    props.handleClickAlarm(!alarmOn, props.deviceIdx);
+    props.handleClickAlarm(!alarmOn, deviceIdx);
 
     setAlarmOn(!alarmOn);
   };
+
+  if (deviceIdx === -1) { return }
 
   return (
     <Dialog
@@ -37,7 +50,7 @@ export default function MotionSensorDialog(props) {
     >
       <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
         <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-          {props.devices[props.deviceIdx].name} Sensor
+          {props.devices[deviceIdx].name} Sensor
         </h3>
 
         <IconButton

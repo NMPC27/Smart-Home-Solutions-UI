@@ -122,10 +122,10 @@ export default function Building() {
   const [openDialogCamera, setOpenDialogCamera] = React.useState(false);
   const [openDialogTemperature, setOpenDialogTemperature] = React.useState(false);
   const [openDialogMotionSensor, setOpenDialogMotionSensor] = React.useState(false);
-  const [deviceIdx, setDeviceIdx] = React.useState(-1);
+  const [deviceID, setDeviceID] = React.useState(-1);
 
-  const openDialog = (deviceIndex, type) => {
-    setDeviceIdx(deviceIndex)
+  const openDialog = (deviceId, type) => {
+    setDeviceID(deviceId)
 
     if (type === "Camera") {
       setOpenDialogCamera(true);
@@ -228,7 +228,8 @@ export default function Building() {
 
   const handleMinusTemperature = (idx) => {
     let tmp = [...devices];
-    tmp[idx].targetTemperature = tmp[idx].targetTemperature - 1;
+    let newTemp = tmp[idx].targetTemperature -1;
+    tmp[idx].targetTemperature = newTemp
     setDevices(tmp);
 
     deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
@@ -236,7 +237,8 @@ export default function Building() {
 
   const handlePlusTemperature = (idx) => {
     let tmp = [...devices];
-    tmp[idx].targetTemperature = tmp[idx].targetTemperature + 1;
+    let newTemp = tmp[idx].targetTemperature + 1;
+    tmp[idx].targetTemperature = newTemp
     setDevices(tmp);
 
     deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
@@ -362,11 +364,14 @@ export default function Building() {
     }
   },[nodesFinal])
 
-  React.useEffect(() => {
+  React.useEffect(() => { //! para mudar as cores dos icons
 
     setNodes((nds) =>
       nds.map((node) => {
-        if (node.id === (''+deviceIdx)) {
+        if (node.id === (''+deviceID)) {
+
+          let deviceIdx = devices.findIndex((device) => device.id === deviceID);
+
           node.data = {
             ...node.data,
             on: devices[deviceIdx].on,
@@ -467,7 +472,7 @@ export default function Building() {
                               [
                                 ...nodes,
                                 { 
-                                  id: ''+idx,   
+                                  id: ''+device.id,   
                                   type: tmpType,                           
                                   position: { x: 50, y: 50 }, 
                                   data: { openDialog: openDialog, name: device.name, on: device.on },
@@ -605,11 +610,11 @@ export default function Building() {
             </OutItem>
           </Grid>
       </Grid>
-      {devices[deviceIdx] !== undefined &&
+      {devices !== null && 
         <>
           <LightsDialog
             openDialog={openDialogLights}
-            deviceIdx={deviceIdx}
+            deviceID={deviceID}
             devices={devices}
             handleCloseDialog={() => setOpenDialogLights(false)}
             handleLightColor={handleLightColor}
@@ -618,14 +623,14 @@ export default function Building() {
           />
           <CameraDialog
             openDialog={openDialogCamera}
-            deviceIdx={deviceIdx}
+            deviceID={deviceID}
             devices={devices}
             handleCloseDialog={() => setOpenDialogCamera(false)}
             handleCameraOnOff={handleCameraOnOff}
           />
           <TemperatureDialog 
             openDialog={openDialogTemperature}
-            deviceIdx={deviceIdx}
+            deviceID={deviceID}
             devices={devices}
             handleCloseDialog={() => setOpenDialogTemperature(false)}
             handleTemperatureTarget={handleTemperatureTarget}
@@ -635,7 +640,7 @@ export default function Building() {
           />
           <MotionSensorDialog
             openDialog={openDialogMotionSensor}
-            deviceIdx={deviceIdx}
+            deviceID={deviceID}
             devices={devices}
             handleCloseDialog={() => setOpenDialogMotionSensor(false)}
             handleClickAlarm={handleClickAlarm}

@@ -17,16 +17,44 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function LightsDialog(props) {
-  const [lightColor, setLightColor] = React.useState("#1F2937");
+  const [lightColor, setLightColor] = React.useState(null);
   const [lightColorFinal] = useDebounce(lightColor, 1000);
+
+  const [ brightness, setBrightness ] = React.useState(null);
 
   const handleLightColor = (val) => {
     setLightColor(val);
   };
 
+  const [deviceIdx, setDeviceIdx] = React.useState(-1);
+
   React.useEffect(() => {
-    props.handleLightColor(lightColorFinal, props.deviceIdx);
+    let idx = props.devices.findIndex((device) => device.id === props.deviceID);
+    setDeviceIdx(idx)
+  }, [props.deviceID]);
+
+
+  React.useEffect(() => {
+    if (deviceIdx === -1) { return }
+
+    setLightColor(props.devices[deviceIdx].color);
+    setBrightness(props.devices[deviceIdx].brightness);
+  }, [deviceIdx]);
+
+  React.useEffect(() => {
+    if (deviceIdx === -1) { return }
+
+    props.handleLightColor(lightColorFinal, deviceIdx);
   }, [lightColorFinal]);
+
+  React.useEffect(() => {
+    if (deviceIdx === -1) { return }
+
+    setLightColor(props.devices[deviceIdx].color);
+    setBrightness(props.devices[deviceIdx].brightness);
+  }, [props.devices]);
+
+  if (deviceIdx === -1) { return }
 
   return (
     <Dialog
@@ -39,7 +67,7 @@ export default function LightsDialog(props) {
     >
       <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
         <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-          {props.devices[props.deviceIdx].name} Light
+          {props.devices[deviceIdx].name} Light
         </h3>
 
         <IconButton
@@ -83,9 +111,10 @@ export default function LightsDialog(props) {
           </Grid>
           <Grid item xs={12}>
             <Slider
-              defaultValue={100}
+              value={brightness}
+              onChange={(_, val) => setBrightness(val)}
               onChangeCommitted={(_, val) =>
-                props.handleBrightnessChange(val, props.deviceIdx)
+                props.handleBrightnessChange(val, deviceIdx)
               }
               valueLabelDisplay="auto"
               sx={{
@@ -97,13 +126,13 @@ export default function LightsDialog(props) {
           </Grid>
           <Grid item xs={12}>
             <IconButton
-              onClick={() => props.handleLightOnOff(props.deviceIdx)}
+              onClick={() => props.handleLightOnOff(deviceIdx)}
               sx={{
-                bgcolor: props.devices[props.deviceIdx].on
+                bgcolor: props.devices[deviceIdx].on
                   ? "#FFC107"
                   : "#DDDEDF",
                 "&:hover": {
-                  bgcolor: props.devices[props.deviceIdx].on
+                  bgcolor: props.devices[deviceIdx].on
                     ? "#D9A406"
                     : "#B6B7B8",
                 },

@@ -17,6 +17,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function CameraDialog(props) {
 
+  const [deviceIdx, setDeviceIdx] = React.useState(-1);
+
+  React.useEffect(() => {
+    let idx = props.devices.findIndex((device) => device.id === props.deviceID);
+    setDeviceIdx(idx)
+  }, [props.deviceID]);
+
+  if (deviceIdx === -1) { return }
+
   return (
     <Dialog
       fullWidth
@@ -29,7 +38,7 @@ export default function CameraDialog(props) {
     >
       <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
         <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-          {props.devices[props.deviceIdx].name} Camera
+          {props.devices[deviceIdx].name} Camera
         </h3>
 
         <IconButton
@@ -47,11 +56,11 @@ export default function CameraDialog(props) {
       <DialogContent>
         <Grid container spacing={2} align="center" sx={{ marginTop: "0.25vh" }}>
           <Grid item xs={12}>
-            {props.devices[props.deviceIdx].on ? (
+            {props.devices[deviceIdx].on ? (
               <iframe
                 width="100%"
                 style={{ aspectRatio: "16/9", borderRadius: "10px" }}
-                src={props.devices[props.deviceIdx].endpoint + "?autoplay=1"}
+                src={props.devices[deviceIdx].endpoint + "?autoplay=1"}
                 allow="fullscreen; autoplay;"
                 frameBorder="0"
               ></iframe>
@@ -66,13 +75,13 @@ export default function CameraDialog(props) {
           </Grid>
           <Grid item xs={12}>
             <IconButton
-              onClick={() => props.handleCameraOnOff(props.deviceIdx)}
+              onClick={() => props.handleCameraOnOff(deviceIdx)}
               sx={{
-                bgcolor: props.devices[props.deviceIdx].on
+                bgcolor: props.devices[deviceIdx].on
                   ? "#FFC107"
                   : "#DDDEDF",
                 "&:hover": {
-                  bgcolor: props.devices[props.deviceIdx].on
+                  bgcolor: props.devices[deviceIdx].on
                     ? "#D9A406"
                     : "#B6B7B8",
                 },
