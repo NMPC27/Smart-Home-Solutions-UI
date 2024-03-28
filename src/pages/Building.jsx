@@ -140,8 +140,32 @@ export default function Building() {
 
   React.useEffect(() => {
     getDevices().then(
-      (res) => {
-        setDevices(res.data);
+      (devices) => {
+        setDevices(devices.data);
+
+        let devicesIds = devices.data.map((device) => ''+device.id);
+
+        getBuildsHouseLayoutDevices().then((res) => {
+
+            for(let tab=0; tab<res.data.length; tab++){
+              for(let i = 0; i < res.data[tab].length; i++){
+                if ( devicesIds.includes(res.data[tab][i].id) ) {
+                  res.data[tab][i].data.name = devices.data.find((device) => ''+device.id === res.data[tab][i].id).name
+                  res.data[tab][i].data.openDialog = openDialog
+                }else{
+                  res.data[tab].splice(i, 1);
+                  i--;
+                }
+              }
+            }
+    
+            setGlobalNodes(res.data);
+          },
+          () => {
+            navigate("/");
+          },
+        );
+
       },
       () => {
         navigate("/");
@@ -166,20 +190,6 @@ export default function Building() {
       },
     );
 
-    getBuildsHouseLayoutDevices().then(
-      (res) => {
-        for(let tab=0; tab<res.data.length; tab++){
-          for(let i = 0; i < res.data[tab].length; i++){
-            res.data[tab][i].data.openDialog = openDialog
-          }
-        }
-
-        setGlobalNodes(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
   }, []);
 
   const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one flow
