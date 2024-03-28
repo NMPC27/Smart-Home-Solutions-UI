@@ -160,6 +160,9 @@ export default function TemperatureCard(props) {
 
   React.useEffect(
     () => {
+
+      if ( deviceIdx === -1 ) return;
+
       let temp = props.devices[deviceIdx].targetTemperature
 
       setTargetTemperature(temp);
