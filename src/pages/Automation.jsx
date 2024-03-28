@@ -455,7 +455,7 @@ export default function Automation() {
               <Grid container spacing={0}>
                 <Grid item xs={6} sm={9} md={10}>
                   <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
-                    Flow
+                    Automation
                   </h2>
                 </Grid>
                 <Grid item xs={6} sm={3} md={2}>

@@ -503,12 +503,12 @@ export default function Building() {
           <Grid item xs={12} sm={12} md={9}>
             <OutItem elevation={5}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={8} md={9}>
+                <Grid item xs={12} sm={6} md={8}>
                   <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
                     Build
                   </h2>
                 </Grid>
-                <Grid item xs={12} sm={4} md={3}>    
+                <Grid item xs={12} sm={6} md={4}>    
                   <IconButton
                     sx={{ color: "#FFFFFF", marginRight: "0.5vw" }}
                     component="label"
