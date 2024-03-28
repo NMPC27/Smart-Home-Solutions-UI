@@ -1,3 +1,5 @@
+# DEMO deploy to cloudflare
+
 # TODO:
 - no automation, tenh de reinicializar os nodes como no building -> mas isto pode mudar qoando começar a guardar as coisaas dos nodes
 - atençao as coisas modificadas dentro do node nao estão a ser guardadas (automation)
