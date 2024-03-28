@@ -423,29 +423,6 @@ export default function Automation() {
                         <b>Time</b>
                       </Button>
                   </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
-                    <Button 
-                      sx={{ backgroundColor: "red"}}
-                      fullWidth 
-                      variant="contained" 
-                      onClick={() => {setNodes(
-                        [
-                          ...nodes,
-                          { 
-                            id: ''+newID, 
-                            position: { x: 20, y: 20 }, 
-                            data: { label: 'API' },
-                            targetPosition: 'left',
-                            sourcePosition: 'right',
-                          }
-                        ]
-                      );
-                      setNewID(newID + 1);
-                    }}
-                      >
-                        <b>API</b>
-                      </Button>
-                  </Grid>
                 </Grid>
               </InItem>
             </OutItem>

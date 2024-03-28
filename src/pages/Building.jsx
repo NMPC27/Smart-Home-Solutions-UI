@@ -457,7 +457,7 @@ export default function Building() {
               <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
               Devices
               </h2>
-              <InItem>
+              <InItem style={{ minHeight: "70vh", maxHeight: "70vh", overflowY: "auto" }} >
                 <Grid container spacing={4}>
                   { devices && devices.map((device, idx) => {
                     return (
