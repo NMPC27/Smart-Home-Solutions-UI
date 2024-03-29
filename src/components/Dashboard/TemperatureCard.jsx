@@ -158,15 +158,14 @@ export default function TemperatureCard(props) {
     }
   };
 
-  React.useEffect(
-    () => {
-      let temp = props.devices[deviceIdx].targetTemperature
+  React.useEffect(() => {
+    if (deviceIdx === -1) { return; }
 
-      setTargetTemperature(temp);
-      setArcColor(colorsArray[(temp - 15) * 4]);
-    },
-    [props.devices],
-  );
+    let temp = props.devices[deviceIdx].targetTemperature
+
+    setTargetTemperature(temp);
+    setArcColor(colorsArray[(temp - 15) * 4]);
+  },[props.devices]);
 
   React.useEffect(() => {
     if (props.globalRoom !== "Any") {
