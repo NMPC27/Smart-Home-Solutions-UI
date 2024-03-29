@@ -3,13 +3,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slider from "@mui/material/Slider";
 import CloseIcon from "@mui/icons-material/Close";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import { HexColorPicker } from "react-colorful";
-import Box from "@mui/material/Box";
+import { getCamImg } from "../API";
+import CircularProgress from '@mui/material/CircularProgress';
 import Slide from "@mui/material/Slide";
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -23,6 +23,35 @@ export default function CameraDialog(props) {
     let idx = props.devices.findIndex((device) => device.id === props.deviceID);
     setDeviceIdx(idx)
   }, [props.deviceID]);
+
+  const [img, setImg] = React.useState(null);
+
+  const interval = React.useRef(null)
+
+  React.useEffect(() => {
+    if (deviceIdx === -1) { return }
+
+    if (props.devices[deviceIdx].on){
+      interval.current = setInterval(() => {
+        getCamImg(props.devices[deviceIdx].id).then(
+          (res) => {
+            setImg(res.data)
+          },
+          (error) => {
+            console.log("ERROR!")
+          }
+        )
+      }, 1000);
+    }else{
+      clearInterval(interval.current);
+      interval.current = null;
+    }
+
+    return () => {
+      clearInterval(interval.current);
+    };
+
+  }, [props.devices, deviceIdx]);
 
   if (deviceIdx === -1) { return }
 
@@ -57,13 +86,18 @@ export default function CameraDialog(props) {
         <Grid container spacing={2} align="center" sx={{ marginTop: "0.25vh" }}>
           <Grid item xs={12}>
             {props.devices[deviceIdx].on ? (
-              <iframe
-                width="100%"
-                style={{ aspectRatio: "16/9", borderRadius: "10px" }}
-                src={props.devices[deviceIdx].endpoint + "?autoplay=1"}
-                allow="fullscreen; autoplay;"
-                frameBorder="0"
-              ></iframe>
+              <>
+                { img === null ? 
+                    <CircularProgress size="12vw" sx={{padding: "4vw"}} /> 
+                  : 
+                  <img
+                    width="100%"
+                    style={{ aspectRatio: "16/9", borderRadius: "10px" }}
+                    src={`data:image/jpeg;base64,${img}`}
+                    alt="Camera"
+                  />
+                }
+              </>
             ) : (
               <img
                 width="50%"
