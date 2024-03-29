@@ -15,7 +15,7 @@ export default memo(({ id, isConnectable, data }) => {
 
   return (
     <>
-      <IconButton sx={{padding: 0}} onClick={()=> data.openDialog(parseInt(id),"Temperature")}>
+      <IconButton sx={{padding: 0}} onClick={()=> data.openDialog(id,"Temperature")}>
           <ThermostatIcon fontSize='large' sx={{ color: data.on && "#D9A406" }}/>
       </IconButton>
       <p style={{marginTop: 0, marginBottom:0, fontSize: "1em"}}><b>{data.name}</b></p>

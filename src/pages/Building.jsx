@@ -143,14 +143,14 @@ export default function Building() {
       (devices) => {
         setDevices(devices.data);
 
-        let devicesIds = devices.data.map((device) => ''+device.id);
+        let devicesIds = devices.data.map((device) => device.id);
 
         getBuildsHouseLayoutDevices().then((res) => {
 
             for(let tab=0; tab<res.data.length; tab++){
               for(let i = 0; i < res.data[tab].length; i++){
                 if ( devicesIds.includes(res.data[tab][i].id) ) {
-                  res.data[tab][i].data.name = devices.data.find((device) => ''+device.id === res.data[tab][i].id).name
+                  res.data[tab][i].data.name = devices.data.find((device) => device.id === res.data[tab][i].id).name
                   res.data[tab][i].data.openDialog = openDialog
                 }else{
                   res.data[tab].splice(i, 1);
@@ -378,7 +378,7 @@ export default function Building() {
 
     setNodes((nds) =>
       nds.map((node) => {
-        if (node.id === (''+deviceID)) {
+        if (node.id === deviceID) {
 
           let deviceIdx = devices.findIndex((device) => device.id === deviceID);
 
@@ -482,7 +482,7 @@ export default function Building() {
                               [
                                 ...nodes,
                                 { 
-                                  id: ''+device.id,   
+                                  id: device.id,   
                                   type: tmpType,                           
                                   position: { x: 50, y: 50 }, 
                                   data: { openDialog: openDialog, name: device.name, on: device.on },
