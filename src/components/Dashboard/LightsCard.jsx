@@ -102,7 +102,14 @@ export default function LightsCard(props) {
                 return (
                   <>
                     <Grid item xs={2}>
-                      <IconButton onClick={(e) => handleOpenDialog(e, idx)}>
+                      <IconButton 
+                        onClick={(e) => {
+                          if (val.id.split(".")[0] === "light") {
+                            handleOpenDialog(e, idx)
+                          }
+                        }}
+                        disabled={ val.id.split(".")[0] !== "light" }
+                      >
                         <SettingsIcon />
                       </IconButton>
                     </Grid>

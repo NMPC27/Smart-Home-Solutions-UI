@@ -31,8 +31,14 @@ export default function LightsDialog(props) {
     setBrightness(props.devices[props.deviceIdx].brightness);
   }, [props.deviceIdx]);
 
+  const [ loaded, setLoaded ] = React.useState(false);
+
   React.useEffect(() => {
-    props.handleLightColor(lightColorFinal, props.deviceIdx);
+    if (loaded) {
+      props.handleLightColor(lightColorFinal, props.deviceIdx);
+    } else {
+      setLoaded(true);
+    }
   }, [lightColorFinal]);
 
   React.useEffect(() => {
