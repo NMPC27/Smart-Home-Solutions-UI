@@ -10,6 +10,8 @@ import IconButton from "@mui/material/IconButton";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { getCamImg } from "../API";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -82,6 +84,35 @@ export default function CameraCard(props) {
     }
   }, [props.globalRoom]);
 
+  const [img, setImg] = React.useState(null);
+
+  const interval = React.useRef(null)
+
+  React.useEffect(() => {
+    if (deviceIdx === -1) { return }
+
+    if (props.devices[deviceIdx].on){
+      interval.current = setInterval(() => {
+        getCamImg(props.devices[deviceIdx].id).then(
+          (res) => {
+            setImg(res.data)
+          },
+          (error) => {
+            console.log("ERROR!")
+          }
+        )
+      }, 1000);
+    }else{
+      clearInterval(interval.current);
+      interval.current = null;
+    }
+
+    return () => {
+      clearInterval(interval.current);
+    };
+
+  }, [props.devices, deviceIdx]);
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Camera</h2>
@@ -111,13 +142,18 @@ export default function CameraCard(props) {
             <>
               <Grid item xs={12}>
                 {props.devices[deviceIdx].on ? (
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", borderRadius: "10px" }}
-                    src={props.devices[deviceIdx].endpoint + "?autoplay=1"}
-                    allow="fullscreen; autoplay;"
-                    frameBorder="0"
-                  ></iframe>
+                  <>
+                    { img === null ? 
+                        <CircularProgress size="12vw" sx={{padding: "4vw"}} /> 
+                      : 
+                      <img
+                        width="100%"
+                        style={{ aspectRatio: "16/9", borderRadius: "10px" }}
+                        src={`data:image/jpeg;base64,${img}`}
+                        alt="Camera"
+                      />
+                    }
+                  </>
                 ) : (
                   <img
                     width="50%"

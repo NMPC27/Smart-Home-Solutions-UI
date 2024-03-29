@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const endpoint = "http://127.0.0.1:8000";
-const endpoint = "https://smart-home-solutions-api.onrender.com";
+const endpoint = "http://127.0.0.1:8000";
+// const endpoint = "https://smart-home-solutions-api.onrender.com";
 
 export function doLogin(email, password) {
   const form_data = new FormData();
@@ -182,6 +182,17 @@ export function deviceAlarm(data) {
       },
     },
   );
+}
+
+export function getCamImg(id) {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + `/devices/cam?id=${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
 }
 
 export function roomAdd(data) {
