@@ -97,6 +97,12 @@ export default function Dashboard() {
 
   const [alarmOn, setAlarmOn] = React.useState(false)
 
+  React.useEffect(() => { //first load
+    getNotifications().then((res) => {
+      setNotifications(res.data);
+    });
+  }, []);
+
   React.useEffect(() => {
 
     if (alarmOn) { 
@@ -108,7 +114,7 @@ export default function Dashboard() {
 
       return () => clearInterval(interval);
     }
-    
+
   }, [alarmOn]);
 
   React.useEffect(() => {

@@ -54,7 +54,7 @@ export default function MotionSensorCard(props) {
       for( let i = 0; i < tmpSensors.length; i++) {
         getMotionSensor(tmpSensors[i].id).then((res) => {
           tmpSensors[i].detectedMotion = res.data;
-          setSensors(tmpSensors);
+          setSensors([...tmpSensors]);
         });
       }
 
@@ -62,6 +62,10 @@ export default function MotionSensorCard(props) {
 
     return () => clearInterval(interval);
   }, [props.devices]);
+
+  React.useEffect(() => {
+    console.log(sensors);
+  }, [sensors]);
 
   return (
     <OutItem elevation={5}>
