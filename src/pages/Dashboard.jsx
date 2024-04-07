@@ -1,5 +1,6 @@
 import AppBarStyled from "../components/AppBar/AppBarStyled";
 import LightsCard from "../components/Dashboard/LightsCard";
+import MotionSensorCard from "../components/Dashboard/MotionSensorCard";
 import Grid from "@mui/material/Grid";
 import TemperatureCard from "../components/Dashboard/TemperatureCard";
 import SecurityCard from "../components/Dashboard/SecurityCard";
@@ -94,13 +95,21 @@ export default function Dashboard() {
   const [globalRoom, setGlobalRoom] = React.useState("Any");
   const [selectedTab, setSelectedTab] = React.useState(0);
 
+  const [alarmOn, setAlarmOn] = React.useState(false)
+
   React.useEffect(() => {
-    setInterval(() => {
-      getNotifications().then((res) => {
-        setNotifications(res.data);
-      });
-    }, 5000);
-  }, []);
+
+    if (alarmOn) { 
+      const interval = setInterval(() => {
+        getNotifications().then((res) => {
+          setNotifications(res.data);
+        });
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+    
+  }, [alarmOn]);
 
   React.useEffect(() => {
     getDevices().then(
@@ -409,7 +418,7 @@ export default function Dashboard() {
     dashboardRemove({deviceSelected: deviceSelected, tab: idx}); //! API CALL
   }
 
-  const handleCardAdd = (deviceSelected,tab,val) => {
+  const handleCardAdd = (deviceSelected,tab,selectedType) => {
 
     let newID;
     if (cards[deviceSelected][tab].length != 0) {
@@ -428,13 +437,13 @@ export default function Dashboard() {
 
     let card_h = 0;
     let card_w = 0;
-    if (val.type === "Light") {
+    if (selectedType === "Light") {
       card_w = 1;
       card_h = 2;
-    } else if (val.type === "Temperature") {
+    } else if (selectedType === "Temperature") {
       card_w = 1;
       card_h = 3;
-    } else if (val.type === "Camera") {
+    } else if (selectedType === "Camera") {
 
       if (device === "mobile") {
         card_w = 1;
@@ -444,7 +453,10 @@ export default function Dashboard() {
         card_h = 3;
       }
 
-    } else if (val.type === "Motion Sensor") {
+    } else if (selectedType === "Motion Sensor") {
+      card_w = 1;
+      card_h = 2;
+    } else if (selectedType === "Security") {
       card_w = 1;
       card_h = 1;
     }
@@ -457,7 +469,7 @@ export default function Dashboard() {
 
     tmp2.push(
       {
-        type: val.type,
+        type: selectedType,
         i: newID.toString(),
         x: 0,
         y: Infinity,
@@ -474,7 +486,7 @@ export default function Dashboard() {
       deviceSelected: deviceSelected,
       tab: tab,
       card: {
-        type: val.type,
+        type: selectedType,
         i: newID.toString(),
         x: 0,
         y: Infinity,
@@ -512,6 +524,8 @@ export default function Dashboard() {
     }
 
     setDevices(tmp);
+
+    setAlarmOn(val);
 
     deviceAlarm({on: val}); //! API CALL
   };
@@ -726,9 +740,22 @@ export default function Dashboard() {
           if (card.type === "Motion Sensor") {
             return (
               <div key={card.i}>
+                <MotionSensorCard
+                  devices={devices}
+                  rooms={rooms}
+                  globalRoom={globalRoom}
+                />
+              </div>
+            );
+          }
+
+          if (card.type === "Security") {
+            return (
+              <div key={card.i}>
                 <SecurityCard
                   devices={devices}
                   handleClickAlarm={handleClickAlarm}
+                  alarmOn={alarmOn}
                   globalRoom={globalRoom}
                 />
               </div>

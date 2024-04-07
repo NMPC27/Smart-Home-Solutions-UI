@@ -22,34 +22,25 @@ const InItem = styled(Paper)(({ theme }) => ({
 }));
 
 export default function SecurityCard(props) {
-  const [alarmOn, setAlarmOn] = React.useState(() => {
-    for (let i = 0; i < props.devices.length; i++) {
-      if (props.devices[i].type === "Motion Sensor") {
-        return props.devices[i].on;
-      }
-    }
-  });
 
   const handleClickAlarm = () => {
-    props.handleClickAlarm(!alarmOn);
-
-    setAlarmOn(!alarmOn);
+    props.handleClickAlarm(!props.alarmOn);
   };
 
   React.useEffect(() => {
     for (let i = 0; i < props.devices.length; i++) {
       if (props.devices[i].type === "Motion Sensor") {
-        setAlarmOn(props.devices[i].on);
+        props.handleClickAlarm(props.devices[i].on);
         break;
       }
     }
-  }, [props.devices]);
+  }, []);
 
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Security</h2>
       <InItem>
-        {alarmOn ? (
+        {props.alarmOn ? (
           <Button
             variant="contained"
             fullWidth

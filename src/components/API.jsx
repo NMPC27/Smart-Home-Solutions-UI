@@ -184,6 +184,17 @@ export function deviceAlarm(data) {
   );
 }
 
+export function getMotionSensor(id) {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + `/devices/motion?id=${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
 export function getCamImg(id) {
   let token = localStorage.getItem("token");
 
