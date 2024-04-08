@@ -184,10 +184,10 @@ export function deviceAlarm(data) {
   );
 }
 
-export function getMotionSensor(id) {
+export function getSensor(id) {
   let token = localStorage.getItem("token");
 
-  return axios.get(endpoint + `/devices/motion?id=${id}`, {
+  return axios.get(endpoint + `/devices/sensor?id=${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Access-Control-Allow-Origin": endpoint,

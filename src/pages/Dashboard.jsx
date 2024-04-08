@@ -3,6 +3,7 @@ import LightsCard from "../components/Dashboard/LightsCard";
 import MotionSensorCard from "../components/Dashboard/MotionSensorCard";
 import Grid from "@mui/material/Grid";
 import TemperatureCard from "../components/Dashboard/TemperatureCard";
+import TemperatureSensorCard from "../components/Dashboard/TemperatureSensorCard";
 import SecurityCard from "../components/Dashboard/SecurityCard";
 import CameraCard from "../components/Dashboard/CameraCard";
 import * as React from "react";
@@ -465,6 +466,9 @@ export default function Dashboard() {
     } else if (selectedType === "Security") {
       card_w = 1;
       card_h = 1;
+    } else if (selectedType === "Temperature Sensor") {
+      card_w = 1;
+      card_h = 2;
     }
 
     let tmp = {...cards};
@@ -747,6 +751,18 @@ export default function Dashboard() {
             return (
               <div key={card.i}>
                 <MotionSensorCard
+                  devices={devices}
+                  rooms={rooms}
+                  globalRoom={globalRoom}
+                />
+              </div>
+            );
+          }
+
+          if (card.type === "Temperature Sensor") {
+            return (
+              <div key={card.i}>
+                <TemperatureSensorCard
                   devices={devices}
                   rooms={rooms}
                   globalRoom={globalRoom}

@@ -29,7 +29,7 @@ const InItem = styled(Paper)(({ theme }) => ({
   minHeight: "32vh",
 }));
 
-export default function MotionSensorCard(props) {
+export default function TemperatureSensorCard(props) {
   const [selectedRoom, setSelectedRoom] = React.useState("All");
 
   const [sensors, setSensors] = React.useState([]);
@@ -44,7 +44,7 @@ export default function MotionSensorCard(props) {
     let tmpSensors = [];
 
     for(let i = 0; i < props.devices.length; i++) {
-      if (props.devices[i].type === "Motion Sensor") {
+      if (props.devices[i].type === "Temperature Sensor" || props.devices[i].type === "Humidity Sensor") {
         tmpSensors.push(props.devices[i]);
       }
     }
@@ -53,7 +53,11 @@ export default function MotionSensorCard(props) {
       
       for( let i = 0; i < tmpSensors.length; i++) {
         getSensor(tmpSensors[i].id).then((res) => {
-          tmpSensors[i].detectedMotion = res.data;
+          if (tmpSensors[i].type === "Temperature Sensor") {
+            tmpSensors[i].currentTemperature = res.data;
+          } else if (tmpSensors[i].type === "Humidity Sensor") {
+            tmpSensors[i].currentHumidity = res.data;
+          }
           setSensors([...tmpSensors]);
         });
       }
@@ -65,7 +69,7 @@ export default function MotionSensorCard(props) {
 
   return (
     <OutItem elevation={5}>
-      <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Motion Sensor</h2>
+      <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Temperature Sensor</h2>
         <InItem style={{ maxHeight: "32vh", overflow: "auto" }}>
           <Grid container spacing={2.5} alignItems="center">
             <Grid item xs={12}>
@@ -98,7 +102,7 @@ export default function MotionSensorCard(props) {
                       <h3>{val.name}</h3>
                     </Grid>
                     <Grid item xs={3}>
-                      {val.detectedMotion === "on" ? <SensorsIcon /> : <SensorsOffIcon />}
+                      { val.type === "Temperature Sensor" ? <h3>{val.currentTemperature}°C</h3> : <h3>{val.currentHumidity}%</h3> }
                     </Grid>
                   </>
                 );

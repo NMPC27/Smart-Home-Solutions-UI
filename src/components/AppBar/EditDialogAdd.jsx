@@ -17,7 +17,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const suportedDevices = ["Light", "Temperature", "Motion Sensor", "Camera", "Security"];
+const suportedDevices = ["Light", "Temperature", "Motion Sensor", "Camera", "Security", "Temperature Sensor"];
 
 export default function EditDialogAdd(props) {
   const [selectedType, setSelectedType] = React.useState();
