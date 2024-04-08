@@ -15,6 +15,7 @@ import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { getSensor } from "../API";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -178,6 +179,42 @@ export default function TemperatureCard(props) {
     }
   }, [props.globalRoom]);
 
+  const [sensorTemperature, setSensorTemperature] = React.useState(null);
+  const [sensorHumidity, setSensorHumidity] = React.useState(null);
+
+  React.useEffect(() => {
+
+    let sensorTemperatureID = null
+    let sensorHumidityID = null
+
+    for(let i = 0; i < props.devices.length; i++) {
+      if (props.devices[i].room === selectedRoom) {
+        if (props.devices[i].type === "Temperature Sensor") {
+          sensorTemperatureID = props.devices[i].id;
+          setSensorTemperature(props.devices[i].currentTemperature);
+        } else if (props.devices[i].type === "Humidity Sensor") {
+          sensorHumidityID = props.devices[i].id;
+          setSensorHumidity(props.devices[i].currentHumidity);
+        }
+      }
+    }
+
+    const interval = setInterval(() => {
+      
+
+      getSensor(sensorTemperatureID).then((res) => {
+        setSensorTemperature(res.data);
+      });
+
+      getSensor(sensorHumidityID).then((res) => {
+        setSensorHumidity(res.data);
+      });
+
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [deviceIdx]);
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Temperature</h2>
@@ -271,19 +308,9 @@ export default function TemperatureCard(props) {
                         fontSize: "1.6em",
                       }}
                     >
-                      { props.devices.map((device, idx) => {
-                        if (device.type === "Temperature Sensor" && device.room === selectedRoom) {
-                          return device.currentTemperature;
-                        }
-                        })
-                      }°C
+                      {sensorTemperature}°C
                       {" | "}
-                      { props.devices.map((device, idx) => {
-                        if (device.type === "Humidity Sensor" && device.room === selectedRoom) {
-                          return device.currentHumidity;
-                        }
-                        })
-                      } %
+                      {sensorHumidity}%
                     </h2>
                     <Stack justifyContent="center" direction="row" spacing={4}>
                       {props.devices[deviceIdx].on ? (
