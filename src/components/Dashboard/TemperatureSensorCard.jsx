@@ -49,6 +49,8 @@ export default function TemperatureSensorCard(props) {
       }
     }
 
+    setSensors([...tmpSensors]);
+
     const interval = setInterval(() => {
       
       for( let i = 0; i < tmpSensors.length; i++) {
@@ -62,7 +64,7 @@ export default function TemperatureSensorCard(props) {
         });
       }
 
-    }, 1000);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, [props.devices]);

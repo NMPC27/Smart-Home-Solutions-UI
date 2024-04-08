@@ -85,6 +85,7 @@ export default function TemperatureCard(props) {
     }
     return -1;
   });
+
   const [selectedRoom, setSelectedRoom] = React.useState(() => {
     if (deviceIdx === -1) {
       return null;
@@ -270,7 +271,19 @@ export default function TemperatureCard(props) {
                         fontSize: "1.6em",
                       }}
                     >
-                      Now {props.devices[deviceIdx].currentTemperature}°
+                      { props.devices.map((device, idx) => {
+                        if (device.type === "Temperature Sensor" && device.room === selectedRoom) {
+                          return device.currentTemperature;
+                        }
+                        })
+                      }°C
+                      {" | "}
+                      { props.devices.map((device, idx) => {
+                        if (device.type === "Humidity Sensor" && device.room === selectedRoom) {
+                          return device.currentHumidity;
+                        }
+                        })
+                      } %
                     </h2>
                     <Stack justifyContent="center" direction="row" spacing={4}>
                       {props.devices[deviceIdx].on ? (
