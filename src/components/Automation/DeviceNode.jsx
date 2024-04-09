@@ -72,7 +72,9 @@ export default memo(({ id, data, isConnectable }) => {
         onChange={e => handleChangeDevice(e.target.value)} 
       >
         {data.devices.map((device, idx) => {
-          return <option key={idx} value={idx}>{device.name}</option>
+          if (device.type === "Light" || device.type === "Temperature") {
+            return <option key={idx} value={idx}>{device.name}</option>
+          }          
         })}
       </select>
       <div>

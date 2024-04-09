@@ -1,6 +1,7 @@
 
 
 # TODO:
+- fix requests no building 
 - ver ons e off dos nodes no building
 - modulo dos mails
 - global room bug when changing from empety room to any
