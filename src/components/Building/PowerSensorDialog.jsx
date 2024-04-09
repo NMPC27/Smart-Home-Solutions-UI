@@ -19,11 +19,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function MotionSensorDialog(props) {
-
+export default function PowerSensorDialog(props) {
   const [deviceIdx, setDeviceIdx] = React.useState(-1);
 
-  const [detectedMotion, setDetectedMotion] = React.useState("off");
+  const [power, setPower] = React.useState(0);
 
   React.useEffect(() => {
     let idx = props.devices.findIndex((device) => device.id === props.deviceID);
@@ -36,14 +35,18 @@ export default function MotionSensorDialog(props) {
   React.useEffect(() => {
     if (deviceIdx === -1) { return }
 
+    getSensor(props.deviceID).then((res) => {
+      setPower(res.data);
+    });
+
     const interval = setInterval(() => {
       
-      getSensor(props.devices[deviceIdx].id).then((res) => {
-        setDetectedMotion(res.data);
+      getSensor(props.deviceID).then((res) => {
+        setPower(res.data);
       });
 
 
-    }, 1000);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, [deviceIdx]);
@@ -61,7 +64,7 @@ export default function MotionSensorDialog(props) {
     >
       <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
         <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-          {props.devices[deviceIdx].name} Motion Sensor
+          {props.devices[deviceIdx].name} Humidity Sensor
         </h3>
 
         <IconButton
@@ -82,7 +85,7 @@ export default function MotionSensorDialog(props) {
           <h3>{props.devices[deviceIdx].name}</h3>
         </Grid>
         <Grid item xs={2}>
-          {detectedMotion === "on" ? <SensorsIcon sx={{marginTop:"2vh"}}/> : <SensorsOffIcon sx={{marginTop:"2vh"}}/>}
+          <h3>{power} W</h3>
         </Grid>
       </Grid>
       </DialogContent>

@@ -47,11 +47,17 @@ import LightsDialog from "../components/Building/LightsDialog";
 import CameraDialog from "../components/Building/CameraDialog";
 import TemperatureDialog from "../components/Building/TemperatureDialog";
 import MotionSensorDialog from "../components/Building/MotionSensorDialog";
+import TemperatureSensorDialog from "../components/Building/TemperatureSensorDialog";
+import HumiditySensorDialog from "../components/Building/HumiditySensorDialog";
+import PowerSensorDialog from "../components/Building/PowerSensorDialog";
 
 import CameraNode from "../components/Building/CameraNode";
 import LightsNode from "../components/Building/LightsNode";
 import TemperatureNode from "../components/Building/TemperatureNode";
 import MotionSensorNode from "../components/Building/MotionSensorNode";
+import TemperatureSensorNode from "../components/Building/TemperatureSensorNode";
+import HumiditySensorNode from "../components/Building/HumiditySensorNode";
+import PowerSensorNode from "../components/Building/PowerSensorNode";
 
 
 import 'reactflow/dist/style.css';
@@ -62,6 +68,9 @@ const nodeTypes = {
   lightsNode: LightsNode,
   temperatureNode: TemperatureNode,
   motionSensorNode: MotionSensorNode,
+  temperatureSensorNode: TemperatureSensorNode,
+  humiditySensorNode: HumiditySensorNode,
+  powerSensorNode: PowerSensorNode,
 };
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -122,6 +131,9 @@ export default function Building() {
   const [openDialogCamera, setOpenDialogCamera] = React.useState(false);
   const [openDialogTemperature, setOpenDialogTemperature] = React.useState(false);
   const [openDialogMotionSensor, setOpenDialogMotionSensor] = React.useState(false);
+  const [openDialogTemperatureSensor, setOpenDialogTemperatureSensor] = React.useState(false);
+  const [openDialogHumiditySensor, setOpenDialogHumiditySensor] = React.useState(false);
+  const [openDialogPowerSensor, setOpenDialogPowerSensor] = React.useState(false);
   const [deviceID, setDeviceID] = React.useState(-1);
 
   const openDialog = (deviceId, type) => {
@@ -135,6 +147,12 @@ export default function Building() {
       setOpenDialogTemperature(true);
     }else if (type === "Motion Sensor") {
       setOpenDialogMotionSensor(true);
+    } else if (type === "Temperature Sensor") {
+      setOpenDialogTemperatureSensor(true);
+    } else if (type === "Humidity Sensor") {
+      setOpenDialogHumiditySensor(true);
+    } else if (type === "Power") {
+      setOpenDialogPowerSensor(true);
     }
   }
 
@@ -476,6 +494,12 @@ export default function Building() {
                               tmpType = "temperatureNode"
                             } else if (device.type === "Motion Sensor") {
                               tmpType = "motionSensorNode"
+                            } else if (device.type === "Temperature Sensor") {
+                              tmpType = "temperatureSensorNode"
+                            } else if (device.type === "Humidity Sensor") {
+                              tmpType = "humiditySensorNode"
+                            } else if (device.type === "Power") {
+                              tmpType = "powerSensorNode"
                             }
 
                             setNodes(
@@ -654,6 +678,24 @@ export default function Building() {
             devices={devices}
             handleCloseDialog={() => setOpenDialogMotionSensor(false)}
             handleClickAlarm={handleClickAlarm}
+          />
+          <TemperatureSensorDialog
+            openDialog={openDialogTemperatureSensor}
+            deviceID={deviceID}
+            devices={devices}
+            handleCloseDialog={() => setOpenDialogTemperatureSensor(false)}
+          />
+          <HumiditySensorDialog
+            openDialog={openDialogHumiditySensor}
+            deviceID={deviceID}
+            devices={devices}
+            handleCloseDialog={() => setOpenDialogHumiditySensor(false)}
+          />
+          <PowerSensorDialog
+            openDialog={openDialogPowerSensor}
+            deviceID={deviceID}
+            devices={devices}
+            handleCloseDialog={() => setOpenDialogPowerSensor(false)}
           />
         </>
       }

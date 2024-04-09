@@ -13,6 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
+import { getSensor } from "../API";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -67,6 +68,44 @@ export default function TemperatureDialog(props) {
     if (deviceIdx === -1) { return }
     setTargetTemperature(props.devices[deviceIdx].targetTemperature)
     setArcColor(colorsArray[(props.devices[deviceIdx].targetTemperature - 15)*4])
+  }, [deviceIdx]);
+
+  const [sensorTemperature, setSensorTemperature] = React.useState(null);
+  const [sensorHumidity, setSensorHumidity] = React.useState(null);
+
+  React.useEffect(() => {
+
+    if (deviceIdx === -1) { return }
+
+    let sensorTemperatureID = null
+    let sensorHumidityID = null
+
+    for(let i = 0; i < props.devices.length; i++) {
+      if (props.devices[i].room === props.devices[deviceIdx].room) {
+        if (props.devices[i].type === "Temperature Sensor") {
+          sensorTemperatureID = props.devices[i].id;
+          setSensorTemperature(props.devices[i].currentTemperature);
+        } else if (props.devices[i].type === "Humidity Sensor") {
+          sensorHumidityID = props.devices[i].id;
+          setSensorHumidity(props.devices[i].currentHumidity);
+        }
+      }
+    }
+
+    const interval = setInterval(() => {
+
+
+      getSensor(sensorTemperatureID).then((res) => {
+        setSensorTemperature(res.data);
+      });
+
+      getSensor(sensorHumidityID).then((res) => {
+        setSensorHumidity(res.data);
+      });
+
+    }, 60000);
+
+    return () => clearInterval(interval);
   }, [deviceIdx]);
 
   const handleMinusTemperature = (val) => {
@@ -180,7 +219,9 @@ export default function TemperatureDialog(props) {
                     fontSize: "1.6em",
                   }}
                 >
-                  Now {props.devices[deviceIdx].currentTemperature}°
+                  {sensorTemperature}°C
+                  {" | "}
+                  {sensorHumidity}%
                 </h2>
                 <Stack justifyContent="center" direction="row" spacing={4}>
                   {props.devices[deviceIdx].on ? (

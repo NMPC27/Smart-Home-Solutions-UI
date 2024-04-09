@@ -1,10 +1,20 @@
-# DEMO deploy to cloudflare
+
 
 # TODO:
+- ver ons e off dos nodes no building
+- modulo dos mails
+- global room bug when changing from empety room to any
 - no automation, tenh de reinicializar os nodes como no building -> mas isto pode mudar qoando começar a guardar as coisaas dos nodes
 - atençao as coisas modificadas dentro do node nao estão a ser guardadas (automation)
 
 - fix sync problem between same cards (duplicated) -> falta alarme
+
+-----
+Ao mudar a cor no tele e dps a britness muda para a cor anterior 
+Cenas nas luzes, color changing eyc
+Scroll no tele da temp é meio bugado 
+Build aparece todos o ícones ao centro 
+Resize automation ao clicar num node não foca certo tele
 
 
 - fix delete card mobile
