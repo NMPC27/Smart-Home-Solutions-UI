@@ -29,7 +29,11 @@ import {
   flowTabRemove,
   flowEdit,
   getFlowNodes,
-  getFlowEdges
+  getFlowEdges,
+  nodesDataEdit,
+  nodesDataAdd,
+  getNodesData,
+  nodesDataRemove
 } from "../components/API";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
@@ -100,6 +104,30 @@ export default function Automation() {
 
   const [globalNodes, setGlobalNodes] = React.useState(null); //! iniciate at null
   const [globalEdges, setGlobalEdges] = React.useState(null); //! iniciate at null
+  const [nodesData, setNodesData] = React.useState(null)
+
+  const clearNodeData = (id) => {
+    let tmpNodesData = [...nodesData]
+    let idx = nodesData[selectedTab].findIndex(node => node.id === id)
+    tmpNodesData[selectedTab].splice(idx, 1)
+    setNodesData(tmpNodesData)
+
+    nodesDataRemove({tab: selectedTab, idx: idx}) //! API call
+  }
+
+
+  const eventData = (val) => {
+    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
+
+    let keys = Object.keys(val)
+    keys.forEach((key) => {
+      if (key === "id") { return }
+      let tmp = [...nodesData]
+      tmp[selectedTab][idx][key] = val[key]
+      setNodesData(tmp)
+      nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx][key] }) //! API call
+    })
+  }
 
   React.useEffect(() => {
     getDevices().then(
@@ -122,6 +150,14 @@ export default function Automation() {
     
     getFlowNodes().then(
       (res) => {
+        for(let tab=0; tab<res.data.length; tab++){
+          for(let i = 0; i < res.data[tab].length; i++){
+            if (res.data[tab][i].type === "eventNode"){
+              res.data[tab][i].data.editData = eventData
+              res.data[tab][i].data.clearNodeData = clearNodeData
+            }
+          }
+        }
         setGlobalNodes(res.data);
       },
       () => {
@@ -137,6 +173,15 @@ export default function Automation() {
         navigate("/");
       },
     );
+
+    getNodesData().then(
+      (res) => {
+        setNodesData(res.data)
+      },
+      () => {
+        navigate("/");
+      }
+    )
     
   }, []);
 
@@ -230,6 +275,7 @@ export default function Automation() {
 
     setGlobalNodes([...globalNodes, []]);
     setGlobalEdges([...globalEdges, []]);
+    setNodesData([...nodesData, []])
 
     setNodes([])
     setEdges([])
@@ -249,12 +295,15 @@ export default function Automation() {
 
     let tmpNodes = [...globalNodes];
     let tmpEdges = [...globalEdges];
+    let tmpNodesData = [...nodesData]
 
     tmpNodes.splice(idx, 1);
     tmpEdges.splice(idx, 1);
+    tmpNodesData.splice(idx, 1)
 
     setGlobalNodes(tmpNodes);
     setGlobalEdges(tmpEdges);
+    setNodesData(tmpNodesData)
 
     flowTabRemove({idx: idx}) //! API call
   }
@@ -281,6 +330,14 @@ export default function Automation() {
       }, eds)),
     [setEdges],
   );
+
+
+  React.useEffect(() => {
+    console.log(nodesData)
+  },[nodesData])
+
+
+
 
   const verifyFlow = () => {
     //! verificar se o flow esta bem feito
@@ -337,14 +394,49 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => {setNodes(
+                      onClick={() => {
+                      let deviceId = null
+                      
+                      for (let i=0;i<devices.length;i++){
+                        if (devices[i].type === "Temperature Sensor" || devices[i].type === "Motion Sensor" || devices[i].type === "Humidity Sensor"){
+                          deviceId = devices[i].id;
+                          break;
+                        }
+                      }
+
+                      let tmp = [...nodesData]
+                      tmp[selectedTab].push(
+                        {
+                          id: ''+newID,   
+                          type: 'eventNode',
+                          deviceID: deviceId,
+                          temperature: 20,
+                          humidity: 50,
+                          sinal: "=",
+                          sensor: "notDetected"
+                        }
+                      )
+
+                      setNodesData(tmp)
+                      nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+
+                      setNodes(
                         [
                           ...nodes,
                           { 
                             id: ''+newID,   
                             type: 'eventNode',                            
                             position: { x: 20, y: 20 }, 
-                            data: { devices: devices },
+                            data: { 
+                              devices: devices, 
+                              editData: eventData,
+                              clearNodeData: clearNodeData,
+                              deviceID: deviceId,
+                              temperature: 20,
+                              humidity: 50,
+                              sinal: "=",
+                              sensor: "notDetected"
+                            },
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }

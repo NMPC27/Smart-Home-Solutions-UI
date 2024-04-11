@@ -435,6 +435,62 @@ export function flowEdit(data) {
   );
 }
 
+export function getNodesData() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/flows/nodesData", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
+export function nodesDataAdd(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/nodesData/add",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function nodesDataEdit(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/nodesData/edit",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
+export function nodesDataRemove(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/nodesData/remove",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
 export function getBuildTabs() {
   let token = localStorage.getItem("token");
 

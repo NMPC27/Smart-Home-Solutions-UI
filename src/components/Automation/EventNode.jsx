@@ -10,48 +10,65 @@ export default memo(({ id, data, isConnectable }) => {
     const { deleteElements } = useReactFlow();
 
     const [deviceIdx, setDeviceIdx] = React.useState(0);
-    const [temperature, setTemperature] = React.useState(20);
-    const [humidity, setHumidity] = React.useState(50);
-    const [sensor, setSensor] = React.useState("notDetected");
-    const [sinal, setSinal] = React.useState("=");
+    const [temperature, setTemperature] = React.useState(data.temperature);
+    const [humidity, setHumidity] = React.useState(data.humidity);
+    const [sensor, setSensor] = React.useState(data.sensor);
+    const [sinal, setSinal] = React.useState(data.sinal);
+
+    React.useEffect(()=> {
+      if (data.deviceID === null) { return }
+
+      let idx = data.devices.findIndex(device => device.id === data.deviceID)
+      setDeviceIdx(idx)
+    },[])
 
 
-    const handleChangeDevice = (event) => {
+    const handleChangeDevice = (event) => {      
+      data.editData({id: id, deviceID: data.devices[event].id})
       setDeviceIdx(event)
-      //! do something
     };
 
     const handleChangeSensor = (event) => {
+      data.editData({id: id, sensor: event})
       setSensor(event)
-      //! do something
     };
 
     const plusTemp = () => {
       if (temperature < 30){
+        data.editData({id: id, temperature: temperature + 1})
         setTemperature(temperature + 1)
       }        
     }
 
     const minusTemp = () => {
       if (temperature > 15) {
+        data.editData({id: id, temperature: temperature - 1})
         setTemperature(temperature - 1)
       }
     }
 
     const plusHumi = () => {
       if (humidity < 100){
+        data.editData({id: id, humidity: humidity + 5})
         setHumidity(humidity + 5)
       }
     }
 
     const minusHumi = () => {
       if (humidity > 0) {
+        data.editData({id: id, humidity: humidity - 5})
         setHumidity(humidity - 5)
       }
     } 
 
+    const handleChangeSinal = (val) => {
+      data.editData({id: id, sinal: val})
+      setSinal(val)
+    };
+
     const handleDeleteEvent = (e) => {
       e.stopPropagation();
+      data.clearNodeData(id)
       deleteElements({ nodes: [{ id }] });
     }
 
@@ -123,20 +140,20 @@ export default memo(({ id, data, isConnectable }) => {
             <div className="nodrag" style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
                 <button 
                     style={{marginRight:"1vw"}} 
-                    onClick={() => setSinal("<")}
+                    onClick={() => handleChangeSinal("<")}
                 >
                     {"<"}
                 </button>
                 <button 
                     style={{}} 
-                    onClick={() => setSinal("=")}
+                    onClick={() => handleChangeSinal("=")}
                 >
                     =
                 </button>
                 <button 
 
                     style={{marginLeft:"1vw"}} 
-                    onClick={() => setSinal(">")}
+                    onClick={() => handleChangeSinal(">")}
                 >
                     {">"}
                 </button>
@@ -177,20 +194,20 @@ export default memo(({ id, data, isConnectable }) => {
             <div className="nodrag" style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
                 <button 
                     style={{marginRight:"1vw"}} 
-                    onClick={() => setSinal("<")}
+                    onClick={() => handleChangeSinal("<")}
                 >
                     {"<"}
                 </button>
                 <button 
                     style={{}} 
-                    onClick={() => setSinal("=")}
+                    onClick={() => handleChangeSinal("=")}
                 >
                     =
                 </button>
                 <button 
 
                     style={{marginLeft:"1vw"}} 
-                    onClick={() => setSinal(">")}
+                    onClick={() => handleChangeSinal(">")}
                 >
                     {">"}
                 </button>
