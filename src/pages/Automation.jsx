@@ -129,6 +129,24 @@ export default function Automation() {
     })
   }
 
+  const timeData = (val) => {
+    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
+
+    let tmp = [...nodesData]
+    tmp[selectedTab][idx].time = val.time
+    setNodesData(tmp)
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx][key] }) //! API call
+  }
+
+  const waitData = (val) => {
+    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
+
+    let tmp = [...nodesData]
+    tmp[selectedTab][idx].wait = val.wait
+    setNodesData(tmp)
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx][key] }) //! API call
+  }
+
   React.useEffect(() => {
     getDevices().then(
       (res) => {
@@ -152,9 +170,16 @@ export default function Automation() {
       (res) => {
         for(let tab=0; tab<res.data.length; tab++){
           for(let i = 0; i < res.data[tab].length; i++){
+            res.data[tab][i].data.clearNodeData = clearNodeData
+
             if (res.data[tab][i].type === "eventNode"){
               res.data[tab][i].data.editData = eventData
-              res.data[tab][i].data.clearNodeData = clearNodeData
+            }
+            if (res.data[tab][i].type === "timeNode"){
+              res.data[tab][i].data.editData = timeData
+            }
+            if (res.data[tab][i].type === "waitNode"){
+              res.data[tab][i].data.editData = waitData
             }
           }
         }
@@ -452,13 +477,32 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => {setNodes(
+                      onClick={() => {
+
+                        let tmp = [...nodesData]
+                        tmp[selectedTab].push(
+                          {
+                            id: ''+newID,   
+                            type: 'waitNode',
+                            wait: "00:00:00"
+                          }
+                        )
+  
+                        setNodesData(tmp)
+                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+                      
+                        setNodes(
                         [
                           ...nodes,
                           { 
                             id: ''+newID,   
                             type: 'waitNode',                          
                             position: { x: 20, y: 20 }, 
+                            data: {
+                              editData: waitData,
+                              clearNodeData: clearNodeData,
+                              wait: "00:00:00"
+                            },
                             targetPosition: 'left',
                             sourcePosition: 'right',
                           }
@@ -497,20 +541,38 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => {setNodes(
-                        [
-                          ...nodes,
-                          { 
-                            id: ''+newID, 
+                      onClick={() => {
+                        let tmp = [...nodesData]
+                        tmp[selectedTab].push(
+                          {
+                            id: ''+newID,   
                             type: 'timeNode',
-                            position: { x: 20, y: 20 }, 
-                            targetPosition: 'left',
-                            sourcePosition: 'right',
+                            time: "00:00"
                           }
-                        ]
-                      );
-                      setNewID(newID + 1);
-                    }}
+                        )
+  
+                        setNodesData(tmp)
+                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+                      
+                        setNodes(
+                          [
+                            ...nodes,
+                            { 
+                              id: ''+newID, 
+                              type: 'timeNode',
+                              position: { x: 20, y: 20 }, 
+                              data: {
+                                editData: timeData,
+                                clearNodeData: clearNodeData,
+                                time: "00:00"
+                              },
+                              targetPosition: 'left',
+                              sourcePosition: 'right',
+                            }
+                          ]
+                        );
+                        setNewID(newID + 1);
+                      }}
                       >
                         <b>Time</b>
                       </Button>

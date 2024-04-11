@@ -4,16 +4,38 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 
 
-export default memo(({ id, isConnectable }) => {
+export default memo(({ id, isConnectable, data }) => {
 
   const { deleteElements } = useReactFlow();
 
-  const [hour, setHour] = React.useState('00');
-  const [min, setMin] = React.useState('00');
-  const [sec, setSec] = React.useState('00');
+  const [hour, setHour] = React.useState(() => {return data.wait.split(":")[0]});
+  const [min, setMin] = React.useState(() => {return data.wait.split(":")[1]});
+  const [sec, setSec] = React.useState(() => {return data.wait.split(":")[2]});
+
+  const handleHourEdit = (hour) => {
+    if (isNaN(hour)) {return}
+
+    setHour(hour)
+    data.editData({id: id, wait: hour+":"+min+":"+sec})
+  }
+
+  const handleMinEdit = (min) => {
+    if (isNaN(min)) {return}
+
+    setMin(min)
+    data.editData({id: id, wait: hour+":"+min+":"+sec})
+  }
+
+  const handleSecEdit = (sec) => {
+    if (isNaN(sec)) {return}
+
+    setSec(sec)
+    data.editData({id: id, wait: hour+":"+min+":"+sec})
+  }
 
   const handleDeleteWait = (e) => {
     e.stopPropagation();
+    data.clearNodeData(id)
     deleteElements({ nodes: [{ id }] });
   }
 
@@ -38,7 +60,7 @@ export default memo(({ id, isConnectable }) => {
               borderColor: "#000000",
           }} 
           value={hour}       
-          onChange={(e) => setHour(e.target.value)}    
+          onChange={(e) => handleHourEdit(e.target.value)}    
         />
         <b style={{width: "10%"}} >:</b>
         <input 
@@ -51,7 +73,7 @@ export default memo(({ id, isConnectable }) => {
               borderColor: "#000000",
           }} 
           value={min} 
-          onChange={(e) => setMin(e.target.value)}
+          onChange={(e) => handleMinEdit(e.target.value)}
         />
         <b style={{width: "10%"}} >:</b>
         <input 
@@ -64,7 +86,7 @@ export default memo(({ id, isConnectable }) => {
               borderColor: "#000000",
           }} 
           value={sec} 
-          onChange={(e) => setSec(e.target.value)}
+          onChange={(e) => handleSecEdit(e.target.value)}
         />
       </div>
       <div className="nodrag">

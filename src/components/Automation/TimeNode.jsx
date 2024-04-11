@@ -4,15 +4,30 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 
 
-export default memo(({ id, isConnectable }) => {
+export default memo(({ id, isConnectable, data }) => {
 
   const { deleteElements } = useReactFlow();
 
-  const [hour, setHour] = React.useState('00');
-  const [min, setMin] = React.useState('00');
+  const [hour, setHour] = React.useState(() => {return data.time.split(":")[0]});
+  const [min, setMin] = React.useState(() => {return data.time.split(":")[1]});
+
+  const handleHourEdit = (hour) => {
+    if (hour < 0 || hour > 23) {return}
+
+    setHour(hour)
+    data.editData({id: id, time: hour+":"+min})
+  }
+
+  const handleMinEdit = (min) => {
+    if (min < 0 || min > 59) {return}
+
+    setMin(min)
+    data.editData({id: id, time: hour+":"+min})
+  }
 
   const handleDeleteTime = (e) => {
     e.stopPropagation();
+    data.clearNodeData(id)
     deleteElements({ nodes: [{ id }] });
   }
 
@@ -32,7 +47,7 @@ export default memo(({ id, isConnectable }) => {
               borderColor: "#000000",
           }} 
           value={hour}       
-          onChange={(e) => setHour(e.target.value)}    
+          onChange={(e) => handleHourEdit(e.target.value)}    
         />
         <b style={{width: "10%"}} >:</b>
         <input 
@@ -45,7 +60,7 @@ export default memo(({ id, isConnectable }) => {
               borderColor: "#000000",
           }} 
           value={min} 
-          onChange={(e) => setMin(e.target.value)}
+          onChange={(e) => handleMinEdit(e.target.value)}
         />
       </div>
       <div className="nodrag">
