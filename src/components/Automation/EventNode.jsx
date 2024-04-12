@@ -24,7 +24,7 @@ export default memo(({ id, data, isConnectable }) => {
 
 
     const handleChangeDevice = (event) => {      
-      data.editData({id: id, deviceID: data.devices[event].id})
+      data.editData({id: id, deviceID: data.devices[event].id, deviceType: data.devices[event].type})
       setDeviceIdx(event)
     };
 
@@ -145,12 +145,6 @@ export default memo(({ id, data, isConnectable }) => {
                     {"<"}
                 </button>
                 <button 
-                    style={{}} 
-                    onClick={() => handleChangeSinal("=")}
-                >
-                    =
-                </button>
-                <button 
 
                     style={{marginLeft:"1vw"}} 
                     onClick={() => handleChangeSinal(">")}
@@ -197,12 +191,6 @@ export default memo(({ id, data, isConnectable }) => {
                     onClick={() => handleChangeSinal("<")}
                 >
                     {"<"}
-                </button>
-                <button 
-                    style={{}} 
-                    onClick={() => handleChangeSinal("=")}
-                >
-                    =
                 </button>
                 <button 
 

@@ -491,6 +491,21 @@ export function nodesDataRemove(data) {
   );
 }
 
+export function applyFlow(data) {
+  let token = localStorage.getItem("token");
+
+  return axios.post(
+    endpoint + "/flows/apply",
+    { data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": endpoint,
+      },
+    },
+  );
+}
+
 export function getBuildTabs() {
   let token = localStorage.getItem("token");
 

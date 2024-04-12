@@ -33,7 +33,8 @@ import {
   nodesDataEdit,
   nodesDataAdd,
   getNodesData,
-  nodesDataRemove
+  nodesDataRemove,
+  applyFlow
 } from "../components/API";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
@@ -118,15 +119,15 @@ export default function Automation() {
 
   const eventData = (val) => {
     let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
-
+    let tmp = [...nodesData]
     let keys = Object.keys(val)
     keys.forEach((key) => {
       if (key === "id") { return }
-      let tmp = [...nodesData]
+      
       tmp[selectedTab][idx][key] = val[key]
       setNodesData(tmp)
-      nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
     })
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
   }
 
   const deviceData = (val) => {
@@ -134,15 +135,15 @@ export default function Automation() {
     if (nodesData === null) { return } //! chack this
 
     let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
-
+    let tmp = [...nodesData]
     let keys = Object.keys(val)
     keys.forEach((key) => {
       if (key === "id") { return }
-      let tmp = [...nodesData]
+      
       tmp[selectedTab][idx][key] = val[key]
       setNodesData(tmp)
-      nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
     })
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
   }
 
   const timeData = (val) => {
@@ -404,6 +405,38 @@ export default function Automation() {
     //! verificar se o flow esta bem feito
     //! se nao dar erro
     //! se sim, aplicar o flow
+
+    if (nodes.length === 0) { 
+      console.log("ERROR: no nodes") 
+      return
+    }
+
+
+    let conectionNodes = new Set([])
+
+    for (let i=0;i<edges.length;i++){
+      conectionNodes.add(edges[i].source)
+      conectionNodes.add(edges[i].target)
+    }
+
+    if (conectionNodes.size !== nodes.length) {
+      console.log("ERROR: not all nodes are connected")
+      return
+    }
+
+    let error = false;
+    for (let i=0;i<nodes.length;i++){
+      if (!conectionNodes.has(nodes[i].id)){
+        error = true;
+        console.log("ERROR: not all nodes are connected")
+        return
+      }
+    }
+
+    //! verificar se ha 2 flows so pode haver 1 flow
+
+    applyFlow({nodesData: nodesData[selectedTab], edges: edges})
+    
   }
 
 
@@ -473,8 +506,9 @@ export default function Automation() {
                           deviceID: deviceId,
                           temperature: 20,
                           humidity: 50,
-                          sinal: "=",
-                          sensor: "notDetected"
+                          sinal: "<",
+                          sensor: "notDetected",
+                          deviceType: null
                         }
                       )
 
@@ -520,7 +554,7 @@ export default function Automation() {
                           {
                             id: ''+newID,   
                             type: 'waitNode',
-                            wait: "00:00:00"
+                            wait: "00:00:00",
                           }
                         )
   
@@ -574,6 +608,7 @@ export default function Automation() {
                             temperature: 20,
                             color: "#FFFFFF",
                             brightness: 100,
+                            deviceType: null
                           }
                         )
   
