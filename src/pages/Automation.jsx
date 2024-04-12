@@ -125,7 +125,7 @@ export default function Automation() {
       let tmp = [...nodesData]
       tmp[selectedTab][idx][key] = val[key]
       setNodesData(tmp)
-      nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx][key] }) //! API call
+      nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
     })
   }
 
@@ -135,7 +135,7 @@ export default function Automation() {
     let tmp = [...nodesData]
     tmp[selectedTab][idx].time = val.time
     setNodesData(tmp)
-    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx][key] }) //! API call
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
   }
 
   const waitData = (val) => {
@@ -144,7 +144,7 @@ export default function Automation() {
     let tmp = [...nodesData]
     tmp[selectedTab][idx].wait = val.wait
     setNodesData(tmp)
-    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx][key] }) //! API call
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
   }
 
   React.useEffect(() => {
@@ -167,23 +167,46 @@ export default function Automation() {
     );
     
     getFlowNodes().then(
-      (res) => {
-        for(let tab=0; tab<res.data.length; tab++){
-          for(let i = 0; i < res.data[tab].length; i++){
-            res.data[tab][i].data.clearNodeData = clearNodeData
+      (flowNodes) => {
 
-            if (res.data[tab][i].type === "eventNode"){
-              res.data[tab][i].data.editData = eventData
+        getNodesData().then(
+          (nodesData) => {
+
+            for(let tab=0; tab<flowNodes.data.length; tab++){
+              for(let i = 0; i < flowNodes.data[tab].length; i++){
+                if (flowNodes.data[tab][i].id === nodesData.data[tab][i].id){
+                  if (flowNodes.data[tab][i].type === "eventNode"){
+                    flowNodes.data[tab][i].data.editData = eventData
+                    flowNodes.data[tab][i].data.deviceID = nodesData.data[tab][i].deviceID
+                    flowNodes.data[tab][i].data.temperature = nodesData.data[tab][i].temperature
+                    flowNodes.data[tab][i].data.humidity = nodesData.data[tab][i].humidity
+                    flowNodes.data[tab][i].data.sinal = nodesData.data[tab][i].sinal
+                    flowNodes.data[tab][i].data.sensor = nodesData.data[tab][i].sensor
+                  }
+                  if (flowNodes.data[tab][i].type === "timeNode"){
+                    flowNodes.data[tab][i].data.editData = timeData
+                    flowNodes.data[tab][i].data.time = nodesData.data[tab][i].time
+                  }
+                  if (flowNodes.data[tab][i].type === "waitNode"){
+                    flowNodes.data[tab][i].data.editData = waitData
+                    flowNodes.data[tab][i].data.wait = nodesData.data[tab][i].wait
+                  }
+
+                  flowNodes.data[tab][i].data.clearNodeData = clearNodeData
+                
+                } else {
+                  console.log("ERROR: ID MISMATCH")
+                }
+              }
             }
-            if (res.data[tab][i].type === "timeNode"){
-              res.data[tab][i].data.editData = timeData
-            }
-            if (res.data[tab][i].type === "waitNode"){
-              res.data[tab][i].data.editData = waitData
-            }
+            setGlobalNodes(flowNodes.data);
+
+            setNodesData(nodesData.data)
+          },
+          () => {
+            navigate("/");
           }
-        }
-        setGlobalNodes(res.data);
+        )
       },
       () => {
         navigate("/");
@@ -199,15 +222,6 @@ export default function Automation() {
       },
     );
 
-    getNodesData().then(
-      (res) => {
-        setNodesData(res.data)
-      },
-      () => {
-        navigate("/");
-      }
-    )
-    
   }, []);
 
 
