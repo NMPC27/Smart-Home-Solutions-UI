@@ -1,6 +1,7 @@
 
 
 # TODO:
+- put check and error icons in automation -> if flow is good if error and never tested
 - fix load functions in automation
 - fix requests no building 
 - ver ons e off dos nodes no building

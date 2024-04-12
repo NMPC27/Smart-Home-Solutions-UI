@@ -529,7 +529,7 @@ export default function Automation() {
                               deviceID: deviceId,
                               temperature: 20,
                               humidity: 50,
-                              sinal: "=",
+                              sinal: "<",
                               sensor: "notDetected"
                             },
                             targetPosition: 'left',
