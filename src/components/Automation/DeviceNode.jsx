@@ -10,47 +10,56 @@ export default memo(({ id, data, isConnectable }) => {
     const { deleteElements } = useReactFlow();
 
     const [deviceIdx, setDeviceIdx] = React.useState(0);
-    const [deviceState, setDeviceState] = React.useState("turnOff");
-    const [temperature, setTemperature] = React.useState(20);
-    const [color, setColor] = React.useState('#FFFFFF');
-    const [brightness, setBrightness] = React.useState(100);
+    const [deviceState, setDeviceState] = React.useState(data.deviceState);
+    const [temperature, setTemperature] = React.useState(data.temperature);
+    const [color, setColor] = React.useState(data.color);
+    const [brightness, setBrightness] = React.useState(data.brightness);
 
     const [debouncedColor] = useDebounce(color, 1000); 
 
+    React.useEffect(()=> {
+      if (data.deviceID === null) { return }
+
+      let idx = data.devices.findIndex(device => device.id === data.deviceID)
+      setDeviceIdx(idx)
+    },[])
+
+    React.useEffect(()=> {
+      data.editData({id: id, color: debouncedColor})
+    },[debouncedColor])
+
     const handleChangeDevice = (event) => {
-        setDeviceIdx(event)
-        //! do something
+      data.editData({id: id, deviceID: data.devices[event].id})
+      setDeviceIdx(event)
     };
 
     const handleChangeDeviceState = (event) => {
-        setDeviceState(event)
-        //! do something
+      data.editData({id: id, deviceState: event})
+      setDeviceState(event)
     };
 
     const plusTemp = () => {
         if (temperature < 30){
-            setTemperature(temperature + 1)
+          data.editData({id: id, temperature: temperature + 1})
+          setTemperature(temperature + 1)
         }        
     }
 
     const minusTemp = () => {
         if (temperature > 15) {
-            setTemperature(temperature - 1)
+          data.editData({id: id, temperature: temperature - 1})
+          setTemperature(temperature - 1)
         }
-    }
-
-    const handleColor = (event) => {
-        console.log(event)
-        //! do something
     }
     
     const handleBrightnessChange = (val) => {
-        setBrightness(val)
-        //! do something
+      data.editData({id: id, brightness: val})
+      setBrightness(val)
     }
 
     const handleDeleteDevice = (e) => {
       e.stopPropagation();
+      data.clearNodeData(id)
       deleteElements({ nodes: [{ id }] });
     }
 
@@ -94,13 +103,13 @@ export default memo(({ id, data, isConnectable }) => {
             <div>
                 <b>Color:</b>
             </div>
-            <input className="nodrag" type="color" onChange={(e) => setColor(e.target.value)} defaultValue={'#FFFFFF'} />
+            <input className="nodrag" type="color" onChange={(e) => setColor(e.target.value)} defaultValue={data.color} />
             <div>
                 <b>Brightness:</b>
             </div>
             <Slider
               className="nodrag"
-              defaultValue={100}
+              defaultValue={data.brightness}
               onChangeCommitted={(_, val) =>
                 handleBrightnessChange(val)
               }

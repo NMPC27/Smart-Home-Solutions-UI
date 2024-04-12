@@ -129,6 +129,22 @@ export default function Automation() {
     })
   }
 
+  const deviceData = (val) => {
+
+    if (nodesData === null) { return } //! chack this
+
+    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
+
+    let keys = Object.keys(val)
+    keys.forEach((key) => {
+      if (key === "id") { return }
+      let tmp = [...nodesData]
+      tmp[selectedTab][idx][key] = val[key]
+      setNodesData(tmp)
+      nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
+    })
+  }
+
   const timeData = (val) => {
     let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
 
@@ -182,6 +198,14 @@ export default function Automation() {
                     flowNodes.data[tab][i].data.humidity = nodesData.data[tab][i].humidity
                     flowNodes.data[tab][i].data.sinal = nodesData.data[tab][i].sinal
                     flowNodes.data[tab][i].data.sensor = nodesData.data[tab][i].sensor
+                  }
+                  if (flowNodes.data[tab][i].type === "deviceNode"){
+                    flowNodes.data[tab][i].data.editData = deviceData
+                    flowNodes.data[tab][i].data.deviceID = nodesData.data[tab][i].deviceID
+                    flowNodes.data[tab][i].data.deviceState = nodesData.data[tab][i].deviceState
+                    flowNodes.data[tab][i].data.temperature = nodesData.data[tab][i].temperature
+                    flowNodes.data[tab][i].data.color = nodesData.data[tab][i].color
+                    flowNodes.data[tab][i].data.brightness = nodesData.data[tab][i].brightness
                   }
                   if (flowNodes.data[tab][i].type === "timeNode"){
                     flowNodes.data[tab][i].data.editData = timeData
@@ -371,11 +395,9 @@ export default function Automation() {
   );
 
 
-  React.useEffect(() => {
+  React.useEffect(() => { //! DELETE
     console.log(nodesData)
   },[nodesData])
-
-
 
 
   const verifyFlow = () => {
@@ -532,21 +554,56 @@ export default function Automation() {
                     <Button 
                       fullWidth 
                       variant="contained" 
-                      onClick={() => {setNodes(
-                        [
-                          ...nodes,
-                          { 
-                            id: ''+newID, 
-                            type: 'deviceNode',
-                            position: { x: 20, y: 20 }, 
-                            data: { devices: devices },
-                            targetPosition: 'left',
-                            sourcePosition: 'right',
+                      onClick={() => {
+                        let deviceId = null
+                      
+                        for (let i=0;i<devices.length;i++){
+                          if (devices[i].type === "Temperature" || devices[i].type === "Light"){
+                            deviceId = devices[i].id;
+                            break;
                           }
-                        ]
-                      );                      
-                      setNewID(newID + 1);
-                    }}
+                        }
+  
+                        let tmp = [...nodesData]
+                        tmp[selectedTab].push(
+                          {
+                            id: ''+newID,   
+                            type: 'deviceNode',
+                            deviceID: deviceId,
+                            deviceState: "turnOff",
+                            temperature: 20,
+                            color: "#FFFFFF",
+                            brightness: 100,
+                          }
+                        )
+  
+                        setNodesData(tmp)
+                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+                        
+                        setNodes(
+                          [
+                            ...nodes,
+                            { 
+                              id: ''+newID, 
+                              type: 'deviceNode',
+                              position: { x: 20, y: 20 }, 
+                              data: { 
+                                devices: devices,
+                                editData: deviceData,
+                                clearNodeData: clearNodeData,
+                                deviceID: deviceId,
+                                deviceState: "turnOff",
+                                temperature: 20,
+                                color: "#FFFFFF",
+                                brightness: 100,
+                              },
+                              targetPosition: 'left',
+                              sourcePosition: 'right',
+                            }
+                          ]
+                        );                      
+                        setNewID(newID + 1);
+                      }}
                       >
                         <b>Device</b>
                       </Button>
