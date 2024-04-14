@@ -461,7 +461,6 @@ export default function Automation() {
 
     }
 
-    console.log(flow)
 
     while (toBeMerged.length > 0){
       let middle = toBeMerged.pop() // [2,3]
@@ -476,8 +475,15 @@ export default function Automation() {
     }
     
     
-
     console.log(flow)
+
+    for(let i=0;i<flow.length;i++){
+      if (flow[i][0] === endNodeId){
+        setOpenErrorMsg(true)
+        setErrorMsg("No loops allowed in the flow")
+        return
+      }
+    }
 
 
 
