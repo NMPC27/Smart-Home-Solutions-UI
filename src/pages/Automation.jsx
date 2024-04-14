@@ -87,7 +87,8 @@ export default function Automation() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one flow
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // must have at least one flow
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   let navigate = useNavigate();
 
@@ -351,7 +352,11 @@ export default function Automation() {
 
   const handleDeleteTab = (idx) => {
 
-    if (tabs.length === 1) { setOpenErrorMsg1(true); return }
+    if (tabs.length === 1) { 
+      setOpenErrorMsg(true); 
+      setErrorMsg("Must have at least one flow"); 
+      return 
+    }
 
     let tmp = [...tabs];
     tmp.splice(idx, 1);
@@ -396,19 +401,26 @@ export default function Automation() {
   );
 
 
-  React.useEffect(() => { //! DELETE
-    console.log(nodesData)
-  },[nodesData])
-
-
   const verifyFlow = () => {
-    //! verificar se o flow esta bem feito
-    //! se nao dar erro
-    //! se sim, aplicar o flow
 
-    if (nodes.length === 0) { 
-      console.log("ERROR: no nodes") 
+    if (nodes.length < 2) { 
+      setOpenErrorMsg(true)
+      setErrorMsg("Must have at least two nodes")
       return
+    }
+
+    let endNodeId= null;
+    let count = 0;
+    for (let i=0;i<nodes.length;i++){
+      if (nodes[i].type === "deviceNode"){
+        endNodeId= nodes[i].id;
+        count++;
+      }
+      if (count > 1) {
+        setOpenErrorMsg(true)
+        setErrorMsg("There can only be one device node")
+        return
+      }
     }
 
 
@@ -420,24 +432,67 @@ export default function Automation() {
     }
 
     if (conectionNodes.size !== nodes.length) {
-      console.log("ERROR: not all nodes are connected")
+      setOpenErrorMsg(true)
+      setErrorMsg("Not all nodes are connected")
       return
     }
 
-    let error = false;
+
     for (let i=0;i<nodes.length;i++){
       if (!conectionNodes.has(nodes[i].id)){
-        error = true;
-        console.log("ERROR: not all nodes are connected")
-        return
+        setOpenErrorMsg(true)
+        setErrorMsg("Not all nodes are connected")
       }
     }
 
+    let flow = []
+    let toBeMerged = []
+    let nFlow = -1;
+    for(let i=0;i<edges.length;i++){
+      flow.push([])
+      nFlow++;
+      flow[nFlow].push(edges[i].target)
+      flow[nFlow].push(edges[i].source)
+
+      let idx = nodes.findIndex(node => node.id === edges[i].source)
+      if (nodes[idx].type === "waitNode"){
+        toBeMerged.push([edges[i].target,edges[i].source])
+      }
+
+    }
+
+    console.log(flow)
+
+    while (toBeMerged.length > 0){
+      let middle = toBeMerged.pop() // [2,3]
+      let idxTail = flow.findIndex(flow => flow[0] === middle[middle.length-1])
+
+      let idxMiddle = flow.findIndex(flow => flow[flow.length-1] === middle[middle.length-1])
+
+      flow[idxTail].splice(0,1)
+
+      flow[idxMiddle] = flow[idxMiddle].concat(flow[idxTail])
+      flow.splice(idxTail,1)
+    }
+    
+    
+
+    console.log(flow)
+
+
+
     //! verificar se ha 2 flows so pode haver 1 flow
 
-    applyFlow({nodesData: nodesData[selectedTab], edges: edges})
+    // applyFlow({nodesData: nodesData[selectedTab], edges: edges, id: selectedTab}) //! API call
     
   }
+
+  React.useEffect(() => {
+    console.log(edges)
+  },[edges])
+  React.useEffect(() => { //! DELETE
+    console.log(nodesData)
+  },[nodesData])
 
 
 
@@ -777,11 +832,11 @@ export default function Automation() {
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg1}
+        open={openErrorMsg}
         autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
-            setOpenErrorMsg1(false);
+            setOpenErrorMsg(false);
           }
         }}
       >
@@ -790,11 +845,11 @@ export default function Automation() {
           sx={{ width: "100%" }}
           onClose={(event, reason) => {
             if (reason !== "clickaway") {
-              setOpenErrorMsg1(false);
+              setOpenErrorMsg(false);
             }
           }}
         >
-          Must have at least one flow!
+          {setErrorMsg}
         </Alert>
       </Snackbar>
     </>    
