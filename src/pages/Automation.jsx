@@ -36,6 +36,9 @@ import {
   nodesDataRemove,
   applyFlow
 } from "../components/API";
+import RemoveIcon from '@mui/icons-material/Remove';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -137,6 +140,7 @@ export default function Automation() {
     if (nodesData === null) { return } //! chack this
 
     let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
+    console.log(idx)
     let tmp = [...nodesData]
     let keys = Object.keys(val)
     keys.forEach((key) => {
@@ -325,7 +329,7 @@ export default function Automation() {
     setEditIdx(-1)
 
     let tmp = [...tabs];
-    tmp[idx] = tabName;
+    tmp[idx].name = tabName;
     setTabs(tmp);
 
     flowTabEdit({name: tabName, idx: idx}) //! API call
@@ -337,7 +341,7 @@ export default function Automation() {
 
     let tmp = [...tabs];
     let len = tmp.length;
-    tmp.push("Flow "+len);
+    tmp.push({name: "Flow "+len, status: "notApplied"});
 
     setGlobalNodes([...globalNodes, []]);
     setGlobalEdges([...globalEdges, []]);
@@ -500,16 +504,24 @@ export default function Automation() {
 
     applyFlow({nodesData: nodesData[selectedTab], flows: flow, id: selectedTab}).then( //! API call
       (res) => {
-        if (res === 200){
+        if (res.data === 200){
           setOpenSuccessMsg(true)
+          let tmp = [...tabs]
+          tmp[selectedTab].status = "applied"
+          setTabs(tmp)
         }else{
           setErrorMsg("Error applying flow!")
           setOpenErrorMsg(true)
         }
       }
     ) 
-    
   }
+
+  React.useEffect(() => {
+    if (tabs === null) { return; }
+    console.log(tabs.length)
+    console.log(selectedTab)
+  }, [tabs,selectedTab])
 
 
   if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { 
@@ -767,9 +779,18 @@ export default function Automation() {
                   </h2>
                 </Grid>
                 <Grid item xs={6} sm={3} md={2}>
-                  <Button sx={{marginTop:'0.5vh'}} onClick={() => verifyFlow()} variant="contained">
-                    <b>APPLY FLOW</b>
-                  </Button>
+                  <Stack direction="row" spacing={2} sx={{marginTop:"0.25vw"}}>
+                    { tabs.length !== selectedTab && 
+                      <>
+                        { tabs[selectedTab].status === "applied" && <CheckCircleOutlineIcon fontSize="large" style={{ color: "green" }}/> }
+                        { tabs[selectedTab].status === "notApplied" && <RemoveIcon fontSize="large"/> }
+                        { tabs[selectedTab].status === "error" && <ErrorOutlineIcon fontSize="large" style={{ color: "red" }}/> }
+                      </>
+                    }
+                    <Button sx={{marginTop:'0.5vh'}} onClick={() => verifyFlow()} variant="contained">
+                      <b>APPLY FLOW</b>
+                    </Button>
+                  </Stack>
                 </Grid>
               </Grid>
               <InItem style={{ height:'70vh' }}>
@@ -810,7 +831,7 @@ export default function Automation() {
                         <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => setEditIdx(idx)}>
                           <EditIcon />
                         </IconButton>
-                        {val}
+                        {val.name}
                         <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={() => handleDeleteTab(idx)}>
                           <DeleteIcon />
                         </IconButton>

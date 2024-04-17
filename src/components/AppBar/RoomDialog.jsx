@@ -260,7 +260,7 @@ export default function RoomDialog(props) {
 
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg1}
+        open={openErrorMsg}
         autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
