@@ -50,19 +50,21 @@ export default function RoomDialog(props) {
     React.useState(false);
   const [deleteIdx, setDeleteIdx] = React.useState(-1);
 
-  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // room already exists
-  const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // empty name
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // room addded
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleRoomAdd = (roomName) => {
     if (roomName === "") {
-      setOpenErrorMsg2(true);
+      setErrorMsg("Room name is empty!");
+      setOpenErrorMsg(true);
       return;
     }
 
     for (let i = 0; i < props.rooms.length; i++) {
       if (props.rooms[i].name === roomName) {
-        setOpenErrorMsg1(true);
+        setErrorMsg("This room already exists.");
+        setOpenErrorMsg(true);
         return;
       }
     }
@@ -262,7 +264,7 @@ export default function RoomDialog(props) {
         autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
-            setOpenErrorMsg1(false);
+            setOpenErrorMsg(false);
           }
         }}
       >
@@ -271,33 +273,11 @@ export default function RoomDialog(props) {
           sx={{ width: "100%" }}
           onClose={(event, reason) => {
             if (reason !== "clickaway") {
-              setOpenErrorMsg1(false);
+              setOpenErrorMsg(false);
             }
           }}
         >
-          This room already exists!
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg2}
-        autoHideDuration={6000}
-        onClose={(event, reason) => {
-          if (reason !== "clickaway") {
-            setOpenErrorMsg2(false);
-          }
-        }}
-      >
-        <Alert
-          severity="error"
-          sx={{ width: "100%" }}
-          onClose={(event, reason) => {
-            if (reason !== "clickaway") {
-              setOpenErrorMsg2(false);
-            }
-          }}
-        >
-          Room name is empty!
+          {errorMsg}
         </Alert>
       </Snackbar>
       <Snackbar

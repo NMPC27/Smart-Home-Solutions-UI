@@ -32,12 +32,13 @@ export default function SignIn() {
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // fill all the fields!
-  const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // Incorrect username or password!
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // fill all the fields!
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleLogIn = () => {
     if (email === "" || password === "") {
-      setOpenErrorMsg1(true);
+      setErrorMsg("Please fill out all the fields!");
+      setOpenErrorMsg(true);
       return;
     }
 
@@ -51,7 +52,8 @@ export default function SignIn() {
         document.body.style.marginTop = "3vh";
       },
       () => {
-        setOpenErrorMsg2(true);
+        setErrorMsg("Incorrect username or password!");
+        setOpenErrorMsg(true);
       },
     );
   };
@@ -157,11 +159,11 @@ export default function SignIn() {
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg1}
+        open={openErrorMsg}
         autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
-            setOpenErrorMsg1(false);
+            setOpenErrorMsg(false);
           }
         }}
       >
@@ -170,33 +172,11 @@ export default function SignIn() {
           sx={{ width: "100%" }}
           onClose={(event, reason) => {
             if (reason !== "clickaway") {
-              setOpenErrorMsg1(false);
+              setOpenErrorMsg(false);
             }
           }}
         >
-          Fill all the fields!
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg2}
-        autoHideDuration={6000}
-        onClose={(event, reason) => {
-          if (reason !== "clickaway") {
-            setOpenErrorMsg2(false);
-          }
-        }}
-      >
-        <Alert
-          severity="error"
-          sx={{ width: "100%" }}
-          onClose={(event, reason) => {
-            if (reason !== "clickaway") {
-              setOpenErrorMsg2(false);
-            }
-          }}
-        >
-          Incorrect email or password!
+          {errorMsg}
         </Alert>
       </Snackbar>
     </>

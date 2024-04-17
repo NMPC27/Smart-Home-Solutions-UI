@@ -74,9 +74,9 @@ export default function DeviceDialog(props) {
   const [deviceNewName, setDeviceNewName] = React.useState("");
   const [editIdx, setEditIdx] = React.useState(-1);
 
-  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // fill all the fields!
-  const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // no devices found!
+  const [openErrorMsg1, setOpenErrorMsg] = React.useState(false); 
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // device addded
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleFindDevices = () => {
     setSearchDevicesStatus("searching");
@@ -96,7 +96,8 @@ export default function DeviceDialog(props) {
       setDevicesFound(tmp);
 
       if (tmpState === "notFound") {
-        setOpenErrorMsg2(true);
+        setErrorMsg("No devices found!");
+        setOpenErrorMsg(true);
       }
     }, 3000);
     //!
@@ -104,7 +105,8 @@ export default function DeviceDialog(props) {
 
   const handleDeviceAdd = (device, deviceName, selectedType, selectedRoom) => {
     if (!device || !deviceName || !selectedType || !selectedRoom) {
-      setOpenErrorMsg1(true);
+      setErrorMsg("Fill all the fields!");
+      setOpenErrorMsg(true);
       return;
     }
 
@@ -365,7 +367,7 @@ export default function DeviceDialog(props) {
         autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
-            setOpenErrorMsg1(false);
+            setOpenErrorMsg(false);
           }
         }}
       >
@@ -374,33 +376,11 @@ export default function DeviceDialog(props) {
           sx={{ width: "100%" }}
           onClose={(event, reason) => {
             if (reason !== "clickaway") {
-              setOpenErrorMsg1(false);
+              setOpenErrorMsg(false);
             }
           }}
         >
-          Fill all the fields!
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg2}
-        autoHideDuration={6000}
-        onClose={(event, reason) => {
-          if (reason !== "clickaway") {
-            setOpenErrorMsg2(false);
-          }
-        }}
-      >
-        <Alert
-          severity="error"
-          sx={{ width: "100%" }}
-          onClose={(event, reason) => {
-            if (reason !== "clickaway") {
-              setOpenErrorMsg2(false);
-            }
-          }}
-        >
-          No devices found!
+          {errorMsg}
         </Alert>
       </Snackbar>
       <Snackbar

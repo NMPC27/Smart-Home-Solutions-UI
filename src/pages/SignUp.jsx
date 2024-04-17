@@ -34,24 +34,26 @@ export default function SignUp() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confPassword, setConfPassword] = React.useState("");
-  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // fill all the fields!
-  const [openErrorMsg2, setOpenErrorMsg2] = React.useState(false); // Passwords don't match!
-  const [openErrorMsg3, setOpenErrorMsg3] = React.useState(false); // email already in use
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // fill all the fields!
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleSignUp = () => {
     if (name === "" || email === "" || password === "" || confPassword === "") {
-      setOpenErrorMsg1(true);
+      setErrorMsg("Please fill out all the fields!");
+      setOpenErrorMsg(true);
       return;
     }
 
     if (password !== confPassword) {
-      setOpenErrorMsg2(true);
+      setErrorMsg("Passwords don't match!");
+      setOpenErrorMsg(true);
       return;
     }
 
     signUp({ name, email, password }).then((res) => {
       if (res.data.status === "error") {
-        setOpenErrorMsg3(true);
+        setErrorMsg("Email already in use!");
+        setOpenErrorMsg(true);
       } else {
         navigate("/");
       }
@@ -189,11 +191,11 @@ export default function SignUp() {
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg1}
+        open={openErrorMsg}
         autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
-            setOpenErrorMsg1(false);
+            setOpenErrorMsg(false);
           }
         }}
       >
@@ -202,55 +204,11 @@ export default function SignUp() {
           sx={{ width: "100%" }}
           onClose={(event, reason) => {
             if (reason !== "clickaway") {
-              setOpenErrorMsg1(false);
+              setOpenErrorMsg(false);
             }
           }}
         >
-          Fill all the fields!
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg2}
-        autoHideDuration={6000}
-        onClose={(event, reason) => {
-          if (reason !== "clickaway") {
-            setOpenErrorMsg2(false);
-          }
-        }}
-      >
-        <Alert
-          severity="error"
-          sx={{ width: "100%" }}
-          onClose={(event, reason) => {
-            if (reason !== "clickaway") {
-              setOpenErrorMsg2(false);
-            }
-          }}
-        >
-          {"Passwords don't match!"}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg3}
-        autoHideDuration={6000}
-        onClose={(event, reason) => {
-          if (reason !== "clickaway") {
-            setOpenErrorMsg3(false);
-          }
-        }}
-      >
-        <Alert
-          severity="error"
-          sx={{ width: "100%" }}
-          onClose={(event, reason) => {
-            if (reason !== "clickaway") {
-              setOpenErrorMsg3(false);
-            }
-          }}
-        >
-          Email already in use!
+          {errorMsg}
         </Alert>
       </Snackbar>
     </>
