@@ -87,8 +87,9 @@ export default function Automation() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // must have at least one flow
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
   const [errorMsg, setErrorMsg] = React.useState("");
+  const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false);
 
   let navigate = useNavigate();
 
@@ -354,7 +355,7 @@ export default function Automation() {
 
     if (tabs.length === 1) { 
       setOpenErrorMsg(true); 
-      setErrorMsg("Must have at least one flow"); 
+      setErrorMsg("Must have at least one flow!"); 
       return 
     }
 
@@ -404,8 +405,8 @@ export default function Automation() {
   const verifyFlow = () => {
 
     if (nodes.length < 2) { 
+      setErrorMsg("Must have at least two nodes!")
       setOpenErrorMsg(true)
-      setErrorMsg("Must have at least two nodes")
       return
     }
 
@@ -417,8 +418,8 @@ export default function Automation() {
         count++;
       }
       if (count > 1) {
+        setErrorMsg("There can only be one device node!")
         setOpenErrorMsg(true)
-        setErrorMsg("There can only be one device node")
         return
       }
     }
@@ -432,17 +433,9 @@ export default function Automation() {
     }
 
     if (conectionNodes.size !== nodes.length) {
+      setErrorMsg("Not all nodes are connected!")
       setOpenErrorMsg(true)
-      setErrorMsg("Not all nodes are connected")
       return
-    }
-
-
-    for (let i=0;i<nodes.length;i++){
-      if (!conectionNodes.has(nodes[i].id)){
-        setOpenErrorMsg(true)
-        setErrorMsg("Not all nodes are connected")
-      }
     }
 
     let flow = []
@@ -468,38 +461,55 @@ export default function Automation() {
 
       let idxMiddle = flow.findIndex(flow => flow[flow.length-1] === middle[middle.length-1])
 
+      if (idxTail === -1 || idxMiddle === -1){
+        setErrorMsg("Flow not completed!")
+        setOpenErrorMsg(true)        
+        return
+      }
+
       flow[idxTail].splice(0,1)
 
       flow[idxMiddle] = flow[idxMiddle].concat(flow[idxTail])
       flow.splice(idxTail,1)
     }
     
-    
-    console.log(flow)
-
+    let allTmp= []
     for(let i=0;i<flow.length;i++){
-      if (flow[i][0] === endNodeId){
+      if (flow[i][0] !== endNodeId){
         setOpenErrorMsg(true)
-        setErrorMsg("No loops allowed in the flow")
+        setErrorMsg("Flow not completed!")
         return
       }
+      
+      let uniqueItems = [...new Set(flow[i])]
+      if (uniqueItems.length !== flow[i].length){
+        setOpenErrorMsg(true)
+        setErrorMsg("No loops allowed in the flow!")
+        return
+      }
+
+      allTmp = allTmp.concat(flow[i])
     }
 
+    let uniqueItems = [...new Set(allTmp)]
+    if (nodes.length !== uniqueItems.length){
+      setOpenErrorMsg(true)
+      setErrorMsg("No loops allowed in the flow!")
+      return
+    }
 
-
-    //! verificar se ha 2 flows so pode haver 1 flow
-
-    // applyFlow({nodesData: nodesData[selectedTab], edges: edges, id: selectedTab}) //! API call
+    applyFlow({nodesData: nodesData[selectedTab], flows: flow, id: selectedTab}).then( //! API call
+      (res) => {
+        if (res === 200){
+          setOpenSuccessMsg(true)
+        }else{
+          setErrorMsg("Error applying flow!")
+          setOpenErrorMsg(true)
+        }
+      }
+    ) 
     
   }
-
-  React.useEffect(() => {
-    console.log(edges)
-  },[edges])
-  React.useEffect(() => { //! DELETE
-    console.log(nodesData)
-  },[nodesData])
-
 
 
   if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { 
@@ -855,7 +865,29 @@ export default function Automation() {
             }
           }}
         >
-          {setErrorMsg}
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSuccessMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenSuccessMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenSuccessMsg(false);
+            }
+          }}
+        >
+          Flow applied!
         </Alert>
       </Snackbar>
     </>    
