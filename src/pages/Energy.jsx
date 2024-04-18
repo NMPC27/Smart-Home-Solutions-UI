@@ -50,10 +50,7 @@ export default function Energy() {
   const handleDateChange = (val) => {
     setDate(val);
 
-    // console.log(date); //! fix lint error
-
-    getEnergy(val).then((res) => {
-      //! API CALL
+    getEnergy(val).then((res) => { //! API CALL
       setData(res.data);
     });
   };

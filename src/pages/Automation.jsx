@@ -21,6 +21,7 @@ import Tab from '@mui/material/Tab';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import Skeleton from "@mui/material/Skeleton";
+import HelperFunc from "../components/Automation/HelperFunc";
 import {
   getDevices,
   getFlowTabs,
@@ -112,9 +113,17 @@ export default function Automation() {
   const [globalEdges, setGlobalEdges] = React.useState(null); //! iniciate at null
   const [nodesData, setNodesData] = React.useState(null)
 
-  const clearNodeData = (id) => {
-    let tmpNodesData = [...nodesData]
-    let idx = nodesData[selectedTab].findIndex(node => node.id === id)
+  const [data, setData] = React.useState(null);
+  const [target, setTarget] = React.useState(null);
+
+  const helperFunc = (data, target) => {
+    setData(data)
+    setTarget(target)
+  }
+
+  const clearNodeData = (id, localNodes) => { 
+    let tmpNodesData = [...localNodes]
+    let idx = localNodes[selectedTab].findIndex(node => node.id === id)
     tmpNodesData[selectedTab].splice(idx, 1)
     setNodesData(tmpNodesData)
 
@@ -122,9 +131,9 @@ export default function Automation() {
   }
 
 
-  const eventData = (val) => {
-    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
-    let tmp = [...nodesData]
+  const eventData = (val, localNodes) => {
+    let idx = localNodes[selectedTab].findIndex(node => node.id === val.id)
+    let tmp = [...localNodes]
     let keys = Object.keys(val)
     keys.forEach((key) => {
       if (key === "id") { return }
@@ -135,13 +144,10 @@ export default function Automation() {
     nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
   }
 
-  const deviceData = (val) => {
+  const deviceData = (val, localNodes) => {
 
-    if (nodesData === null) { return } //! chack this
-
-    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
-    console.log(idx)
-    let tmp = [...nodesData]
+    let idx = localNodes[selectedTab].findIndex(node => node.id === val.id)
+    let tmp = [...localNodes]
     let keys = Object.keys(val)
     keys.forEach((key) => {
       if (key === "id") { return }
@@ -152,19 +158,19 @@ export default function Automation() {
     nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
   }
 
-  const timeData = (val) => {
-    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
+  const timeData = (val, localNodes) => {
+    let idx = localNodes[selectedTab].findIndex(node => node.id === val.id)
 
-    let tmp = [...nodesData]
+    let tmp = [...localNodes]
     tmp[selectedTab][idx].time = val.time
     setNodesData(tmp)
     nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
   }
 
-  const waitData = (val) => {
-    let idx = nodesData[selectedTab].findIndex(node => node.id === val.id)
+  const waitData = (val, localNodes) => {
+    let idx = localNodes[selectedTab].findIndex(node => node.id === val.id)
 
-    let tmp = [...nodesData]
+    let tmp = [...localNodes]
     tmp[selectedTab][idx].wait = val.wait
     setNodesData(tmp)
     nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
@@ -198,8 +204,9 @@ export default function Automation() {
             for(let tab=0; tab<flowNodes.data.length; tab++){
               for(let i = 0; i < flowNodes.data[tab].length; i++){
                 if (flowNodes.data[tab][i].id === nodesData.data[tab][i].id){
-                  if (flowNodes.data[tab][i].type === "eventNode"){
-                    flowNodes.data[tab][i].data.editData = eventData
+                  flowNodes.data[tab][i].data.editData = helperFunc
+                  flowNodes.data[tab][i].data.clearNodeData = helperFunc
+                  if (flowNodes.data[tab][i].type === "eventNode"){            
                     flowNodes.data[tab][i].data.deviceID = nodesData.data[tab][i].deviceID
                     flowNodes.data[tab][i].data.temperature = nodesData.data[tab][i].temperature
                     flowNodes.data[tab][i].data.humidity = nodesData.data[tab][i].humidity
@@ -207,7 +214,6 @@ export default function Automation() {
                     flowNodes.data[tab][i].data.sensor = nodesData.data[tab][i].sensor
                   }
                   if (flowNodes.data[tab][i].type === "deviceNode"){
-                    flowNodes.data[tab][i].data.editData = deviceData
                     flowNodes.data[tab][i].data.deviceID = nodesData.data[tab][i].deviceID
                     flowNodes.data[tab][i].data.deviceState = nodesData.data[tab][i].deviceState
                     flowNodes.data[tab][i].data.temperature = nodesData.data[tab][i].temperature
@@ -215,16 +221,12 @@ export default function Automation() {
                     flowNodes.data[tab][i].data.brightness = nodesData.data[tab][i].brightness
                   }
                   if (flowNodes.data[tab][i].type === "timeNode"){
-                    flowNodes.data[tab][i].data.editData = timeData
                     flowNodes.data[tab][i].data.time = nodesData.data[tab][i].time
                   }
                   if (flowNodes.data[tab][i].type === "waitNode"){
-                    flowNodes.data[tab][i].data.editData = waitData
                     flowNodes.data[tab][i].data.wait = nodesData.data[tab][i].wait
                   }
 
-                  flowNodes.data[tab][i].data.clearNodeData = clearNodeData
-                
                 } else {
                   console.log("ERROR: ID MISMATCH")
                 }
@@ -517,13 +519,6 @@ export default function Automation() {
     ) 
   }
 
-  React.useEffect(() => {
-    if (tabs === null) { return; }
-    console.log(tabs.length)
-    console.log(selectedTab)
-  }, [tabs,selectedTab])
-
-
   if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { 
     return (
       <>
@@ -607,8 +602,8 @@ export default function Automation() {
                             position: { x: 20, y: 20 }, 
                             data: { 
                               devices: devices, 
-                              editData: eventData,
-                              clearNodeData: clearNodeData,
+                              editData: helperFunc,
+                              clearNodeData: helperFunc,
                               deviceID: deviceId,
                               temperature: 20,
                               humidity: 50,
@@ -652,8 +647,8 @@ export default function Automation() {
                             type: 'waitNode',                          
                             position: { x: 20, y: 20 }, 
                             data: {
-                              editData: waitData,
-                              clearNodeData: clearNodeData,
+                              editData: helperFunc,
+                              clearNodeData: helperFunc,
                               wait: "00:00:00"
                             },
                             targetPosition: 'left',
@@ -707,8 +702,8 @@ export default function Automation() {
                               position: { x: 20, y: 20 }, 
                               data: { 
                                 devices: devices,
-                                editData: deviceData,
-                                clearNodeData: clearNodeData,
+                                editData: helperFunc,
+                                clearNodeData: helperFunc,
                                 deviceID: deviceId,
                                 deviceState: "turnOff",
                                 temperature: 20,
@@ -751,8 +746,8 @@ export default function Automation() {
                               type: 'timeNode',
                               position: { x: 20, y: 20 }, 
                               data: {
-                                editData: timeData,
-                                clearNodeData: clearNodeData,
+                                editData: helperFunc,
+                                clearNodeData: helperFunc,
                                 time: "00:00"
                               },
                               targetPosition: 'left',
@@ -867,6 +862,16 @@ export default function Automation() {
             </OutItem>
           </Grid>
       </Grid>
+      <HelperFunc 
+        clearNodeData={clearNodeData} 
+        eventData={eventData} 
+        deviceData={deviceData} 
+        timeData={timeData} 
+        waitData={waitData} 
+        nodesData={nodesData}
+        data={data}
+        target={target}
+      />
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={openErrorMsg}

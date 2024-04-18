@@ -25,41 +25,41 @@ export default memo(({ id, data, isConnectable }) => {
     },[])
 
     React.useEffect(()=> {
-      data.editData({id: id, color: debouncedColor})
+      data.editData({id: id, color: debouncedColor},"deviceData")
     },[debouncedColor])
 
     const handleChangeDevice = (event) => {
-      data.editData({id: id, deviceID: data.devices[event].id})
+      data.editData({id: id, deviceID: data.devices[event].id},"deviceData")
       setDeviceIdx(event)
     };
 
     const handleChangeDeviceState = (event) => {
-      data.editData({id: id, deviceState: event})
+      data.editData({id: id, deviceState: event},"deviceData")
       setDeviceState(event)
     };
 
     const plusTemp = () => {
         if (temperature < 30){
-          data.editData({id: id, temperature: temperature + 1})
+          data.editData({id: id, temperature: temperature + 1},"deviceData")
           setTemperature(temperature + 1)
         }        
     }
 
     const minusTemp = () => {
         if (temperature > 15) {
-          data.editData({id: id, temperature: temperature - 1})
+          data.editData({id: id, temperature: temperature - 1},"deviceData")
           setTemperature(temperature - 1)
         }
     }
     
     const handleBrightnessChange = (val) => {
-      data.editData({id: id, brightness: val})
+      data.editData({id: id, brightness: val},"deviceData")
       setBrightness(val)
     }
 
     const handleDeleteDevice = (e) => {
       e.stopPropagation();
-      data.clearNodeData(id)
+      data.clearNodeData(id,"clearNodeData")
       deleteElements({ nodes: [{ id }] });
     }
 

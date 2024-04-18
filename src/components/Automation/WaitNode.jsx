@@ -16,26 +16,26 @@ export default memo(({ id, isConnectable, data }) => {
     if (isNaN(hour)) {return}
 
     setHour(hour)
-    data.editData({id: id, wait: hour+":"+min+":"+sec})
+    data.editData({id: id, wait: hour+":"+min+":"+sec},"waitData")
   }
 
   const handleMinEdit = (min) => {
     if (isNaN(min)) {return}
 
     setMin(min)
-    data.editData({id: id, wait: hour+":"+min+":"+sec})
+    data.editData({id: id, wait: hour+":"+min+":"+sec},"waitData")
   }
 
   const handleSecEdit = (sec) => {
     if (isNaN(sec)) {return}
 
     setSec(sec)
-    data.editData({id: id, wait: hour+":"+min+":"+sec})
+    data.editData({id: id, wait: hour+":"+min+":"+sec},"waitData")
   }
 
   const handleDeleteWait = (e) => {
     e.stopPropagation();
-    data.clearNodeData(id)
+    data.clearNodeData(id,"clearNodeData")
     deleteElements({ nodes: [{ id }] });
   }
 

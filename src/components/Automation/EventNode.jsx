@@ -24,51 +24,51 @@ export default memo(({ id, data, isConnectable }) => {
 
 
     const handleChangeDevice = (event) => {      
-      data.editData({id: id, deviceID: data.devices[event].id, deviceType: data.devices[event].type})
+      data.editData({id: id, deviceID: data.devices[event].id, deviceType: data.devices[event].type},"eventData")
       setDeviceIdx(event)
     };
 
     const handleChangeSensor = (event) => {
-      data.editData({id: id, sensor: event})
+      data.editData({id: id, sensor: event},"eventData")
       setSensor(event)
     };
 
     const plusTemp = () => {
       if (temperature < 30){
-        data.editData({id: id, temperature: temperature + 1})
+        data.editData({id: id, temperature: temperature + 1},"eventData")
         setTemperature(temperature + 1)
       }        
     }
 
     const minusTemp = () => {
       if (temperature > 15) {
-        data.editData({id: id, temperature: temperature - 1})
+        data.editData({id: id, temperature: temperature - 1},"eventData")
         setTemperature(temperature - 1)
       }
     }
 
     const plusHumi = () => {
       if (humidity < 100){
-        data.editData({id: id, humidity: humidity + 5})
+        data.editData({id: id, humidity: humidity + 5},"eventData")
         setHumidity(humidity + 5)
       }
     }
 
     const minusHumi = () => {
       if (humidity > 0) {
-        data.editData({id: id, humidity: humidity - 5})
+        data.editData({id: id, humidity: humidity - 5},"eventData")
         setHumidity(humidity - 5)
       }
     } 
 
     const handleChangeSinal = (val) => {
-      data.editData({id: id, sinal: val})
+      data.editData({id: id, sinal: val},"eventData")
       setSinal(val)
     };
 
     const handleDeleteEvent = (e) => {
       e.stopPropagation();
-      data.clearNodeData(id)
+      data.clearNodeData(id,"clearNodeData")
       deleteElements({ nodes: [{ id }] });
     }
 

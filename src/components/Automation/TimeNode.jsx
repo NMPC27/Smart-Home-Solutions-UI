@@ -15,19 +15,19 @@ export default memo(({ id, isConnectable, data }) => {
     if (hour < 0 || hour > 23) {return}
 
     setHour(hour)
-    data.editData({id: id, time: hour+":"+min})
+    data.editData({id: id, time: hour+":"+min},"timeData")
   }
 
   const handleMinEdit = (min) => {
     if (min < 0 || min > 59) {return}
 
     setMin(min)
-    data.editData({id: id, time: hour+":"+min})
+    data.editData({id: id, time: hour+":"+min},"timeData")
   }
 
   const handleDeleteTime = (e) => {
     e.stopPropagation();
-    data.clearNodeData(id)
+    data.clearNodeData(id,"clearNodeData")
     deleteElements({ nodes: [{ id }] });
   }
 
