@@ -14,7 +14,7 @@ import { getCamImg } from "../API";
 import CircularProgress from '@mui/material/CircularProgress';
 
 const OutItem = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1F2937",
+  backgroundColor: "#111827",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",

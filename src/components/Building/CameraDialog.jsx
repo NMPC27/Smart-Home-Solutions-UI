@@ -65,7 +65,7 @@ export default function CameraDialog(props) {
       onClose={() => props.handleCloseDialog()}
       PaperProps={{ sx: { borderRadius: "20px" } }}
     >
-      <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
+      <DialogTitle bgcolor={"#111827"} color={"#FFFFFF"}>
         <h3 style={{ marginTop: 0, marginBottom: 0 }}>
           {props.devices[deviceIdx].name} Camera
         </h3>

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1F2937",
+  backgroundColor: "#111827",
   ...theme.typography.body2,
   padding: theme.spacing(5),
   textAlign: "center",

@@ -6,7 +6,7 @@ import * as React from "react";
 import Button from '@mui/material/Button';
 
 const OutItem = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1F2937",
+  backgroundColor: "#111827",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",

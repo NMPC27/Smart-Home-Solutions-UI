@@ -26,7 +26,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1F2937",
+  backgroundColor: "#111827",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
@@ -114,7 +114,7 @@ export default function RoomDialog(props) {
         onClose={() => props.handleCloseRoomDialog()}
         PaperProps={{ sx: { borderRadius: "20px" } }}
       >
-        <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
+        <DialogTitle bgcolor={"#111827"} color={"#FFFFFF"}>
           <h3 style={{ marginTop: 0, marginBottom: 0 }}>Rooms</h3>
 
           <IconButton

@@ -42,7 +42,7 @@ export default function EditDialogAdd(props) {
         onClose={() => props.handleCloseEditDialogAdd()}
         PaperProps={{ sx: { borderRadius: "20px" } }}
       >
-        <DialogTitle bgcolor={"#1F2937"} color={"#FFFFFF"}>
+        <DialogTitle bgcolor={"#111827"} color={"#FFFFFF"}>
           <h3 style={{ marginTop: 0, marginBottom: 0 }}>Add Card</h3>
           <IconButton
             onClick={() => props.handleCloseEditDialogAdd()}
@@ -87,7 +87,7 @@ export default function EditDialogAdd(props) {
             sx={{
               borderRadius: "20px",
               fontWeight: "bold",
-              bgcolor: "#1F2937",
+              bgcolor: "#111827",
               color: "#FFFFFF",
               "&:hover": { bgcolor: "#374151" },
             }}
