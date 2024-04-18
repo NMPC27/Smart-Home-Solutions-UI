@@ -20,16 +20,18 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getHistory} from "../components/API";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
-const xAxis = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  22, 23,
-];
 
 const chartColors = ["#2E96FF", "#FFA500", "#CC0000"];
+const labels = {
+  "Light": "Off/On",
+  "Motion Sensor": "Not detected/Detected",
+  "Camera": "Off/On",
+  "Temperature": "Off/On",
+  "Temperature Sensor": "°C",
+  "Humidity Sensor": "%",
+  "Power": "W",
+}
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -96,55 +98,82 @@ export default function History() {
 
   }, []);
 
-  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // Select a maximum of 3 devices at a time
-
   const [selectedDevicesIdx, setSelectedDevicesIdx] = React.useState([]);
-  const [data, setData] = React.useState([]);
+  const [xAxis, setXAxis] = React.useState([]);
+  const [yAxis, setYAxis] = React.useState([]);
 
   const handleDateChange = (val) => {
+    setHistory(null)
 
     getHistory(val).then((res) => {
       setHistory(res.data);
 
-      let tmp = [];
+      let tmpXAxis = [];
+      let tmpYAxis = [];
       for (let i = 0; i < selectedDevicesIdx.length; i++) {
-        tmp.push( {data: res.data[selectedDevicesIdx[i]].history, label: res.data[selectedDevicesIdx[i]].name, curve: "stepBefore"} );
-      }
+        let tmpX = [];
+        let tmpY = [];
+        for(let j = 0; j < res.data[selectedDevicesIdx[i]].history.length; j++){
+          tmpX.push(new Date(res.data[selectedDevicesIdx[i]].history[j][0]));
   
-      setData(tmp);
+          let tmp = res.data[selectedDevicesIdx[i]].history[j][1];
+          if (tmp === "off" || tmp === "unavailable") {
+            tmp = 0;
+          }
+          if (tmp === "on" || tmp === "idle") {
+            tmp = 1;
+          }
+  
+          tmpY.push(tmp);
+        }
+        tmpXAxis.push(tmpX);
+        tmpYAxis.push(tmpY);
+      }
+
+      setXAxis(tmpXAxis);
+      setYAxis(tmpYAxis);
     });
 
   };
 
   const handleChangeDevices = (event) => {
 
-    if (event.target.value.length > 3) {
-      setOpenErrorMsg1(true);
-      return;
+    let devicesIdx = event.target.value;
+
+    let tmpXAxis = [];
+    let tmpYAxis = [];
+    for (let i = 0; i < devicesIdx.length; i++) {
+      let tmpX = [];
+      let tmpY = [];
+      for(let j = 0; j < history[devicesIdx[i]].history.length; j++){
+        tmpX.push(new Date(history[devicesIdx[i]].history[j][0]));
+
+        let tmp = history[devicesIdx[i]].history[j][1];
+        if (tmp === "off" || tmp === "unavailable") {
+          tmp = 0;
+        }
+        if (tmp === "on" || tmp === "idle") {
+          tmp = 1;
+        }
+
+        tmpY.push(tmp);
+      }
+      tmpXAxis.push(tmpX);
+      tmpYAxis.push(tmpY);
     }
 
-    setSelectedDevicesIdx(event.target.value);
-
-    let tmp = [];
-    for (let i = 0; i < event.target.value.length; i++) {
-      tmp.push( {data: history[event.target.value[i]].history, label: history[event.target.value[i]].name, curve: "stepBefore"} );
-    }
-
-    setData(tmp);
+    setXAxis(tmpXAxis);
+    setYAxis(tmpYAxis);
+    setSelectedDevicesIdx(devicesIdx);
   };
 
 
   if (history === null) {
     return (
       <>
+        <AppBarStyled navbar={"history"} handleDateChange={handleDateChange} />
+
         <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Skeleton
-              variant="rounded"
-              height="7vh"
-              sx={{ borderRadius: "20px" }}
-            />
-          </Grid>
           <Grid item xs={12}>
             <Skeleton
               variant="rounded"
@@ -195,62 +224,35 @@ export default function History() {
                 History
               </h2>
               <InItem>
-                <div style={{ width: "100%", height: "40vh" }}>
-                  <LineChart
-                    colors={chartColors}
-                    xAxis={[{ data: xAxis, label: "Hour" }]}
-                    yAxis={[{ label: "On" }]}
-                    series={data}
-                    legend={{ hidden: true }}
-                  />
-                </div>
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  {selectedDevicesIdx.map((item,idx) => {
-                    return (
+                { selectedDevicesIdx.length === 0 && 
+                  <div style={{ width: "100%", height: "40vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <h1>Select a Device!</h1>
+                  </div>
+                }
+                { selectedDevicesIdx.map((item, idx) => {
+                    return(
                       <>
-                        <div
-                          style={{
-                            width: "2vh",
-                            height: "2vh",
-                            backgroundColor: chartColors[idx],
-                          }}
-                        />
-                        <h4>{history[item].name}</h4>
+                        <div style={{ width: "100%", height: "40vh" }}>
+                          <LineChart
+                            colors={[chartColors[idx%3]]}
+                            xAxis={[{ data: xAxis[idx], label: "Hour", scaleType: "utc" }]}
+                            yAxis={[{ label: labels[history[item].type] }]}
+                            series={[{data: yAxis[idx], label: history[item].name, curve: "stepAfter"}]}
+                            legend={{ hidden: true }}
+                          />
+                        </div>
+                        <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
+                          <div style={{width: "2vh", height: "2vh", backgroundColor: chartColors[idx%3]}} />
+                          <h4>{history[item].name}</h4>
+                        </Stack>
                       </>
-                    );
-                  })}
-                </Stack>
+                  )})
+                }
+                
               </InItem>
             </OutItem>
           </Grid>
         </Grid>
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={openErrorMsg1}
-          autoHideDuration={6000}
-          onClose={(event, reason) => {
-            if (reason !== "clickaway") {
-              setOpenErrorMsg1(false);
-            }
-          }}
-        >
-          <Alert
-            severity="error"
-            sx={{ width: "100%" }}
-            onClose={(event, reason) => {
-              if (reason !== "clickaway") {
-                setOpenErrorMsg1(false);
-              }
-            }}
-          >
-            Select a maximum of 3 devices at a time!
-          </Alert>
-        </Snackbar>
       </>
     );
   }
