@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import * as React from "react";
+import Button from '@mui/material/Button';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -28,6 +29,7 @@ const xAxis = [
 ];
 
 const chartColors = ["#FFA500", "#CC0000"];
+const chartColorsHover = ["#D98C00", "#A60000"];
 const lables = ["Solar", "Gas"];
 
 export default function EnergyProductionChart(props) {
@@ -61,7 +63,7 @@ export default function EnergyProductionChart(props) {
           {lables.map((item, index) => {
             return (
               <>
-                <div
+                <Button 
                   onClick={() => {
                     if (select === item) {
                       setSelect("All");
@@ -69,21 +71,16 @@ export default function EnergyProductionChart(props) {
                       setSelect(item);
                     }
                   }}
-                  style={{
-                    width: "2vh",
-                    height: "2vh",
+                  variant="contained" 
+                  sx={{ 
                     backgroundColor: chartColors[index],
+                    '&:hover': {
+                      backgroundColor: chartColorsHover[index],
+                    },
                   }}
-                />
-                <h4
-                  onClick={() => {
-                    if (select === item) {
-                      setSelect("All");
-                    } else {
-                      setSelect(item);
-                    }
-                  }}
-                >{item}</h4>
+                >
+                  <b>{item}</b>
+                </Button>
               </>
             );
           })}

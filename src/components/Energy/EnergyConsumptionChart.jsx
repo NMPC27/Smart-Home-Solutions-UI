@@ -2,6 +2,7 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import Button from '@mui/material/Button';
 import * as React from "react";
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -28,6 +29,7 @@ const xAxis = [
 ];
 
 const chartColors = ["#2E96FF", "#FFA500", "#CC0000"];
+const chartColorsHover = ["#277FD9", "#D98C00", "#A60000"];
 const lables = ["Grid", "Solar", "Gas"];
 
 export default function EnergyConsumptionChart(props) {
@@ -62,7 +64,7 @@ export default function EnergyConsumptionChart(props) {
           {lables.map((item, index) => {
             return (
               <>
-                <div
+                <Button 
                   onClick={() => {
                     if (select === item) {
                       setSelect("All");
@@ -70,21 +72,16 @@ export default function EnergyConsumptionChart(props) {
                       setSelect(item);
                     }
                   }}
-                  style={{
-                    width: "2vh",
-                    height: "2vh",
+                  variant="contained" 
+                  sx={{ 
                     backgroundColor: chartColors[index],
+                    '&:hover': {
+                      backgroundColor: chartColorsHover[index],
+                    },
                   }}
-                />
-                <h4
-                  onClick={() => {
-                    if (select === item) {
-                      setSelect("All");
-                    } else {
-                      setSelect(item);
-                    }
-                  }}
-                >{item}</h4>
+                >
+                  <b>{item}</b>
+                </Button>
               </>
             );
           })}

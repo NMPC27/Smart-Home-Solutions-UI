@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Stack from "@mui/material/Stack";
 import { useDrawingArea } from "@mui/x-charts/hooks";
+import Button from '@mui/material/Button';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -112,14 +113,18 @@ export default function EnergyConsumptionPie(props) {
           {lables.map((item, index) => {
             return (
               <>
-                <div
-                  style={{
-                    width: "2vh",
-                    height: "2vh",
-                    backgroundColor: pieColors[index],
+                <Button 
+                  disabled
+                  variant="contained" 
+                  sx={{ 
+                    '&:disabled': {
+                      backgroundColor: pieColors[index],
+                      color: "#FFFFFF",
+                    },
                   }}
-                />
-                <h4>{item}</h4>
+                >
+                  <b>{item}</b>
+                </Button>
               </>
             );
           })}
