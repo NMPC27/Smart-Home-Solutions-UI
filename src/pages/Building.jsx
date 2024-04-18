@@ -478,6 +478,8 @@ export default function Building() {
               <InItem style={{ minHeight: "70vh", maxHeight: "70vh", overflowY: "auto" }} >
                 <Grid container spacing={4}>
                   { devices && devices.map((device, idx) => {
+                    if (device.type === "Energy") {return}
+
                     return (
                       <Grid item xs={12} sm={12} md={6}>
                         <Button 
