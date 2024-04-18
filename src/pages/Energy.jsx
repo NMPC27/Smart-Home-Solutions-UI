@@ -25,7 +25,7 @@ export default function Energy() {
 
   const [data, setData] = React.useState(null);
 
-  const [date, setDate] = React.useState();
+  const [date, setDate] = React.useState(null);
 
   React.useEffect(() => {
     var today = new Date();
@@ -34,6 +34,8 @@ export default function Energy() {
     var yyyy = today.getFullYear();
 
     today = dd + "/" + mm + "/" + yyyy;
+
+    setDate(today);
 
     getEnergy(today).then(
       (res) => {
@@ -105,13 +107,13 @@ export default function Energy() {
 
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={9}>
-            <EnergyConsumptionChart consumption={data.consumption} />
+            <EnergyConsumptionChart consumption={data.consumption} date={date} />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
             <EnergyConsumptionPie consumption={data.consumption} />
           </Grid>
           <Grid item xs={12} sm={12} md={9}>
-            <EnergyProductionChart production={data.production} />
+            <EnergyProductionChart production={data.production} date={date} />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
             <EnergyProductionPie production={data.production} />

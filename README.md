@@ -1,6 +1,8 @@
 
 
 # TODO:
+- name changes
+- room device change
 - add card power?
 - fix load functions in automation
 - fix requests no building 
@@ -10,7 +12,7 @@
 - no automation, tenh de reinicializar os nodes como no building -> mas isto pode mudar qoando começar a guardar as coisaas dos nodes
 - atençao as coisas modificadas dentro do node nao estão a ser guardadas (automation)
 
-- fix sync problem between same cards (duplicated) -> falta alarme
+- fix sync problem between same cards (duplicated) 
 
 -----
 Ao mudar a cor no tele e dps a britness muda para a cor anterior 

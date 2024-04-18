@@ -23,11 +23,6 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-const xAxis = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  22, 23,
-];
-
 const chartColors = ["#2E96FF", "#FFA500", "#CC0000"];
 const chartColorsHover = ["#277FD9", "#D98C00", "#A60000"];
 const lables = ["Grid", "Solar", "Gas"];
@@ -35,6 +30,23 @@ const lables = ["Grid", "Solar", "Gas"];
 export default function EnergyConsumptionChart(props) {
 
   const [select, setSelect] = React.useState("All");
+  const [xAxis, setXAxis] = React.useState([])
+
+  React.useEffect(() => {
+    var parts = props.date.split("/");
+    var startDate = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]), 0, 0, 0);
+    let dateArray = [];
+
+    for (let i = 0; i < 24; i++) {
+      let hour = startDate.getHours() + i;
+      let newDate = new Date(startDate);
+      newDate.setHours(hour);
+      dateArray.push(newDate);
+    }
+
+    setXAxis(dateArray)
+  } , [props.date]);
+
 
   return (
     <OutItem elevation={5}>
@@ -45,7 +57,7 @@ export default function EnergyConsumptionChart(props) {
         <div style={{ width: "100%", height: "40vh" }}>
           <LineChart
             colors={chartColors}
-            xAxis={[{ data: xAxis, label: "Hour" }]}
+            xAxis={[{ data: xAxis, label: "Hour", scaleType: "utc" }]}
             yAxis={[{ label: "kWh" }]}
             series={[
               { data: select === 'Grid' || select === 'All' ? props.consumption.grid : [], label: "Grid Consumption" },

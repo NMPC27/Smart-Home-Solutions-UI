@@ -4,6 +4,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import Stack from "@mui/material/Stack";
 import { useDrawingArea } from "@mui/x-charts/hooks";
 import Button from '@mui/material/Button';
+import * as React from "react";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1F2937",
@@ -44,6 +45,26 @@ const pieColors = ["#FFA500", "#CC0000"];
 const lables = ["Solar", "Gas"];
 
 export default function EnergyProductionPie(props) {
+
+  const [data, setData] = React.useState([]);
+  const [total, setTotal] = React.useState(0);
+
+  React.useEffect(() => {
+    var solar = props.production.solar.reduce((partialSum, a) => partialSum + a, 0);
+    var gas = props.production.gas.reduce((partialSum, a) => partialSum + a, 0);
+
+    let tmp = []
+    if (solar > 0) {
+      tmp.push({ label: "Solar", value: solar })
+    }
+    if (gas > 0) {
+      tmp.push({ label: "Gas", value: gas })
+    }
+
+    setData(tmp);
+    setTotal(solar + gas)
+  }, [props.production]);
+
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
@@ -59,37 +80,14 @@ export default function EnergyProductionPie(props) {
                 cornerRadius: 5,
                 innerRadius: 80,
                 outerRadius: 125,
-                data: [
-                  {
-                    label: "Solar",
-                    value: props.production.solar.reduce(
-                      (partialSum, a) => partialSum + a,
-                      0,
-                    ),
-                  },
-                  {
-                    label: "Gas",
-                    value: props.production.solar.reduce(
-                      (partialSum, a) => partialSum + a,
-                      0,
-                    ),
-                  },
-                ],
+                data: data,
               },
             ]}
             margin={{ right: 5 }}
             legend={{ hidden: true }}
           >
             <PieCenterLabel>
-              {props.production.solar.reduce(
-                (partialSum, a) => partialSum + a,
-                0,
-              ) +
-                props.production.gas.reduce(
-                  (partialSum, a) => partialSum + a,
-                  0,
-                )}{" "}
-              kWh
+              {total}{" "}kWh
             </PieCenterLabel>
           </PieChart>
         </div>
