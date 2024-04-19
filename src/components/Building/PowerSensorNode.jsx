@@ -16,7 +16,7 @@ export default memo(({ id, isConnectable, data }) => {
   return (
     <>
       <IconButton sx={{padding: 0}} onClick={()=> data.openDialog(id,"Power")}>
-          <BoltIcon fontSize='large' sx={{ color: data.on && "#D9A406" }}/>
+          <BoltIcon fontSize='large' sx={{ color: "#D9A406" }}/>
       </IconButton>
       <p style={{marginTop: 0, marginBottom:0, fontSize: "1em"}}><b>{data.name}</b></p>
       <div className="nodrag">
