@@ -35,6 +35,8 @@ export default function PowerSensorDialog(props) {
   React.useEffect(() => {
     if (deviceIdx === -1) { return }
 
+    if (props.devices[deviceIdx].type !== "Power"){ return }
+
     getSensor(props.deviceID).then((res) => {
       setPower(res.data);
     });

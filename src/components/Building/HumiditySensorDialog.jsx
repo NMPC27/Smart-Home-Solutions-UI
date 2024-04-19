@@ -35,6 +35,8 @@ export default function HumiditySensorDialog(props) {
   React.useEffect(() => {
     if (deviceIdx === -1) { return }
 
+    if (props.devices[deviceIdx].type !== "Humidity Sensor"){ return }
+
     getSensor(props.deviceID).then((res) => {
       setHumidity(res.data);
     });

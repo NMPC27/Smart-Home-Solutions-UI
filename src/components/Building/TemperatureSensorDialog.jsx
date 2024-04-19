@@ -35,6 +35,8 @@ export default function TemperatureSensorDialog(props) {
   React.useEffect(() => {
     if (deviceIdx === -1) { return }
 
+    if (props.devices[deviceIdx].type !== "Temperature Sensor"){ return }
+
     getSensor(props.deviceID).then((res) => {
       setTemperature(res.data);
     });

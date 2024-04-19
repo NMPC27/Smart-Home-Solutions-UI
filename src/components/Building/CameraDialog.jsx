@@ -31,6 +31,8 @@ export default function CameraDialog(props) {
   React.useEffect(() => {
     if (deviceIdx === -1) { return }
 
+    if (props.devices[deviceIdx].type !== "Camera"){ return }
+
     if (props.devices[deviceIdx].on){
       interval.current = setInterval(() => {
         getCamImg(props.devices[deviceIdx].id).then(

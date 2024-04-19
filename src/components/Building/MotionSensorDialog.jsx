@@ -36,6 +36,8 @@ export default function MotionSensorDialog(props) {
   React.useEffect(() => {
     if (deviceIdx === -1) { return }
 
+    if (props.devices[deviceIdx].type !== "Motion Sensor"){ return }
+
     const interval = setInterval(() => {
       
       getSensor(props.devices[deviceIdx].id).then((res) => {

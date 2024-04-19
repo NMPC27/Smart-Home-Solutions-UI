@@ -74,8 +74,9 @@ export default function TemperatureDialog(props) {
   const [sensorHumidity, setSensorHumidity] = React.useState(null);
 
   React.useEffect(() => {
-
     if (deviceIdx === -1) { return }
+
+    if (props.devices[deviceIdx].type !== "Temperature"){ return }
 
     let sensorTemperatureID = null
     let sensorHumidityID = null
