@@ -4,7 +4,6 @@
 - name changes
 - room device change
 - add card power?
-- fix load functions in automation
 - fix requests no building 
 - ver ons e off dos nodes no building
 - modulo dos mails

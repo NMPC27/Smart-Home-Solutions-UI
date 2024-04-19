@@ -19,6 +19,7 @@ import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getHistory} from "../components/API";
+import Button from '@mui/material/Button';
 
 
 
@@ -242,8 +243,18 @@ export default function History() {
                           />
                         </div>
                         <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
-                          <div style={{width: "2vh", height: "2vh", backgroundColor: chartColors[idx%3]}} />
-                          <h4>{history[item].name}</h4>
+                          <Button 
+                            disabled
+                            variant="contained" 
+                            sx={{ 
+                              '&:disabled': {
+                                backgroundColor: chartColors[idx%3],
+                                color: "#FFFFFF",
+                              },
+                            }}
+                          >
+                            <b>{history[item].name}</b>
+                          </Button>
                         </Stack>
                       </>
                   )})
