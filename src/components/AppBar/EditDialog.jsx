@@ -46,11 +46,31 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function EditDialog(props) {
+  const bottom = React.useRef(null);
+
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
+  const [scroll, setScroll] = React.useState(false);
+
+  React.useEffect(() => {
+    if (bottom.current === null) { return }
+
+    if (scroll) {
+      bottom.current.scrollIntoView({ behavior: 'smooth' });
+      setScroll(false);
+    }
+    
+  },[props.cards])
+
+  const handleCardAdd = (device,selectedTab,selectedType) => {
+    props.handleCardAdd(device,selectedTab,selectedType);
+    setScroll(true);
+  };
+
   const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one dashboard
+  const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // dashboard added
 
   const [size, setSize] = React.useState(null);
   const [selectedTab, setSelectedTab] = React.useState(0);
@@ -153,7 +173,7 @@ export default function EditDialog(props) {
                   marginTop: "1vh",
                   marginBottom: "0vh",                  
                 }}
-                onClick={() => props.handleAddDashboard(device)}
+                onClick={() => {props.handleAddDashboard(device);setOpenSuccessMsg(true)}}
               >
                 + Dashboard
               </Button>
@@ -259,7 +279,7 @@ export default function EditDialog(props) {
               handleLayoutChange(currentLayout)
             }
           >
-            {props.cards[device][selectedTab].map((val, idx) => {
+            {selectedTab !== props.cards[device].length && props.cards[device][selectedTab].map((val, idx) => {
               return (
                 <Item key={val.i}>
                   <b className="prevent-select"> {val.type} Card </b>
@@ -279,12 +299,13 @@ export default function EditDialog(props) {
               );
             })}
           </GridLayout>
+          <div ref={bottom} />
         </DialogContent>
       </Dialog>
       <EditDialogAdd
         openEditDialogAdd={openEditDialogAdd}
         handleCloseEditDialogAdd={handleCloseEditDialogAdd}
-        handleCardAdd={props.handleCardAdd}
+        handleCardAdd={handleCardAdd}
         rooms={props.rooms}
         selectedTab={selectedTab}
         device={device}
@@ -309,6 +330,28 @@ export default function EditDialog(props) {
           }}
         >
           Must have at least one Dashboard!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSuccessMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenSuccessMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenSuccessMsg(false);
+            }
+          }}
+        >
+          Dashboard added!
         </Alert>
       </Snackbar>
     </>

@@ -129,6 +129,7 @@ export default function AppBarStyled(props) {
                 open={openNotifications}
                 onClose={() => setOpenNotifications(false)}
               >
+                {props.notifications.length === 0 && <MenuItem><b>No notifications!</b></MenuItem>}
                 {props.notifications.map((notification, idx) => {
                   return (
                     <MenuItem key={idx}>

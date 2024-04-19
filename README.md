@@ -2,15 +2,14 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
+- return codes for all gets and post -> error msgs in ui
+- fulcreen camera
 - name changes
 - room device change
 - add card power?
-- fix requests no building 
 - ver ons e off dos nodes no building
 - modulo dos mails
 - global room bug when changing from empety room to any
-- no automation, tenh de reinicializar os nodes como no building -> mas isto pode mudar qoando começar a guardar as coisaas dos nodes
-- atençao as coisas modificadas dentro do node nao estão a ser guardadas (automation)
 
 - fix sync problem between same cards (duplicated) 
 
@@ -27,33 +26,36 @@ Resize automation ao clicar num node não foca certo tele
 - lista de compras
 - tempo 
 - try to improve notification, not getting every 5s
-- ver isto https://reactflow.dev/examples/interaction/drag-and-drop
+- ver isto https://reactflow.dev/examples/interaction/drag-and-drop -> por outro lado fica dificil de arrastar em mobile
 - can not store the token in the local storage !! vulnerability
     https://stackoverflow.com/questions/71815202/is-it-safe-and-convenient-to-store-jwt-token-in-localstorage-or-cookies-and-to-s
     https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 
-- forgot password
+- forgot password and create account -> to be removed
 - melhorar as responsividade dos resizes (dahsboard e temp)
+
+
+
+
+- Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
+
+
+- enviar email em caso de intrusao
+
+- tests
+- PropTypes
+
+- fix requests no building (doneishh)
+- nos filtros por apenas as room onde esta aquele tipo de device
+- graficos quando no tele roda ficam cagados, usar vw ou px (min heigth)
+- No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof (muito trabalho para o ganho -> library paga da mui)
+
+(future work)
 
 - 2 hubs para redundância
 - empresa/organização -> ter admin com acesso a tudo e dps várias pessoas com acessos diferentes
 - Voice commands feitos pelo user
 - energy (future work) -> machine learning para criar algoritmos de agendamento de dispositivos
-
-- PropTypes
-
-- Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
-- No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof
-
-- enviar email em caso de intrusao
-
-- tests
-- upload
-
-- energy snackbar a dizer para rodar ecra
-- nos filtros por apenas as room onde esta aquele tipo de device
-- graficos quando no tele roda ficam cagados, usar vw
-- no calendario mobile tem 2 "-" (n me parece critico)
 
 in add dialog we must define type and room associated
 name is user writen

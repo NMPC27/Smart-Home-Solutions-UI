@@ -21,13 +21,16 @@ const suportedDevices = ["Light", "Temperature", "Motion Sensor", "Camera", "Sec
 
 export default function EditDialogAdd(props) {
   const [selectedType, setSelectedType] = React.useState();
-  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // Select a type and room
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // Select a type
+  const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // Card added
 
   const handleCloseEditDialogAddOK = () => {
     if (!selectedType) {
       setOpenErrorMsg(true);
       return;
     }
+
+    setOpenSuccessMsg(true);
 
     props.handleCardAdd(props.device,props.selectedTab,selectedType);
 
@@ -115,7 +118,29 @@ export default function EditDialogAdd(props) {
             }
           }}
         >
-          Select a Type and Room!
+          Select a Type!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSuccessMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenSuccessMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenSuccessMsg(false);
+            }
+          }}
+        >
+          Card added!
         </Alert>
       </Snackbar>
     </>
