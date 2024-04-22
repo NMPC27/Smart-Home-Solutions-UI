@@ -46,7 +46,7 @@ let _1vh = Math.round(window.innerHeight / 100)
 
 export default function Dashboard() {
   const theme = useTheme();
-  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const tablet = useMediaQuery(theme.breakpoints.down("xl"));
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   let navigate = useNavigate();
@@ -82,7 +82,7 @@ export default function Dashboard() {
     else { return "pc" }
   });
 
-  const [numCol] = React.useState(() => {
+  const [numCol, setNumCol] = React.useState(() => {
     if (mobile) { return 1 } 
     else if (tablet) { return 2 } 
     else { return 4 }
@@ -568,56 +568,56 @@ export default function Dashboard() {
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={3}>
             <Skeleton
               variant="rounded"
               height="30vh"

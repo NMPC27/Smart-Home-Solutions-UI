@@ -50,7 +50,7 @@ export default function EditDialog(props) {
 
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const tablet = useMediaQuery(theme.breakpoints.down("xl"));
 
   const [scroll, setScroll] = React.useState(false);
 
