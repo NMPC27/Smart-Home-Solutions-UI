@@ -60,9 +60,9 @@ export default function EnergyConsumptionChart(props) {
             xAxis={[{ data: xAxis, label: "Hour", scaleType: "utc" }]}
             yAxis={[{ label: "kWh" }]}
             series={[
-              { data: select === 'Grid' || select === 'All' ? props.consumption.grid : [], label: "Grid Consumption" },
-              { data: select === 'Solar' || select === 'All' ? props.consumption.solar : [], label: "Solar Consumption" },
-              { data: select === 'Gas' || select === 'All' ? props.consumption.gas : [], label: "Gas Consumption" },
+              { data: select === 'Grid' || select === 'All' ? props.consumption.grid : [], label: "Grid Consumption", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
+              { data: select === 'Solar' || select === 'All' ? props.consumption.solar : [], label: "Solar Consumption", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh")},
+              { data: select === 'Gas' || select === 'All' ? props.consumption.gas : [], label: "Gas Consumption", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
             ]}
             legend={{ hidden: true }}
           />

@@ -59,8 +59,8 @@ export default function EnergyProductionChart(props) {
             xAxis={[{ data: xAxis, label: "Hour", scaleType: "utc" }]}
             yAxis={[{ label: "kWh" }]}
             series={[
-              { data: select === 'Solar' || select === 'All' ? props.production.solar : [], label: "Solar Production" },
-              { data: select === 'Gas' || select === 'All' ? props.production.gas : [], label: "Gas Production" },
+              { data: select === 'Solar' || select === 'All' ? props.production.solar : [], label: "Solar Production", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
+              { data: select === 'Gas' || select === 'All' ? props.production.gas : [], label: "Gas Production", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
             ]}
             legend={{ hidden: true }}
           />

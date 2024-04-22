@@ -2,6 +2,7 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
+- check responsiveness
 - return codes for all gets and post -> error msgs in ui
 - fulcreen camera
 - name changes

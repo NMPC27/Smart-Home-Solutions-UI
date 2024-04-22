@@ -238,7 +238,36 @@ export default function History() {
                             colors={[chartColors[idx%3]]}
                             xAxis={[{ data: xAxis[idx], label: "Hour", scaleType: "utc" }]}
                             yAxis={[{ label: labels[history[item].type] }]}
-                            series={[{data: yAxis[idx], label: history[item].name, curve: "stepAfter"}]}
+                            series={[{
+                              data: yAxis[idx], 
+                              label: history[item].name, 
+                              curve: "stepAfter", 
+                              valueFormatter: (v) => {
+                                if (history[item].type === "Temperature Sensor") {
+                                  return v + " °C";
+                                }
+                                if (history[item].type === "Humidity Sensor") {
+                                  return v + " %";
+                                }
+                                if (history[item].type === "Power") {
+                                  return v + " W";
+                                }
+                                if (history[item].type === "Motion Sensor") {
+                                  if (v === 0) {
+                                    return "Not detected";
+                                  } else {
+                                    return "Detected";
+                                  }
+                                }
+                                if (v === 0) {
+                                  return "Off";
+                                }
+                                if (v === 1) {
+                                  return "On";
+                                }
+                                return v;
+                              }
+                            }]}
                             legend={{ hidden: true }}
                           />
                         </div>
