@@ -237,35 +237,48 @@ export default function History() {
                           <LineChart
                             colors={[chartColors[idx%3]]}
                             xAxis={[{ data: xAxis[idx], label: "Hour", scaleType: "utc" }]}
-                            yAxis={[{ label: labels[history[item].type] }]}
+                            yAxis={[{ label: labels[history[item].type], valueFormatter: (v) => {
+                                if (labels[history[item].type] === "Not detected/Detected"){ 
+                                  if (v === 0) {
+                                    return "Not det";
+                                  }
+                                  if (v === 1) {
+                                    return "Detect";
+                                  }
+                                  return ""
+                                }
+                                if (labels[history[item].type] === "Off/On"){ 
+                                  if (v === 0) {
+                                    return "Off";
+                                  }
+                                  if (v === 1) {
+                                    return "On";
+                                  }
+                                  return ""
+                                }
+                              }
+                            }]}
                             series={[{
                               data: yAxis[idx], 
                               label: history[item].name, 
                               curve: "stepAfter", 
                               valueFormatter: (v) => {
-                                if (history[item].type === "Temperature Sensor") {
-                                  return v + " °C";
-                                }
-                                if (history[item].type === "Humidity Sensor") {
-                                  return v + " %";
-                                }
-                                if (history[item].type === "Power") {
-                                  return v + " W";
-                                }
-                                if (history[item].type === "Motion Sensor") {
+                                if (labels[history[item].type] === "Not detected/Detected"){ 
                                   if (v === 0) {
                                     return "Not detected";
                                   } else {
                                     return "Detected";
                                   }
                                 }
-                                if (v === 0) {
-                                  return "Off";
+                                if (labels[history[item].type] === "Off/On"){ 
+                                  if (v === 0) {
+                                    return "Off";
+                                  } else {
+                                    return "On";
+                                  }
                                 }
-                                if (v === 1) {
-                                  return "On";
-                                }
-                                return v;
+
+                                return v + " " + labels[history[item].type];
                               }
                             }]}
                             legend={{ hidden: true }}
