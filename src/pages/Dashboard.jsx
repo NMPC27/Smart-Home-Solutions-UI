@@ -91,6 +91,12 @@ export default function Dashboard() {
     else { return 4 }
   });
 
+  React.useEffect(() => {
+    if (mobile) {  setNumCol(1); setDevice("mobile") } 
+    else if (tablet) { setNumCol(2); setDevice("tablet") }
+    else { setNumCol(4); setDevice("pc") }
+  },[tablet,mobile]);
+
   const [devices, setDevices] = React.useState(null);
   const [rooms, setRooms] = React.useState(null);
   const [cards, setCards] = React.useState(null);

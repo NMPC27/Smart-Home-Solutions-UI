@@ -81,6 +81,12 @@ export default function EditDialog(props) {
     else { return "pc" }
   });
 
+  React.useEffect(() => {
+    if (mobile) { setDevice("mobile") }
+    else if (tablet) { setDevice("tablet")  }
+    else { setDevice("pc")  }
+  }, [mobile,tablet]);
+
   const [numCol,setNumCol] = React.useState(() => {
     if (mobile) { return 1 } 
     else if (tablet) { return 2 } 
