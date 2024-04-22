@@ -278,6 +278,7 @@ export default function EditDialog(props) {
             onLayoutChange={(currentLayout) =>
               handleLayoutChange(currentLayout)
             }
+            resizeHandles={[]}
           >
             {selectedTab !== props.cards[device].length && props.cards[device][selectedTab].map((val, idx) => {
               return (

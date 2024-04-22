@@ -701,6 +701,7 @@ export default function Dashboard() {
         isResizable={false}
         isDraggable={false}
         layout={cards[device][selectedTab]}
+        resizeHandles={[]}
       >
         {cards[device][selectedTab].map((card) => {
           if (card.type === "Light") {
