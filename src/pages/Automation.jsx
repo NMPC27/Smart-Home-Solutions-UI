@@ -519,6 +519,30 @@ export default function Automation() {
     ) 
   }
 
+  const [posX, setPosX] = React.useState(-100);
+  const [posY, setPosY] = React.useState(-50);
+
+  const randomXY = () => {
+    let tmpX = posX
+    let tmpY = posY
+
+    if (posX === 50) {
+      tmpX = -50
+      tmpY += 50
+    }else {
+      tmpX += 50
+    }
+
+    if (tmpY === 100) {
+      tmpY = -50
+    }
+
+    setPosX(tmpX)
+    setPosY(tmpY)
+
+    return { x: tmpX, y: tmpY }
+  }
+
   if (devices === null || tabs === null || globalNodes === null || globalEdges === null) { 
     return (
       <>
@@ -599,7 +623,7 @@ export default function Automation() {
                           { 
                             id: ''+newID,   
                             type: 'eventNode',                            
-                            position: { x: 20, y: 20 }, 
+                            position: randomXY(), 
                             data: { 
                               devices: devices, 
                               editData: helperFunc,
@@ -645,7 +669,7 @@ export default function Automation() {
                           { 
                             id: ''+newID,   
                             type: 'waitNode',                          
-                            position: { x: 20, y: 20 }, 
+                            position: randomXY(), 
                             data: {
                               editData: helperFunc,
                               clearNodeData: helperFunc,
@@ -699,7 +723,7 @@ export default function Automation() {
                             { 
                               id: ''+newID, 
                               type: 'deviceNode',
-                              position: { x: 20, y: 20 }, 
+                              position: randomXY(), 
                               data: { 
                                 devices: devices,
                                 editData: helperFunc,
@@ -744,7 +768,7 @@ export default function Automation() {
                             { 
                               id: ''+newID, 
                               type: 'timeNode',
-                              position: { x: 20, y: 20 }, 
+                              position: randomXY(), 
                               data: {
                                 editData: helperFunc,
                                 clearNodeData: helperFunc,

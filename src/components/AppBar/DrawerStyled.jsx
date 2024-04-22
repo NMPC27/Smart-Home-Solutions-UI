@@ -158,6 +158,7 @@ export default function DrawerStyled(props) {
             backgroundColor: "#E53935",
             color: "white",
             fontWeight: "bold",
+            "&:hover": { backgroundColor: "#C62828" },
           }}
           variant="contained"
           onClick={() => handleLogout()}

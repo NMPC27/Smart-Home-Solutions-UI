@@ -435,6 +435,30 @@ export default function Building() {
 
   }
 
+  const [posX, setPosX] = React.useState(-100);
+  const [posY, setPosY] = React.useState(-50);
+
+  const randomXY = () => {
+    let tmpX = posX
+    let tmpY = posY
+
+    if (posX === 50) {
+      tmpX = -50
+      tmpY += 50
+    }else {
+      tmpX += 50
+    }
+
+    if (tmpY === 100) {
+      tmpY = -50
+    }
+
+    setPosX(tmpX)
+    setPosY(tmpY)
+
+    return { x: tmpX, y: tmpY }
+  }
+
   if (devices === null || tabs === null || houseLayout === null || globalNodes === null) {
     return (
       <>
@@ -511,7 +535,7 @@ export default function Building() {
                                 { 
                                   id: device.id,   
                                   type: tmpType,                           
-                                  position: { x: 50, y: 50 }, 
+                                  position: randomXY(), 
                                   data: { openDialog: openDialog, name: device.name, on: device.on },
                                 }
                               ]
