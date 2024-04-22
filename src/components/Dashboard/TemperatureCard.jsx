@@ -274,7 +274,7 @@ export default function TemperatureCard(props) {
                   arcColor={props.devices[deviceIdx].on ? arcColor : "#787878"}
                   arcBackgroundColor="#AAAAAA"
                 >
-                  <div className="prevent-select">
+                  <div>
                     {props.devices[deviceIdx].on ? (
                       <h2
                         style={{
