@@ -494,7 +494,7 @@ export default function Building() {
       <AppBarStyled navbar={"building"} />
 
       <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
             <OutItem elevation={5}>
               <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
               Devices
@@ -551,7 +551,7 @@ export default function Building() {
               </InItem>
             </OutItem>
           </Grid>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
             <OutItem elevation={5}>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={6} md={8}>

@@ -579,7 +579,7 @@ export default function Automation() {
       <AppBarStyled navbar={"automation"} />
 
       <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
             <OutItem elevation={5}>
               <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
                 Nodes
@@ -789,7 +789,7 @@ export default function Automation() {
               </InItem>
             </OutItem>
           </Grid>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
             <OutItem elevation={5}>
               <Grid container spacing={0}>
                 <Grid item xs={6} sm={9} md={10}>
