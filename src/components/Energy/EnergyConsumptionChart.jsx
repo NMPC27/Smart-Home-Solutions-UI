@@ -54,7 +54,7 @@ export default function EnergyConsumptionChart(props) {
         Energy Consumption
       </h2>
       <InItem>
-        <div style={{ width: "100%", height: "40vh" }}>
+        <div style={{ width: "100%", height: "40vh", minHeight: "300px" }}>
           <LineChart
             colors={chartColors}
             xAxis={[{ data: xAxis, label: "Hour", scaleType: "utc" }]}

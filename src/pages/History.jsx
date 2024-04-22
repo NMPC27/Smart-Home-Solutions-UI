@@ -233,7 +233,7 @@ export default function History() {
                 { selectedDevicesIdx.map((item, idx) => {
                     return(
                       <>
-                        <div style={{ width: "100%", height: "40vh" }}>
+                        <div style={{ width: "100%", height: "40vh", minHeight: "300px" }}>
                           <LineChart
                             colors={[chartColors[idx%3]]}
                             xAxis={[{ data: xAxis[idx], label: "Hour", scaleType: "utc" }]}

@@ -103,16 +103,16 @@ export default function Energy() {
         <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
 
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
             <EnergyConsumptionChart consumption={data.consumption} date={date} />
           </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
             <EnergyConsumptionPie consumption={data.consumption} />
           </Grid>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
             <EnergyProductionChart production={data.production} date={date} />
           </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
             <EnergyProductionPie production={data.production} />
           </Grid>
         </Grid>

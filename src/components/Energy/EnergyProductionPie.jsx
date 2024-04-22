@@ -71,7 +71,7 @@ export default function EnergyProductionPie(props) {
         Daily Production
       </h2>
       <InItem>
-        <div style={{ width: "100%", height: "40vh" }}>
+        <div style={{ width: "100%", height: "40vh", minHeight: "300px" }}>
           <PieChart
             colors={pieColors}
             series={[
@@ -79,7 +79,7 @@ export default function EnergyProductionPie(props) {
                 paddingAngle: 5,
                 cornerRadius: 5,
                 innerRadius: 80,
-                outerRadius: 125,
+                outerRadius: 120,
                 data: data,
               },
             ]}

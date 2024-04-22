@@ -650,7 +650,7 @@ export default function Building() {
                     />
                   }
 
-                  { (mode === 'edit' || mode === 'view' ) && houseLayout[selectedTab] && 
+                  { (mode === 'edit' || mode === 'view' ) && 
                       <ReactFlow
                         nodes={nodes}
                         onNodesChange={onNodesChange}
