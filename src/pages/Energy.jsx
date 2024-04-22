@@ -22,6 +22,7 @@ export default function Energy() {
       document.body.style.margin = "1vw";
     } else {
       document.body.style.margin = "5vw";
+      document.body.style.marginTop = "3vh";
     }
   }, [mobile]);
 
