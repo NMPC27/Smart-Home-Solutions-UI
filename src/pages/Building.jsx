@@ -323,9 +323,9 @@ export default function Building() {
     setTabChanged(true)
     buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}); //! API CALL
 
-    setSelectedTab(newValue);
-
     if (tabs.length === newValue) { return; }
+
+    setSelectedTab(newValue);
 
     setNodes(globalNodes[newValue]);
   }
@@ -483,6 +483,7 @@ export default function Building() {
                     return (
                       <Grid item xs={12} sm={12} md={6}>
                         <Button 
+                          disabled={mode !== "edit"}
                           fullWidth 
                           variant="contained"
                           onClick={() => {
