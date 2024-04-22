@@ -106,6 +106,8 @@ export default function Building() {
   React.useEffect(() => {
     if (mobile) {
       document.body.style.margin = "1vw";
+    } else {
+      document.body.style.margin = "5vw";
     }
   }, [mobile]);
 

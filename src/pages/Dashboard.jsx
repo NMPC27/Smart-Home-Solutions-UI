@@ -54,6 +54,8 @@ export default function Dashboard() {
   React.useEffect(() => {
     if (tablet) {
       document.body.style.margin = "1vw";
+    } else {
+      document.body.style.margin = "5vw";
     }
   }, [tablet]);
 
