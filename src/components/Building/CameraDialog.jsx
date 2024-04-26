@@ -60,7 +60,7 @@ export default function CameraDialog(props) {
   return (
     <Dialog
       fullWidth
-      maxWidth={"md"}
+      maxWidth={"lg"}
       open={props.openDialog}
       TransitionComponent={Transition}
       keepMounted

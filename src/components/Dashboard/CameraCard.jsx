@@ -12,6 +12,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { getCamImg } from "../API";
 import CircularProgress from '@mui/material/CircularProgress';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import CameraDialog from "./CameraDialog";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -113,6 +115,8 @@ export default function CameraCard(props) {
 
   }, [props.devices, deviceIdx]);
 
+  const [fullScreen, setFullScreen] = React.useState(false);
+
   return (
     <OutItem elevation={5} sx={{  height: mobile ? 400 : 640 }}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Camera</h2>
@@ -146,17 +150,26 @@ export default function CameraCard(props) {
                     { img === null ? 
                         <CircularProgress size={mobile ? 110 : 250} sx={{padding: mobile ? 5 : 10}} /> 
                       : 
-                      <img
-                        width="100%"
-                        height={mobile ? 190 : 400}
-                        style={{ borderRadius: "10px" }}
-                        src={`data:image/jpeg;base64,${img}`}
-                        alt="Camera"
-                      />
+                      <div style={{position: "relative"}} >
+                        <img
+                          width="100%"
+                          height={mobile ? 190 : 400}
+                          style={{ borderRadius: "10px" }}
+                          src={`data:image/jpeg;base64,${img}`}
+                          alt="Camera"
+                        />
+                        <IconButton 
+                            onClick={() => setFullScreen(true)} 
+                            sx={{position: "absolute", right: 5, bottom: 10, color: "#FFFFFF", bgcolor: "#000000"}}                            
+                          >
+                            <FullscreenIcon sx={{ fontSize: 30 }} />
+                          </IconButton>
+                      </div>
                     }
                   </>
                 ) : (
                   <img
+                    width="100%"
                     height={mobile ? 180 : 400}
                     style={{ marginTop: 10, borderRadius: "20px" }}
                     src={"no-video.png"}
@@ -193,6 +206,14 @@ export default function CameraCard(props) {
           )}
         </Grid>
       </InItem>
+      {deviceIdx !== -1 && props.devices[deviceIdx] && (
+        <CameraDialog
+          openDialog={fullScreen}
+          handleCloseDialog={() => setFullScreen(false)}
+          fullImg={img}
+          name={props.devices[deviceIdx].name}
+        />
+      )}
     </OutItem>
   );
 }
