@@ -19,6 +19,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#FFFFFF",
   borderRadius: "20px",
+  height: 400
 }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -28,7 +29,9 @@ const InItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
-  minHeight: "32vh",
+  minHeight: 280,
+  maxHeight: 280, 
+  overflow: "auto"
 }));
 
 export default function LightsCard(props) {
@@ -69,8 +72,8 @@ export default function LightsCard(props) {
 
   return (
     <OutItem elevation={5}>
-      <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Lights</h2>
-        <InItem style={{ maxHeight: "32vh", overflow: "auto" }}>
+      <h2 style={{ marginTop: 10, marginBottom: 16 }}>Lights</h2>
+        <InItem >
           <Grid container spacing={2.5} alignItems="center">
             <Grid item xs={12}>
               <FormControl fullWidth>

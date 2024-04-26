@@ -10,6 +10,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#FFFFFF",
   borderRadius: "20px",
+  height: 160
 }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -19,6 +20,7 @@ const InItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
+  height: 40
 }));
 
 export default function SecurityCard(props) {
@@ -38,7 +40,7 @@ export default function SecurityCard(props) {
 
   return (
     <OutItem elevation={5}>
-      <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Security</h2>
+      <h2 style={{ marginTop: 10, marginBottom: 16 }}>Security</h2>
       <InItem>
         {props.alarmOn ? (
           <Button

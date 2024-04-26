@@ -24,6 +24,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#FFFFFF",
   borderRadius: "20px",
+  height: 640
 }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -33,7 +34,8 @@ const InItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
-  minHeight: "57vh",
+  minHeight: 520,
+  maxHeight: 520, 
 }));
 
 const colorsArray = [
@@ -217,8 +219,8 @@ export default function TemperatureCard(props) {
 
   return (
     <OutItem elevation={5}>
-      <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Temperature</h2>
-      <InItem>
+      <h2 style={{ marginTop: 10, marginBottom: 16 }}>Temperature</h2>
+      <InItem >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -241,20 +243,13 @@ export default function TemperatureCard(props) {
 
           {props.devices[deviceIdx] !== undefined && (
             <>
-              <h2
-                style={{
-                  textAlign: "center",
-                  width: "100%",
-                  marginLeft: "1vw",
-                  marginTop:"6vh"
-                }}
-              >
-                {props.devices[deviceIdx].name}
-              </h2>
-              <Grid item xs={12} marginBottom="2vh" id="slider">
+            <Grid item xs={12}>
+              <h2> {props.devices[deviceIdx].name} </h2>
+            </Grid>
+              <Grid item xs={12} marginBottom="2vh" id="slider" justifyContent="center" display="flex">
                 <CircularSliderWithChildren
                   disabled={!props.devices[deviceIdx].on}
-                  size={size}
+                  size={size > 430 ? 430 : size}
                   trackWidth={10}
                   handleSize={10}
                   minValue={15}

@@ -2,6 +2,10 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
+- fzr cenas
+- add custom url to local app
+- full screen camera
+- px sizes in cards
 - por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
 - check responsiveness
 - return codes for all gets and post -> error msgs in ui

@@ -114,9 +114,9 @@ export default function CameraCard(props) {
   }, [props.devices, deviceIdx]);
 
   return (
-    <OutItem elevation={5}>
-      <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Camera</h2>
-      <InItem sx={{  minHeight: mobile ? "29vh": "57vh" }}>
+    <OutItem elevation={5} sx={{  height: mobile ? 400 : 640 }}>
+      <h2 style={{ marginTop: 10, marginBottom: 16 }}>Camera</h2>
+      <InItem sx={{  minHeight: mobile ? 280 : 520, maxHeight: mobile ? 280 : 520 }}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -144,11 +144,12 @@ export default function CameraCard(props) {
                 {props.devices[deviceIdx].on ? (
                   <>
                     { img === null ? 
-                        <CircularProgress size="12vw" sx={{padding: "4vw"}} /> 
+                        <CircularProgress size={mobile ? 110 : 250} sx={{padding: mobile ? 5 : 10}} /> 
                       : 
                       <img
                         width="100%"
-                        style={{ aspectRatio: "16/9", borderRadius: "10px" }}
+                        height={mobile ? 190 : 400}
+                        style={{ borderRadius: "10px" }}
                         src={`data:image/jpeg;base64,${img}`}
                         alt="Camera"
                       />
@@ -156,8 +157,8 @@ export default function CameraCard(props) {
                   </>
                 ) : (
                   <img
-                    width="50%"
-                    style={{ marginTop: "2vh", borderRadius: "20px" }}
+                    height={mobile ? 180 : 400}
+                    style={{ marginTop: 10, borderRadius: "20px" }}
                     src={"no-video.png"}
                     alt="ERROR!"
                   />
