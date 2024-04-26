@@ -135,7 +135,7 @@ export default function EditDialog(props) {
     <>
       <Dialog
         fullWidth
-        maxWidth={"md"}
+        maxWidth={"lg"}
         open={props.openEditDialog}
         TransitionComponent={Transition}
         keepMounted
@@ -157,10 +157,7 @@ export default function EditDialog(props) {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent
-          style={mobile ? { height: "60vh" } : { aspectRatio: "16/9" }}
-          ref={dialogGrid}
-        >
+        <DialogContent ref={dialogGrid} >
           <Grid container spacing={2}>
             <Grid item xs={mobile ? 12 : 8}>
               <h3 style={{ marginTop: "1.6vh", marginBottom: "0vh" }}>
@@ -274,11 +271,12 @@ export default function EditDialog(props) {
           </Grid>
 
           <GridLayout
+            style={{ marginLeft: -40, marginRight: 40}}
             className="layout"
             cols={numCol}
-            margin={[_1vh*4, _1vh*4]}
-            rowHeight={_1vh*10}
-            width={size - 70}
+            margin={[40,40]}
+            rowHeight={100}
+            width={size + 10}
             isResizable={false}
             layout={props.cards[device][selectedTab]}
             onLayoutChange={(currentLayout) =>
