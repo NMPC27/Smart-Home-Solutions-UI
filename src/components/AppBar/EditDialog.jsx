@@ -157,7 +157,10 @@ export default function EditDialog(props) {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent ref={dialogGrid} >
+        <DialogContent 
+          style={{minHeight: "60vh"}}
+          ref={dialogGrid} 
+        >
           <Grid container spacing={2}>
             <Grid item xs={mobile ? 12 : 8}>
               <h3 style={{ marginTop: "1.6vh", marginBottom: "0vh" }}>

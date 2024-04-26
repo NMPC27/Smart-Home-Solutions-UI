@@ -82,14 +82,14 @@ export default function AppBarStyled(props) {
                 sx={{ fontWeight: "bold" }}
                 onClick={() => setOpenRoomDialog(true)}
               >
-                + ROOM
+                ROOMS
               </Button>
               <Button
                 variant="contained"
                 sx={{ fontWeight: "bold" }}
                 onClick={() => setOpenDeviceDialog(true)}
               >
-                + DEVICE
+                DEVICES
               </Button>
             </Stack>
           )}
@@ -160,14 +160,14 @@ export default function AppBarStyled(props) {
             sx={{ fontWeight: "bold", width: "70%" }}
             onClick={() => setOpenRoomDialog(true)}
           >
-            + ROOM
+            ROOMS
           </Button>
           <Button
             variant="contained"
             sx={{ fontWeight: "bold", width: "70%" }}
             onClick={() => setOpenDeviceDialog(true)}
           >
-            + DEVICE
+            DEVICES
           </Button>
         </Stack>
       )}

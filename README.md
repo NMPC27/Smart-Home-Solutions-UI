@@ -2,19 +2,20 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
-- fzr cenas
-- add custom url to local app
-- full screen camera
-- px sizes in cards
-- por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
-- check responsiveness
-- return codes for all gets and post -> error msgs in ui
 - fulcreen camera
 - name changes
 - room device change
+- posso crirar rooms como sendo uma entity
+- por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
+- return codes for all gets and post -> error msgs in ui
+- add custom url to local app
+- fzr cenas
+
+
 - add card power?
 - ver ons e off dos nodes no building
 - modulo dos mails
+- enviar email em caso de intrusao
 - global room bug when changing from empety room to any
 
 - fix sync problem between same cards (duplicated) 
@@ -23,12 +24,10 @@ nunocunhafinal@gmail.com
 Ao mudar a cor no tele e dps a britness muda para a cor anterior 
 Cenas nas luzes, color changing eyc
 Scroll no tele da temp é meio bugado 
-Build aparece todos o ícones ao centro 
 Resize automation ao clicar num node não foca certo tele
 
 
 - fix delete card mobile
-- fix pie chart
 - lista de compras
 - tempo 
 - try to improve notification, not getting every 5s
@@ -38,7 +37,6 @@ Resize automation ao clicar num node não foca certo tele
     https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 
 - forgot password and create account -> to be removed
-- melhorar as responsividade dos resizes (dahsboard e temp)
 
 
 
@@ -46,14 +44,13 @@ Resize automation ao clicar num node não foca certo tele
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 
 
-- enviar email em caso de intrusao
+
 
 - tests
 - PropTypes
 
 - fix requests no building (doneishh)
 - nos filtros por apenas as room onde esta aquele tipo de device
-- graficos quando no tele roda ficam cagados, usar vw ou px (min heigth)
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof (muito trabalho para o ganho -> library paga da mui)
 
 (future work)
