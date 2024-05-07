@@ -2,7 +2,8 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
-- fulcreen camera
+- segmaentar rede dos devices
+- ir um dia a fnac e experimentar o ui nos diferentes ecras
 - name changes
 - room device change
 - posso crirar rooms como sendo uma entity

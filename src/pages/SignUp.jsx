@@ -34,11 +34,13 @@ export default function SignUp() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confPassword, setConfPassword] = React.useState("");
+  const [token, setToken] = React.useState("");
+  const [domain, setDomain] = React.useState("");
   const [openErrorMsg, setOpenErrorMsg] = React.useState(false); // fill all the fields!
   const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleSignUp = () => {
-    if (name === "" || email === "" || password === "" || confPassword === "") {
+    if (name === "" || email === "" || password === "" || confPassword === "" || token === "" || domain === "") {
       setErrorMsg("Please fill out all the fields!");
       setOpenErrorMsg(true);
       return;
@@ -50,7 +52,7 @@ export default function SignUp() {
       return;
     }
 
-    signUp({ name, email, password }).then((res) => {
+    signUp({ name, email, password, token, domain }).then((res) => {
       if (res.data.status === "error") {
         setErrorMsg("Email already in use!");
         setOpenErrorMsg(true);
@@ -95,13 +97,13 @@ export default function SignUp() {
             height={mobile ? "100vh" : "100%"}
           >
             <Grid container textAlign="center">
-              <Grid item xs={12} sx={{ marginTop: "5vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
                 <LockIcon />
               </Grid>
               <Grid item xs={12}>
                 <h2>Sign Up</h2>
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "5vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
                 <TextField
                   label="Name"
                   variant="outlined"
@@ -118,7 +120,7 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "5vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
                 <TextField
                   label="Email"
                   variant="outlined"
@@ -135,7 +137,7 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "5vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
                 <TextField
                   label="Password"
                   variant="outlined"
@@ -153,7 +155,7 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "5vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
                 <TextField
                   label="Confirm Password"
                   variant="outlined"
@@ -168,6 +170,40 @@ export default function SignUp() {
                     label: { color: "#FFFFFF" },
                   }}
                   onChange={(e) => setConfPassword(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+                <TextField
+                  label="Token"
+                  variant="outlined"
+                  sx={{
+                    width: "70%",
+                    backgroundColor: "#374151",
+                    borderRadius: "10px",
+                    borderColor: "#FFFFFF",
+                    svg: { color: "#FFFFFF" },
+                    input: { color: "#FFFFFF" },
+                    label: { color: "#FFFFFF" },
+                  }}
+                  onChange={(e) => setToken(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+                <TextField
+                  label="Domain"
+                  variant="outlined"
+                  sx={{
+                    width: "70%",
+                    backgroundColor: "#374151",
+                    borderRadius: "10px",
+                    borderColor: "#FFFFFF",
+                    svg: { color: "#FFFFFF" },
+                    input: { color: "#FFFFFF" },
+                    label: { color: "#FFFFFF" },
+                  }}
+                  onChange={(e) => setDomain(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
