@@ -21,9 +21,7 @@ import {
   getDevices,
   getRooms,
   getCards,
-  deviceAdd,
   deviceEdit,
-  deviceRemove,
   deviceOn,
   deviceTemperatureTarget,
   deviceLightColor,
@@ -154,125 +152,6 @@ export default function Dashboard() {
     );
   }, []);
 
-  const handleDeviceAdd = (deviceInfo, deviceName, type, room) => {
-    let newID;
-    if (devices.length != 0) {
-      newID = devices[devices.length - 1].id + 1;
-    } else {
-      newID = 1;
-    }
-
-    for (let i = 0; i < devices.length; i++) {
-      if (devices[i].id >= newID) {
-        newID = devices[i].id + 1;
-      }
-    }
-
-    if (type === "Light") {
-      setDevices([
-        ...devices,
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: false,
-          brightness: 100,
-          color: "#FFFFFF",
-        },
-      ]);
-
-      deviceAdd(
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: false,
-          brightness: 100,
-          color: "#FFFFFF",
-        },
-      ); //! API CALL
-    }
-
-    if (type === "Temperature") {
-      setDevices([
-        ...devices,
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: false,
-          currentTemperature: 0,
-          targetTemperature: 15,
-        },
-      ]);
-
-      deviceAdd(
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: false,
-          currentTemperature: 0,
-          targetTemperature: 15,
-        },
-      ); //! API CALL
-    }
-
-    if (type === "Motion Sensor") {
-      setDevices([
-        ...devices,
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: false,
-          detectedMotion: false,
-        },
-      ]);
-
-      deviceAdd(
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: false,
-          detectedMotion: false,
-        },
-      ); //! API CALL
-    }
-
-    if (type === "Camera") {
-      setDevices([
-        ...devices,
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: true,
-          endpoint: "https://www.youtube.com/embed/y77y9tacA2c",
-        },
-      ]);
-
-      deviceAdd(
-        {
-          id: newID,
-          type: type,
-          room: room,
-          name: deviceName,
-          on: true,
-          endpoint: "https://www.youtube.com/embed/y77y9tacA2c",
-        },
-      ); //! API CALL
-    }
-  };
-
   const editDeviceName = (idx,name) => {
     let tmp = [...devices];
     tmp[idx].name = name;
@@ -281,15 +160,6 @@ export default function Dashboard() {
 
     deviceEdit({id: tmp[idx].id, name: name}); //! API CALL
   }
-
-  const handleDeleteDevice = (idx) => {
-    let tmp = [...devices];
-    let id = tmp[idx].id;
-    tmp.splice(idx, 1);
-    setDevices(tmp);
-
-    deviceRemove({id: id}); //! API CALL
-  };
 
   const handleRoomAdd = (val) => {
     let newID;
@@ -649,8 +519,6 @@ export default function Dashboard() {
         handleCardDelete={handleCardDelete}
         handleRoomAdd={handleRoomAdd}
         handleDeleteRoom={handleDeleteRoom}
-        handleDeviceAdd={handleDeviceAdd}
-        handleDeleteDevice={handleDeleteDevice}
         handleSetLayout={handleSetLayout}
         notifications={notifications}
         handleDeleteNotification={handleDeleteNotification}

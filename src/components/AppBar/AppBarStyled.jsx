@@ -188,9 +188,7 @@ export default function AppBarStyled(props) {
             openDeviceDialog={openDeviceDialog}
             handleCloseDeviceDialog={handleCloseDeviceDialog}
             rooms={props.rooms}
-            devices={props.devices}
-            handleDeviceAdd={props.handleDeviceAdd}
-            handleDeleteDevice={props.handleDeleteDevice}            
+            devices={props.devices}       
             editDeviceName={props.editDeviceName}
           />
 

@@ -62,6 +62,8 @@ import PowerSensorNode from "../components/Building/PowerSensorNode";
 
 import 'reactflow/dist/style.css';
 
+const whiteImg = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIxcHgiIGhlaWdodD0iMXB4IiB2aWV3Qm94PSItMC41IC0wLjUgMSAxIiBjb250ZW50PSImbHQ7bXhmaWxlIGhvc3Q9JnF1b3Q7ZW1iZWQuZGlhZ3JhbXMubmV0JnF1b3Q7IG1vZGlmaWVkPSZxdW90OzIwMjQtMDUtMDhUMTM6Mjc6NTkuOTE4WiZxdW90OyBhZ2VudD0mcXVvdDtNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTI0LjAuMC4wIFNhZmFyaS81MzcuMzYmcXVvdDsgdmVyc2lvbj0mcXVvdDsyNC4zLjEmcXVvdDsgZXRhZz0mcXVvdDtld3JwUDZ3TXJkVXQtZkpXRVFsdyZxdW90OyB0eXBlPSZxdW90O2VtYmVkJnF1b3Q7Jmd0OyZsdDtkaWFncmFtIGlkPSZxdW90O0x4QVl3WFVTSGxfQlFvZTA4OXVfJnF1b3Q7IG5hbWU9JnF1b3Q7UMOhZ2luYS0xJnF1b3Q7Jmd0O2RkSE5Fb0lnRUFEZ3ArR3VVRmxuczdwMDh0Q1prVTJZUWRkQkdxMm5UMmMxWTZ3THMzeTdzUHd3a1ZiOTJjbEdYMUdCWlR4U1BSTkh4bmtTSjhNNHdwTmdJN1lFcFRPS0tGNGdOeStZTUpyMFlSUzBRYUZIdE40MElSWlkxMUQ0d0tSejJJVmxkN1JoMTBhV3NJSzhrSGF0TjZPOEp0M3paUEVMbUZMUG5lUGRnVEtWbkl1bm03UmFLdXkrU0dSTXBBN1JVMVQxS2RqeDdlWjNvWFduUDluUHdSelUvc2VDSVZqMkhpYkJCNG5zRFE9PSZsdDsvZGlhZ3JhbSZndDsmbHQ7L214ZmlsZSZndDsiPjxkZWZzLz48Zy8+PC9zdmc+"
+
 
 const nodeTypes = {
   cameraNode: CameraNode,
@@ -291,7 +293,7 @@ export default function Building() {
     let name = "Floor "+tmp.length;
     tmp.push(name);
 
-    setHouseLayout([...houseLayout, null])
+    setHouseLayout([...houseLayout, whiteImg])
 
     setGlobalNodes([...globalNodes, []]);
     setNodes([])
@@ -510,7 +512,6 @@ export default function Building() {
                     return (
                       <Grid item xs={12} sm={12} md={6}>
                         <Button 
-                          disabled={mode !== "edit"}
                           fullWidth 
                           variant="contained"
                           onClick={() => {

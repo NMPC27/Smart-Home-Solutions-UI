@@ -64,41 +64,11 @@ export function getNotifications() {
   });
 }
 
-export function deviceAdd(data) {
-  let token = localStorage.getItem("token");
-
-  return axios.post(
-    endpoint + "/devices/add",
-    { data },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-    },
-  );
-}
-
 export function deviceEdit(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
     endpoint + "/devices/edit",
-    { data },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-    },
-  );
-}
-
-export function deviceRemove(data) {
-  let token = localStorage.getItem("token");
-
-  return axios.post(
-    endpoint + "/devices/remove",
     { data },
     {
       headers: {

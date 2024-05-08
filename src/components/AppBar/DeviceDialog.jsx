@@ -103,20 +103,6 @@ export default function DeviceDialog(props) {
     //!
   };
 
-  const handleDeviceAdd = (device, deviceName, selectedType, selectedRoom) => {
-    if (!device || !deviceName || !selectedType || !selectedRoom) {
-      setErrorMsg("Fill all the fields!");
-      setOpenErrorMsg(true);
-      return;
-    }
-
-    props.handleDeviceAdd(device, deviceName, selectedType, selectedRoom);
-
-    setOpenSuccessMsg(true);
-
-    setSearchDevicesStatus("notStarted");
-  };
-
   const handleEditDevice = (idx) => {
     setEditIdx(idx);
   };
@@ -242,21 +228,6 @@ export default function DeviceDialog(props) {
                         ))}
                       </Select>
                     </FormControl>
-
-                    <Button
-                      variant="contained"
-                      sx={{ fontWeight: "bold", width: "50%" }}
-                      onClick={() =>
-                        handleDeviceAdd(
-                          devicesFound[selectedDevice],
-                          deviceName,
-                          selectedType,
-                          selectedRoom,
-                        )
-                      }
-                    >
-                      + ADD
-                    </Button>
                   </>
                 )}
                 {searchDevicesStatus === "notFound" && (
@@ -344,7 +315,6 @@ export default function DeviceDialog(props) {
                           </IconButton>                          
                         :
                           <IconButton
-                            onClick={() => props.handleDeleteDevice(idx)}
                             sx={{
                               color: "#FFFFFF",
                             }}
