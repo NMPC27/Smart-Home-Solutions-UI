@@ -42,80 +42,40 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const tmp = [
-  {
-    id: 1,
-    name: "Shelly 1238194",
-  },
-  {
-    id: 2,
-    name: "Shelly HSDF7234",
-  },
-  {
-    id: 3,
-    name: "Samsung Smart TV32",
-  },
-];
-
-const suportedDevices = ["Light", "Temperature", "Motion Sensor", "Camera", "Temperature Sensor"];
 
 export default function DeviceDialog(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [searchDevicesStatus, setSearchDevicesStatus] =
-    React.useState("notStarted"); // notFound, searching, found, notStarted
-  const [deviceName, setDeviceName] = React.useState();
-  const [devicesFound, setDevicesFound] = React.useState([]);
-  const [selectedDevice, setSelectedDevice] = React.useState();
-  const [selectedType, setSelectedType] = React.useState();
-  const [selectedRoom, setSelectedRoom] = React.useState();
+  const [deviceName, setDeviceName] = React.useState("");
+  const [selectedRoom, setSelectedRoom] = React.useState(null);
 
-  const [deviceNewName, setDeviceNewName] = React.useState("");
   const [editIdx, setEditIdx] = React.useState(-1);
 
   const [openErrorMsg1, setOpenErrorMsg] = React.useState(false); 
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // device addded
   const [errorMsg, setErrorMsg] = React.useState("");
 
-  const handleFindDevices = () => {
-    setSearchDevicesStatus("searching");
-
-    //! API call
-    setTimeout(() => {
-      let rand = Math.random();
-      let tmpState;
-
-      if (rand < 0.8) {
-        tmpState = "found";
-      } else {
-        tmpState = "notFound";
-      }
-
-      setSearchDevicesStatus(tmpState);
-      setDevicesFound(tmp);
-
-      if (tmpState === "notFound") {
-        setErrorMsg("No devices found!");
-        setOpenErrorMsg(true);
-      }
-    }, 3000);
-    //!
-  };
-
   const handleEditDevice = (idx) => {
     setEditIdx(idx);
   };
 
-  const handleKeyDown = (event,idx) => {
+  const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      editDeviceName(idx);
+      editDevice();
     }
   };
 
-  const editDeviceName = (idx) => {
+  const editDevice = () => {
+    if (deviceName === "" || selectedRoom === null){
+      setErrorMsg("Please fill out all fields!");
+      setOpenErrorMsg(true);
+      return;
+    }
+
     setEditIdx(-1)
-    props.editDeviceName(idx,deviceNewName);
+    setOpenSuccessMsg(true)
+    props.editDevice(editIdx,deviceName,selectedRoom);
   };
 
   return (
@@ -130,7 +90,7 @@ export default function DeviceDialog(props) {
         PaperProps={{ sx: { borderRadius: "20px" } }}
       >
         <DialogTitle bgcolor={"#111827"} color={"#FFFFFF"}>
-          <h3 style={{ marginTop: 0, marginBottom: 0 }}>Rooms</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 0 }}>Devices</h3>
 
           <IconButton
             onClick={() => props.handleCloseDeviceDialog()}
@@ -155,94 +115,44 @@ export default function DeviceDialog(props) {
               <Grid item xs={12} sm={6} md={6} height={"50vh"}></Grid>
             )}
             <Grid item xs={12} sm={6} md={6} position={!mobile && "absolute"}>
-              <Stack spacing={2} alignItems="center" justifyContent="center">
-                <h3>Add New Device:</h3>
-                {searchDevicesStatus === "notStarted" && (
+              { editIdx === -1 ?
+                  <h3> Choose a device to edit! </h3>
+                :
+                <Stack spacing={2} alignItems="center" justifyContent="center">
+                  <h3>Edit Device:</h3>
+                  <TextField
+                    onChange={(e) => setDeviceName(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e)}
+                    label="Device Name"
+                    variant="outlined"
+                  />
+                  <FormControl fullWidth>
+                    <InputLabel id="room-device">Room</InputLabel>
+                    <Select
+                      labelId="room-device"
+                      id="room"
+                      value={selectedRoom}
+                      label="Room"
+                      onChange={(event) =>
+                        setSelectedRoom(event.target.value)
+                      }
+                    >
+                      {props.rooms.map((room, idx) => (
+                        <MenuItem key={idx} value={room.name}>
+                          {room.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   <Button
-                    variant="contained"
-                    sx={{ fontWeight: "bold" }}
-                    onClick={() => handleFindDevices()}
-                  >
-                    Find Devices
-                  </Button>
-                )}
-                {searchDevicesStatus === "searching" && <CircularProgress />}
-                {searchDevicesStatus === "found" && (
-                  <>
-                    <TextField
-                      onChange={(e) => setDeviceName(e.target.value)}
-                      label="Device Name"
-                      variant="outlined"
-                    />
-                    <FormControl fullWidth>
-                      <InputLabel id="select-device">Device</InputLabel>
-                      <Select
-                        labelId="select-device"
-                        id="Device"
-                        value={selectedDevice}
-                        label="Device"
-                        onChange={(event) =>
-                          setSelectedDevice(event.target.value)
-                        }
-                      >
-                        {devicesFound.map((device, idx) => (
-                          <MenuItem key={idx} value={idx}>
-                            {device.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl fullWidth>
-                      <InputLabel id="type-device">Type</InputLabel>
-                      <Select
-                        labelId="type-device"
-                        id="type"
-                        value={selectedType}
-                        label="Type"
-                        onChange={(event) =>
-                          setSelectedType(event.target.value)
-                        }
-                      >
-                        {suportedDevices.map((type, idx) => (
-                          <MenuItem key={idx} value={type}>
-                            {type}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl fullWidth>
-                      <InputLabel id="room-device">Room</InputLabel>
-                      <Select
-                        labelId="room-device"
-                        id="room"
-                        value={selectedRoom}
-                        label="Room"
-                        onChange={(event) =>
-                          setSelectedRoom(event.target.value)
-                        }
-                      >
-                        {props.rooms.map((room, idx) => (
-                          <MenuItem key={idx} value={room.name}>
-                            {room.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </>
-                )}
-                {searchDevicesStatus === "notFound" && (
-                  <>
-                    <h3 style={{ color: "#FF0000" }}>No Devices Found!</h3>
-                    <Button
                       variant="contained"
                       sx={{ fontWeight: "bold" }}
-                      onClick={() => handleFindDevices()}
+                      onClick={() => editDevice()}
                     >
-                      Find Devices
+                      Edit Device
                     </Button>
-                  </>
-                )}
-              </Stack>
+                </Stack>
+              }
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <Stack spacing={2} maxHeight={"45vh"}>
@@ -251,77 +161,27 @@ export default function DeviceDialog(props) {
                 {props.devices.map((room, idx) => (
                   <Item key={idx}>
                     <Grid container spacing={2}>
-                    <Grid item xs={2}>
-                        { editIdx === idx ?
-                          <IconButton
-                            onClick={() => setEditIdx(-1)}
-                            sx={{
-                              color: "#FFFFFF",
-                            }}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                          :
-                          <IconButton
-                              onClick={() => handleEditDevice(idx)}
-                              sx={{
-                                color: "#FFFFFF",
-                              }}
-                            >
-                            <EditIcon />
-                          </IconButton>
-                        }                      
-                      </Grid>
-                      <Grid item xs={8}>
-                        { editIdx === idx ?
-                            <TextField
-                              label="Device Name"
-                              variant="outlined"
-                              size="small"
-                              sx={{
-                                width: "100%",
-                                backgroundColor: "#374151",
-                                borderRadius: "10px",
-                                borderColor: "#FFFFFF",
-                                svg: { color: "#FFFFFF" },
-                                input: { color: "#FFFFFF" },
-                                label: { color: "#FFFFFF" },
-                              }}
-                              onChange={(e) => setDeviceNewName(e.target.value)}
-                              onKeyDown={(e) => handleKeyDown(e,idx)}
-                            />
-                          :
-                          <h3
-                            style={{
-                              textAlign: "left",
-                              marginTop: "1vh",
-                              marginBottom: "1vh",
-                              marginLeft: "0.5vw",
-                            }}
-                          >
-                            {room.name}
-                          </h3>
-                        }                        
+                      <Grid item xs={10}>
+                        <h3
+                          style={{
+                            textAlign: "left",
+                            marginTop: "1vh",
+                            marginBottom: "1vh",
+                            marginLeft: "0.5vw",
+                          }}
+                        >
+                          {room.name}
+                        </h3>                    
                       </Grid>
                       <Grid item xs={2}>
-                        { editIdx === idx ?
-                          <IconButton
-                            onClick={() => editDeviceName(idx)}
+                        <IconButton
+                            onClick={() => handleEditDevice(idx)}
                             sx={{
                               color: "#FFFFFF",
                             }}
                           >
-                            <CheckIcon />
-                          </IconButton>                          
-                        :
-                          <IconButton
-                            sx={{
-                              color: "#FFFFFF",
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        }                        
+                          <EditIcon />
+                        </IconButton>           
                       </Grid>
                     </Grid>
                   </Item>
@@ -372,7 +232,7 @@ export default function DeviceDialog(props) {
             }
           }}
         >
-          Device added!
+          Device edited!
         </Alert>
       </Snackbar>
     </>

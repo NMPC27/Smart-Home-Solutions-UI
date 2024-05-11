@@ -2,6 +2,10 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
+- error deleting automation aplied when on diferent tab
+- fix delete tabs (builfing and automation) being on +add
+- remove rooms warning
+- ver melhor os devices e como definir em que room estão
 - segmaentar rede dos devices
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - name changes

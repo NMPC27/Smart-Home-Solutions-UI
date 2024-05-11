@@ -15,7 +15,7 @@ export default function DrawerStyled(props) {
   let navigate = useNavigate();
 
   const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down("md"));
+  const mobile = useMediaQuery(theme.breakpoints.down("xl"));
 
   const handleLogout = () => {
     localStorage.removeItem("token");

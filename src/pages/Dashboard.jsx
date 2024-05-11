@@ -40,7 +40,6 @@ import {
 } from "../components/API";
 import { useNavigate } from "react-router-dom";
 
-let _1vh = Math.round(window.innerHeight / 100)
 
 export default function Dashboard() {
   const theme = useTheme();
@@ -152,13 +151,14 @@ export default function Dashboard() {
     );
   }, []);
 
-  const editDeviceName = (idx,name) => {
+  const editDevice = (idx,name,room) => {
     let tmp = [...devices];
     tmp[idx].name = name;
+    tmp[idx].room = room;
 
     setDevices(tmp);
 
-    deviceEdit({id: tmp[idx].id, name: name}); //! API CALL
+    deviceEdit({id: tmp[idx].id, name: name, room: room}); //! API CALL
   }
 
   const handleRoomAdd = (val) => {
@@ -300,6 +300,10 @@ export default function Dashboard() {
     let tmp = {...cards};
     tmp[deviceSelected].splice(idx, 1);
 
+    let tab = idx - 1
+    if (tab < 0) { tab = 0 }
+    setSelectedTab(tab)
+    
     setCards(tmp);
     dashboardRemove({deviceSelected: deviceSelected, tab: idx}); //! API CALL
   }
@@ -524,7 +528,7 @@ export default function Dashboard() {
         handleDeleteNotification={handleDeleteNotification}
         handleAddDashboard={handleAddDashboard}
         editRoomName={editRoomName}
-        editDeviceName={editDeviceName}
+        editDevice={editDevice}
         handleDeleteDashboard={handleDeleteDashboard}
       />
 

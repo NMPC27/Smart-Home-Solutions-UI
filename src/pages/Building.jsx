@@ -312,6 +312,10 @@ export default function Building() {
     tmp.splice(idx, 1);
     setTabs(tmp);
 
+    let tab = idx - 1
+    if (tab < 0) { tab = 0; }
+    setSelectedTab(tab)
+
     let tmpHouse = [...houseLayout];
     tmpHouse.splice(idx, 1);
     setHouseLayout(tmpHouse);

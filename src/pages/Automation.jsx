@@ -372,6 +372,10 @@ export default function Automation() {
     tmp.splice(idx, 1);
     setTabs(tmp);
 
+    let tab = idx - 1
+    if (tab < 0) { tab = 0; }
+    setSelectedTab(tab)
+
     let tmpNodes = [...globalNodes];
     let tmpEdges = [...globalEdges];
     let tmpNodesData = [...nodesData]
