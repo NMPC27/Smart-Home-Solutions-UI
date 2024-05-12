@@ -94,18 +94,18 @@ export default function MotionSensorCard(props) {
             </Grid>
 
             {sensors.map((val, idx) => {
-
-                return (
-                  <>
-                    <Grid item xs={9}>
-                      <h3>{val.name}</h3>
-                    </Grid>
-                    <Grid item xs={3}>
-                      {val.detectedMotion === "on" ? <SensorsIcon /> : <SensorsOffIcon />}
-                    </Grid>
-                  </>
-                );
-
+                if (selectedRoom === "All" || selectedRoom === val.room) {
+                  return (
+                    <>
+                      <Grid item xs={9}>
+                        <h3>{val.name}</h3>
+                      </Grid>
+                      <Grid item xs={3}>
+                        {val.detectedMotion === "on" ? <SensorsIcon /> : <SensorsOffIcon />}
+                      </Grid>
+                    </>
+                  );
+                }
             })}
           </Grid>
         </InItem>

@@ -123,7 +123,7 @@ export default function DeviceDialog(props) {
                 <Stack spacing={2} alignItems="center" justifyContent="center">
                   <h3>Edit Device:</h3>
                   <TextField
-                    defaultValue={props.devices[editIdx].name}
+                    value={deviceName}
                     onChange={(e) => setDeviceName(e.target.value)}
                     onKeyDown={(e) => handleKeyDown(e)}
                     label="Device Name"
