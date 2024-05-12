@@ -79,6 +79,7 @@ export default function RoomDialog(props) {
   };
 
   const handleEditRoom = (idx) => {
+    setRoomNewName(props.devices[idx].room)
     setEditIdx(idx);
   };
 
@@ -187,6 +188,7 @@ export default function RoomDialog(props) {
                       <Grid item xs={8}>
                         { editIdx === idx ?
                             <TextField
+                              defaultValue={room.name}
                               label="Room Name"
                               variant="outlined"
                               size="small"

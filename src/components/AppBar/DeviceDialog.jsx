@@ -57,6 +57,8 @@ export default function DeviceDialog(props) {
   const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleEditDevice = (idx) => {
+    setDeviceName(props.devices[idx].name)
+    setSelectedRoom(props.devices[idx].room)
     setEditIdx(idx);
   };
 
@@ -121,6 +123,7 @@ export default function DeviceDialog(props) {
                 <Stack spacing={2} alignItems="center" justifyContent="center">
                   <h3>Edit Device:</h3>
                   <TextField
+                    defaultValue={props.devices[editIdx].name}
                     onChange={(e) => setDeviceName(e.target.value)}
                     onKeyDown={(e) => handleKeyDown(e)}
                     label="Device Name"

@@ -32,12 +32,12 @@ export default function RoomDeleteConfirmation(props) {
       <DialogContent>
         <h4>
           By deleting this room all the associated devices with this room will
-          also be deleted. Are you sure that you want to delete this room?
+          return to a "Not Assigned" room. Are you sure that you want to delete this room?
         </h4>
         <h4 style={{ color: "#FF0000" }}>
           Room to be deleted: {props.rooms[props.deleteIdx].name}
         </h4>
-        <h4 style={{ color: "#FF0000", marginBottom: "1vh" }}>Devices to be deleted:</h4>
+        <h4 style={{ color: "#FF0000", marginBottom: "1vh" }}>Devices to be modified:</h4>
         {props.devices.map((device, idx) => {
           if (device.room === props.rooms[props.deleteIdx].name) {
             return (

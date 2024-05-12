@@ -4,15 +4,12 @@ nunocunhafinal@gmail.com
 # TODO:
 - error deleting automation aplied when on diferent tab
 - fix delete tabs (builfing and automation) being on +add
-- remove rooms warning
-- ver melhor os devices e como definir em que room estão
-- segmaentar rede dos devices
-- ir um dia a fnac e experimentar o ui nos diferentes ecras
-- name changes
-- room device change
-- posso crirar rooms como sendo uma entity
 - por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
 - return codes for all gets and post -> error msgs in ui
+
+- segmaentar rede dos devices
+- ir um dia a fnac e experimentar o ui nos diferentes ecras
+
 - add custom url to local app
 - fzr cenas
 
