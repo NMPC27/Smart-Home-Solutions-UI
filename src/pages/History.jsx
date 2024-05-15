@@ -21,6 +21,10 @@ import MuiAlert from "@mui/material/Alert";
 import { getHistory} from "../components/API";
 import Button from '@mui/material/Button';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 
 const chartColors = ["#2E96FF", "#FFA500", "#CC0000"];
@@ -80,6 +84,9 @@ export default function History() {
 
   const [history, setHistory] = React.useState(null);
 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [errorMsg, setErrorMsg] = React.useState("");
+
   React.useEffect(() => {
 
     var today = new Date();
@@ -94,11 +101,18 @@ export default function History() {
     getHistory(today).then(
       (res) => {
         setHistory(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setHistory(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
   }, []);
 
@@ -136,7 +150,17 @@ export default function History() {
 
       setXAxis(tmpXAxis);
       setYAxis(tmpYAxis);
-    });
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setHistory(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
   };
 
@@ -186,6 +210,29 @@ export default function History() {
             />
           </Grid>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openErrorMsg}
+          autoHideDuration={6000}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          <Alert
+            severity="error"
+            sx={{ width: "100%" }}
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") {
+                setOpenErrorMsg(false);
+              }
+            }}
+          >
+            {errorMsg}
+          </Alert>
+        </Snackbar>
       </>
     );
   } else {

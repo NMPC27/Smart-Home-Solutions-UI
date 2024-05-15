@@ -39,6 +39,12 @@ import {
   notificationsDelete,
 } from "../components/API";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 export default function Dashboard() {
@@ -47,6 +53,11 @@ export default function Dashboard() {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   let navigate = useNavigate();
+
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [errorMsg, setErrorMsg] = React.useState("");
+  const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false);
+  const [successMsg, setSuccessMsg] = React.useState("");
 
   React.useEffect(() => {
     if (tablet) {
@@ -128,27 +139,51 @@ export default function Dashboard() {
     getDevices().then(
       (res) => {
         setDevices(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setDevices(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
+
     getRooms().then(
       (res) => {
         setRooms(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setRooms(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
+
     getCards().then(
       (res) => {
         setCards(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setCards(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
+
   }, []);
 
   const editDevice = (idx,name,room) => {
@@ -158,7 +193,15 @@ export default function Dashboard() {
 
     setDevices(tmp);
 
-    deviceEdit({id: tmp[idx].id, name: name, room: room}); //! API CALL
+    deviceEdit({id: tmp[idx].id, name: name, room: room}).then((res) => { //! API CALL
+      setSuccessMsg("Device edited successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleRoomAdd = (val) => {
@@ -177,7 +220,15 @@ export default function Dashboard() {
 
     setRooms([...rooms, { id: newID, name: val }]);
 
-    roomAdd({ id: newID, name: val }); //! API CALL
+    roomAdd({ id: newID, name: val }).then((res) => { //! API CALL
+      setSuccessMsg("Room added successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const editRoomName = (idx,name) => {
@@ -197,7 +248,15 @@ export default function Dashboard() {
     tmp_rooms[idx].name = name;
     setRooms(tmp_rooms);
 
-    roomEdit({ id: tmp_rooms[idx].id, newName: name, oldName: oldName }); //! API CALL ja trata da modificação dos devices
+    roomEdit({ id: tmp_rooms[idx].id, newName: name, oldName: oldName }).then((res) => { //! API CALL
+      setSuccessMsg("Room edited successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleDeleteRoom = (idx) => {
@@ -224,7 +283,15 @@ export default function Dashboard() {
     roomsTmp.splice(idx, 1);
     setRooms(roomsTmp);
 
-    roomRemove({id: id, name: name}); //! API CALL ja trata da modificação dos devices
+    roomRemove({id: id, name: name}).then((res) => { //! API CALL
+      setSuccessMsg("Room removed successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleTemperatureTarget = (val, idx) => {
@@ -234,7 +301,15 @@ export default function Dashboard() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature target set successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleMinusTemperature = (idx) => {
@@ -244,7 +319,15 @@ export default function Dashboard() {
     setDevices(tmp);
 
     
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature target set successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handlePlusTemperature = (idx) => {
@@ -253,7 +336,15 @@ export default function Dashboard() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature target set successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleTemperatureOnOff = (idx) => {
@@ -261,7 +352,15 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleLightColor = (val, idx) => {
@@ -269,7 +368,15 @@ export default function Dashboard() {
     tmp[idx].color = val;
     setDevices(tmp);
 
-    deviceLightColor({ id: tmp[idx].id, color: val})//! API CALL
+    deviceLightColor({ id: tmp[idx].id, color: val}).then((res) => { //! API CALL
+      setSuccessMsg("Light color set successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleBrightnessChange = (val, idx) => {
@@ -277,7 +384,15 @@ export default function Dashboard() {
     tmp[idx].brightness = val;
     setDevices(tmp);
 
-    deviceLightBrightness({ id: tmp[idx].id, brightness: val}) //! API CALL
+    deviceLightBrightness({ id: tmp[idx].id, brightness: val}).then((res) => { //! API CALL
+      setSuccessMsg("Brightness set successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleLightOnOff = (idx) => {
@@ -285,7 +400,15 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
+      setSuccessMsg("Light turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleAddDashboard = (deviceSelected) => {
@@ -293,7 +416,15 @@ export default function Dashboard() {
     tmp[deviceSelected].push([]);
 
     setCards(tmp);
-    dashboardAdd({deviceSelected: deviceSelected}); //! API CALL
+    dashboardAdd({deviceSelected: deviceSelected}).then((res) => { //! API CALL
+      setSuccessMsg("Dashboard added successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleDeleteDashboard = (deviceSelected,idx) => {
@@ -305,7 +436,15 @@ export default function Dashboard() {
     setSelectedTab(tab)
     
     setCards(tmp);
-    dashboardRemove({deviceSelected: deviceSelected, tab: idx}); //! API CALL
+    dashboardRemove({deviceSelected: deviceSelected, tab: idx}).then((res) => { //! API CALL
+      setSuccessMsg("Dashboard removed successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleCardAdd = (deviceSelected,tab,selectedType) => {
@@ -386,7 +525,15 @@ export default function Dashboard() {
         w: card_w,
         h: card_h,
       }
-    }); //! API CALL
+    }).then((res) => { //! API CALL
+      setSuccessMsg("Card added successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleSetLayout = (deviceSelected,tab,val) => {
@@ -396,7 +543,15 @@ export default function Dashboard() {
     tmp[deviceSelected][tab] = val;
 
     setCards(tmp);
-    dashboardCardEdit({deviceSelected: deviceSelected, tab: tab, layout: val}); //! API CALL
+    dashboardCardEdit({deviceSelected: deviceSelected, tab: tab, layout: val}).then((res) => { //! API CALL
+      setSuccessMsg("Layout set successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleCardDelete = (deviceSelected,tab,idx) => {
@@ -404,7 +559,15 @@ export default function Dashboard() {
     tmp[deviceSelected][tab].splice(idx, 1);
 
     setCards(tmp);
-    dashboardCardRemove({deviceSelected: deviceSelected, tab: tab, idx: idx}); //! API CALL
+    dashboardCardRemove({deviceSelected: deviceSelected, tab: tab, idx: idx}).then((res) => { //! API CALL
+      setSuccessMsg("Card removed successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleClickAlarm = (val) => {
@@ -420,7 +583,15 @@ export default function Dashboard() {
 
     setAlarmOn(val);
 
-    deviceAlarm({on: val}); //! API CALL
+    deviceAlarm({on: val}).then((res) => { //! API CALL
+      setSuccessMsg("Alarm turned "+(val ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleCameraOnOff = (idx) => {
@@ -428,7 +599,15 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
+      setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleDeleteNotification = (idx) => {
@@ -437,7 +616,15 @@ export default function Dashboard() {
     tmp.splice(idx, 1);
     setNotifications(tmp);
 
-    notificationsDelete({"id":id}); //! API CALL
+    notificationsDelete({"id":id}).then((res) => { //! API CALL
+      setSuccessMsg("Notification removed successfully");
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   if (devices === null || rooms === null || cards === null) {
@@ -508,6 +695,28 @@ export default function Dashboard() {
             />
           </Grid>
         </Grid>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openErrorMsg}
+          autoHideDuration={6000}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          <Alert
+            severity="error"
+            sx={{ width: "100%" }}
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") {
+                setOpenErrorMsg(false);
+              }
+            }}
+          >
+            {errorMsg}
+          </Alert>
+        </Snackbar>
       </>
     );
   }
@@ -667,7 +876,50 @@ export default function Dashboard() {
           }
         })}
       </GridLayout>
-
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSuccessMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenSuccessMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenSuccessMsg(false);
+            }
+          }}
+        >
+          {successMsg}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

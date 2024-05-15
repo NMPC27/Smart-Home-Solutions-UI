@@ -19,6 +19,9 @@ export default function CameraDialog(props) {
 
   const [deviceIdx, setDeviceIdx] = React.useState(-1);
 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [errorMsg, setErrorMsg] = React.useState("");
+
   React.useEffect(() => {
     let idx = props.devices.findIndex((device) => device.id === props.deviceID);
     setDeviceIdx(idx)
@@ -38,11 +41,13 @@ export default function CameraDialog(props) {
         getCamImg(props.devices[deviceIdx].id).then(
           (res) => {
             setImg(res.data)
-          },
-          (error) => {
-            console.log("ERROR!")
           }
-        )
+        ).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+          }
+        })
       }, 1000);
     }else{
       clearInterval(interval.current);
@@ -58,6 +63,7 @@ export default function CameraDialog(props) {
   if (deviceIdx === -1) { return }
 
   return (
+    <>
     <Dialog
       fullWidth
       maxWidth={"lg"}
@@ -129,6 +135,29 @@ export default function CameraDialog(props) {
         </Grid>
       </DialogContent>
     </Dialog>
+          <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openErrorMsg}
+          autoHideDuration={6000}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          <Alert
+            severity="error"
+            sx={{ width: "100%" }}
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") {
+                setOpenErrorMsg(false);
+              }
+            }}
+          >
+            {errorMsg}
+          </Alert>
+        </Snackbar>
+      </>
   );
 }
 

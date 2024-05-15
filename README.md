@@ -2,10 +2,18 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
+- return codes for all gets and post -> error msgs in ui (ver tbm os componentes
+    falta:
+    componentes
+    automation
+    dashboard
+)
+- what if DB fail, what if HUB fails, what if API fails
+- delete automation and building when only one tab
 - error deleting automation aplied when on diferent tab
 - fix delete tabs (builfing and automation) being on +add
 - por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
-- return codes for all gets and post -> error msgs in ui
+
 
 - segmaentar rede dos devices
 - ir um dia a fnac e experimentar o ui nos diferentes ecras

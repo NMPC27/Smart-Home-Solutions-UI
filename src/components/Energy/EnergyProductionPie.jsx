@@ -87,7 +87,7 @@ export default function EnergyProductionPie(props) {
             legend={{ hidden: true }}
           >
             <PieCenterLabel>
-              {total}{" "}kWh
+              {total.toFixed(2)}{" "}kWh
             </PieCenterLabel>
           </PieChart>
         </div>

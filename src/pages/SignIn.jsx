@@ -51,11 +51,17 @@ export default function SignIn() {
         document.body.style.margin = "5vw";
         document.body.style.marginTop = "3vh";
       },
-      () => {
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 401) {
         setErrorMsg("Incorrect username or password!");
         setOpenErrorMsg(true);
-      },
-    );
+
+        return
+      }
+      
+      setErrorMsg("503 Service Unavailable");
+      setOpenErrorMsg(true);
+    })
   };
 
   const handleKeyDown = (event) => {

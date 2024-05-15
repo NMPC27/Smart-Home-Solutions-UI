@@ -10,12 +10,21 @@ import { useTheme } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
 import { getEnergy } from "../components/API";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function Energy() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
 
   let navigate = useNavigate();
+
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   React.useEffect(() => {
     if (mobile) {
@@ -43,11 +52,18 @@ export default function Energy() {
     getEnergy(today).then(
       (res) => {
         setData(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setData(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
   }, []);
 
   const handleDateChange = (val) => {
@@ -55,42 +71,47 @@ export default function Energy() {
 
     getEnergy(val).then((res) => { //! API CALL
       setData(res.data);
-    });
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setData(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
   };
 
   if (data === null) {
     return (
       <>
+        <AppBarStyled navbar={"energy"} handleDateChange={handleDateChange} />
+
         <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Skeleton
-              variant="rounded"
-              height="7vh"
-              sx={{ borderRadius: "20px" }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
             <Skeleton
               variant="rounded"
               height="40vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
             <Skeleton
               variant="rounded"
               height="40vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
             <Skeleton
               variant="rounded"
               height="40vh"
               sx={{ borderRadius: "20px" }}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
             <Skeleton
               variant="rounded"
               height="40vh"
@@ -98,6 +119,29 @@ export default function Energy() {
             />
           </Grid>
         </Grid>
+        
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openErrorMsg}
+          autoHideDuration={6000}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          <Alert
+            severity="error"
+            sx={{ width: "100%" }}
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") {
+                setOpenErrorMsg(false);
+              }
+            }}
+          >
+            {errorMsg}
+          </Alert>
+        </Snackbar>
       </>
     );
   } else {

@@ -114,6 +114,11 @@ export default function Building() {
     }
   }, [mobile]);
 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [errorMsg, setErrorMsg] = React.useState("");
+  const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); 
+  const [successMsg, setSuccessMsg] = React.useState("");
+
   const [devices, setDevices] = React.useState(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
 
@@ -183,46 +188,81 @@ export default function Building() {
             }
     
             setGlobalNodes(res.data);
-          },
-          () => {
-            navigate("/");
-          },
-        );
+          }
+        ).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+            setGlobalNodes(null)
+    
+            return
+          } 
+    
+          navigate("/");
+        })
 
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setDevices(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
     getBuildTabs().then(
       (res) => {
         setTabs(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setTabs(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
     getBuildHouseLayout().then(
       (res) => {
         setHouseLayout(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setHouseLayout(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
   }, []);
-
-  const [openErrorMsg1, setOpenErrorMsg1] = React.useState(false); // must have at least one flow
 
   const handleLightColor = (val, idx) => {
     let tmp = [...devices];
     tmp[idx].color = val;
     setDevices(tmp);
 
-    deviceLightColor({ id: tmp[idx].id, color: val})//! API CALL
+    deviceLightColor({ id: tmp[idx].id, color: val}).then((res) => { //! API CALL
+      setSuccessMsg("Color changed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
+    
   };
 
   const handleBrightnessChange = (val, idx) => {
@@ -230,7 +270,15 @@ export default function Building() {
     tmp[idx].brightness = val;
     setDevices(tmp);
 
-    deviceLightBrightness({ id: tmp[idx].id, brightness: val}) //! API CALL
+    deviceLightBrightness({ id: tmp[idx].id, brightness: val}).then((res) => { //! API CALL
+      setSuccessMsg("Brightness changed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleLightOnOff = (idx) => {
@@ -238,7 +286,15 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
+      setSuccessMsg("Light turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleCameraOnOff = (idx) => {
@@ -246,7 +302,15 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
+      setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleTemperatureTarget = (val, idx) => {
@@ -256,7 +320,15 @@ export default function Building() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature target changed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleMinusTemperature = (idx) => {
@@ -265,7 +337,15 @@ export default function Building() {
     tmp[idx].targetTemperature = newTemp
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature target changed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handlePlusTemperature = (idx) => {
@@ -274,7 +354,15 @@ export default function Building() {
     tmp[idx].targetTemperature = newTemp
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })//! API CALL
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature target changed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleTemperatureOnOff = (idx) => {
@@ -282,12 +370,20 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })//! API CALL
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
+      setSuccessMsg("Temperature turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const handleAddTab = () => {
     setTabChanged(true)
-    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}); //! API CALL
+    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}) //! API CALL
 
     let tmp = [...tabs];
     let name = "Floor "+tmp.length;
@@ -301,12 +397,24 @@ export default function Building() {
     setTabs(tmp);
     setMode('view')
 
-    buildTabAdd({name: name}); //! API CALL
+    buildTabAdd({name: name}).then((res) => { //! API CALL
+      setSuccessMsg("Floor added successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleDeleteTab = (idx) => {
 
-    if (tabs.length === 1) { setOpenErrorMsg1(true); return }
+    if (tabs.length === 1) { 
+      setErrorMsg("Must have at least one Floor!")
+      setOpenErrorMsg(true); 
+      return 
+    }
 
     let tmp = [...tabs];
     tmp.splice(idx, 1);
@@ -324,7 +432,15 @@ export default function Building() {
     tmpNodes.splice(idx, 1);
     setGlobalNodes(tmpNodes);
 
-    buildTabRemove({idx: idx}); //! API CALL
+    buildTabRemove({idx: idx}).then((res) => { //! API CALL
+      setSuccessMsg("Floor removed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   
@@ -352,7 +468,15 @@ export default function Building() {
     tmp[idx] = tabName;
     setTabs(tmp);
 
-    buildTabEdit({idx: idx, name: tabName}); //! API CALL
+    buildTabEdit({idx: idx, name: tabName}).then((res) => { //! API CALL
+      setSuccessMsg("Floor name changed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleClickAlarm = (val,idx) => {
@@ -362,7 +486,15 @@ export default function Building() {
 
     setDevices(tmp);
 
-    deviceAlarm({on: val}); //! API CALL
+    deviceAlarm({on: val}).then((res) => { //! API CALL
+      setSuccessMsg("Alarm turned "+(val ? "on" : "off")+" successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   };
 
   const [loaded, setLoaded] = React.useState(false); 
@@ -426,7 +558,15 @@ export default function Building() {
     tmp[selectedTab] = data.data;
     setHouseLayout(tmp);
 
-    buildsHouseLayoutEdit({idx: selectedTab, img: data.data}); //! API CALL
+    buildsHouseLayoutEdit({idx: selectedTab, img: data.data}).then((res) => { //! API CALL
+      setSuccessMsg("House layout changed successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const uploadImg = (e) => {
@@ -439,7 +579,15 @@ export default function Building() {
       tmp[selectedTab] = reader.result;
       setHouseLayout(tmp);
 
-      buildsHouseLayoutEdit({idx: selectedTab, img: reader.result}); //! API CALL
+      buildsHouseLayoutEdit({idx: selectedTab, img: reader.result}).then((res) => { //! API CALL
+        setSuccessMsg("House layout changed successfully!")
+        setOpenSuccessMsg(true)
+      }).catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg("503 Service Unavailable");
+          setOpenErrorMsg(true);
+        }
+      })
     }
 
   }
@@ -494,6 +642,29 @@ export default function Building() {
             />
           </Grid>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openErrorMsg}
+          autoHideDuration={6000}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          <Alert
+            severity="error"
+            sx={{ width: "100%" }}
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") {
+                setOpenErrorMsg(false);
+              }
+            }}
+          >
+            {errorMsg}
+          </Alert>
+        </Snackbar>
       </>
     );
   }
@@ -736,11 +907,11 @@ export default function Building() {
       }
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openErrorMsg1}
+        open={openErrorMsg}
         autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
-            setOpenErrorMsg1(false);
+            setOpenErrorMsg(false);
           }
         }}
       >
@@ -749,11 +920,33 @@ export default function Building() {
           sx={{ width: "100%" }}
           onClose={(event, reason) => {
             if (reason !== "clickaway") {
-              setOpenErrorMsg1(false);
+              setOpenErrorMsg(false);
             }
           }}
         >
-          Must have at least one Floor!
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSuccessMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenSuccessMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenSuccessMsg(false);
+            }
+          }}
+        >
+          {successMsg}
         </Alert>
       </Snackbar>
     </>    

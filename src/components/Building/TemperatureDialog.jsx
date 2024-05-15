@@ -44,6 +44,9 @@ export default function TemperatureDialog(props) {
 
   const [deviceIdx, setDeviceIdx] = React.useState(-1);
 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [errorMsg, setErrorMsg] = React.useState("");
+
   React.useEffect(() => {
     let idx = props.devices.findIndex((device) => device.id === props.deviceID);
     setDeviceIdx(idx)
@@ -98,11 +101,21 @@ export default function TemperatureDialog(props) {
 
       getSensor(sensorTemperatureID).then((res) => {
         setSensorTemperature(res.data);
-      });
+      }).catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg("503 Service Unavailable");
+          setOpenErrorMsg(true);
+        }
+      })
 
       getSensor(sensorHumidityID).then((res) => {
         setSensorHumidity(res.data);
-      });
+      }).catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg("503 Service Unavailable");
+          setOpenErrorMsg(true);
+        }
+      })
 
     }, 60000);
 
@@ -136,6 +149,7 @@ export default function TemperatureDialog(props) {
   if (deviceIdx === -1) { return }
 
   return (
+    <>
     <Dialog
       fullWidth
       open={props.openDialog}
@@ -278,6 +292,29 @@ export default function TemperatureDialog(props) {
         </Grid>
       </DialogContent>
     </Dialog>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 

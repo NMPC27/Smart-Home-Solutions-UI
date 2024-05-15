@@ -94,6 +94,7 @@ export default function Automation() {
   const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
   const [errorMsg, setErrorMsg] = React.useState("");
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false);
+  const [successMsg, setSuccessMsg] = React.useState("");
 
   let navigate = useNavigate();
 
@@ -130,7 +131,15 @@ export default function Automation() {
     tmpNodesData[selectedTab].splice(idx, 1)
     setNodesData(tmpNodesData)
 
-    nodesDataRemove({tab: selectedTab, idx: idx}) //! API call
+    nodesDataRemove({tab: selectedTab, idx: idx}).then((res) => { //! API CALL
+      setSuccessMsg("Node deleted!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
 
@@ -144,7 +153,15 @@ export default function Automation() {
       tmp[selectedTab][idx][key] = val[key]
       setNodesData(tmp)
     })
-    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }).then((res) => { //! API CALL
+      setSuccessMsg("Node updated!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const deviceData = (val, localNodes) => {
@@ -158,7 +175,15 @@ export default function Automation() {
       tmp[selectedTab][idx][key] = val[key]
       setNodesData(tmp)
     })
-    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }).then((res) => { //! API CALL
+      setSuccessMsg("Node updated!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const timeData = (val, localNodes) => {
@@ -167,7 +192,15 @@ export default function Automation() {
     let tmp = [...localNodes]
     tmp[selectedTab][idx].time = val.time
     setNodesData(tmp)
-    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }).then((res) => { //! API CALL
+      setSuccessMsg("Node updated!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const waitData = (val, localNodes) => {
@@ -176,27 +209,49 @@ export default function Automation() {
     let tmp = [...localNodes]
     tmp[selectedTab][idx].wait = val.wait
     setNodesData(tmp)
-    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }) //! API call
+    nodesDataEdit({ tab: selectedTab, idx: idx, nodeData: tmp[selectedTab][idx] }).then((res) => { //! API CALL
+      setSuccessMsg("Node updated!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   React.useEffect(() => {
     getDevices().then(
       (res) => {
         setDevices(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setDevices(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
     getFlowTabs().then(
       (res) => {
         setTabs(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setTabs(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
     
     getFlowNodes().then(
       (flowNodes) => {
@@ -231,32 +286,55 @@ export default function Automation() {
                   }
 
                 } else {
-                  console.log("ERROR: ID MISMATCH")
+                  setErrorMsg("ERROR: ID MISMATCH");
+                  setOpenErrorMsg(true);
                 }
               }
             }
             setGlobalNodes(flowNodes.data);
 
             setNodesData(nodesData.data)
-          },
-          () => {
-            navigate("/");
           }
-        )
-      },
-      () => {
-        navigate("/");
-      },
-    );
+        ).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+            setGlobalNodes(null)
+            setNodesData(null)
+    
+            return
+          } 
+    
+          navigate("/");
+        })
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setGlobalNodes(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
     getFlowEdges().then(
       (res) => {
         setGlobalEdges(res.data);
-      },
-      () => {
-        navigate("/");
-      },
-    );
+      }
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+        setGlobalEdges(null)
+
+        return
+      } 
+
+      navigate("/");
+    })
 
   }, []);
 
@@ -319,7 +397,15 @@ export default function Automation() {
       if (tabChanged){
         setTabChanged(false);
       }else{
-        flowEdit({nodes: nodesFinal, edges: edgesFinal, idx: selectedTab}) //! API call
+        flowEdit({nodes: nodesFinal, edges: edgesFinal, idx: selectedTab}).then((res) => { //! API CALL
+          setSuccessMsg("Flow saved!")
+          setOpenSuccessMsg(true)
+        }).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+          }
+        })
       }
     }
   },[nodesFinal, edgesFinal])
@@ -337,12 +423,28 @@ export default function Automation() {
     tmp[idx].name = tabName;
     setTabs(tmp);
 
-    flowTabEdit({name: tabName, idx: idx}) //! API call
+    flowTabEdit({name: tabName, idx: idx}).then((res) => { //! API CALL
+      setSuccessMsg("Tab name changed!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleAddTab = () => {
     setTabChanged(true)
-    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}) //! API call -> save the currentab nodes
+    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}).then((res) => { //! API CALL
+      setSuccessMsg("Flow saved!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
 
     let tmp = [...tabs];
     let len = tmp.length;
@@ -357,7 +459,15 @@ export default function Automation() {
 
     setTabs(tmp);
 
-    flowTabAdd({name: "Flow "+len}) //! API call
+    flowTabAdd({name: "Flow "+len}).then((res) => { //! API CALL
+      setSuccessMsg("Flow added!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleDeleteTab = (idx) => {
@@ -388,12 +498,28 @@ export default function Automation() {
     setGlobalEdges(tmpEdges);
     setNodesData(tmpNodesData)
 
-    flowTabRemove({idx: idx}) //! API call
+    flowTabRemove({idx: idx}).then((res) => { //! API CALL
+      setSuccessMsg("Flow removed!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const handleChangeTab = (newValue) => {
     setTabChanged(true)
-    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}) //! API call
+    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}).then((res) => { //! API CALL
+      setSuccessMsg("Flow saved!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
     setSelectedTab(newValue);
 
     if (tabs.length === newValue) { return; }
@@ -514,6 +640,7 @@ export default function Automation() {
     applyFlow({nodesData: nodesData[selectedTab], flows: flow, id: selectedTab}).then( //! API call
       (res) => {
         if (res.data === 200){
+          setSuccessMsg("Flow applied!")
           setOpenSuccessMsg(true)
           let tmp = [...tabs]
           tmp[selectedTab].status = "applied"
@@ -523,7 +650,16 @@ export default function Automation() {
           setOpenErrorMsg(true)
         }
       }
-    ) 
+    ).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+      if ("response" in error && error.response.status === 404) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }
 
   const [posX, setPosX] = React.useState(-100);
@@ -576,6 +712,28 @@ export default function Automation() {
           />
         </Grid>
       </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
     </>
     );
   }
@@ -622,7 +780,15 @@ export default function Automation() {
                       )
 
                       setNodesData(tmp)
-                      nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+                      nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }).then((res) => { //! API CALL
+                        setSuccessMsg("Node added!")
+                        setOpenSuccessMsg(true)
+                      }).catch((error) => {
+                        if ("response" in error && error.response.status === 503) {
+                          setErrorMsg("503 Service Unavailable");
+                          setOpenErrorMsg(true);
+                        }
+                      })
 
                       setNodes(
                         [
@@ -668,7 +834,15 @@ export default function Automation() {
                         )
   
                         setNodesData(tmp)
-                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }).then((res) => { //! API CALL
+                          setSuccessMsg("Node added!")
+                          setOpenSuccessMsg(true)
+                        }).catch((error) => {
+                          if ("response" in error && error.response.status === 503) {
+                            setErrorMsg("503 Service Unavailable");
+                            setOpenErrorMsg(true);
+                          }
+                        })
                       
                         setNodes(
                         [
@@ -722,7 +896,15 @@ export default function Automation() {
                         )
   
                         setNodesData(tmp)
-                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }).then((res) => { //! API CALL
+                          setSuccessMsg("Node added!")
+                          setOpenSuccessMsg(true)
+                        }).catch((error) => {
+                          if ("response" in error && error.response.status === 503) {
+                            setErrorMsg("503 Service Unavailable");
+                            setOpenErrorMsg(true);
+                          }
+                        })
                         
                         setNodes(
                           [
@@ -767,7 +949,15 @@ export default function Automation() {
                         )
   
                         setNodesData(tmp)
-                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }) //! API call
+                        nodesDataAdd({ tab: selectedTab, nodeData: tmp[selectedTab][tmp[selectedTab].length-1] }).then((res) => { //! API CALL
+                          setSuccessMsg("Node added!")
+                          setOpenSuccessMsg(true)
+                        }).catch((error) => {
+                          if ("response" in error && error.response.status === 503) {
+                            setErrorMsg("503 Service Unavailable");
+                            setOpenErrorMsg(true);
+                          }
+                        })
                       
                         setNodes(
                           [
@@ -944,7 +1134,7 @@ export default function Automation() {
             }
           }}
         >
-          Flow applied!
+          {successMsg}
         </Alert>
       </Snackbar>
     </>    

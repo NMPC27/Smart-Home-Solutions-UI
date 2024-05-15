@@ -25,6 +25,9 @@ export default function MotionSensorDialog(props) {
 
   const [detectedMotion, setDetectedMotion] = React.useState("off");
 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [errorMsg, setErrorMsg] = React.useState("");
+
   React.useEffect(() => {
     let idx = props.devices.findIndex((device) => device.id === props.deviceID);
     
@@ -42,7 +45,12 @@ export default function MotionSensorDialog(props) {
       
       getSensor(props.devices[deviceIdx].id).then((res) => {
         setDetectedMotion(res.data);
-      });
+      }).catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg("503 Service Unavailable");
+          setOpenErrorMsg(true);
+        }
+      })
 
 
     }, 1000);
@@ -53,6 +61,7 @@ export default function MotionSensorDialog(props) {
   if (deviceIdx === -1) { return }
 
   return (
+    <>
     <Dialog
       fullWidth
       open={props.openDialog}
@@ -89,6 +98,29 @@ export default function MotionSensorDialog(props) {
       </Grid>
       </DialogContent>
     </Dialog>
+    <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 

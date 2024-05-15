@@ -59,7 +59,10 @@ export default function SignUp() {
       } else {
         navigate("/");
       }
-    });
+    }).catch((error) => {
+      setErrorMsg("503 Service Unavailable");
+      setOpenErrorMsg(true);
+    })
   };
 
   const handleKeyDown = (event) => {
