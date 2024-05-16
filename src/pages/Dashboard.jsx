@@ -118,7 +118,12 @@ export default function Dashboard() {
   React.useEffect(() => { //first load
     getNotifications().then((res) => {
       setNotifications(res.data);
-    });
+    }).catch((error) => {
+      if ("response" in error && error.response.status === 503) {
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      }
+    })
   }, []);
 
   React.useEffect(() => {
@@ -127,7 +132,12 @@ export default function Dashboard() {
       const interval = setInterval(() => {
         getNotifications().then((res) => {
           setNotifications(res.data);
-        });
+        }).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+          }
+        })
       }, 5000);
 
       return () => clearInterval(interval);

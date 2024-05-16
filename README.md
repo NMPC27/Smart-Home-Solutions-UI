@@ -2,13 +2,7 @@ nunocunhafinal@gmail.com
 
 
 # TODO:
-- return codes for all gets and post -> error msgs in ui (ver tbm os componentes
-    falta:
-    componentes
-    automation
-    dashboard
-)
-- what if DB fail, what if HUB fails, what if API fails
+- onde tem tabs ao dar delete a uma tab onde n esteja da error
 - delete automation and building when only one tab
 - error deleting automation aplied when on diferent tab
 - fix delete tabs (builfing and automation) being on +add

@@ -98,11 +98,13 @@ export default function CameraCard(props) {
         getCamImg(props.devices[deviceIdx].id).then(
           (res) => {
             setImg(res.data)
-          },
-          (error) => {
-            console.log("ERROR!")
           }
-        )
+        ).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+          }
+        })
       }, 1000);
     }else{
       clearInterval(interval.current);

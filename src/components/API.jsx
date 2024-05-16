@@ -67,8 +67,8 @@ export function getNotifications() {
 export function deviceEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/devices/edit",
+  return axios.put(
+    endpoint + "/devices/"+data.id,
     { data },
     {
       headers: {
@@ -82,8 +82,8 @@ export function deviceEdit(data) {
 export function deviceOn(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/devices/on",
+  return axios.put(
+    endpoint + "/devices/on/"+data.id,
     { data },
     {
       headers: {
@@ -97,8 +97,8 @@ export function deviceOn(data) {
 export function deviceTemperatureTarget(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/devices/temperature/target",
+  return axios.put(
+    endpoint + "/devices/temperature/"+data.id,
     { data },
     {
       headers: {
@@ -112,8 +112,8 @@ export function deviceTemperatureTarget(data) {
 export function deviceLightColor(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/devices/light/color",
+  return axios.put(
+    endpoint + "/devices/light/color/"+data.id,
     { data },
     {
       headers: {
@@ -127,8 +127,8 @@ export function deviceLightColor(data) {
 export function deviceLightBrightness(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/devices/light/brightness",
+  return axios.put(
+    endpoint + "/devices/light/brightness/"+data.id,
     { data },
     {
       headers: {
@@ -142,7 +142,7 @@ export function deviceLightBrightness(data) {
 export function deviceAlarm(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
+  return axios.put(
     endpoint + "/devices/alarm",
     { data },
     {
@@ -180,7 +180,7 @@ export function roomAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/rooms/add",
+    endpoint + "/rooms",
     { data },
     {
       headers: {
@@ -194,8 +194,8 @@ export function roomAdd(data) {
 export function roomEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/rooms/edit",
+  return axios.put(
+    endpoint + "/rooms/"+data.id,
     { data },
     {
       headers: {
@@ -225,7 +225,7 @@ export function dashboardAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/dashboards/add",
+    endpoint + "/dashboards",
     { data },
     {
       headers: {
@@ -255,7 +255,7 @@ export function dashboardCardAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/dashboards/card/add",
+    endpoint + "/dashboards/card",
     { data },
     {
       headers: {
@@ -269,8 +269,8 @@ export function dashboardCardAdd(data) {
 export function dashboardCardEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/dashboards/card/edit",
+  return axios.put(
+    endpoint + "/dashboards/card",
     { data },
     {
       headers: {
@@ -327,7 +327,7 @@ export function flowTabAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/flows/tab/add",
+    endpoint + "/flows/tabs",
     { data },
     {
       headers: {
@@ -341,8 +341,8 @@ export function flowTabAdd(data) {
 export function flowTabEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/flows/tab/edit",
+  return axios.put(
+    endpoint + "/flows/tabs/"+data.idx,
     { data },
     {
       headers: {
@@ -357,7 +357,7 @@ export function flowTabRemove(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/flows/tab/remove",
+    endpoint + "/flows/tabs/remove",
     { data },
     {
       headers: {
@@ -393,7 +393,7 @@ export function getFlowEdges() {
 export function flowEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
+  return axios.put(
     endpoint + "/flows/edit",
     { data },
     {
@@ -420,7 +420,7 @@ export function nodesDataAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/flows/nodesData/add",
+    endpoint + "/flows/nodesData",
     { data },
     {
       headers: {
@@ -434,8 +434,8 @@ export function nodesDataAdd(data) {
 export function nodesDataEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/flows/nodesData/edit",
+  return axios.put(
+    endpoint + "/flows/nodesData/"+data.nodeData.id,
     { data },
     {
       headers: {
@@ -491,7 +491,7 @@ export function buildTabAdd(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/builds/tab/add",
+    endpoint + "/builds/tabs",
     { data },
     {
       headers: {
@@ -505,8 +505,8 @@ export function buildTabAdd(data) {
 export function buildTabEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/builds/tab/edit",
+  return axios.put(
+    endpoint + "/builds/tabs/"+data.idx,
     { data },
     {
       headers: {
@@ -521,7 +521,7 @@ export function buildTabRemove(data) {
   let token = localStorage.getItem("token");
 
   return axios.post(
-    endpoint + "/builds/tab/remove",
+    endpoint + "/builds/tabs/remove",
     { data },
     {
       headers: {
@@ -546,8 +546,8 @@ export function getBuildHouseLayout() {
 export function buildsHouseLayoutEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/builds/layout/edit",
+  return axios.put(
+    endpoint + "/builds/layout/"+data.idx,
     { data },
     {
       headers: {
@@ -572,8 +572,8 @@ export function getBuildsHouseLayoutDevices() {
 export function buildsHouseLayoutDevicesEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/builds/layout/devices/edit",
+  return axios.put(
+    endpoint + "/builds/layout/devices/"+data.idx,
     { data },
     {
       headers: {

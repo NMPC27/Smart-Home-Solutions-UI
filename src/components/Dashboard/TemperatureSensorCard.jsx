@@ -64,7 +64,12 @@ export default function TemperatureSensorCard(props) {
             tmpSensors[i].currentHumidity = res.data;
           }
           setSensors([...tmpSensors]);
-        });
+        }).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+          }
+        })
       }
 
     }, 60000);

@@ -58,7 +58,12 @@ export default function MotionSensorCard(props) {
         getSensor(tmpSensors[i].id).then((res) => {
           tmpSensors[i].detectedMotion = res.data;
           setSensors([...tmpSensors]);
-        });
+        }).catch((error) => {
+          if ("response" in error && error.response.status === 503) {
+            setErrorMsg("503 Service Unavailable");
+            setOpenErrorMsg(true);
+          }
+        })
       }
 
     }, 1000);

@@ -206,11 +206,21 @@ export default function TemperatureCard(props) {
 
       getSensor(sensorTemperatureID).then((res) => {
         setSensorTemperature(res.data);
-      });
+      }).catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg("503 Service Unavailable");
+          setOpenErrorMsg(true);
+        }
+      })
 
       getSensor(sensorHumidityID).then((res) => {
         setSensorHumidity(res.data);
-      });
+      }).catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg("503 Service Unavailable");
+          setOpenErrorMsg(true);
+        }
+      })
 
     }, 60000);
 
