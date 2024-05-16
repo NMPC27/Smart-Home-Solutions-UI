@@ -209,14 +209,14 @@ export function roomEdit(data) {
 export function roomRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/rooms/remove",
-    { data },
+  return axios.delete(
+    endpoint + "/rooms/"+data.id,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
+      data: { data }
     },
   );
 }
@@ -239,14 +239,14 @@ export function dashboardAdd(data) {
 export function dashboardRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/dashboards/remove",
-    { data },
+  return axios.delete(
+    endpoint + "/dashboards/"+data.tab,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
+      data: { data }
     },
   );
 }
@@ -284,14 +284,14 @@ export function dashboardCardEdit(data) {
 export function dashboardCardRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/dashboards/card/remove",
-    { data },
+  return axios.delete(
+    endpoint + "/dashboards/card/"+data.idx,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
+      data: { data },
     },
   );
 }
@@ -299,14 +299,14 @@ export function dashboardCardRemove(data) {
 export function notificationsDelete(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/notifications/delete",
-    { data },
+  return axios.delete(
+    endpoint + "/notifications",
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
+      data: { data },
     },
   );
 }
@@ -356,14 +356,14 @@ export function flowTabEdit(data) {
 export function flowTabRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/flows/tabs/remove",
-    { data },
+  return axios.delete(
+    endpoint + "/flows/tabs/"+data.idx,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
+      data: { data }
     },
   );
 }
@@ -449,14 +449,14 @@ export function nodesDataEdit(data) {
 export function nodesDataRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/flows/nodesData/remove",
-    { data },
+  return axios.delete(
+    endpoint + "/flows/nodesData/"+data.idx,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
+      data: { data }
     },
   );
 }
@@ -520,14 +520,14 @@ export function buildTabEdit(data) {
 export function buildTabRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/builds/tabs/remove",
-    { data },
+  return axios.delete(
+    endpoint + "/builds/tabs/"+data.idx,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
+      data: { data }
     },
   );
 }
