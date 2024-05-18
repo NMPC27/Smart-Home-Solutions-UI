@@ -43,8 +43,8 @@ export default function TemperatureSensorDialog(props) {
     getSensor(props.deviceID).then((res) => {
       setTemperature(res.data);
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -54,8 +54,8 @@ export default function TemperatureSensorDialog(props) {
       getSensor(props.deviceID).then((res) => {
         setTemperature(res.data);
       }).catch((error) => {
-        if ("response" in error && error.response.status === 503) {
-          setErrorMsg("503 Service Unavailable");
+        if ("response" in error) {
+          setErrorMsg(error.response.status+" "+error.response.statusText);
           setOpenErrorMsg(true);
         }
       })

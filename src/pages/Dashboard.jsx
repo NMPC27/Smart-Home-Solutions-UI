@@ -119,8 +119,8 @@ export default function Dashboard() {
     getNotifications().then((res) => {
       setNotifications(res.data);
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -133,8 +133,8 @@ export default function Dashboard() {
         getNotifications().then((res) => {
           setNotifications(res.data);
         }).catch((error) => {
-          if ("response" in error && error.response.status === 503) {
-            setErrorMsg("503 Service Unavailable");
+          if ("response" in error) {
+            setErrorMsg(error.response.status+" "+error.response.statusText);
             setOpenErrorMsg(true);
           }
         })
@@ -152,7 +152,7 @@ export default function Dashboard() {
       }
     ).catch((error) => {
       if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setDevices(null)
 
@@ -168,7 +168,7 @@ export default function Dashboard() {
       }
     ).catch((error) => {
       if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setRooms(null)
 
@@ -184,7 +184,7 @@ export default function Dashboard() {
       }
     ).catch((error) => {
       if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setCards(null)
 
@@ -207,8 +207,8 @@ export default function Dashboard() {
       setSuccessMsg("Device edited successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -234,8 +234,8 @@ export default function Dashboard() {
       setSuccessMsg("Room added successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -262,8 +262,8 @@ export default function Dashboard() {
       setSuccessMsg("Room edited successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -297,8 +297,8 @@ export default function Dashboard() {
       setSuccessMsg("Room removed successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -315,8 +315,8 @@ export default function Dashboard() {
       setSuccessMsg("Temperature target set successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -333,8 +333,8 @@ export default function Dashboard() {
       setSuccessMsg("Temperature target set successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -350,8 +350,8 @@ export default function Dashboard() {
       setSuccessMsg("Temperature target set successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -366,8 +366,8 @@ export default function Dashboard() {
       setSuccessMsg("Temperature turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -382,8 +382,8 @@ export default function Dashboard() {
       setSuccessMsg("Light color set successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -398,8 +398,8 @@ export default function Dashboard() {
       setSuccessMsg("Brightness set successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -414,8 +414,8 @@ export default function Dashboard() {
       setSuccessMsg("Light turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -430,8 +430,8 @@ export default function Dashboard() {
       setSuccessMsg("Dashboard added successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -450,8 +450,8 @@ export default function Dashboard() {
       setSuccessMsg("Dashboard removed successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -539,8 +539,8 @@ export default function Dashboard() {
       setSuccessMsg("Card added successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -557,8 +557,8 @@ export default function Dashboard() {
       setSuccessMsg("Layout set successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -573,8 +573,8 @@ export default function Dashboard() {
       setSuccessMsg("Card removed successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -597,8 +597,8 @@ export default function Dashboard() {
       setSuccessMsg("Alarm turned "+(val ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -613,8 +613,8 @@ export default function Dashboard() {
       setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -630,8 +630,8 @@ export default function Dashboard() {
       setSuccessMsg("Notification removed successfully");
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })

@@ -190,8 +190,8 @@ export default function Building() {
             setGlobalNodes(res.data);
           }
         ).catch((error) => {
-          if ("response" in error && error.response.status === 503) {
-            setErrorMsg("503 Service Unavailable");
+          if ("response" in error) {
+            setErrorMsg(error.response.status+" "+error.response.statusText);
             setOpenErrorMsg(true);
             setGlobalNodes(null)
     
@@ -203,8 +203,8 @@ export default function Building() {
 
       }
     ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setDevices(null)
 
@@ -219,8 +219,8 @@ export default function Building() {
         setTabs(res.data);
       }
     ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setTabs(null)
 
@@ -235,8 +235,8 @@ export default function Building() {
         setHouseLayout(res.data);
       }
     ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setHouseLayout(null)
 
@@ -257,8 +257,8 @@ export default function Building() {
       setSuccessMsg("Color changed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -274,8 +274,8 @@ export default function Building() {
       setSuccessMsg("Brightness changed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -290,8 +290,8 @@ export default function Building() {
       setSuccessMsg("Light turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -306,8 +306,8 @@ export default function Building() {
       setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -324,8 +324,8 @@ export default function Building() {
       setSuccessMsg("Temperature target changed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -341,8 +341,8 @@ export default function Building() {
       setSuccessMsg("Temperature target changed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -358,8 +358,8 @@ export default function Building() {
       setSuccessMsg("Temperature target changed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -374,8 +374,8 @@ export default function Building() {
       setSuccessMsg("Temperature turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -401,8 +401,8 @@ export default function Building() {
       setSuccessMsg("Floor added successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -436,8 +436,8 @@ export default function Building() {
       setSuccessMsg("Floor removed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -472,8 +472,8 @@ export default function Building() {
       setSuccessMsg("Floor name changed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -490,8 +490,8 @@ export default function Building() {
       setSuccessMsg("Alarm turned "+(val ? "on" : "off")+" successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -562,8 +562,8 @@ export default function Building() {
       setSuccessMsg("House layout changed successfully!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -583,8 +583,8 @@ export default function Building() {
         setSuccessMsg("House layout changed successfully!")
         setOpenSuccessMsg(true)
       }).catch((error) => {
-        if ("response" in error && error.response.status === 503) {
-          setErrorMsg("503 Service Unavailable");
+        if ("response" in error) {
+          setErrorMsg(error.response.status+" "+error.response.statusText);
           setOpenErrorMsg(true);
         }
       })

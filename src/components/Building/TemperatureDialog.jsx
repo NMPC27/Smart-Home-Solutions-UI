@@ -102,8 +102,8 @@ export default function TemperatureDialog(props) {
       getSensor(sensorTemperatureID).then((res) => {
         setSensorTemperature(res.data);
       }).catch((error) => {
-        if ("response" in error && error.response.status === 503) {
-          setErrorMsg("503 Service Unavailable");
+        if ("response" in error) {
+          setErrorMsg(error.response.status+" "+error.response.statusText);
           setOpenErrorMsg(true);
         }
       })
@@ -111,8 +111,8 @@ export default function TemperatureDialog(props) {
       getSensor(sensorHumidityID).then((res) => {
         setSensorHumidity(res.data);
       }).catch((error) => {
-        if ("response" in error && error.response.status === 503) {
-          setErrorMsg("503 Service Unavailable");
+        if ("response" in error) {
+          setErrorMsg(error.response.status+" "+error.response.statusText);
           setOpenErrorMsg(true);
         }
       })

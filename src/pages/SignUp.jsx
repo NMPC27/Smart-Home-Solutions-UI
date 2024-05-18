@@ -60,6 +60,13 @@ export default function SignUp() {
         navigate("/");
       }
     }).catch((error) => {
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setOpenErrorMsg(true);
+
+        return
+      }
+      
       setErrorMsg("503 Service Unavailable");
       setOpenErrorMsg(true);
     })

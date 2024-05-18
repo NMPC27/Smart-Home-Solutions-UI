@@ -135,8 +135,8 @@ export default function Automation() {
       setSuccessMsg("Node deleted!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -157,8 +157,8 @@ export default function Automation() {
       setSuccessMsg("Node updated!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -179,8 +179,8 @@ export default function Automation() {
       setSuccessMsg("Node updated!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -196,8 +196,8 @@ export default function Automation() {
       setSuccessMsg("Node updated!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -213,8 +213,8 @@ export default function Automation() {
       setSuccessMsg("Node updated!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -226,8 +226,8 @@ export default function Automation() {
         setDevices(res.data);
       }
     ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setDevices(null)
 
@@ -242,8 +242,8 @@ export default function Automation() {
         setTabs(res.data);
       }
     ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setTabs(null)
 
@@ -296,8 +296,8 @@ export default function Automation() {
             setNodesData(nodesData.data)
           }
         ).catch((error) => {
-          if ("response" in error && error.response.status === 503) {
-            setErrorMsg("503 Service Unavailable");
+          if ("response" in error) {
+            setErrorMsg(error.response.status+" "+error.response.statusText);
             setOpenErrorMsg(true);
             setGlobalNodes(null)
             setNodesData(null)
@@ -309,8 +309,8 @@ export default function Automation() {
         })
       }
     ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setGlobalNodes(null)
 
@@ -325,8 +325,8 @@ export default function Automation() {
         setGlobalEdges(res.data);
       }
     ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
         setGlobalEdges(null)
 
@@ -401,8 +401,8 @@ export default function Automation() {
           setSuccessMsg("Flow saved!")
           setOpenSuccessMsg(true)
         }).catch((error) => {
-          if ("response" in error && error.response.status === 503) {
-            setErrorMsg("503 Service Unavailable");
+          if ("response" in error) {
+            setErrorMsg(error.response.status+" "+error.response.statusText);
             setOpenErrorMsg(true);
           }
         })
@@ -427,8 +427,8 @@ export default function Automation() {
       setSuccessMsg("Tab name changed!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -440,8 +440,8 @@ export default function Automation() {
       setSuccessMsg("Flow saved!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -463,8 +463,8 @@ export default function Automation() {
       setSuccessMsg("Flow added!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -502,8 +502,8 @@ export default function Automation() {
       setSuccessMsg("Flow removed!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -515,8 +515,8 @@ export default function Automation() {
       setSuccessMsg("Flow saved!")
       setOpenSuccessMsg(true)
     }).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
       }
     })
@@ -649,17 +649,12 @@ export default function Automation() {
           setErrorMsg("Error applying flow!")
           setOpenErrorMsg(true)
         }
-      }
-    ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg("503 Service Unavailable");
-        setOpenErrorMsg(true);
-      }
-      if ("response" in error && error.response.status === 404) {
-        setErrorMsg("503 Service Unavailable");
-        setOpenErrorMsg(true);
-      }
-    })
+      }).catch((error) => {
+        if ("response" in error) {
+          setErrorMsg(error.response.status+" "+error.response.statusText);
+          setOpenErrorMsg(true);
+        }
+      })
   }
 
   const [posX, setPosX] = React.useState(-100);
@@ -784,8 +779,8 @@ export default function Automation() {
                         setSuccessMsg("Node added!")
                         setOpenSuccessMsg(true)
                       }).catch((error) => {
-                        if ("response" in error && error.response.status === 503) {
-                          setErrorMsg("503 Service Unavailable");
+                        if ("response" in error) {
+                          setErrorMsg(error.response.status+" "+error.response.statusText);
                           setOpenErrorMsg(true);
                         }
                       })
@@ -838,8 +833,8 @@ export default function Automation() {
                           setSuccessMsg("Node added!")
                           setOpenSuccessMsg(true)
                         }).catch((error) => {
-                          if ("response" in error && error.response.status === 503) {
-                            setErrorMsg("503 Service Unavailable");
+                          if ("response" in error) {
+                            setErrorMsg(error.response.status+" "+error.response.statusText);
                             setOpenErrorMsg(true);
                           }
                         })
@@ -900,8 +895,8 @@ export default function Automation() {
                           setSuccessMsg("Node added!")
                           setOpenSuccessMsg(true)
                         }).catch((error) => {
-                          if ("response" in error && error.response.status === 503) {
-                            setErrorMsg("503 Service Unavailable");
+                          if ("response" in error) {
+                            setErrorMsg(error.response.status+" "+error.response.statusText);
                             setOpenErrorMsg(true);
                           }
                         })
@@ -953,8 +948,8 @@ export default function Automation() {
                           setSuccessMsg("Node added!")
                           setOpenSuccessMsg(true)
                         }).catch((error) => {
-                          if ("response" in error && error.response.status === 503) {
-                            setErrorMsg("503 Service Unavailable");
+                          if ("response" in error) {
+                            setErrorMsg(error.response.status+" "+error.response.statusText);
                             setOpenErrorMsg(true);
                           }
                         })

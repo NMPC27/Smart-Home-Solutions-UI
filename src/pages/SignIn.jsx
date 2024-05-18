@@ -52,8 +52,8 @@ export default function SignIn() {
         document.body.style.marginTop = "3vh";
       },
     ).catch((error) => {
-      if ("response" in error && error.response.status === 401) {
-        setErrorMsg("Incorrect username or password!");
+      if ("response" in error) {
+        setErrorMsg(error.response.status+" "+error.response.statusText);
         setOpenErrorMsg(true);
 
         return
