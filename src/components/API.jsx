@@ -143,7 +143,7 @@ export function deviceAlarm(data) {
   let token = localStorage.getItem("token");
 
   return axios.put(
-    endpoint + "/devices/alarm",
+    endpoint + "/alarm",
     data,
     {
       headers: {
