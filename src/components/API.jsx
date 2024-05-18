@@ -69,7 +69,7 @@ export function deviceEdit(data) {
 
   return axios.put(
     endpoint + "/devices/"+data.id,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ export function deviceOn(data) {
 
   return axios.put(
     endpoint + "/devices/on/"+data.id,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ export function deviceTemperatureTarget(data) {
 
   return axios.put(
     endpoint + "/devices/temperature/"+data.id,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -114,7 +114,7 @@ export function deviceLightColor(data) {
 
   return axios.put(
     endpoint + "/devices/light/color/"+data.id,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -129,7 +129,7 @@ export function deviceLightBrightness(data) {
 
   return axios.put(
     endpoint + "/devices/light/brightness/"+data.id,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -144,7 +144,7 @@ export function deviceAlarm(data) {
 
   return axios.put(
     endpoint + "/devices/alarm",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -181,7 +181,7 @@ export function roomAdd(data) {
 
   return axios.post(
     endpoint + "/rooms",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -196,7 +196,7 @@ export function roomEdit(data) {
 
   return axios.put(
     endpoint + "/rooms/"+data.id,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -216,7 +216,7 @@ export function roomRemove(data) {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
-      data: { data }
+      data 
     },
   );
 }
@@ -226,7 +226,7 @@ export function dashboardAdd(data) {
 
   return axios.post(
     endpoint + "/dashboards",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -246,7 +246,7 @@ export function dashboardRemove(data) {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
-      data: { data }
+      data
     },
   );
 }
@@ -256,7 +256,7 @@ export function dashboardCardAdd(data) {
 
   return axios.post(
     endpoint + "/dashboards/card",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -271,7 +271,7 @@ export function dashboardCardEdit(data) {
 
   return axios.put(
     endpoint + "/dashboards/card",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -291,7 +291,7 @@ export function dashboardCardRemove(data) {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
-      data: { data },
+      data,
     },
   );
 }
@@ -306,7 +306,7 @@ export function notificationsDelete(data) {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
-      data: { data },
+      data,
     },
   );
 }
@@ -328,7 +328,7 @@ export function flowTabAdd(data) {
 
   return axios.post(
     endpoint + "/flows/tabs",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -343,7 +343,7 @@ export function flowTabEdit(data) {
 
   return axios.put(
     endpoint + "/flows/tabs/"+data.idx,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -363,7 +363,7 @@ export function flowTabRemove(data) {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
-      data: { data }
+      data
     },
   );
 }
@@ -395,7 +395,7 @@ export function flowEdit(data) {
 
   return axios.put(
     endpoint + "/flows/edit",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -421,7 +421,7 @@ export function nodesDataAdd(data) {
 
   return axios.post(
     endpoint + "/flows/nodesData",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -436,7 +436,7 @@ export function nodesDataEdit(data) {
 
   return axios.put(
     endpoint + "/flows/nodesData/"+data.nodeData.id,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -456,7 +456,7 @@ export function nodesDataRemove(data) {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
-      data: { data }
+      data
     },
   );
 }
@@ -466,7 +466,7 @@ export function applyFlow(data) {
 
   return axios.post(
     endpoint + "/flows/apply",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -492,7 +492,7 @@ export function buildTabAdd(data) {
 
   return axios.post(
     endpoint + "/builds/tabs",
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -507,7 +507,7 @@ export function buildTabEdit(data) {
 
   return axios.put(
     endpoint + "/builds/tabs/"+data.idx,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -527,7 +527,7 @@ export function buildTabRemove(data) {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": endpoint,
       },
-      data: { data }
+      data
     },
   );
 }
@@ -548,7 +548,7 @@ export function buildsHouseLayoutEdit(data) {
 
   return axios.put(
     endpoint + "/builds/layout/"+data.idx,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -574,7 +574,7 @@ export function buildsHouseLayoutDevicesEdit(data) {
 
   return axios.put(
     endpoint + "/builds/layout/devices/"+data.idx,
-    { data },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
