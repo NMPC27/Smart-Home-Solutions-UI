@@ -692,14 +692,14 @@ export default function Automation() {
             sx={{ borderRadius: "20px" }}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
           <Skeleton
             variant="rounded"
             height="60vh"
             sx={{ borderRadius: "20px" }}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={9}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
           <Skeleton
             variant="rounded"
             height="60vh"

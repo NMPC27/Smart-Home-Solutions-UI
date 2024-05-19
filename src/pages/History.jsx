@@ -199,9 +199,14 @@ export default function History() {
   if (history === null) {
     return (
       <>
-        <AppBarStyled navbar={"history"} handleDateChange={handleDateChange} />
-
         <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Skeleton
+              variant="rounded"
+              height="7vh"
+              sx={{ borderRadius: "20px" }}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Skeleton
               variant="rounded"

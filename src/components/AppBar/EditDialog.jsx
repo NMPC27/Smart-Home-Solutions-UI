@@ -238,17 +238,15 @@ export default function EditDialog(props) {
                       Dashboard {idx} 
                       <IconButton size="small" 
                         onClick={() => {
-                          let tmp = selectedTab-1
-                          if (tmp < 0) { tmp = 0 }
-
-                          setSelectedTab(tmp)
-
                           if (props.cards[device].length === 1) {
                             setOpenErrorMsg1(true);
                           }else{
+                            let tab = idx - 1
+                            if (tab < 0) { tab = 0; }
+                            setSelectedTab(tab)
+
                             props.handleDeleteDashboard(device,idx)
-                          }
-                          
+                          }                          
                         }}>
                         <DeleteIcon />
                       </IconButton>
