@@ -1004,7 +1004,7 @@ export default function Automation() {
                   </Stack>
                 </Grid>
               </Grid>
-              <InItem style={{ height:'70vh' }}>
+              <InItem>
                 <Tabs 
                   value={selectedTab} 
                   onChange={(event, newValue) => handleChangeTab(newValue)}
