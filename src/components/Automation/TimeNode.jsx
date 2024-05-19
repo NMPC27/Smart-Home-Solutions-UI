@@ -72,6 +72,10 @@ export default memo(({ id, isConnectable, data }) => {
         type="source"
         position={Position.Right}
         isConnectable={isConnectable}
+        style={{ 
+          width: '10px',
+          height: '10px',
+        }}
       />
     </>
   );

@@ -1023,6 +1023,7 @@ export default function Automation() {
                             <ClearIcon />
                           </IconButton>
                           <TextField
+                              defaultValue={val.name}
                               label="Flow Name"
                               variant="outlined"
                               size="small"
@@ -1039,7 +1040,7 @@ export default function Automation() {
                         </span>
                       :
                       <span>
-                        <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => setEditIdx(idx)}>
+                        <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => {setEditIdx(idx); setTabName(val.name)}}>
                           <EditIcon />
                         </IconButton>
                         {val.name}

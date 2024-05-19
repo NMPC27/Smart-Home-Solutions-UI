@@ -45,6 +45,10 @@ export default memo(({ id, isConnectable, data }) => {
         type="target"
         position={Position.Left}
         isConnectable={isConnectable}
+        style={{ 
+          width: '10px',
+          height: '10px',
+        }}
       />
       <div>
         <b>Wait:</b>
@@ -98,6 +102,10 @@ export default memo(({ id, isConnectable, data }) => {
         type="source"
         position={Position.Right}
         isConnectable={isConnectable}
+        style={{ 
+          width: '10px',
+          height: '10px',
+        }}
       />
     </>
   );

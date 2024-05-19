@@ -70,6 +70,10 @@ export default memo(({ id, data, isConnectable }) => {
         type="target"
         position={Position.Left}
         isConnectable={isConnectable}
+        style={{ 
+          width: '10px',
+          height: '10px',
+        }}
       />
       <div>
         <b>Device:</b>

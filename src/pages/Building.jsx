@@ -783,6 +783,7 @@ export default function Building() {
                             <ClearIcon />
                           </IconButton>
                           <TextField
+                              defaultValue={val}
                               label="Flow Name"
                               variant="outlined"
                               size="small"
@@ -799,7 +800,7 @@ export default function Building() {
                         </span>
                       :
                       <span>
-                        <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => setEditIdx(idx)}>
+                        <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => {setEditIdx(idx); setTabName(val)}}>
                           <EditIcon />
                         </IconButton>
                         {val}
