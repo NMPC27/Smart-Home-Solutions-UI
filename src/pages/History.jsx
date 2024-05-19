@@ -104,7 +104,7 @@ export default function History() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
         setHistory(null)
 
@@ -152,7 +152,7 @@ export default function History() {
       setYAxis(tmpYAxis);
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
         setHistory(null)
 

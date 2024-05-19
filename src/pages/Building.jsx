@@ -191,7 +191,7 @@ export default function Building() {
           }
         ).catch((error) => {
           if ("response" in error) {
-            setErrorMsg(error.response.status+" "+error.response.statusText);
+            setErrorMsg(error.response.status+" "+error.response.data.detail);
             setOpenErrorMsg(true);
             setGlobalNodes(null)
     
@@ -204,7 +204,7 @@ export default function Building() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
         setDevices(null)
 
@@ -220,7 +220,7 @@ export default function Building() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
         setTabs(null)
 
@@ -236,7 +236,7 @@ export default function Building() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
         setHouseLayout(null)
 
@@ -258,7 +258,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -275,7 +275,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -291,7 +291,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -307,7 +307,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -325,7 +325,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -342,7 +342,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -359,7 +359,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -375,7 +375,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -402,7 +402,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -437,7 +437,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -473,7 +473,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -491,7 +491,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -563,7 +563,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.statusText);
+        setErrorMsg(error.response.status+" "+error.response.data.detail);
         setOpenErrorMsg(true);
       }
     })
@@ -584,7 +584,7 @@ export default function Building() {
         setOpenSuccessMsg(true)
       }).catch((error) => {
         if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.statusText);
+          setErrorMsg(error.response.status+" "+error.response.data.detail);
           setOpenErrorMsg(true);
         }
       })

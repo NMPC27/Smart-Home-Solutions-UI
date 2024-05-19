@@ -3,7 +3,6 @@ nunocunhafinal@gmail.com
 atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 # TODO:
-- change status codes
 - tabs rename com nome antigo para editar
 - onde tem tabs ao dar delete a uma tab onde n esteja da error
 - delete automation and building when only one tab

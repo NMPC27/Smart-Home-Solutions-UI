@@ -208,7 +208,7 @@ export default function TemperatureCard(props) {
         setSensorTemperature(res.data);
       }).catch((error) => {
         if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.statusText);
+          setErrorMsg(error.response.status+" "+error.response.data.detail);
           setOpenErrorMsg(true);
         }
       })
@@ -217,7 +217,7 @@ export default function TemperatureCard(props) {
         setSensorHumidity(res.data);
       }).catch((error) => {
         if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.statusText);
+          setErrorMsg(error.response.status+" "+error.response.data.detail);
           setOpenErrorMsg(true);
         }
       })
