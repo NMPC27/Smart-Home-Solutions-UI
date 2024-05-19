@@ -804,7 +804,7 @@ export default function Building() {
                           <EditIcon />
                         </IconButton>
                         {val}
-                        <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={() => handleDeleteTab(idx)}>
+                        <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={(e) => {e.stopPropagation();handleDeleteTab(idx)}}>
                           <DeleteIcon />
                         </IconButton>
                       </span>

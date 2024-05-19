@@ -167,6 +167,9 @@ export default function Automation() {
   const deviceData = (val, localNodes) => {
 
     let idx = localNodes[selectedTab].findIndex(node => node.id === val.id)
+
+    if(idx === -1) { return }
+
     let tmp = [...localNodes]
     let keys = Object.keys(val)
     keys.forEach((key) => {
@@ -498,6 +501,9 @@ export default function Automation() {
     setGlobalEdges(tmpEdges);
     setNodesData(tmpNodesData)
 
+    setNodes(tmpNodes[tab])
+    setEdges(tmpEdges[tab])
+
     flowTabRemove({idx: idx}).then((res) => { //! API CALL
       setSuccessMsg("Flow removed!")
       setOpenSuccessMsg(true)
@@ -510,6 +516,8 @@ export default function Automation() {
   }
 
   const handleChangeTab = (newValue) => {
+    if (tabs.length === newValue) { return; }
+
     setTabChanged(true)
     flowEdit({nodes: nodes, edges: edges, idx: selectedTab}).then((res) => { //! API CALL
       setSuccessMsg("Flow saved!")
@@ -521,8 +529,6 @@ export default function Automation() {
       }
     })
     setSelectedTab(newValue);
-
-    if (tabs.length === newValue) { return; }
 
     setNodes(globalNodes[newValue])
     setEdges(globalEdges[newValue])
@@ -1044,7 +1050,7 @@ export default function Automation() {
                           <EditIcon />
                         </IconButton>
                         {val.name}
-                        <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={() => handleDeleteTab(idx)}>
+                        <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={(e) => {e.stopPropagation();handleDeleteTab(idx)}}>
                           <DeleteIcon />
                         </IconButton>
                       </span>

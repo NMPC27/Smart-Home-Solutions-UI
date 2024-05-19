@@ -237,7 +237,8 @@ export default function EditDialog(props) {
                     <span>
                       Dashboard {idx} 
                       <IconButton size="small" 
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           if (props.cards[device].length === 1) {
                             setOpenErrorMsg1(true);
                           }else{

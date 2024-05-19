@@ -5,11 +5,9 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 # TODO:
 
 - delete automation and building when only one tab
-- error deleting automation aplied when on diferent tab
-- fix delete tabs (builfing and automation) being on +add
+
 
 - por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
-- fix sync problem between same cards (duplicated) 
 
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - add card power?
