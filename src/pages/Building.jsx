@@ -410,12 +410,6 @@ export default function Building() {
 
   const handleDeleteTab = (idx) => {
 
-    if (tabs.length === 1) { 
-      setErrorMsg("Must have at least one Floor!")
-      setOpenErrorMsg(true); 
-      return 
-    }
-
     let tmp = [...tabs];
     tmp.splice(idx, 1);
     setTabs(tmp);
@@ -822,7 +816,7 @@ export default function Building() {
                 
                 </Tabs>
                 <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} >
-                  { mode === 'draw' &&
+                  { mode === 'draw' && tabs.length !== 0 &&
                     <DrawIoEmbed 
                       xml={houseLayout[selectedTab]}
                       onExport={(data) =>  handleSave(data)}
@@ -830,7 +824,7 @@ export default function Building() {
                     />
                   }
 
-                  { (mode === 'edit' || mode === 'view' ) && 
+                  { (mode === 'edit' || mode === 'view' ) && tabs.length !== 0 &&
                       <ReactFlow
                         nodes={nodes}
                         onNodesChange={onNodesChange}
@@ -844,7 +838,11 @@ export default function Building() {
                       >
                         <img src={houseLayout[selectedTab]} width='100%' height='100%'/>
                       </ReactFlow> 
-                  }        
+                  } 
+
+                  { tabs.length === 0 &&
+                    <h1 style={{position: "relative", top: "40%", marginTop: 0, marginBottom: 0}}>Add a floor to start!</h1>
+                  }     
                 </div>
                 
               </InItem>
