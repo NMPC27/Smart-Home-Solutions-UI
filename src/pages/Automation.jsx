@@ -475,12 +475,6 @@ export default function Automation() {
 
   const handleDeleteTab = (idx) => {
 
-    if (tabs.length === 1) { 
-      setOpenErrorMsg(true); 
-      setErrorMsg("Must have at least one flow!"); 
-      return 
-    }
-
     let tmp = [...tabs];
     tmp.splice(idx, 1);
     setTabs(tmp);
@@ -1068,18 +1062,23 @@ export default function Automation() {
                 
                 </Tabs>
                 <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }}>
-                  <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    nodeTypes={nodeTypes}
-                    edgeTypes={edgeTypes}
-                    fitView
-                  >
-                    <Background variant="dots" gap={12} size={1} />
-                  </ReactFlow>
+                  { tabs.length !== 0 ?
+                    <ReactFlow
+                      nodes={nodes}
+                      edges={edges}
+                      onNodesChange={onNodesChange}
+                      onEdgesChange={onEdgesChange}
+                      onConnect={onConnect}
+                      nodeTypes={nodeTypes}
+                      edgeTypes={edgeTypes}
+                      fitView
+                    >
+                      <Background variant="dots" gap={12} size={1} />
+                    </ReactFlow>
+                    :
+                    <h1 style={{position: "relative", top: "40%", marginTop: 0, marginBottom: 0}}>Add a floor to start!</h1>
+                  }  
+                  
                 </div>
               </InItem>
             </OutItem>

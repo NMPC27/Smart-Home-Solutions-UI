@@ -4,7 +4,6 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 # TODO:
 
-- delete automation and building when only one tab
 - por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
 
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
