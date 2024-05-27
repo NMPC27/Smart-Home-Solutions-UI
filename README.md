@@ -5,22 +5,25 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 # TODO:
 
 - delete automation and building when only one tab
-
-
 - por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
 
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - add card power?
 - ver ons e off dos nodes no building
+    - motions sensors estao sempre ligados e n so quando passa alguem 
+    - medidor de potencia esta sempre ligado
+- fix delete card mobile
+
+- forgot password -> to be done
 
 - segmaentar rede dos devices
 - add custom url to local app
 
 
+
 - fzr cenas
-
-
-- global room bug when changing from empety room to any -> never hapen again
+- lista de compras
+- tempo 
 
 
 
@@ -31,16 +34,14 @@ Scroll no tele da temp é meio bugado
 Resize automation ao clicar num node não foca certo tele
 
 
-- fix delete card mobile
-- lista de compras
-- tempo 
-- try to improve notification, not getting every 5s
+
+
 - ver isto https://reactflow.dev/examples/interaction/drag-and-drop -> por outro lado fica dificil de arrastar em mobile
 - can not store the token in the local storage !! vulnerability
     https://stackoverflow.com/questions/71815202/is-it-safe-and-convenient-to-store-jwt-token-in-localstorage-or-cookies-and-to-s
     https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 
-- forgot password and create account -> to be removed
+
 
 
 
@@ -64,9 +65,6 @@ Resize automation ao clicar num node não foca certo tele
 - Voice commands feitos pelo user
 - energy (future work) -> machine learning para criar algoritmos de agendamento de dispositivos
 
-in add dialog we must define type and room associated
-name is user writen
-room is user writen but then associated
 
 DB:
 json

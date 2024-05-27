@@ -32,6 +32,7 @@ export default function SignUp() {
 
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confPassword, setConfPassword] = React.useState("");
   const [token, setToken] = React.useState("");
@@ -40,7 +41,7 @@ export default function SignUp() {
   const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleSignUp = () => {
-    if (name === "" || email === "" || password === "" || confPassword === "" || token === "" || domain === "") {
+    if (name === "" || email === "" || password === "" || confPassword === "" || token === "" || domain === "" || phone === "") {
       setErrorMsg("Please fill out all the fields!");
       setOpenErrorMsg(true);
       return;
@@ -52,7 +53,7 @@ export default function SignUp() {
       return;
     }
 
-    signUp({ name, email, password, token, domain }).then((res) => {
+    signUp({ name, email, phone, password, token, domain }).then((res) => {
       if (res.data.status === "error") {
         setErrorMsg("Email already in use!");
         setOpenErrorMsg(true);
@@ -113,7 +114,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <h2>Sign Up</h2>
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "1.5vh" }}>
                 <TextField
                   label="Name"
                   variant="outlined"
@@ -130,7 +131,7 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "2.5vh" }}>
                 <TextField
                   label="Email"
                   variant="outlined"
@@ -147,7 +148,24 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "2.5vh" }}>
+                <TextField
+                  label="Phone"
+                  variant="outlined"
+                  sx={{
+                    width: "70%",
+                    backgroundColor: "#374151",
+                    borderRadius: "10px",
+                    borderColor: "#FFFFFF",
+                    svg: { color: "#FFFFFF" },
+                    input: { color: "#FFFFFF" },
+                    label: { color: "#FFFFFF" },
+                  }}
+                  onChange={(e) => setPhone(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ marginTop: "2.5vh" }}>
                 <TextField
                   label="Password"
                   variant="outlined"
@@ -165,7 +183,7 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "2.5vh" }}>
                 <TextField
                   label="Confirm Password"
                   variant="outlined"
@@ -183,7 +201,7 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "2.5vh" }}>
                 <TextField
                   label="Token"
                   variant="outlined"
@@ -200,7 +218,7 @@ export default function SignUp() {
                   onKeyDown={(e) => handleKeyDown(e)}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "3vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "2.5vh" }}>
                 <TextField
                   label="Domain"
                   variant="outlined"
@@ -222,7 +240,7 @@ export default function SignUp() {
                   Already have an account? Sign In
                 </Link>
               </Grid>
-              <Grid item xs={12} sx={{ marginTop: "5vh" }}>
+              <Grid item xs={12} sx={{ marginTop: "2.5vh" }}>
                 <Button
                   variant="contained"
                   sx={{ fontWeight: "bold" }}
