@@ -4,10 +4,6 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 # TODO:
 
-- fix 1min wait to show temp
-- improve fullscreen
-- improve requests in motion sensor and temp sensor
-
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - add card power?
 - ver ons e off dos nodes no building
@@ -39,7 +35,7 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
     https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 
 
-
+- improve fullscreen
 
 
 

@@ -90,6 +90,9 @@ export default function TemperatureDialog(props) {
     let sensorTemperatureID = null
     let sensorHumidityID = null
 
+    setSensorTemperature("--")
+    setSensorHumidity("--")
+
     for(let i = 0; i < props.devices.length; i++) {
       if (props.devices[i].room === props.devices[deviceIdx].room) {
         if (props.devices[i].type === "Temperature Sensor") {
@@ -99,9 +102,6 @@ export default function TemperatureDialog(props) {
           sensorHumidityID = props.devices[i].id;
           setSensorHumidity(props.devices[i].currentHumidity);
         }
-      }else{
-        setSensorTemperature("--");
-        setSensorHumidity("--");
       }
     }
 

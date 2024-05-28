@@ -189,6 +189,9 @@ export default function TemperatureCard(props) {
     let sensorTemperatureID = null
     let sensorHumidityID = null
 
+    setSensorTemperature("--")
+    setSensorHumidity("--")
+
     for(let i = 0; i < props.devices.length; i++) {
       if (props.devices[i].room === selectedRoom) {
         if (props.devices[i].type === "Temperature Sensor") {
@@ -198,9 +201,6 @@ export default function TemperatureCard(props) {
           sensorHumidityID = props.devices[i].id;
           setSensorHumidity(props.devices[i].currentHumidity);
         }
-      }else{        
-        setSensorTemperature("--");
-        setSensorHumidity("--");
       }
     }
 

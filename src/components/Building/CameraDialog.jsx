@@ -13,6 +13,8 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -23,6 +25,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function CameraDialog(props) {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [deviceIdx, setDeviceIdx] = React.useState(-1);
 
