@@ -145,7 +145,6 @@ export default function History() {
   const [yAxis, setYAxis] = React.useState([]);
 
   const handleDateChange = (val) => {
-    setHistory(null)
 
     var init_date=val.split("/")
 

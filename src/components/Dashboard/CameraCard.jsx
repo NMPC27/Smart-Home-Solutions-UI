@@ -14,6 +14,7 @@ import { getCamImg } from "../API";
 import CircularProgress from '@mui/material/CircularProgress';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import CameraDialog from "./CameraDialog";
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -170,13 +171,7 @@ export default function CameraCard(props) {
                     }
                   </>
                 ) : (
-                  <img
-                    width="100%"
-                    height={mobile ? 180 : 400}
-                    style={{ marginTop: 10, borderRadius: "20px" }}
-                    src={"no-video.png"}
-                    alt="ERROR!"
-                  />
+                  <VideocamOffIcon style={{fontSize: mobile ? 180 : 340, padding: mobile ? 5 : 35}}/>
                 )}
               </Grid>
 

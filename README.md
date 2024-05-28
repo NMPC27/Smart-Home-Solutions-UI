@@ -7,7 +7,6 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 - fix 1min wait to show temp
 - improve fullscreen
 - improve requests in motion sensor and temp sensor
-- date picker not changing in history
 
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - add card power?

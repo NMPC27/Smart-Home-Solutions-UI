@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -113,12 +114,7 @@ export default function CameraDialog(props) {
                 }
               </>
             ) : (
-              <img
-                width="50%"
-                style={{ marginTop: "2vh", borderRadius: "20px" }}
-                src={"no-video.png"}
-                alt="ERROR!"
-              />
+              <VideocamOffIcon style={{fontSize: mobile ? 180 : 340, padding: mobile ? 5 : 35}}/>
             )}
           </Grid>
           <Grid item xs={12}>
