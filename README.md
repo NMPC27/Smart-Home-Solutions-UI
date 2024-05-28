@@ -9,12 +9,15 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 - ver ons e off dos nodes no building
     - motions sensors estao sempre ligados e n so quando passa alguem 
     - medidor de potencia esta sempre ligado
+    - fix requests no building (doneishh)
 - fix delete card mobile
-
-- forgot password -> to be removed
 
 - segmaentar rede dos devices
 - add custom url to local app
+
+- improve fullscreen
+- tests
+- PropTypes
 
 
 
@@ -35,19 +38,15 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
     https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 
 
-- improve fullscreen
-
-
 
 - Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 
 
 
 
-- tests
-- PropTypes
 
-- fix requests no building (doneishh)
+
+
 - nos filtros por apenas as room onde esta aquele tipo de device
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof (muito trabalho para o ganho -> library paga da mui)
 
