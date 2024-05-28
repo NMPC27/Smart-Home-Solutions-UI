@@ -20,6 +20,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getHistory} from "../components/API";
 import Button from '@mui/material/Button';
+import Slider from '@mui/material/Slider';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -84,8 +85,22 @@ export default function History() {
 
   const [history, setHistory] = React.useState(null);
 
+  const [begin, setBegin] = React.useState(new Date("1970-01-01"));
+  const [end, setEnd] = React.useState(new Date("1970-01-02"));
+  const [minVal, setMinVal] = React.useState(new Date("1970-01-01"));
+  const [maxVal, setMaxVal] = React.useState(new Date("1970-01-02"));
+  const [sliderVal, setSliderVal] = React.useState([0,1440]);
+
   const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
   const [errorMsg, setErrorMsg] = React.useState("");
+
+  const dateSliderChange = (event, newValue) => {
+    if (newValue[0] >= newValue[1] - 20) { return }
+
+    setSliderVal(newValue);
+    setMinVal(new Date(begin.getTime() + newValue[0]*60000))
+    setMaxVal(new Date(end.getTime() - (1440-newValue[1])*60000))
+  }
 
   React.useEffect(() => {
 
@@ -93,6 +108,15 @@ export default function History() {
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0");
     var yyyy = today.getFullYear();
+
+    var begin = new Date(yyyy,mm-1,dd);
+    var end = new Date(yyyy,mm-1,dd);
+    end.setDate(begin.getDate() + 1);
+
+    setBegin(begin)
+    setEnd(end)
+    setMinVal(begin)
+    setMaxVal(end)
 
     today = dd + "/" + mm + "/" + yyyy;
 
@@ -122,6 +146,17 @@ export default function History() {
 
   const handleDateChange = (val) => {
     setHistory(null)
+
+    var init_date=val.split("/")
+
+    var begin = new Date(init_date[2],init_date[1]-1,init_date[0]);
+    var end = new Date(init_date[2],init_date[1]-1,init_date[0]);
+    end.setDate(begin.getDate() + 1);
+    
+    setBegin(begin)
+    setEnd(end)
+    setMinVal(begin)
+    setMaxVal(end)
 
     getHistory(val).then((res) => {
       setHistory(res.data);
@@ -291,7 +326,7 @@ export default function History() {
                         <div style={{ width: "100%", height: "40vh", minHeight: "300px" }}>
                           <LineChart
                             colors={[chartColors[idx%3]]}
-                            xAxis={[{ data: xAxis[idx], label: "Hour", scaleType: "utc" }]}
+                            xAxis={[{ data: xAxis[idx], label: "Hour", scaleType: "utc", min: minVal, max: maxVal }]}
                             yAxis={[{ label: labels[history[item].type], valueFormatter: (v) => {
                                 if (labels[history[item].type] === "Not detected/Detected"){ 
                                   if (v === 0) {
@@ -339,7 +374,20 @@ export default function History() {
                             legend={{ hidden: true }}
                           />
                         </div>
-                        <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
+                        <Stack spacing={2} alignItems="center" justifyContent="center">
+                          <Slider
+                            value={sliderVal}
+                            onChange={dateSliderChange}
+                            valueLabelDisplay="auto"
+                            min={0}
+                            max={1440}
+                            sx={{ mt: 2 }}
+                            valueLabelFormat={(value) => {
+                              let hours = Math.floor(value / 60);
+                              let minutes = value % 60;
+                              return hours + "h " + minutes + "m";
+                            }}
+                          />
                           <Button 
                             disabled
                             variant="contained" 

@@ -4,7 +4,10 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 # TODO:
 
-- por os axis com end e begining -> https://mui.com/x/react-charts/axis/ (axis subdomain)
+- fix 1min wait to show temp
+- improve fullscreen
+- improve requests in motion sensor and temp sensor
+- date picker not changing in history
 
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - add card power?
@@ -13,7 +16,7 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
     - medidor de potencia esta sempre ligado
 - fix delete card mobile
 
-- forgot password -> to be done
+- forgot password -> to be removed
 
 - segmaentar rede dos devices
 - add custom url to local app
@@ -26,13 +29,9 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 
 
------
-Ao mudar a cor no tele e dps a britness muda para a cor anterior 
-Cenas nas luzes, color changing eyc
-Scroll no tele da temp é meio bugado 
-Resize automation ao clicar num node não foca certo tele
 
 
+--------
 
 
 - ver isto https://reactflow.dev/examples/interaction/drag-and-drop -> por outro lado fica dificil de arrastar em mobile
