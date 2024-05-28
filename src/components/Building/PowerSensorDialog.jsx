@@ -14,6 +14,12 @@ import Button from "@mui/material/Button";
 import SensorsOffIcon from '@mui/icons-material/SensorsOff';
 import SensorsIcon from '@mui/icons-material/Sensors';
 import {getSensor} from "../API";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

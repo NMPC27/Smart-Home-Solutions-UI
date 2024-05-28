@@ -10,6 +10,12 @@ import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
