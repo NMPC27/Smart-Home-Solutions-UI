@@ -73,8 +73,8 @@ export default function TemperatureDialog(props) {
     setArcColor(colorsArray[(props.devices[deviceIdx].targetTemperature - 15)*4])
   }, [deviceIdx]);
 
-  const [sensorTemperature, setSensorTemperature] = React.useState(null);
-  const [sensorHumidity, setSensorHumidity] = React.useState(null);
+  const [sensorTemperature, setSensorTemperature] = React.useState("--");
+  const [sensorHumidity, setSensorHumidity] = React.useState("--");
 
   React.useEffect(() => {
     if (deviceIdx === -1) { return }
@@ -93,29 +93,34 @@ export default function TemperatureDialog(props) {
           sensorHumidityID = props.devices[i].id;
           setSensorHumidity(props.devices[i].currentHumidity);
         }
+      }else{
+        setSensorTemperature("--");
+        setSensorHumidity("--");
       }
     }
 
     const interval = setInterval(() => {
+      if (sensorTemperatureID !== null) {
+        getSensor(sensorTemperatureID).then((res) => {
+          setSensorTemperature(res.data);
+        }).catch((error) => {
+          if ("response" in error) {
+            setErrorMsg(error.response.status+" "+error.response.data.detail);
+            setOpenErrorMsg(true);
+          }
+        })
+      }
 
-
-      getSensor(sensorTemperatureID).then((res) => {
-        setSensorTemperature(res.data);
-      }).catch((error) => {
-        if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.data.detail);
-          setOpenErrorMsg(true);
-        }
-      })
-
-      getSensor(sensorHumidityID).then((res) => {
-        setSensorHumidity(res.data);
-      }).catch((error) => {
-        if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.data.detail);
-          setOpenErrorMsg(true);
-        }
-      })
+      if (sensorHumidityID !== null) {
+        getSensor(sensorHumidityID).then((res) => {
+          setSensorHumidity(res.data);
+        }).catch((error) => {
+          if ("response" in error) {
+            setErrorMsg(error.response.status+" "+error.response.data.detail);
+            setOpenErrorMsg(true);
+          }
+        })
+      }
 
     }, 60000);
 

@@ -1076,7 +1076,7 @@ export default function Automation() {
                       <Background variant="dots" gap={12} size={1} />
                     </ReactFlow>
                     :
-                    <h1 style={{position: "relative", top: "40%", marginTop: 0, marginBottom: 0}}>Add a floor to start!</h1>
+                    <h1 style={{position: "relative", top: "40%", marginTop: 0, marginBottom: 0}}>Add a flow to start!</h1>
                   }  
                   
                 </div>
