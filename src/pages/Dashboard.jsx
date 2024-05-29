@@ -17,6 +17,7 @@ import InputLabel from "@mui/material/InputLabel";
 import GridLayout from "react-grid-layout";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import PowerSensorCard from "../components/Dashboard/PowerSensorCard";
 import {
   getDevices,
   getRooms,
@@ -501,6 +502,9 @@ export default function Dashboard() {
     } else if (selectedType === "Temperature Sensor") {
       card_w = 1;
       card_h = 2;
+    } else if (selectedType === "Power Sensor") {
+      card_w = 1;
+      card_h = 2;
     }
 
     let tmp = {...cards};
@@ -884,6 +888,19 @@ export default function Dashboard() {
               </div>
             );
           }
+
+          if (card.type === "Power Sensor") {
+            return (
+              <div key={card.i}>
+                <PowerSensorCard
+                  devices={devices}
+                  rooms={rooms}
+                  globalRoom={globalRoom}
+                />
+              </div>
+            );
+          }
+
         })}
       </GridLayout>
       <Snackbar
