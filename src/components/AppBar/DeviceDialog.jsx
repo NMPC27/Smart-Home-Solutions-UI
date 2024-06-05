@@ -127,7 +127,7 @@ export default function DeviceDialog(props) {
                   <TextField
                     disabled
                     label="Device Type"
-                    defaultValue={deviceType}
+                    value={deviceType}
                   />
                   <TextField
                     value={deviceName}
