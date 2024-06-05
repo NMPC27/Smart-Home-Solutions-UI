@@ -4,6 +4,7 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 # TODO:
 
+- fix building
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - ver ons e off dos nodes no building
     - motions sensors estao sempre ligados e n so quando passa alguem 

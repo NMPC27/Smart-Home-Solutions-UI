@@ -47,6 +47,7 @@ export default function DeviceDialog(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [deviceType, setDeviceType] = React.useState("");
   const [deviceName, setDeviceName] = React.useState("");
   const [selectedRoom, setSelectedRoom] = React.useState(null);
 
@@ -57,6 +58,7 @@ export default function DeviceDialog(props) {
   const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleEditDevice = (idx) => {
+    setDeviceType(props.devices[idx].type)
     setDeviceName(props.devices[idx].name)
     setSelectedRoom(props.devices[idx].room)
     setEditIdx(idx);
@@ -122,6 +124,11 @@ export default function DeviceDialog(props) {
                 :
                 <Stack spacing={2} alignItems="center" justifyContent="center">
                   <h3>Edit Device:</h3>
+                  <TextField
+                    disabled
+                    label="Device Type"
+                    defaultValue={deviceType}
+                  />
                   <TextField
                     value={deviceName}
                     onChange={(e) => setDeviceName(e.target.value)}
