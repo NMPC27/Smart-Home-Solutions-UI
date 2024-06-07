@@ -648,11 +648,17 @@ export default function Automation() {
         }else{
           setErrorMsg("Error applying flow!")
           setOpenErrorMsg(true)
+          let tmp = [...tabs]
+          tmp[selectedTab].status = "error"
+          setTabs(tmp)
         }
       }).catch((error) => {
         if ("response" in error) {
           setErrorMsg(error.response.status+" "+error.response.data.detail);
           setOpenErrorMsg(true);
+          let tmp = [...tabs]
+          tmp[selectedTab].status = "error"
+          setTabs(tmp)
         }
       })
   }
