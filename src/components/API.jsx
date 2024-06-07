@@ -20,6 +20,17 @@ export function signUp(data) {
   });
 }
 
+export function getUser() {
+  let token = localStorage.getItem("token");
+
+  return axios.get(endpoint + "/user", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
+    },
+  });
+}
+
 export function getDevices() {
   let token = localStorage.getItem("token");
 
