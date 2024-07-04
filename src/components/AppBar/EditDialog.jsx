@@ -81,10 +81,12 @@ export default function EditDialog(props) {
     else { return "pc" }
   });
 
+  const [deviceChange, setDeviceChange] = React.useState(false);
+
   React.useEffect(() => {
-    if (mobile) { setDevice("mobile") }
-    else if (tablet) { setDevice("tablet")  }
-    else { setDevice("pc")  }
+    if (mobile) { setDevice("mobile");setNumCol(1);setDeviceChange(true) }
+    else if (tablet) { setDevice("tablet");setNumCol(2);setDeviceChange(true)  }
+    else { setDevice("pc");setNumCol(4);setDeviceChange(true) }
   }, [mobile,tablet]);
 
   const [numCol,setNumCol] = React.useState(() => {
@@ -111,6 +113,7 @@ export default function EditDialog(props) {
   const handleLayoutChange = (currentLayout) => {
 
     if (firstLoad) { setFirstLoad(false); return }
+    if (deviceChange) { setDeviceChange(false); return }
 
     const newLayout = [];
 
