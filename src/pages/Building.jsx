@@ -383,16 +383,31 @@ export default function Building() {
 
   const handleAddTab = () => {
     setTabChanged(true)
-    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}) //! API CALL
+
+    if (tabs.length != 0) {
+      buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}).then((res) => { //! API CALL
+        setSuccessMsg("Layout edited successfully!")
+        setOpenSuccessMsg(true)
+      }).catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error "+error.response.status);
+          setOpenErrorMsg(true);
+        }
+      })
+    }
 
     let tmp = [...tabs];
-    let name = "Floor "+tmp.length;
+    let len = tmp.length;
+    let name = "Floor "+len;
     tmp.push(name);
 
     setHouseLayout([...houseLayout, whiteImg])
 
     setGlobalNodes([...globalNodes, []]);
-    setNodes([])
+
+    if (len == 0) {
+      setNodes([])
+    }
 
     setTabs(tmp);
     setMode('view')
@@ -426,6 +441,8 @@ export default function Building() {
     tmpNodes.splice(idx, 1);
     setGlobalNodes(tmpNodes);
 
+    setNodes(tmpNodes[tab])
+
     buildTabRemove({idx: idx}).then((res) => { //! API CALL
       setSuccessMsg("Floor removed successfully!")
       setOpenSuccessMsg(true)
@@ -440,7 +457,15 @@ export default function Building() {
   
   const handleChangeTab = (newValue) => {
     setTabChanged(true)
-    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}); //! API CALL
+    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}).then((res) => { //! API CALL
+      setSuccessMsg("Layout edited successfully!")
+      setOpenSuccessMsg(true)
+    }).catch((error) => {
+      if ("response" in error) {
+        setErrorMsg("Error "+error.response.status);
+        setOpenErrorMsg(true);
+      }
+    })
 
     if (tabs.length === newValue) { return; }
 
@@ -522,12 +547,24 @@ export default function Building() {
       if (tabChanged){
         setTabChanged(false);
       }else{
-        buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodesFinal}); //! API CALL
+        if (globalNodes.length == 0) {return}
+
+        buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodesFinal}).then((res) => { //! API CALL
+          setSuccessMsg("Layout edited successfully!")
+          setOpenSuccessMsg(true)
+        }).catch((error) => {
+          if ("response" in error) {
+            setErrorMsg("Error "+error.response.status);
+            setOpenErrorMsg(true);
+          }
+        })
       }
     }
   },[nodesFinal])
 
   React.useEffect(() => { //! para mudar as cores dos icons
+    if (!loaded) {return}
+    if (globalNodes.length == 0) {return}
 
     setNodes((nds) =>
       nds.map((node) => {

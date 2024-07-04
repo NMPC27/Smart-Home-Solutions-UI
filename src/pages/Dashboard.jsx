@@ -605,15 +605,18 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
-      setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+    setOpenSuccessMsg(true)
+
+    // deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
+    //   setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
+    //   setOpenSuccessMsg(true)
+    // }).catch((error) => {
+    //   if ("response" in error) {
+    //     setErrorMsg("Error "+error.response.status);
+    //     setOpenErrorMsg(true);
+    //   }
+    // })
   };
 
   const handleDeleteNotification = (idx) => {
