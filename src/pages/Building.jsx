@@ -178,8 +178,10 @@ export default function Building() {
             for(let tab=0; tab<res.data.length; tab++){
               for(let i = 0; i < res.data[tab].length; i++){
                 if ( devicesIds.includes(res.data[tab][i].id) ) {
-                  res.data[tab][i].data.name = devices.data.find((device) => device.id === res.data[tab][i].id).name
+                  let idx = devicesIds.indexOf(res.data[tab][i].id);
+                  res.data[tab][i].data.name = devices.data[idx].name
                   res.data[tab][i].data.openDialog = openDialog
+                  res.data[tab][i].data.on = devices.data[idx].on
                 }else{
                   res.data[tab].splice(i, 1);
                   i--;

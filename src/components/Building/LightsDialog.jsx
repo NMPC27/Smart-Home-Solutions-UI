@@ -52,6 +52,7 @@ export default function LightsDialog(props) {
     if (deviceIdx === -1) { return }
 
     if (loaded) {
+      if (lightColorFinal == undefined) { return }
       props.handleLightColor(lightColorFinal, deviceIdx);
     } else {
       setLoaded(true);
