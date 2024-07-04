@@ -597,15 +597,7 @@ export default function Dashboard() {
 
     setAlarmOn(val);
 
-    deviceAlarm({on: val}).then((res) => { //! API CALL
-      setSuccessMsg("Alarm turned "+(val ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceAlarm({on: val}) //! API CALL
   };
 
   const handleCameraOnOff = (idx) => {
