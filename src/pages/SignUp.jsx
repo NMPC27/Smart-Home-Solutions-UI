@@ -20,8 +20,6 @@ export default function SignUp() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [imgIdx, setImgIdx] = React.useState(()=> {return Math.floor(Math.random() * 100)});
-
   let navigate = useNavigate();
 
   React.useEffect(() => {
@@ -91,7 +89,7 @@ export default function SignUp() {
           md={8}
           height="90vh"
           sx={{
-            backgroundImage: `url(${imgIdx}.jpg)`,
+            backgroundImage: `url(https://source.unsplash.com/random?wallpapers)`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
