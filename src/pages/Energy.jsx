@@ -55,7 +55,7 @@ export default function Energy() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setData(null)
 
@@ -73,7 +73,7 @@ export default function Energy() {
       setData(res.data);
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setData(null)
 

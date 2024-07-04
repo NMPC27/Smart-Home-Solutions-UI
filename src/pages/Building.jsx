@@ -191,7 +191,7 @@ export default function Building() {
           }
         ).catch((error) => {
           if ("response" in error) {
-            setErrorMsg(error.response.status+" "+error.response.data.detail);
+            setErrorMsg("Error "+error.response.status);
             setOpenErrorMsg(true);
             setGlobalNodes(null)
     
@@ -204,7 +204,7 @@ export default function Building() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setDevices(null)
 
@@ -220,7 +220,7 @@ export default function Building() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setTabs(null)
 
@@ -236,7 +236,7 @@ export default function Building() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setHouseLayout(null)
 
@@ -258,7 +258,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -275,7 +275,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -291,7 +291,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -307,7 +307,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -325,7 +325,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -342,7 +342,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -359,7 +359,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -375,7 +375,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -402,7 +402,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -431,7 +431,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -467,7 +467,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -485,7 +485,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -557,7 +557,7 @@ export default function Building() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -578,7 +578,7 @@ export default function Building() {
         setOpenSuccessMsg(true)
       }).catch((error) => {
         if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.data.detail);
+          setErrorMsg("Error "+error.response.status);
           setOpenErrorMsg(true);
         }
       })

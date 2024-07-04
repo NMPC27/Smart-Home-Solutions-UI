@@ -121,7 +121,7 @@ export default function Dashboard() {
       setNotifications(res.data);
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -135,7 +135,7 @@ export default function Dashboard() {
           setNotifications(res.data);
         }).catch((error) => {
           if ("response" in error) {
-            setErrorMsg(error.response.status+" "+error.response.data.detail);
+            setErrorMsg("Error "+error.response.status);
             setOpenErrorMsg(true);
           }
         })
@@ -209,7 +209,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -236,7 +236,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -264,7 +264,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -299,7 +299,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -317,7 +317,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -335,7 +335,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -352,7 +352,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -368,7 +368,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -384,7 +384,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -400,7 +400,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -416,7 +416,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -432,7 +432,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -452,7 +452,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -544,7 +544,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -562,7 +562,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -578,7 +578,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -602,7 +602,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -618,7 +618,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -635,7 +635,7 @@ export default function Dashboard() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })

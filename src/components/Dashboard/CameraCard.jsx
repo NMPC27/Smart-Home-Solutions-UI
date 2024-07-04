@@ -102,7 +102,7 @@ export default function CameraCard(props) {
           }
         ).catch((error) => {
           if ("response" in error) {
-            setErrorMsg(error.response.status+" "+error.response.data.detail);
+            setErrorMsg("Error "+error.response.status);
             setOpenErrorMsg(true);
           }
         })

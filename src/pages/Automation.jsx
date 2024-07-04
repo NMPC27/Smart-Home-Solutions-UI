@@ -136,7 +136,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -158,7 +158,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -183,7 +183,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -200,7 +200,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -217,7 +217,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -230,7 +230,7 @@ export default function Automation() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setDevices(null)
 
@@ -246,7 +246,7 @@ export default function Automation() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setTabs(null)
 
@@ -300,7 +300,7 @@ export default function Automation() {
           }
         ).catch((error) => {
           if ("response" in error) {
-            setErrorMsg(error.response.status+" "+error.response.data.detail);
+            setErrorMsg("Error "+error.response.status);
             setOpenErrorMsg(true);
             setGlobalNodes(null)
             setNodesData(null)
@@ -313,7 +313,7 @@ export default function Automation() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setGlobalNodes(null)
 
@@ -329,7 +329,7 @@ export default function Automation() {
       }
     ).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
         setGlobalEdges(null)
 
@@ -409,7 +409,7 @@ export default function Automation() {
           setOpenSuccessMsg(true)
         }).catch((error) => {
           if ("response" in error) {
-            setErrorMsg(error.response.status+" "+error.response.data.detail);
+            setErrorMsg("Error "+error.response.status);
             setOpenErrorMsg(true);
           }
         })
@@ -437,7 +437,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -452,7 +452,7 @@ export default function Automation() {
         setOpenSuccessMsg(true)
       }).catch((error) => {
         if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.data.detail);
+          setErrorMsg("Error "+error.response.status);
           setOpenErrorMsg(true);
         }
       })
@@ -476,7 +476,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -512,7 +512,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -527,7 +527,7 @@ export default function Automation() {
       setOpenSuccessMsg(true)
     }).catch((error) => {
       if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
+        setErrorMsg("Error "+error.response.status);
         setOpenErrorMsg(true);
       }
     })
@@ -663,7 +663,7 @@ export default function Automation() {
         }
       }).catch((error) => {
         if ("response" in error) {
-          setErrorMsg(error.response.status+" "+error.response.data.detail);
+          setErrorMsg("Error "+error.response.status);
           setOpenErrorMsg(true);
           let tmp = [...tabs]
           tmp[selectedTab].status = "error"
@@ -795,7 +795,7 @@ export default function Automation() {
                         setOpenSuccessMsg(true)
                       }).catch((error) => {
                         if ("response" in error) {
-                          setErrorMsg(error.response.status+" "+error.response.data.detail);
+                          setErrorMsg("Error "+error.response.status);
                           setOpenErrorMsg(true);
                         }
                       })
@@ -849,7 +849,7 @@ export default function Automation() {
                           setOpenSuccessMsg(true)
                         }).catch((error) => {
                           if ("response" in error) {
-                            setErrorMsg(error.response.status+" "+error.response.data.detail);
+                            setErrorMsg("Error "+error.response.status);
                             setOpenErrorMsg(true);
                           }
                         })
@@ -911,7 +911,7 @@ export default function Automation() {
                           setOpenSuccessMsg(true)
                         }).catch((error) => {
                           if ("response" in error) {
-                            setErrorMsg(error.response.status+" "+error.response.data.detail);
+                            setErrorMsg("Error "+error.response.status);
                             setOpenErrorMsg(true);
                           }
                         })
@@ -964,7 +964,7 @@ export default function Automation() {
                           setOpenSuccessMsg(true)
                         }).catch((error) => {
                           if ("response" in error) {
-                            setErrorMsg(error.response.status+" "+error.response.data.detail);
+                            setErrorMsg("Error "+error.response.status);
                             setOpenErrorMsg(true);
                           }
                         })
