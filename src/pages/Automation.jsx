@@ -466,8 +466,10 @@ export default function Automation() {
     setGlobalEdges([...globalEdges, []]);
     setNodesData([...nodesData, []])
 
-    setNodes([])
-    setEdges([])
+    if (len == 0){
+      setNodes([])
+      setEdges([])
+    }
 
     setTabs(tmp);
 
