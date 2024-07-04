@@ -86,7 +86,7 @@ export default function PowerSensorDialog(props) {
     >
       <DialogTitle bgcolor={"#111827"} color={"#FFFFFF"}>
         <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-          {props.devices[deviceIdx].name} Humidity Sensor
+          {props.devices[deviceIdx].name} Power Sensor
         </h3>
 
         <IconButton
