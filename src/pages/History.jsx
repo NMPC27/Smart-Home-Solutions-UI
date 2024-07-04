@@ -212,7 +212,7 @@ export default function History() {
 
         let tmp = history[devicesIdx[i]].history[j][1];
         if (tmp === "off" || tmp === "unavailable") {
-          tmp = 0;
+          tmp = null;
         }
         if (tmp === "on" || tmp === "idle") {
           tmp = 1;
@@ -326,7 +326,7 @@ export default function History() {
                           <LineChart
                             colors={[chartColors[idx%3]]}
                             xAxis={[{ data: xAxis[idx], label: "Hour", scaleType: "utc", min: minVal, max: maxVal }]}
-                            yAxis={[{ label: labels[history[item].type], valueFormatter: (v) => {
+                            yAxis={[{ label: labels[history[item].type], min: Math.min(...yAxis[idx].filter(n => n)), max: Math.max(...yAxis[idx]) ,valueFormatter: (v) => {
                                 if (labels[history[item].type] === "Not detected/Detected"){ 
                                   if (v === 0) {
                                     return "Not det";
