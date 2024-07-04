@@ -271,20 +271,13 @@ export default function Dashboard() {
   }
 
   const handleDeleteRoom = (idx) => {
-    let deviceDeleteIdx = [];
-
-    devices.map((device, deviceIdx) => {
+ 
+    let devicesTmp = [...devices];
+    devicesTmp.map((device, deviceIdx) => {
       if (device.room === rooms[idx].name) {
-        deviceDeleteIdx.push(deviceIdx);
+        device.room = "Not Assigned"
       }
     });
-
-    let devicesTmp = [...devices];
-    let deleteCount = 0;
-    for (let i = 0; i < deviceDeleteIdx.length; i++) {
-      devicesTmp.splice(deviceDeleteIdx[i] - deleteCount, 1);
-      deleteCount++;
-    }
 
     setDevices(devicesTmp);
 
