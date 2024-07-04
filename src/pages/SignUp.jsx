@@ -49,6 +49,33 @@ export default function SignUp() {
       return;
     }
 
+    if (! /\d/.test(password) ){
+      setErrorMsg("Password must contain at least one number!");
+      setOpenErrorMsg(true);
+      return;
+    }
+    if (! /[a-z]/.test(password) ){
+      setErrorMsg("Password must contain at least one lowercase letter!");
+      setOpenErrorMsg(true);
+      return;
+    }
+    if (! /[A-Z]/.test(password) ){
+      setErrorMsg("Password must contain at least one uppercase letter!");
+      setOpenErrorMsg(true);
+      return;
+    } 
+    if (! /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password) ){
+      setErrorMsg("Password must contain at least one special character!");
+      setOpenErrorMsg(true);
+      return;
+    } 
+    if (password.length < 8) {
+      setErrorMsg("Password must be at least 8 characters long!");
+      setOpenErrorMsg(true);
+      return;
+    }
+
+
     if (password !== confPassword) {
       setErrorMsg("Passwords don't match!");
       setOpenErrorMsg(true);
