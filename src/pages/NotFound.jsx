@@ -2,6 +2,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import * as React from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -15,12 +16,14 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function NotFound() {
   let navigate = useNavigate();
 
+  const [imgIdx, setImgIdx] = React.useState(()=> {return Math.floor(Math.random() * 100)});
+
   return (
     <div
       style={{
         width: "90vw",
         height: "90vh",
-        backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
+        backgroundImage: `url(${imgIdx}.jpg)`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
