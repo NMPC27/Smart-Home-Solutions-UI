@@ -395,11 +395,15 @@ export default function Automation() {
 
   },[nodes, edges])
 
+  const [firstLoad, setFirstLoad] = React.useState(0);
+
   React.useEffect(() => {
-    if (loaded){
+    if (firstLoad == 2){
       if (tabChanged){
         setTabChanged(false);
       }else{
+        if (globalNodes.length == 0) {return}
+        
         flowEdit({nodes: nodesFinal, edges: edgesFinal, idx: selectedTab}).then((res) => { //! API CALL
           setSuccessMsg("Flow saved!")
           setOpenSuccessMsg(true)
@@ -410,6 +414,8 @@ export default function Automation() {
           }
         })
       }
+    }else{
+      setFirstLoad(firstLoad+1);
     }
   },[nodesFinal, edgesFinal])
 
@@ -439,15 +445,18 @@ export default function Automation() {
 
   const handleAddTab = () => {
     setTabChanged(true)
-    flowEdit({nodes: nodes, edges: edges, idx: selectedTab}).then((res) => { //! API CALL
-      setSuccessMsg("Flow saved!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
-        setOpenErrorMsg(true);
-      }
-    })
+
+    if (tabs.length != 0) {
+      flowEdit({nodes: nodes, edges: edges, idx: selectedTab}).then((res) => { //! API CALL
+        setSuccessMsg("Flow saved!")
+        setOpenSuccessMsg(true)
+      }).catch((error) => {
+        if ("response" in error) {
+          setErrorMsg(error.response.status+" "+error.response.data.detail);
+          setOpenErrorMsg(true);
+        }
+      })
+    }
 
     let tmp = [...tabs];
     let len = tmp.length;

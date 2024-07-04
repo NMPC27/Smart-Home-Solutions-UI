@@ -106,7 +106,12 @@ export default function EditDialog(props) {
     setOpenEditDialogAdd(false);
   };
 
+  const [firstLoad, setFirstLoad] = React.useState(true);
+
   const handleLayoutChange = (currentLayout) => {
+
+    if (firstLoad) { setFirstLoad(false); return }
+
     const newLayout = [];
 
     for (let i = 0; i < props.cards[device][selectedTab].length; i++) {

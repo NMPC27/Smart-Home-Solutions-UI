@@ -24,7 +24,10 @@ export default memo(({ id, data, isConnectable }) => {
       setDeviceIdx(idx)
     },[])
 
+    const [firstLoad, setFirstLoad] = React.useState(true);
+
     React.useEffect(()=> {
+      if (firstLoad) { setFirstLoad(false); return }
       data.editData({id: id, color: debouncedColor},"deviceData")
     },[debouncedColor])
 
