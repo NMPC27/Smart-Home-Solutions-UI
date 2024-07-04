@@ -106,14 +106,19 @@ export default function EditDialog(props) {
 
   const handleCloseEditDialogAdd = () => {
     setOpenEditDialogAdd(false);
+    setChangingCards(true);
   };
 
   const [firstLoad, setFirstLoad] = React.useState(true);
+  const [changingTab, setChangingTab] = React.useState(false);
+  const [changingCards, setChangingCards] = React.useState(false);
 
   const handleLayoutChange = (currentLayout) => {
 
     if (firstLoad) { setFirstLoad(false); return }
     if (deviceChange) { setDeviceChange(false); return }
+    if (changingTab) { setChangingTab(false); return }
+    if (changingCards) { setChangingCards(false); return }
 
     const newLayout = [];
 
@@ -210,21 +215,21 @@ export default function EditDialog(props) {
                 <Button 
                   variant={device==="pc" ? "contained" : "outlined"} 
                   sx={{fontWeight: 'bold'}} 
-                  onClick={()=>{setDevice("pc");setNumCol(4);setSelectedTab(0)}}
+                  onClick={()=>{setDevice("pc");setNumCol(4);setSelectedTab(0);setChangingTab(true)}}
                 >
                   PC
                 </Button>
                 <Button 
                   variant={device==="tablet" ? "contained" : "outlined"} 
                   sx={{fontWeight: 'bold'}} 
-                  onClick={()=>{setDevice("tablet");setNumCol(2);setSelectedTab(0)}}
+                  onClick={()=>{setDevice("tablet");setNumCol(2);setSelectedTab(0);setChangingTab(true)}}
                 >
                   Tablet
                 </Button>
                 <Button 
                   variant={device==="mobile" ? "contained" : "outlined"} 
                   sx={{fontWeight: 'bold'}} 
-                  onClick={()=>{setDevice("mobile");setNumCol(1);setSelectedTab(0)}}
+                  onClick={()=>{setDevice("mobile");setNumCol(1);setSelectedTab(0);setChangingTab(true)}}
                 >
                   Mobile
                 </Button>
@@ -234,7 +239,7 @@ export default function EditDialog(props) {
             <Grid item xs={12}>
               <Tabs 
                 value={selectedTab} 
-                onChange={(event, newValue) => setSelectedTab(newValue)}
+                onChange={(event, newValue) => {setSelectedTab(newValue);setChangingTab(true)}}
                 variant="scrollable"
                 scrollButtons="auto"
               >
@@ -253,7 +258,8 @@ export default function EditDialog(props) {
                             let tab = idx - 1
                             if (tab < 0) { tab = 0; }
                             setSelectedTab(tab)
-
+                            setChangingTab(true)
+                            
                             props.handleDeleteDashboard(device,idx)
                           }                          
                         }}>
@@ -302,7 +308,7 @@ export default function EditDialog(props) {
                     <IconButton
                       onMouseDown={(e) => e.stopPropagation()}
                       onTouchStart={(e) => handleCardDeleteMobile(e,device,selectedTab,idx)}
-                      onClick={() => props.handleCardDelete(device,selectedTab,idx)}
+                      onClick={() => {props.handleCardDelete(device,selectedTab,idx);setChangingCards(true)}}
                       sx={{
                         color: "#FFFFFF",
                       }}
