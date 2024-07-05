@@ -78,91 +78,67 @@ export function getNotifications() {
 export function deviceEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/devices/"+data.id,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/devices/" + data.id, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function deviceOn(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/devices/on/"+data.id,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/devices/on/" + data.id, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function deviceTemperatureTarget(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/devices/temperature/"+data.id,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/devices/temperature/" + data.id, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function deviceLightColor(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/devices/light/color/"+data.id,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/devices/light/color/" + data.id, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function deviceLightBrightness(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/devices/light/brightness/"+data.id,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/devices/light/brightness/" + data.id, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function deviceAlarm(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/alarm",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/alarm", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function getSensor(id) {
@@ -190,139 +166,107 @@ export function getCamImg(id) {
 export function roomAdd(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/rooms",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.post(endpoint + "/rooms", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function roomEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/rooms/"+data.id,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/rooms/" + data.id, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function roomRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.delete(
-    endpoint + "/rooms/"+data.id,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      data 
+  return axios.delete(endpoint + "/rooms/" + data.id, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+    data,
+  });
 }
 
 export function dashboardAdd(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/dashboards",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.post(endpoint + "/dashboards", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function dashboardRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.delete(
-    endpoint + "/dashboards/"+data.tab,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      data
+  return axios.delete(endpoint + "/dashboards/" + data.tab, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+    data,
+  });
 }
 
 export function dashboardCardAdd(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/dashboards/card",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.post(endpoint + "/dashboards/card", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function dashboardCardEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/dashboards/card",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/dashboards/card", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function dashboardCardRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.delete(
-    endpoint + "/dashboards/card/"+data.idx,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      data,
+  return axios.delete(endpoint + "/dashboards/card/" + data.idx, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+    data,
+  });
 }
 
 export function notificationsDelete(data) {
   let token = localStorage.getItem("token");
 
-  return axios.delete(
-    endpoint + "/notifications",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      data,
+  return axios.delete(endpoint + "/notifications", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+    data,
+  });
 }
 
-export function getFlowTabs(date) {
+export function getFlowTabs() {
   let token = localStorage.getItem("token");
 
   return axios.get(endpoint + "/flows/tabs", {
@@ -333,50 +277,38 @@ export function getFlowTabs(date) {
   });
 }
 
-
 export function flowTabAdd(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/flows/tabs",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.post(endpoint + "/flows/tabs", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function flowTabEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/flows/tabs/"+data.idx,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/flows/tabs/" + data.idx, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function flowTabRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.delete(
-    endpoint + "/flows/tabs/"+data.idx,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      data
+  return axios.delete(endpoint + "/flows/tabs/" + data.idx, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+    data,
+  });
 }
 
 export function getFlowNodes() {
@@ -404,16 +336,12 @@ export function getFlowEdges() {
 export function flowEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/flows/edit",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/flows/edit", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function getNodesData() {
@@ -430,61 +358,46 @@ export function getNodesData() {
 export function nodesDataAdd(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/flows/nodesData",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.post(endpoint + "/flows/nodesData", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function nodesDataEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/flows/nodesData/"+data.nodeData.id,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/flows/nodesData/" + data.nodeData.id, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function nodesDataRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.delete(
-    endpoint + "/flows/nodesData/"+data.idx,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      data
+  return axios.delete(endpoint + "/flows/nodesData/" + data.idx, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+    data,
+  });
 }
 
 export function applyFlow(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/flows/apply",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.post(endpoint + "/flows/apply", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function getBuildTabs() {
@@ -501,46 +414,35 @@ export function getBuildTabs() {
 export function buildTabAdd(data) {
   let token = localStorage.getItem("token");
 
-  return axios.post(
-    endpoint + "/builds/tabs",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.post(endpoint + "/builds/tabs", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function buildTabEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/builds/tabs/"+data.idx,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/builds/tabs/" + data.idx, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function buildTabRemove(data) {
   let token = localStorage.getItem("token");
 
-  return axios.delete(
-    endpoint + "/builds/tabs/"+data.idx,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
-      data
+  return axios.delete(endpoint + "/builds/tabs/" + data.idx, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+    data,
+  });
 }
 
 export function getBuildHouseLayout() {
@@ -557,16 +459,12 @@ export function getBuildHouseLayout() {
 export function buildsHouseLayoutEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/builds/layout/"+data.idx,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/builds/layout/" + data.idx, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function getBuildsHouseLayoutDevices() {
@@ -583,16 +481,12 @@ export function getBuildsHouseLayoutDevices() {
 export function buildsHouseLayoutDevicesEdit(data) {
   let token = localStorage.getItem("token");
 
-  return axios.put(
-    endpoint + "/builds/layout/devices/"+data.idx,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": endpoint,
-      },
+  return axios.put(endpoint + "/builds/layout/devices/" + data.idx, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": endpoint,
     },
-  );
+  });
 }
 
 export function getEnergy(date) {

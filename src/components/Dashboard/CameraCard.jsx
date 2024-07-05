@@ -11,10 +11,10 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { getCamImg } from "../API";
-import CircularProgress from '@mui/material/CircularProgress';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import CircularProgress from "@mui/material/CircularProgress";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import CameraDialog from "./CameraDialog";
-import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -89,25 +89,27 @@ export default function CameraCard(props) {
 
   const [img, setImg] = React.useState(null);
 
-  const interval = React.useRef(null)
+  const interval = React.useRef(null);
 
   React.useEffect(() => {
-    if (deviceIdx === -1) { return }
+    if (deviceIdx === -1) {
+      return;
+    }
 
-    if (props.devices[deviceIdx].on){
+    if (props.devices[deviceIdx].on) {
       interval.current = setInterval(() => {
-        getCamImg(props.devices[deviceIdx].id).then(
-          (res) => {
-            setImg(res.data)
-          }
-        ).catch((error) => {
-          if ("response" in error) {
-            setErrorMsg("Error "+error.response.status);
-            setOpenErrorMsg(true);
-          }
-        })
+        getCamImg(props.devices[deviceIdx].id)
+          .then((res) => {
+            setImg(res.data);
+          })
+          .catch((error) => {
+            if ("response" in error) {
+              setErrorMsg("Error " + error.response.status);
+              setOpenErrorMsg(true);
+            }
+          });
       }, 1000);
-    }else{
+    } else {
       clearInterval(interval.current);
       interval.current = null;
     }
@@ -115,15 +117,16 @@ export default function CameraCard(props) {
     return () => {
       clearInterval(interval.current);
     };
-
   }, [props.devices, deviceIdx]);
 
   const [fullScreen, setFullScreen] = React.useState(false);
 
   return (
-    <OutItem elevation={5} sx={{  height: mobile ? 400 : 640 }}>
+    <OutItem elevation={5} sx={{ height: mobile ? 400 : 640 }}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Camera</h2>
-      <InItem sx={{  minHeight: mobile ? 280 : 520, maxHeight: mobile ? 280 : 520 }}>
+      <InItem
+        sx={{ minHeight: mobile ? 280 : 520, maxHeight: mobile ? 280 : 520 }}
+      >
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -150,10 +153,13 @@ export default function CameraCard(props) {
               <Grid item xs={12}>
                 {props.devices[deviceIdx].on ? (
                   <>
-                    { img === null ? 
-                        <CircularProgress size={mobile ? 110 : 250} sx={{padding: mobile ? 5 : 10}} /> 
-                      : 
-                      <div style={{position: "relative"}} >
+                    {img === null ? (
+                      <CircularProgress
+                        size={mobile ? 110 : 250}
+                        sx={{ padding: mobile ? 5 : 10 }}
+                      />
+                    ) : (
+                      <div style={{ position: "relative" }}>
                         <img
                           width="100%"
                           height={mobile ? 190 : 400}
@@ -161,17 +167,28 @@ export default function CameraCard(props) {
                           src={`data:image/jpeg;base64,${img}`}
                           alt="Camera"
                         />
-                        <IconButton 
-                            onClick={() => setFullScreen(true)} 
-                            sx={{position: "absolute", right: 5, bottom: 10, color: "#FFFFFF", bgcolor: "#000000"}}                            
-                          >
-                            <FullscreenIcon sx={{ fontSize: 30 }} />
-                          </IconButton>
+                        <IconButton
+                          onClick={() => setFullScreen(true)}
+                          sx={{
+                            position: "absolute",
+                            right: 5,
+                            bottom: 10,
+                            color: "#FFFFFF",
+                            bgcolor: "#000000",
+                          }}
+                        >
+                          <FullscreenIcon sx={{ fontSize: 30 }} />
+                        </IconButton>
                       </div>
-                    }
+                    )}
                   </>
                 ) : (
-                  <VideocamOffIcon style={{fontSize: mobile ? 180 : 340, padding: mobile ? 5 : 35}}/>
+                  <VideocamOffIcon
+                    style={{
+                      fontSize: mobile ? 180 : 340,
+                      padding: mobile ? 5 : 35,
+                    }}
+                  />
                 )}
               </Grid>
 
@@ -214,3 +231,24 @@ export default function CameraCard(props) {
     </OutItem>
   );
 }
+
+import PropTypes from "prop-types";
+
+CameraCard.propTypes = {
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      room: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      on: PropTypes.bool.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  globalRoom: PropTypes.string.isRequired,
+  handleCameraOnOff: PropTypes.func.isRequired,
+};

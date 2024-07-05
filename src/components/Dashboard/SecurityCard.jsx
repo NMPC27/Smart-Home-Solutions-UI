@@ -10,7 +10,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#FFFFFF",
   borderRadius: "20px",
-  height: 160
+  height: 160,
 }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -20,11 +20,10 @@ const InItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderRadius: "20px",
-  height: 40
+  height: 40,
 }));
 
 export default function SecurityCard(props) {
-
   const handleClickAlarm = () => {
     props.handleClickAlarm(!props.alarmOn);
   };
@@ -77,3 +76,16 @@ export default function SecurityCard(props) {
     </OutItem>
   );
 }
+
+import PropTypes from "prop-types";
+
+SecurityCard.propTypes = {
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.oneOf(["Motion Sensor"]).isRequired,
+      on: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
+  alarmOn: PropTypes.bool.isRequired,
+  handleClickAlarm: PropTypes.func.isRequired,
+};

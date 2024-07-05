@@ -32,16 +32,27 @@ export default function RoomDeleteConfirmation(props) {
       <DialogContent>
         <h4>
           By deleting this room all the associated devices with this room will
-          return to a "Not Assigned" room. Are you sure that you want to delete this room?
+          return to a "Not Assigned" room. Are you sure that you want to delete
+          this room?
         </h4>
         <h4 style={{ color: "#FF0000" }}>
           Room to be deleted: {props.rooms[props.deleteIdx].name}
         </h4>
-        <h4 style={{ color: "#FF0000", marginBottom: "1vh" }}>Devices to be modified:</h4>
+        <h4 style={{ color: "#FF0000", marginBottom: "1vh" }}>
+          Devices to be modified:
+        </h4>
         {props.devices.map((device, idx) => {
           if (device.room === props.rooms[props.deleteIdx].name) {
             return (
-              <h4 key={idx} style={{ color: "#FF0000", marginLeft: "3vw", marginTop: "0vh", marginBottom: "0vh" }}>
+              <h4
+                key={idx}
+                style={{
+                  color: "#FF0000",
+                  marginLeft: "3vw",
+                  marginTop: "0vh",
+                  marginBottom: "0vh",
+                }}
+              >
                 • {device.name}
               </h4>
             );
@@ -72,3 +83,23 @@ export default function RoomDeleteConfirmation(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+// PropTypes for RoomDeleteConfirmation component
+RoomDeleteConfirmation.propTypes = {
+  openRoomDeleteConfirmation: PropTypes.bool.isRequired,
+  handleCloseRoomDeleteConfirmation: PropTypes.func.isRequired,
+  handleCloseRoomDeleteConfirmationOK: PropTypes.func.isRequired,
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  deleteIdx: PropTypes.number.isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      room: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};

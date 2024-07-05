@@ -10,8 +10,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
-import { minidenticon } from 'minidenticons'
-import { useMemo } from 'react'
+import { minidenticon } from "minidenticons";
+import { useMemo } from "react";
 import { getUser } from "../API";
 import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
@@ -23,11 +23,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const MinidenticonImg = ({ username, saturation, lightness, ...props }) => {
   const svgURI = useMemo(
-    () => 'data:image/svg+xml;utf8,' + encodeURIComponent(minidenticon(username, saturation, lightness)),
-    [username, saturation, lightness]
-  )
-  return (<img src={svgURI} alt={username} {...props} />)
-}
+    () =>
+      "data:image/svg+xml;utf8," +
+      encodeURIComponent(minidenticon(username, saturation, lightness)),
+    [username, saturation, lightness],
+  );
+  return <img src={svgURI} alt={username} {...props} />;
+};
 
 export default function DrawerStyled(props) {
   let navigate = useNavigate();
@@ -40,26 +42,26 @@ export default function DrawerStyled(props) {
     navigate("/");
   };
 
-  const [name,setName] = React.useState("")
-  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [name, setName] = React.useState("");
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState("");
 
-  React.useEffect(()=>{
-    getUser().then(
-      (res) => {
+  React.useEffect(() => {
+    getUser()
+      .then((res) => {
         setName(res.data);
-      }
-    ).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
-  },[])
+        navigate("/");
+      });
+  }, []);
 
   return (
     <>
@@ -194,14 +196,29 @@ export default function DrawerStyled(props) {
           sx={{ padding: "1vw", marginTop: `auto`, marginBottom: "3vh" }}
         >
           <Stack direction="row" spacing={2}>
-            <div style={{ backgroundColor: "#374151", borderRadius: "50%", width: 50, height: 50 }}>
-              <MinidenticonImg username={name} saturation="90" width="50" height="50" />
-            </div>          
-            <Typography variant="h6" style={{ fontWeight: "bold", marginTop: 10 }}>
+            <div
+              style={{
+                backgroundColor: "#374151",
+                borderRadius: "50%",
+                width: 50,
+                height: 50,
+              }}
+            >
+              <MinidenticonImg
+                username={name}
+                saturation="90"
+                width="50"
+                height="50"
+              />
+            </div>
+            <Typography
+              variant="h6"
+              style={{ fontWeight: "bold", marginTop: 10 }}
+            >
               {name}
             </Typography>
           </Stack>
-              
+
           <Button
             sx={{
               backgroundColor: "#E53935",
@@ -218,27 +235,36 @@ export default function DrawerStyled(props) {
         </Stack>
       </Drawer>
       <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      open={openErrorMsg}
-      autoHideDuration={6000}
-      onClose={(event, reason) => {
-        if (reason !== "clickaway") {
-          setOpenErrorMsg(false);
-        }
-      }}
-    >
-      <Alert
-        severity="error"
-        sx={{ width: "100%" }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
             setOpenErrorMsg(false);
           }
         }}
       >
-        {errorMsg}
-      </Alert>
-    </Snackbar>
-  </>
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
+
+import PropTypes from "prop-types";
+
+// PropTypes for DrawerStyled component
+DrawerStyled.propTypes = {
+  openDrawer: PropTypes.bool.isRequired,
+  handleCloseDrawer: PropTypes.func.isRequired,
+  navbar: PropTypes.string.isRequired,
+};

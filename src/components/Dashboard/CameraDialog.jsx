@@ -1,15 +1,11 @@
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slider from "@mui/material/Slider";
 import CloseIcon from "@mui/icons-material/Close";
-import { getCamImg } from "../API";
-import CircularProgress from '@mui/material/CircularProgress';
 import Slide from "@mui/material/Slide";
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,9 +23,7 @@ export default function CameraDialog(props) {
       PaperProps={{ sx: { borderRadius: "20px" } }}
     >
       <DialogTitle bgcolor={"#111827"} color={"#FFFFFF"}>
-        <h3 style={{ marginTop: 0, marginBottom: 0 }}>
-          {props.name} Camera
-        </h3>
+        <h3 style={{ marginTop: 0, marginBottom: 0 }}>{props.name} Camera</h3>
 
         <IconButton
           onClick={() => props.handleCloseDialog()}
@@ -59,3 +53,11 @@ export default function CameraDialog(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+CameraDialog.propTypes = {
+  openDialog: PropTypes.bool.isRequired,
+  handleCloseDialog: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  fullImg: PropTypes.string.isRequired,
+};

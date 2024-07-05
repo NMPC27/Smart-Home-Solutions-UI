@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import {
   BaseEdge,
   EdgeLabelRenderer,
   getBezierPath,
   useReactFlow,
-} from 'reactflow';
+} from "reactflow";
 
-import './customedge.css';
+import "./customedge.css";
 
 const onEdgeClick = (evt, id) => {
   evt.stopPropagation();
@@ -44,12 +44,12 @@ export default function CustomEdge({
       <EdgeLabelRenderer>
         <div
           style={{
-            position: 'absolute',
+            position: "absolute",
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             fontSize: 12,
             // everything inside EdgeLabelRenderer has no pointer events by default
             // if you have an interactive element, set pointer-events: all
-            pointerEvents: 'all',
+            pointerEvents: "all",
           }}
           className="nodrag nopan"
         >

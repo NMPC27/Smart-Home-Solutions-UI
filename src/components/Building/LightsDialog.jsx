@@ -26,7 +26,7 @@ export default function LightsDialog(props) {
   const [lightColor, setLightColor] = React.useState(null);
   const [lightColorFinal] = useDebounce(lightColor, 1000);
 
-  const [ brightness, setBrightness ] = React.useState(null);
+  const [brightness, setBrightness] = React.useState(null);
 
   const handleLightColor = (val) => {
     setLightColor(val);
@@ -36,12 +36,13 @@ export default function LightsDialog(props) {
 
   React.useEffect(() => {
     let idx = props.devices.findIndex((device) => device.id === props.deviceID);
-    setDeviceIdx(idx)
+    setDeviceIdx(idx);
   }, [props.deviceID]);
 
-
   React.useEffect(() => {
-    if (deviceIdx === -1) { return }
+    if (deviceIdx === -1) {
+      return;
+    }
 
     setLightColor(props.devices[deviceIdx].color);
     setBrightness(props.devices[deviceIdx].brightness);
@@ -49,10 +50,14 @@ export default function LightsDialog(props) {
 
   const [loaded, setLoaded] = React.useState(false);
   React.useEffect(() => {
-    if (deviceIdx === -1) { return }
+    if (deviceIdx === -1) {
+      return;
+    }
 
     if (loaded) {
-      if (lightColorFinal == undefined) { return }
+      if (lightColorFinal == undefined) {
+        return;
+      }
       props.handleLightColor(lightColorFinal, deviceIdx);
     } else {
       setLoaded(true);
@@ -60,13 +65,17 @@ export default function LightsDialog(props) {
   }, [lightColorFinal]);
 
   React.useEffect(() => {
-    if (deviceIdx === -1) { return }
+    if (deviceIdx === -1) {
+      return;
+    }
 
     setLightColor(props.devices[deviceIdx].color);
     setBrightness(props.devices[deviceIdx].brightness);
   }, [props.devices]);
 
-  if (deviceIdx === -1) { return }
+  if (deviceIdx === -1) {
+    return;
+  }
 
   return (
     <Dialog
@@ -140,13 +149,9 @@ export default function LightsDialog(props) {
             <IconButton
               onClick={() => props.handleLightOnOff(deviceIdx)}
               sx={{
-                bgcolor: props.devices[deviceIdx].on
-                  ? "#FFC107"
-                  : "#DDDEDF",
+                bgcolor: props.devices[deviceIdx].on ? "#FFC107" : "#DDDEDF",
                 "&:hover": {
-                  bgcolor: props.devices[deviceIdx].on
-                    ? "#D9A406"
-                    : "#B6B7B8",
+                  bgcolor: props.devices[deviceIdx].on ? "#D9A406" : "#B6B7B8",
                 },
               }}
             >
@@ -159,3 +164,23 @@ export default function LightsDialog(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+LightsDialog.propTypes = {
+  openDialog: PropTypes.bool.isRequired,
+  handleCloseDialog: PropTypes.func.isRequired,
+  handleLightColor: PropTypes.func.isRequired,
+  handleBrightnessChange: PropTypes.func.isRequired,
+  handleLightOnOff: PropTypes.func.isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(["Lights"]).isRequired,
+      color: PropTypes.string.isRequired,
+      brightness: PropTypes.number.isRequired,
+      on: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
+  deviceID: PropTypes.string.isRequired,
+};

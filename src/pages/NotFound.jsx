@@ -16,7 +16,9 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function NotFound() {
   let navigate = useNavigate();
 
-  const [imgIdx, setImgIdx] = React.useState(()=> {return Math.floor(Math.random() * 100)});
+  const [imgIdx] = React.useState(() => {
+    return Math.floor(Math.random() * 100);
+  });
 
   return (
     <div
@@ -28,9 +30,9 @@ export default function NotFound() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         borderRadius: "20px",
-        display:"flex", 
-        justifyContent:"center", 
-        alignItems:"center"
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Item>

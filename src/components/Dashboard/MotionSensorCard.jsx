@@ -6,9 +6,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import SensorsOffIcon from '@mui/icons-material/SensorsOff';
-import SensorsIcon from '@mui/icons-material/Sensors';
-import {getSensor} from "../API";
+import SensorsOffIcon from "@mui/icons-material/SensorsOff";
+import SensorsIcon from "@mui/icons-material/Sensors";
+import { getSensor } from "../API";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -17,7 +17,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#FFFFFF",
   borderRadius: "20px",
-  height: 400
+  height: 400,
 }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -28,8 +28,8 @@ const InItem = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   borderRadius: "20px",
   minHeight: 280,
-  maxHeight: 280, 
-  overflow: "auto"
+  maxHeight: 280,
+  overflow: "auto",
 }));
 
 export default function MotionSensorCard(props) {
@@ -46,26 +46,26 @@ export default function MotionSensorCard(props) {
   React.useEffect(() => {
     let tmpSensors = [];
 
-    for(let i = 0; i < props.devices.length; i++) {
+    for (let i = 0; i < props.devices.length; i++) {
       if (props.devices[i].type === "Motion Sensor") {
         tmpSensors.push(props.devices[i]);
       }
     }
 
     const interval = setInterval(() => {
-      
-      for( let i = 0; i < tmpSensors.length; i++) {
-        getSensor(tmpSensors[i].id).then((res) => {
-          tmpSensors[i].detectedMotion = res.data;
-          setSensors([...tmpSensors]);
-        }).catch((error) => {
-          if ("response" in error) {
-            setErrorMsg("Error "+error.response.status);
-            setOpenErrorMsg(true);
-          }
-        })
+      for (let i = 0; i < tmpSensors.length; i++) {
+        getSensor(tmpSensors[i].id)
+          .then((res) => {
+            tmpSensors[i].detectedMotion = res.data;
+            setSensors([...tmpSensors]);
+          })
+          .catch((error) => {
+            if ("response" in error) {
+              setErrorMsg("Error " + error.response.status);
+              setOpenErrorMsg(true);
+            }
+          });
       }
-
     }, 1000);
 
     return () => clearInterval(interval);
@@ -74,46 +74,70 @@ export default function MotionSensorCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Motion Sensor</h2>
-        <InItem >
-          <Grid container spacing={2.5} alignItems="center">
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Room</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={selectedRoom}
-                  label="Room"
-                  onChange={(event) => setSelectedRoom(event.target.value)}
-                >
-                  <MenuItem key={0} value={"All"}>
-                    {"All"}
+      <InItem>
+        <Grid container spacing={2.5} alignItems="center">
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Room</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedRoom}
+                label="Room"
+                onChange={(event) => setSelectedRoom(event.target.value)}
+              >
+                <MenuItem key={0} value={"All"}>
+                  {"All"}
+                </MenuItem>
+                {props.rooms.map((room, idx) => (
+                  <MenuItem key={idx} value={room.name}>
+                    {room.name}
                   </MenuItem>
-                  {props.rooms.map((room, idx) => (
-                    <MenuItem key={idx} value={room.name}>
-                      {room.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            {sensors.map((val, idx) => {
-                if (selectedRoom === "All" || selectedRoom === val.room) {
-                  return (
-                    <>
-                      <Grid item xs={9}>
-                        <h3>{val.name}</h3>
-                      </Grid>
-                      <Grid item xs={3}>
-                        {val.detectedMotion === "on" ? <SensorsIcon /> : <SensorsOffIcon />}
-                      </Grid>
-                    </>
-                  );
-                }
-            })}
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
-        </InItem>
+
+          {sensors.map((val) => {
+            if (selectedRoom === "All" || selectedRoom === val.room) {
+              return (
+                <>
+                  <Grid item xs={9}>
+                    <h3>{val.name}</h3>
+                  </Grid>
+                  <Grid item xs={3}>
+                    {val.detectedMotion === "on" ? (
+                      <SensorsIcon />
+                    ) : (
+                      <SensorsOffIcon />
+                    )}
+                  </Grid>
+                </>
+              );
+            }
+          })}
+        </Grid>
+      </InItem>
     </OutItem>
   );
 }
+
+import PropTypes from "prop-types";
+
+MotionSensorCard.propTypes = {
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(["Motion Sensor"]).isRequired,
+      name: PropTypes.string.isRequired,
+      room: PropTypes.string.isRequired,
+      detectedMotion: PropTypes.oneOf(["on", "off"]), // Assuming detectedMotion can be 'on' or 'off'
+    }),
+  ).isRequired,
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  globalRoom: PropTypes.string.isRequired,
+};

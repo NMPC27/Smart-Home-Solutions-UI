@@ -14,18 +14,15 @@ import { useTheme } from "@mui/material/styles";
 import EditDialogAdd from "./EditDialogAdd";
 import GridLayout from "react-grid-layout";
 import Button from "@mui/material/Button";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import Link from "@mui/material/Link";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
-let _1vh = Math.round(window.innerHeight / 100)
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#BDC3C7",
@@ -55,17 +52,18 @@ export default function EditDialog(props) {
   const [scroll, setScroll] = React.useState(false);
 
   React.useEffect(() => {
-    if (bottom.current === null) { return }
+    if (bottom.current === null) {
+      return;
+    }
 
     if (scroll) {
-      bottom.current.scrollIntoView({ behavior: 'smooth' });
+      bottom.current.scrollIntoView({ behavior: "smooth" });
       setScroll(false);
     }
-    
-  },[props.cards])
+  }, [props.cards]);
 
-  const handleCardAdd = (device,selectedTab,selectedType) => {
-    props.handleCardAdd(device,selectedTab,selectedType);
+  const handleCardAdd = (device, selectedTab, selectedType) => {
+    props.handleCardAdd(device, selectedTab, selectedType);
     setScroll(true);
   };
 
@@ -75,24 +73,42 @@ export default function EditDialog(props) {
   const [size, setSize] = React.useState(null);
   const [selectedTab, setSelectedTab] = React.useState(0);
 
-  const [device, setDevice] = React.useState(()=>{
-    if (mobile) { return "mobile" }
-    else if (tablet) { return "tablet" }
-    else { return "pc" }
+  const [device, setDevice] = React.useState(() => {
+    if (mobile) {
+      return "mobile";
+    } else if (tablet) {
+      return "tablet";
+    } else {
+      return "pc";
+    }
   });
 
   const [deviceChange, setDeviceChange] = React.useState(false);
 
   React.useEffect(() => {
-    if (mobile) { setDevice("mobile");setNumCol(1);setDeviceChange(true) }
-    else if (tablet) { setDevice("tablet");setNumCol(2);setDeviceChange(true)  }
-    else { setDevice("pc");setNumCol(4);setDeviceChange(true) }
-  }, [mobile,tablet]);
+    if (mobile) {
+      setDevice("mobile");
+      setNumCol(1);
+      setDeviceChange(true);
+    } else if (tablet) {
+      setDevice("tablet");
+      setNumCol(2);
+      setDeviceChange(true);
+    } else {
+      setDevice("pc");
+      setNumCol(4);
+      setDeviceChange(true);
+    }
+  }, [mobile, tablet]);
 
-  const [numCol,setNumCol] = React.useState(() => {
-    if (mobile) { return 1 } 
-    else if (tablet) { return 2 } 
-    else { return 4 }
+  const [numCol, setNumCol] = React.useState(() => {
+    if (mobile) {
+      return 1;
+    } else if (tablet) {
+      return 2;
+    } else {
+      return 4;
+    }
   });
 
   const dialogGrid = React.useCallback((node) => {
@@ -114,11 +130,22 @@ export default function EditDialog(props) {
   const [changingCards, setChangingCards] = React.useState(false);
 
   const handleLayoutChange = (currentLayout) => {
-
-    if (firstLoad) { setFirstLoad(false); return }
-    if (deviceChange) { setDeviceChange(false); return }
-    if (changingTab) { setChangingTab(false); return }
-    if (changingCards) { setChangingCards(false); return }
+    if (firstLoad) {
+      setFirstLoad(false);
+      return;
+    }
+    if (deviceChange) {
+      setDeviceChange(false);
+      return;
+    }
+    if (changingTab) {
+      setChangingTab(false);
+      return;
+    }
+    if (changingCards) {
+      setChangingCards(false);
+      return;
+    }
 
     const newLayout = [];
 
@@ -134,15 +161,13 @@ export default function EditDialog(props) {
       });
     }
 
-
-    props.handleSetLayout(device,selectedTab,newLayout);
-
+    props.handleSetLayout(device, selectedTab, newLayout);
   };
 
-  const handleCardDeleteMobile = (e,device,selectedTab,idx) => {
+  const handleCardDeleteMobile = (e, device, selectedTab, idx) => {
     e.stopPropagation();
-    props.handleCardDelete(device,selectedTab,idx);
-  }
+    props.handleCardDelete(device, selectedTab, idx);
+  };
 
   return (
     <>
@@ -170,10 +195,7 @@ export default function EditDialog(props) {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent 
-          style={{minHeight: "60vh"}}
-          ref={dialogGrid} 
-        >
+        <DialogContent style={{ minHeight: "60vh" }} ref={dialogGrid}>
           <Grid container spacing={2}>
             <Grid item xs={mobile ? 12 : 8}>
               <h3 style={{ marginTop: "1.6vh", marginBottom: "0vh" }}>
@@ -190,9 +212,12 @@ export default function EditDialog(props) {
                 sx={{
                   fontWeight: "bold",
                   marginTop: "1vh",
-                  marginBottom: "0vh",                  
+                  marginBottom: "0vh",
                 }}
-                onClick={() => {props.handleAddDashboard(device);setOpenSuccessMsg(true)}}
+                onClick={() => {
+                  props.handleAddDashboard(device);
+                  setOpenSuccessMsg(true);
+                }}
               >
                 + Dashboard
               </Button>
@@ -202,95 +227,113 @@ export default function EditDialog(props) {
                   fontWeight: "bold",
                   marginTop: "1vh",
                   marginBottom: "0vh",
-                  marginLeft: "1vw"
+                  marginLeft: "1vw",
                 }}
                 onClick={() => setOpenEditDialogAdd(true)}
               >
                 + Card
-              </Button>              
+              </Button>
             </Grid>
-            <Grid item xs={12} sx={{textAlign: "center"}}>
-
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
               <ButtonGroup>
-                <Button 
-                  variant={device==="pc" ? "contained" : "outlined"} 
-                  sx={{fontWeight: 'bold'}} 
-                  onClick={()=>{setDevice("pc");setNumCol(4);setSelectedTab(0);setChangingTab(true)}}
+                <Button
+                  variant={device === "pc" ? "contained" : "outlined"}
+                  sx={{ fontWeight: "bold" }}
+                  onClick={() => {
+                    setDevice("pc");
+                    setNumCol(4);
+                    setSelectedTab(0);
+                    setChangingTab(true);
+                  }}
                 >
                   PC
                 </Button>
-                <Button 
-                  variant={device==="tablet" ? "contained" : "outlined"} 
-                  sx={{fontWeight: 'bold'}} 
-                  onClick={()=>{setDevice("tablet");setNumCol(2);setSelectedTab(0);setChangingTab(true)}}
+                <Button
+                  variant={device === "tablet" ? "contained" : "outlined"}
+                  sx={{ fontWeight: "bold" }}
+                  onClick={() => {
+                    setDevice("tablet");
+                    setNumCol(2);
+                    setSelectedTab(0);
+                    setChangingTab(true);
+                  }}
                 >
                   Tablet
                 </Button>
-                <Button 
-                  variant={device==="mobile" ? "contained" : "outlined"} 
-                  sx={{fontWeight: 'bold'}} 
-                  onClick={()=>{setDevice("mobile");setNumCol(1);setSelectedTab(0);setChangingTab(true)}}
+                <Button
+                  variant={device === "mobile" ? "contained" : "outlined"}
+                  sx={{ fontWeight: "bold" }}
+                  onClick={() => {
+                    setDevice("mobile");
+                    setNumCol(1);
+                    setSelectedTab(0);
+                    setChangingTab(true);
+                  }}
                 >
                   Mobile
                 </Button>
               </ButtonGroup>
-
             </Grid>
             <Grid item xs={12}>
-              <Tabs 
-                value={selectedTab} 
-                onChange={(event, newValue) => {setSelectedTab(newValue);setChangingTab(true)}}
+              <Tabs
+                value={selectedTab}
+                onChange={(event, newValue) => {
+                  setSelectedTab(newValue);
+                  setChangingTab(true);
+                }}
                 variant="scrollable"
                 scrollButtons="auto"
               >
                 {props.cards[device].map((card, idx) => {
                   return (
-                    <Tab 
-                    label={          
-                    <span>
-                      Dashboard {idx} 
-                      <IconButton size="small" 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (props.cards[device].length === 1) {
-                            setOpenErrorMsg1(true);
-                          }else{
-                            let tab = idx - 1
-                            if (tab < 0) { tab = 0; }
-                            setSelectedTab(tab)
-                            setChangingTab(true)
-                            
-                            props.handleDeleteDashboard(device,idx)
-                          }                          
-                        }}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </span>
-                    } 
-                    value={idx} 
-                    style={{fontWeight:"bold"}}
-                    key={idx}
-                  />
-                  )
-                })
-                }
+                    <Tab
+                      label={
+                        <span>
+                          Dashboard {idx}
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (props.cards[device].length === 1) {
+                                setOpenErrorMsg1(true);
+                              } else {
+                                let tab = idx - 1;
+                                if (tab < 0) {
+                                  tab = 0;
+                                }
+                                setSelectedTab(tab);
+                                setChangingTab(true);
 
-              <Tab 
-                label={"+ Add"} 
-                value={props.cards[device].length} 
-                style={{fontWeight:"bold"}}
-                onClick={() => props.handleAddDashboard(device)}
-              />
+                                props.handleDeleteDashboard(device, idx);
+                              }
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </span>
+                      }
+                      value={idx}
+                      style={{ fontWeight: "bold" }}
+                      key={idx}
+                    />
+                  );
+                })}
+
+                <Tab
+                  label={"+ Add"}
+                  value={props.cards[device].length}
+                  style={{ fontWeight: "bold" }}
+                  onClick={() => props.handleAddDashboard(device)}
+                />
               </Tabs>
             </Grid>
-            
           </Grid>
 
           <GridLayout
-            style={{ marginLeft: -40, marginRight: 40}}
+            style={{ marginLeft: -40, marginRight: 40 }}
             className="layout"
             cols={numCol}
-            margin={[40,40]}
+            margin={[40, 40]}
             rowHeight={100}
             width={size + 10}
             isResizable={false}
@@ -300,25 +343,31 @@ export default function EditDialog(props) {
             }
             resizeHandles={[]}
           >
-            {selectedTab !== props.cards[device].length && props.cards[device][selectedTab].map((val, idx) => {
-              return (
-                <Item key={val.i}>
-                  <b className="prevent-select"> {val.type} Card </b>
-                  <div>
-                    <IconButton
-                      onMouseDown={(e) => e.stopPropagation()}
-                      onTouchStart={(e) => handleCardDeleteMobile(e,device,selectedTab,idx)}
-                      onClick={() => {props.handleCardDelete(device,selectedTab,idx);setChangingCards(true)}}
-                      sx={{
-                        color: "#FFFFFF",
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </div>
-                </Item>
-              );
-            })}
+            {selectedTab !== props.cards[device].length &&
+              props.cards[device][selectedTab].map((val, idx) => {
+                return (
+                  <Item key={val.i}>
+                    <b className="prevent-select"> {val.type} Card </b>
+                    <div>
+                      <IconButton
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onTouchStart={(e) =>
+                          handleCardDeleteMobile(e, device, selectedTab, idx)
+                        }
+                        onClick={() => {
+                          props.handleCardDelete(device, selectedTab, idx);
+                          setChangingCards(true);
+                        }}
+                        sx={{
+                          color: "#FFFFFF",
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
+                  </Item>
+                );
+              })}
           </GridLayout>
           <div ref={bottom} />
         </DialogContent>
@@ -379,3 +428,17 @@ export default function EditDialog(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+// PropTypes for EditDialog component
+EditDialog.propTypes = {
+  openEditDialog: PropTypes.bool.isRequired,
+  handleCloseEditDialog: PropTypes.func.isRequired,
+  handleCardAdd: PropTypes.func.isRequired,
+  handleCardDelete: PropTypes.func.isRequired,
+  handleDeleteDashboard: PropTypes.func.isRequired,
+  handleAddDashboard: PropTypes.func.isRequired,
+  handleSetLayout: PropTypes.func.isRequired,
+  cards: PropTypes.object.isRequired,
+  rooms: PropTypes.array.isRequired,
+};

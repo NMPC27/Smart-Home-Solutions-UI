@@ -19,7 +19,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#FFFFFF",
   borderRadius: "20px",
-  height: 400
+  height: 400,
 }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -30,8 +30,8 @@ const InItem = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   borderRadius: "20px",
   minHeight: 280,
-  maxHeight: 280, 
-  overflow: "auto"
+  maxHeight: 280,
+  overflow: "auto",
 }));
 
 export default function LightsCard(props) {
@@ -73,71 +73,71 @@ export default function LightsCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Lights</h2>
-        <InItem >
-          <Grid container spacing={2.5} alignItems="center">
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Room</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={selectedRoom}
-                  label="Room"
-                  onChange={(event) => setSelectedRoom(event.target.value)}
-                >
-                  <MenuItem key={0} value={"All"}>
-                    {"All"}
+      <InItem>
+        <Grid container spacing={2.5} alignItems="center">
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Room</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedRoom}
+                label="Room"
+                onChange={(event) => setSelectedRoom(event.target.value)}
+              >
+                <MenuItem key={0} value={"All"}>
+                  {"All"}
+                </MenuItem>
+                {props.rooms.map((room, idx) => (
+                  <MenuItem key={idx} value={room.name}>
+                    {room.name}
                   </MenuItem>
-                  {props.rooms.map((room, idx) => (
-                    <MenuItem key={idx} value={room.name}>
-                      {room.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            {props.devices.map((val, idx) => {
-              if (
-                val.type === "Light" &&
-                (val.room === selectedRoom || selectedRoom === "All")
-              ) {
-                return (
-                  <>
-                    <Grid item xs={2}>
-                      <IconButton 
-                        onClick={(e) => {
-                          if (val.id.split(".")[0] === "light") {
-                            handleOpenDialog(e, idx)
-                          }
-                        }}
-                        disabled={ val.id.split(".")[0] !== "light" }
-                      >
-                        <SettingsIcon />
-                      </IconButton>
-                    </Grid>
-
-                    <Grid item xs={7.5}>
-                      <h3>{val.name}</h3>
-                    </Grid>
-
-                    <Grid item xs={2.5}>
-                      <IconButton
-                        onClick={() => props.handleLightOnOff(idx)}
-                        sx={{
-                          bgcolor: val.on && "#FFC107",
-                          "&:hover": { bgcolor: val.on && "#D9A406" },
-                        }}
-                      >
-                        {val.on ? <FlashOnIcon /> : <FlashOffIcon />}
-                      </IconButton>
-                    </Grid>
-                  </>
-                );
-              }
-            })}
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
-        </InItem>
+
+          {props.devices.map((val, idx) => {
+            if (
+              val.type === "Light" &&
+              (val.room === selectedRoom || selectedRoom === "All")
+            ) {
+              return (
+                <>
+                  <Grid item xs={2}>
+                    <IconButton
+                      onClick={(e) => {
+                        if (val.id.split(".")[0] === "light") {
+                          handleOpenDialog(e, idx);
+                        }
+                      }}
+                      disabled={val.id.split(".")[0] !== "light"}
+                    >
+                      <SettingsIcon />
+                    </IconButton>
+                  </Grid>
+
+                  <Grid item xs={7.5}>
+                    <h3>{val.name}</h3>
+                  </Grid>
+
+                  <Grid item xs={2.5}>
+                    <IconButton
+                      onClick={() => props.handleLightOnOff(idx)}
+                      sx={{
+                        bgcolor: val.on && "#FFC107",
+                        "&:hover": { bgcolor: val.on && "#D9A406" },
+                      }}
+                    >
+                      {val.on ? <FlashOnIcon /> : <FlashOffIcon />}
+                    </IconButton>
+                  </Grid>
+                </>
+              );
+            }
+          })}
+        </Grid>
+      </InItem>
       {props.devices[deviceIdx] !== undefined && (
         <LightsDialog
           openDialog={openDialog}
@@ -152,3 +152,26 @@ export default function LightsCard(props) {
     </OutItem>
   );
 }
+
+import PropTypes from "prop-types";
+
+LightsCard.propTypes = {
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      room: PropTypes.string.isRequired,
+      on: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  globalRoom: PropTypes.string.isRequired,
+  handleLightOnOff: PropTypes.func.isRequired,
+  handleLightColor: PropTypes.func.isRequired,
+  handleBrightnessChange: PropTypes.func.isRequired,
+};

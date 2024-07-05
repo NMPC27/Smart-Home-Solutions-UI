@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import * as React from "react";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -28,13 +28,19 @@ const chartColorsHover = ["#D98C00", "#A60000"];
 const lables = ["Solar", "Gas"];
 
 export default function EnergyProductionChart(props) {
-
   const [select, setSelect] = React.useState("All");
-  const [xAxis, setXAxis] = React.useState([])
+  const [xAxis, setXAxis] = React.useState([]);
 
   React.useEffect(() => {
     var parts = props.date.split("/");
-    var startDate = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]), 0, 0, 0);
+    var startDate = new Date(
+      parseInt(parts[2]),
+      parseInt(parts[1]) - 1,
+      parseInt(parts[0]),
+      0,
+      0,
+      0,
+    );
     let dateArray = [];
 
     for (let i = 0; i < 24; i++) {
@@ -44,8 +50,8 @@ export default function EnergyProductionChart(props) {
       dateArray.push(newDate);
     }
 
-    setXAxis(dateArray)
-  } , [props.date]);
+    setXAxis(dateArray);
+  }, [props.date]);
 
   return (
     <OutItem elevation={5}>
@@ -59,8 +65,24 @@ export default function EnergyProductionChart(props) {
             xAxis={[{ data: xAxis, label: "Hour", scaleType: "utc" }]}
             yAxis={[{ label: "kWh" }]}
             series={[
-              { data: select === 'Solar' || select === 'All' ? props.production.solar : [], label: "Solar Production", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
-              { data: select === 'Gas' || select === 'All' ? props.production.gas : [], label: "Gas Production", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
+              {
+                data:
+                  select === "Solar" || select === "All"
+                    ? props.production.solar
+                    : [],
+                label: "Solar Production",
+                valueFormatter: (v) =>
+                  v === null || v === undefined ? null : v + " kWh",
+              },
+              {
+                data:
+                  select === "Gas" || select === "All"
+                    ? props.production.gas
+                    : [],
+                label: "Gas Production",
+                valueFormatter: (v) =>
+                  v === null || v === undefined ? null : v + " kWh",
+              },
             ]}
             legend={{ hidden: true }}
           />
@@ -74,7 +96,7 @@ export default function EnergyProductionChart(props) {
           {lables.map((item, index) => {
             return (
               <>
-                <Button 
+                <Button
                   onClick={() => {
                     if (select === item) {
                       setSelect("All");
@@ -82,10 +104,10 @@ export default function EnergyProductionChart(props) {
                       setSelect(item);
                     }
                   }}
-                  variant="contained" 
-                  sx={{ 
+                  variant="contained"
+                  sx={{
                     backgroundColor: chartColors[index],
-                    '&:hover': {
+                    "&:hover": {
                       backgroundColor: chartColorsHover[index],
                     },
                   }}
@@ -101,3 +123,12 @@ export default function EnergyProductionChart(props) {
   );
 }
 
+import PropTypes from "prop-types";
+// PropTypes validation
+EnergyProductionChart.propTypes = {
+  date: PropTypes.string.isRequired,
+  production: PropTypes.shape({
+    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
+    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+};

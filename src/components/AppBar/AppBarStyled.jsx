@@ -129,7 +129,11 @@ export default function AppBarStyled(props) {
                 open={openNotifications}
                 onClose={() => setOpenNotifications(false)}
               >
-                {props.notifications.length === 0 && <MenuItem><b>No notifications!</b></MenuItem>}
+                {props.notifications.length === 0 && (
+                  <MenuItem>
+                    <b>No notifications!</b>
+                  </MenuItem>
+                )}
                 {props.notifications.toReversed().map((notification, idx) => {
                   return (
                     <MenuItem key={idx}>
@@ -147,9 +151,10 @@ export default function AppBarStyled(props) {
               </Menu>
             </>
           )}
-          {(props.navbar === "energy" || props.navbar === "history") && !mobile && (
-            <BasicDatePicker handleDateChange={props.handleDateChange} />
-          )}
+          {(props.navbar === "energy" || props.navbar === "history") &&
+            !mobile && (
+              <BasicDatePicker handleDateChange={props.handleDateChange} />
+            )}
         </Toolbar>
       </AppBar>
 
@@ -188,7 +193,7 @@ export default function AppBarStyled(props) {
             openDeviceDialog={openDeviceDialog}
             handleCloseDeviceDialog={handleCloseDeviceDialog}
             rooms={props.rooms}
-            devices={props.devices}       
+            devices={props.devices}
             editDevice={props.editDevice}
           />
 
@@ -221,3 +226,24 @@ export default function AppBarStyled(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+// PropTypes for AppBarStyled component
+AppBarStyled.propTypes = {
+  navbar: PropTypes.string.isRequired,
+  notifications: PropTypes.array.isRequired,
+  rooms: PropTypes.array.isRequired,
+  devices: PropTypes.array.isRequired,
+  handleDateChange: PropTypes.func.isRequired,
+  handleDeleteNotification: PropTypes.func.isRequired,
+  handleRoomAdd: PropTypes.func.isRequired,
+  handleDeleteRoom: PropTypes.func.isRequired,
+  editRoomName: PropTypes.func.isRequired,
+  editDevice: PropTypes.func.isRequired,
+  handleCardAdd: PropTypes.func.isRequired,
+  handleCardDelete: PropTypes.func.isRequired,
+  cards: PropTypes.array.isRequired,
+  handleSetLayout: PropTypes.func.isRequired,
+  handleAddDashboard: PropTypes.func.isRequired,
+  handleDeleteDashboard: PropTypes.func.isRequired,
+};

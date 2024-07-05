@@ -22,7 +22,9 @@ export default function SignIn() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [imgIdx, setImgIdx] = React.useState(()=> {return Math.floor(Math.random() * 100)});
+  const [imgIdx] = React.useState(() => {
+    return Math.floor(Math.random() * 100);
+  });
 
   React.useEffect(() => {
     if (mobile) {
@@ -44,26 +46,28 @@ export default function SignIn() {
       return;
     }
 
-    doLogin(email, password).then(
-      //! API call
-      (response) => {
-        localStorage.setItem("token", response.data.access_token);
+    doLogin(email, password)
+      .then(
+        //! API call
+        (response) => {
+          localStorage.setItem("token", response.data.access_token);
 
-        navigate("/dashboard");
-        document.body.style.margin = "5vw";
-        document.body.style.marginTop = "3vh";
-      },
-    ).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
+          navigate("/dashboard");
+          document.body.style.margin = "5vw";
+          document.body.style.marginTop = "3vh";
+        },
+      )
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+
+          return;
+        }
+
+        setErrorMsg("503 Service Unavailable");
         setOpenErrorMsg(true);
-
-        return
-      }
-      
-      setErrorMsg("503 Service Unavailable");
-      setOpenErrorMsg(true);
-    })
+      });
   };
 
   const handleKeyDown = (event) => {

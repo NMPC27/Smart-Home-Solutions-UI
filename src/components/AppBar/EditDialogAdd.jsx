@@ -17,7 +17,15 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const suportedDevices = ["Light", "Temperature", "Motion Sensor", "Camera", "Security", "Temperature Sensor", "Power Sensor"];
+const suportedDevices = [
+  "Light",
+  "Temperature",
+  "Motion Sensor",
+  "Camera",
+  "Security",
+  "Temperature Sensor",
+  "Power Sensor",
+];
 
 export default function EditDialogAdd(props) {
   const [selectedType, setSelectedType] = React.useState();
@@ -32,7 +40,7 @@ export default function EditDialogAdd(props) {
 
     setOpenSuccessMsg(true);
 
-    props.handleCardAdd(props.device,props.selectedTab,selectedType);
+    props.handleCardAdd(props.device, props.selectedTab, selectedType);
 
     props.handleCloseEditDialogAdd();
   };
@@ -147,3 +155,13 @@ export default function EditDialogAdd(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+// PropTypes for EditDialogAdd component
+EditDialogAdd.propTypes = {
+  openEditDialogAdd: PropTypes.bool.isRequired,
+  handleCloseEditDialogAdd: PropTypes.func.isRequired,
+  handleCardAdd: PropTypes.func.isRequired,
+  device: PropTypes.object.isRequired,
+  selectedTab: PropTypes.number.isRequired,
+};

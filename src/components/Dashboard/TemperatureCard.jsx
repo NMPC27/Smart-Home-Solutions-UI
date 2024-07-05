@@ -13,8 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 import { getSensor } from "../API";
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -24,7 +22,7 @@ const OutItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#FFFFFF",
   borderRadius: "20px",
-  height: 640
+  height: 640,
 }));
 
 const InItem = styled(Paper)(({ theme }) => ({
@@ -35,30 +33,77 @@ const InItem = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   borderRadius: "20px",
   minHeight: 520,
-  maxHeight: 520, 
+  maxHeight: 520,
 }));
 
 const colorsArray = [
-  '#4F6596', '#526f97', '#567998', '#59839a',
-  '#5c8d9b', '#60969c', '#63a09d', '#66aa9f',
-  '#6ab4a0', '#6DBEA1', '#75c2a6', '#7dc5ac',
-  '#84c9b1', '#8cccb7', '#94d0bc', '#9cd3c2',
-  '#a3d7c7', '#abdacd', '#B3DED2', '#b9e0ca',
-  '#bfe1c3', '#c6e3bb', '#cce5b4', '#d2e6ac',
-  '#d8e8a5', '#dfea9d', '#e5eb96', '#EBED8E',
-  '#edeb8d', '#eeea8b', '#f0e88a', '#f1e789',
-  '#f3e587', '#f4e486', '#f6e285', '#f7e183',
-  '#F9DF82', '#f9d97f', '#f9d37c', '#f9cd78',
-  '#f9c775', '#f9c172', '#f9bb6f', '#f9b56b',
-  '#f9af68', '#F9A965', '#f8a261', '#f79a5e',
-  '#f5935a', '#f48b57', '#f38453', '#f27c50',
-  '#f0754c', '#ef6d49', '#EE6645', '#e96045',
-  '#e45a45', '#de5445', '#d94e45', '#d44845',
-  '#cf4245', '#c93c45', '#c43645', '#BF3045'
-]
+  "#4F6596",
+  "#526f97",
+  "#567998",
+  "#59839a",
+  "#5c8d9b",
+  "#60969c",
+  "#63a09d",
+  "#66aa9f",
+  "#6ab4a0",
+  "#6DBEA1",
+  "#75c2a6",
+  "#7dc5ac",
+  "#84c9b1",
+  "#8cccb7",
+  "#94d0bc",
+  "#9cd3c2",
+  "#a3d7c7",
+  "#abdacd",
+  "#B3DED2",
+  "#b9e0ca",
+  "#bfe1c3",
+  "#c6e3bb",
+  "#cce5b4",
+  "#d2e6ac",
+  "#d8e8a5",
+  "#dfea9d",
+  "#e5eb96",
+  "#EBED8E",
+  "#edeb8d",
+  "#eeea8b",
+  "#f0e88a",
+  "#f1e789",
+  "#f3e587",
+  "#f4e486",
+  "#f6e285",
+  "#f7e183",
+  "#F9DF82",
+  "#f9d97f",
+  "#f9d37c",
+  "#f9cd78",
+  "#f9c775",
+  "#f9c172",
+  "#f9bb6f",
+  "#f9b56b",
+  "#f9af68",
+  "#F9A965",
+  "#f8a261",
+  "#f79a5e",
+  "#f5935a",
+  "#f48b57",
+  "#f38453",
+  "#f27c50",
+  "#f0754c",
+  "#ef6d49",
+  "#EE6645",
+  "#e96045",
+  "#e45a45",
+  "#de5445",
+  "#d94e45",
+  "#d44845",
+  "#cf4245",
+  "#c93c45",
+  "#c43645",
+  "#BF3045",
+];
 
 export default function TemperatureCard(props) {
-
   const [size, setSize] = React.useState(null);
 
   // const slider = React.useCallback((node) => {
@@ -70,15 +115,15 @@ export default function TemperatureCard(props) {
 
   React.useEffect(() => {
     const resizeObserver = new ResizeObserver((event) => {
-        // Depending on the layout, you may need to swap inlineSize with blockSize
-        // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry/contentBoxSize
-        setSize(event[0].contentBoxSize[0].inlineSize);
+      // Depending on the layout, you may need to swap inlineSize with blockSize
+      // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry/contentBoxSize
+      setSize(event[0].contentBoxSize[0].inlineSize);
     });
 
     if (document.getElementById("slider")) {
       resizeObserver.observe(document.getElementById("slider"));
     }
-});
+  });
 
   const [deviceIdx, setDeviceIdx] = React.useState(() => {
     for (let i = 0; i < props.devices.length; i++) {
@@ -109,7 +154,7 @@ export default function TemperatureCard(props) {
     if (deviceIdx === -1) {
       return null;
     } else {
-      return colorsArray[(props.devices[deviceIdx].targetTemperature - 15)*4];
+      return colorsArray[(props.devices[deviceIdx].targetTemperature - 15) * 4];
     }
   });
 
@@ -162,18 +207,14 @@ export default function TemperatureCard(props) {
     }
   };
 
-  React.useEffect(
-    () => {
+  React.useEffect(() => {
+    if (deviceIdx === -1) return;
 
-      if ( deviceIdx === -1 ) return;
+    let temp = props.devices[deviceIdx].targetTemperature;
 
-      let temp = props.devices[deviceIdx].targetTemperature
-
-      setTargetTemperature(temp);
-      setArcColor(colorsArray[(temp - 15) * 4]);
-    },
-    [props.devices],
-  );
+    setTargetTemperature(temp);
+    setArcColor(colorsArray[(temp - 15) * 4]);
+  }, [props.devices]);
 
   React.useEffect(() => {
     if (props.globalRoom !== "Any") {
@@ -185,14 +226,13 @@ export default function TemperatureCard(props) {
   const [sensorHumidity, setSensorHumidity] = React.useState("--");
 
   React.useEffect(() => {
+    let sensorTemperatureID = null;
+    let sensorHumidityID = null;
 
-    let sensorTemperatureID = null
-    let sensorHumidityID = null
+    setSensorTemperature("--");
+    setSensorHumidity("--");
 
-    setSensorTemperature("--")
-    setSensorHumidity("--")
-
-    for(let i = 0; i < props.devices.length; i++) {
+    for (let i = 0; i < props.devices.length; i++) {
       if (props.devices[i].room === selectedRoom) {
         if (props.devices[i].type === "Temperature Sensor") {
           sensorTemperatureID = props.devices[i].id;
@@ -205,28 +245,31 @@ export default function TemperatureCard(props) {
     }
 
     const interval = setInterval(() => {
-      if (sensorTemperatureID !== null) { 
-        getSensor(sensorTemperatureID).then((res) => {
-          setSensorTemperature(res.data);
-        }).catch((error) => {
-          if ("response" in error) {
-            setErrorMsg("Error "+error.response.status);
-            setOpenErrorMsg(true);
-          }
-        })
+      if (sensorTemperatureID !== null) {
+        getSensor(sensorTemperatureID)
+          .then((res) => {
+            setSensorTemperature(res.data);
+          })
+          .catch((error) => {
+            if ("response" in error) {
+              setErrorMsg("Error " + error.response.status);
+              setOpenErrorMsg(true);
+            }
+          });
       }
 
       if (sensorHumidityID !== null) {
-        getSensor(sensorHumidityID).then((res) => {
-          setSensorHumidity(res.data);
-        }).catch((error) => {
-          if ("response" in error) {
-            setErrorMsg("Error "+error.response.status);
-            setOpenErrorMsg(true);
-          }
-        })
+        getSensor(sensorHumidityID)
+          .then((res) => {
+            setSensorHumidity(res.data);
+          })
+          .catch((error) => {
+            if ("response" in error) {
+              setErrorMsg("Error " + error.response.status);
+              setOpenErrorMsg(true);
+            }
+          });
       }
-
     }, 60000);
 
     return () => clearInterval(interval);
@@ -235,7 +278,7 @@ export default function TemperatureCard(props) {
   return (
     <OutItem elevation={5}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Temperature</h2>
-      <InItem >
+      <InItem>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -258,10 +301,17 @@ export default function TemperatureCard(props) {
 
           {props.devices[deviceIdx] !== undefined && (
             <>
-            <Grid item xs={12}>
-              <h2> {props.devices[deviceIdx].name} </h2>
-            </Grid>
-              <Grid item xs={12} marginBottom="2vh" id="slider" justifyContent="center" display="flex">
+              <Grid item xs={12}>
+                <h2> {props.devices[deviceIdx].name} </h2>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                marginBottom="2vh"
+                id="slider"
+                justifyContent="center"
+                display="flex"
+              >
                 <CircularSliderWithChildren
                   disabled={!props.devices[deviceIdx].on}
                   size={size > 430 ? 430 : size}
@@ -275,7 +325,9 @@ export default function TemperatureCard(props) {
                     value: targetTemperature,
                     onChange: (v) => {
                       setTargetTemperature(v);
-                      setArcColor(colorsArray[parseInt((targetTemperature - 15)*4)]);
+                      setArcColor(
+                        colorsArray[parseInt((targetTemperature - 15) * 4)],
+                      );
                     },
                   }}
                   onControlFinished={() =>
@@ -380,3 +432,34 @@ export default function TemperatureCard(props) {
     </OutItem>
   );
 }
+
+import PropTypes from "prop-types";
+// PropTypes validation
+TemperatureCard.propTypes = {
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.oneOf([
+        "Temperature",
+        "Temperature Sensor",
+        "Humidity Sensor",
+      ]).isRequired,
+      room: PropTypes.string.isRequired,
+      targetTemperature: PropTypes.number.isRequired,
+      currentTemperature: PropTypes.number,
+      currentHumidity: PropTypes.number,
+      on: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  globalRoom: PropTypes.string.isRequired,
+  handleMinusTemperature: PropTypes.func.isRequired,
+  handlePlusTemperature: PropTypes.func.isRequired,
+  handleTemperatureTarget: PropTypes.func.isRequired,
+  handleTemperatureOnOff: PropTypes.func.isRequired,
+};

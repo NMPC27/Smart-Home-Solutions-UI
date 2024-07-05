@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Stack from "@mui/material/Stack";
 import { useDrawingArea } from "@mui/x-charts/hooks";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import * as React from "react";
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -45,28 +45,36 @@ const pieColors = ["#2E96FF", "#FFA500", "#CC0000"];
 const lables = ["Grid", "Solar", "Gas"];
 
 export default function EnergyConsumptionPie(props) {
-
   const [data, setData] = React.useState([]);
   const [total, setTotal] = React.useState(0);
 
   React.useEffect(() => {
-    var grid = props.consumption.grid.reduce((partialSum, a) => partialSum + a, 0);
-    var solar = props.consumption.solar.reduce((partialSum, a) => partialSum + a, 0);
-    var gas = props.consumption.gas.reduce((partialSum, a) => partialSum + a, 0);
+    var grid = props.consumption.grid.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
+    var solar = props.consumption.solar.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
+    var gas = props.consumption.gas.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
 
-    let tmp = []
+    let tmp = [];
     if (grid > 0) {
-      tmp.push({ label: "Grid", value: grid })
+      tmp.push({ label: "Grid", value: grid });
     }
     if (solar > 0) {
-      tmp.push({ label: "Solar", value: solar })
+      tmp.push({ label: "Solar", value: solar });
     }
     if (gas > 0) {
-      tmp.push({ label: "Gas", value: gas })
+      tmp.push({ label: "Gas", value: gas });
     }
 
     setData(tmp);
-    setTotal(grid + solar + gas)
+    setTotal(grid + solar + gas);
   }, [props.consumption]);
 
   return (
@@ -90,9 +98,7 @@ export default function EnergyConsumptionPie(props) {
             margin={{ right: 5 }}
             legend={{ hidden: true }}
           >
-            <PieCenterLabel>
-              {total.toFixed(2)}{" "}kWh
-            </PieCenterLabel>
+            <PieCenterLabel>{total.toFixed(2)} kWh</PieCenterLabel>
           </PieChart>
         </div>
         <Stack
@@ -104,11 +110,11 @@ export default function EnergyConsumptionPie(props) {
           {lables.map((item, index) => {
             return (
               <>
-                <Button 
+                <Button
                   disabled
-                  variant="contained" 
-                  sx={{ 
-                    '&:disabled': {
+                  variant="contained"
+                  sx={{
+                    "&:disabled": {
                       backgroundColor: pieColors[index],
                       color: "#FFFFFF",
                     },
@@ -125,3 +131,12 @@ export default function EnergyConsumptionPie(props) {
   );
 }
 
+import PropTypes from "prop-types";
+// PropTypes validation
+EnergyConsumptionPie.propTypes = {
+  consumption: PropTypes.shape({
+    grid: PropTypes.arrayOf(PropTypes.number).isRequired,
+    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
+    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+};

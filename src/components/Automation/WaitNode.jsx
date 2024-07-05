@@ -1,43 +1,53 @@
-import React, { memo } from 'react';
-import { Handle, Position, useReactFlow } from 'reactflow';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { memo } from "react";
+import { Handle, Position, useReactFlow } from "reactflow";
+import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
-
 export default memo(({ id, isConnectable, data }) => {
-
   const { deleteElements } = useReactFlow();
 
-  const [hour, setHour] = React.useState(() => {return data.wait.split(":")[0]});
-  const [min, setMin] = React.useState(() => {return data.wait.split(":")[1]});
-  const [sec, setSec] = React.useState(() => {return data.wait.split(":")[2]});
+  const [hour, setHour] = React.useState(() => {
+    return data.wait.split(":")[0];
+  });
+  const [min, setMin] = React.useState(() => {
+    return data.wait.split(":")[1];
+  });
+  const [sec, setSec] = React.useState(() => {
+    return data.wait.split(":")[2];
+  });
 
   const handleHourEdit = (hour) => {
-    if (isNaN(hour)) {return}
+    if (isNaN(hour)) {
+      return;
+    }
 
-    setHour(hour)
-    data.editData({id: id, wait: hour+":"+min+":"+sec},"waitData")
-  }
+    setHour(hour);
+    data.editData({ id: id, wait: hour + ":" + min + ":" + sec }, "waitData");
+  };
 
   const handleMinEdit = (min) => {
-    if (isNaN(min)) {return}
+    if (isNaN(min)) {
+      return;
+    }
 
-    setMin(min)
-    data.editData({id: id, wait: hour+":"+min+":"+sec},"waitData")
-  }
+    setMin(min);
+    data.editData({ id: id, wait: hour + ":" + min + ":" + sec }, "waitData");
+  };
 
   const handleSecEdit = (sec) => {
-    if (isNaN(sec)) {return}
+    if (isNaN(sec)) {
+      return;
+    }
 
-    setSec(sec)
-    data.editData({id: id, wait: hour+":"+min+":"+sec},"waitData")
-  }
+    setSec(sec);
+    data.editData({ id: id, wait: hour + ":" + min + ":" + sec }, "waitData");
+  };
 
   const handleDeleteWait = (e) => {
     e.stopPropagation();
-    data.clearNodeData(id,"clearNodeData")
+    data.clearNodeData(id, "clearNodeData");
     deleteElements({ nodes: [{ id }] });
-  }
+  };
 
   return (
     <>
@@ -45,66 +55,66 @@ export default memo(({ id, isConnectable, data }) => {
         type="target"
         position={Position.Left}
         isConnectable={isConnectable}
-        style={{ 
-          width: '10px',
-          height: '10px',
+        style={{
+          width: "10px",
+          height: "10px",
         }}
       />
       <div>
         <b>Wait:</b>
       </div>
-      <div className="nodrag" style={{display:"flex", flexDirection:"row"}}>
-        <input 
-          style={{ 
-              backgroundColor: '#FFFFFF', 
-              color: "#000000", 
-              width: '25%', 
-              textAlign: "center",
-              borderRadius: "20px",
-              borderColor: "#000000",
-          }} 
-          value={hour}       
-          onChange={(e) => handleHourEdit(e.target.value)}    
+      <div className="nodrag" style={{ display: "flex", flexDirection: "row" }}>
+        <input
+          style={{
+            backgroundColor: "#FFFFFF",
+            color: "#000000",
+            width: "25%",
+            textAlign: "center",
+            borderRadius: "20px",
+            borderColor: "#000000",
+          }}
+          value={hour}
+          onChange={(e) => handleHourEdit(e.target.value)}
         />
-        <b style={{width: "10%"}} >:</b>
-        <input 
-          style={{ 
-              backgroundColor: '#FFFFFF', 
-              color: "#000000", 
-              width: '25%', 
-              textAlign: "center",
-              borderRadius: "20px",
-              borderColor: "#000000",
-          }} 
-          value={min} 
+        <b style={{ width: "10%" }}>:</b>
+        <input
+          style={{
+            backgroundColor: "#FFFFFF",
+            color: "#000000",
+            width: "25%",
+            textAlign: "center",
+            borderRadius: "20px",
+            borderColor: "#000000",
+          }}
+          value={min}
           onChange={(e) => handleMinEdit(e.target.value)}
         />
-        <b style={{width: "10%"}} >:</b>
-        <input 
-          style={{ 
-              backgroundColor: '#FFFFFF', 
-              color: "#000000", 
-              width: '25%', 
-              textAlign: "center",
-              borderRadius: "20px",
-              borderColor: "#000000",
-          }} 
-          value={sec} 
+        <b style={{ width: "10%" }}>:</b>
+        <input
+          style={{
+            backgroundColor: "#FFFFFF",
+            color: "#000000",
+            width: "25%",
+            textAlign: "center",
+            borderRadius: "20px",
+            borderColor: "#000000",
+          }}
+          value={sec}
           onChange={(e) => handleSecEdit(e.target.value)}
         />
       </div>
       <div className="nodrag">
-          <IconButton size="small" onClick={(e) => handleDeleteWait(e)}>
-              <DeleteIcon />
-          </IconButton>
+        <IconButton size="small" onClick={(e) => handleDeleteWait(e)}>
+          <DeleteIcon />
+        </IconButton>
       </div>
       <Handle
         type="source"
         position={Position.Right}
         isConnectable={isConnectable}
-        style={{ 
-          width: '10px',
-          height: '10px',
+        style={{
+          width: "10px",
+          height: "10px",
         }}
       />
     </>

@@ -17,10 +17,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function LightsDialog(props) {
-  const [lightColor, setLightColor] = React.useState(props.devices[props.deviceIdx].color);
+  const [lightColor, setLightColor] = React.useState(
+    props.devices[props.deviceIdx].color,
+  );
   const [lightColorFinal] = useDebounce(lightColor, 1000);
 
-  const [ brightness, setBrightness ] = React.useState(props.devices[props.deviceIdx].brightness);
+  const [brightness, setBrightness] = React.useState(
+    props.devices[props.deviceIdx].brightness,
+  );
 
   const handleLightColor = (val) => {
     setLightColor(val);
@@ -31,7 +35,7 @@ export default function LightsDialog(props) {
     setBrightness(props.devices[props.deviceIdx].brightness);
   }, [props.deviceIdx]);
 
-  const [ loaded, setLoaded ] = React.useState(false);
+  const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
     if (loaded) {
@@ -137,3 +141,22 @@ export default function LightsDialog(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+LightsDialog.propTypes = {
+  openDialog: PropTypes.bool.isRequired,
+  handleCloseDialog: PropTypes.func.isRequired,
+  handleLightColor: PropTypes.func.isRequired,
+  handleBrightnessChange: PropTypes.func.isRequired,
+  handleLightOnOff: PropTypes.func.isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      brightness: PropTypes.number.isRequired,
+      on: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
+  deviceIdx: PropTypes.number.isRequired,
+};

@@ -1,219 +1,243 @@
-import React, { memo } from 'react';
-import { Handle, Position, useReactFlow } from 'reactflow';
-import { useDebounce } from "use-debounce";
-import Slider from "@mui/material/Slider";
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { memo } from "react";
+import { Handle, Position, useReactFlow } from "reactflow";
+import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
 export default memo(({ id, data, isConnectable }) => {
+  const { deleteElements } = useReactFlow();
 
-    const { deleteElements } = useReactFlow();
+  const [deviceIdx, setDeviceIdx] = React.useState(0);
+  const [temperature, setTemperature] = React.useState(data.temperature);
+  const [humidity, setHumidity] = React.useState(data.humidity);
+  const [sensor, setSensor] = React.useState(data.sensor);
+  const [sinal, setSinal] = React.useState(data.sinal);
 
-    const [deviceIdx, setDeviceIdx] = React.useState(0);
-    const [temperature, setTemperature] = React.useState(data.temperature);
-    const [humidity, setHumidity] = React.useState(data.humidity);
-    const [sensor, setSensor] = React.useState(data.sensor);
-    const [sinal, setSinal] = React.useState(data.sinal);
-
-    React.useEffect(()=> {
-      if (data.deviceID === null) { return }
-
-      let idx = data.devices.findIndex(device => device.id === data.deviceID)
-      setDeviceIdx(idx)
-    },[])
-
-
-    const handleChangeDevice = (event) => {      
-      data.editData({id: id, deviceID: data.devices[event].id, deviceType: data.devices[event].type},"eventData")
-      setDeviceIdx(event)
-    };
-
-    const handleChangeSensor = (event) => {
-      data.editData({id: id, sensor: event},"eventData")
-      setSensor(event)
-    };
-
-    const plusTemp = () => {
-      if (temperature < 30){
-        data.editData({id: id, temperature: temperature + 1},"eventData")
-        setTemperature(temperature + 1)
-      }        
+  React.useEffect(() => {
+    if (data.deviceID === null) {
+      return;
     }
 
-    const minusTemp = () => {
-      if (temperature > 15) {
-        data.editData({id: id, temperature: temperature - 1},"eventData")
-        setTemperature(temperature - 1)
-      }
+    let idx = data.devices.findIndex((device) => device.id === data.deviceID);
+    setDeviceIdx(idx);
+  }, []);
+
+  const handleChangeDevice = (event) => {
+    data.editData(
+      {
+        id: id,
+        deviceID: data.devices[event].id,
+        deviceType: data.devices[event].type,
+      },
+      "eventData",
+    );
+    setDeviceIdx(event);
+  };
+
+  const handleChangeSensor = (event) => {
+    data.editData({ id: id, sensor: event }, "eventData");
+    setSensor(event);
+  };
+
+  const plusTemp = () => {
+    if (temperature < 30) {
+      data.editData({ id: id, temperature: temperature + 1 }, "eventData");
+      setTemperature(temperature + 1);
     }
+  };
 
-    const plusHumi = () => {
-      if (humidity < 100){
-        data.editData({id: id, humidity: humidity + 5},"eventData")
-        setHumidity(humidity + 5)
-      }
+  const minusTemp = () => {
+    if (temperature > 15) {
+      data.editData({ id: id, temperature: temperature - 1 }, "eventData");
+      setTemperature(temperature - 1);
     }
+  };
 
-    const minusHumi = () => {
-      if (humidity > 0) {
-        data.editData({id: id, humidity: humidity - 5},"eventData")
-        setHumidity(humidity - 5)
-      }
-    } 
-
-    const handleChangeSinal = (val) => {
-      data.editData({id: id, sinal: val},"eventData")
-      setSinal(val)
-    };
-
-    const handleDeleteEvent = (e) => {
-      e.stopPropagation();
-      data.clearNodeData(id,"clearNodeData")
-      deleteElements({ nodes: [{ id }] });
+  const plusHumi = () => {
+    if (humidity < 100) {
+      data.editData({ id: id, humidity: humidity + 5 }, "eventData");
+      setHumidity(humidity + 5);
     }
+  };
 
+  const minusHumi = () => {
+    if (humidity > 0) {
+      data.editData({ id: id, humidity: humidity - 5 }, "eventData");
+      setHumidity(humidity - 5);
+    }
+  };
+
+  const handleChangeSinal = (val) => {
+    data.editData({ id: id, sinal: val }, "eventData");
+    setSinal(val);
+  };
+
+  const handleDeleteEvent = (e) => {
+    e.stopPropagation();
+    data.clearNodeData(id, "clearNodeData");
+    deleteElements({ nodes: [{ id }] });
+  };
 
   return (
     <>
       <div>
         <b>Event Device:</b>
       </div>
-      <select 
-        className="nodrag" 
-        style={{backgroundColor:'#FFFFFF', color:'#000000'}} 
-        value={deviceIdx} 
-        onChange={e => handleChangeDevice(e.target.value)} 
+      <select
+        className="nodrag"
+        style={{ backgroundColor: "#FFFFFF", color: "#000000" }}
+        value={deviceIdx}
+        onChange={(e) => handleChangeDevice(e.target.value)}
       >
         {data.devices.map((device, idx) => {
-          if (device.type === "Temperature Sensor" || device.type === "Motion Sensor" || device.type === "Humidity Sensor") {
-            return <option key={idx} value={idx}>{device.name}</option>
+          if (
+            device.type === "Temperature Sensor" ||
+            device.type === "Motion Sensor" ||
+            device.type === "Humidity Sensor"
+          ) {
+            return (
+              <option key={idx} value={idx}>
+                {device.name}
+              </option>
+            );
           }
         })}
       </select>
-      { data.devices[deviceIdx].type === "Motion Sensor" &&
+      {data.devices[deviceIdx].type === "Motion Sensor" && (
         <>
-            <div>
-                <b>Motion:</b>
-            </div>      
-            <select 
-              className="nodrag" 
-              style={{backgroundColor:'#FFFFFF', color:'#000000'}} 
-              value={sensor} 
-              onChange={e => handleChangeSensor(e.target.value)} 
+          <div>
+            <b>Motion:</b>
+          </div>
+          <select
+            className="nodrag"
+            style={{ backgroundColor: "#FFFFFF", color: "#000000" }}
+            value={sensor}
+            onChange={(e) => handleChangeSensor(e.target.value)}
+          >
+            <option value={"notDetected"}>Not Detected</option>
+            <option value={"detected"}>Detected</option>
+          </select>
+        </>
+      )}
+      {data.devices[deviceIdx].type === "Temperature Sensor" && (
+        <>
+          <div>
+            <b>Temperature:</b>
+          </div>
+          <div
+            className="nodrag"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <button
+              style={{ marginRight: "0.5vw" }}
+              onClick={() => minusTemp()}
             >
-              <option value={"notDetected"}>Not Detected</option>
-              <option value={"detected"}>Detected</option>
-            </select>      
+              -
+            </button>
+            <input
+              style={{
+                backgroundColor: "#FFFFFF",
+                color: "#000000",
+                width: "100%",
+                textAlign: "center",
+                borderRadius: "20px",
+                borderColor: "#000000",
+              }}
+              value={sinal + " " + temperature + "°C"}
+              readOnly
+            />
+            <button style={{ marginLeft: "0.5vw" }} onClick={() => plusTemp()}>
+              +
+            </button>
+          </div>
+          <div
+            className="nodrag"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <button
+              style={{ marginRight: "1vw" }}
+              onClick={() => handleChangeSinal("<")}
+            >
+              {"<"}
+            </button>
+            <button
+              style={{ marginLeft: "1vw" }}
+              onClick={() => handleChangeSinal(">")}
+            >
+              {">"}
+            </button>
+          </div>
         </>
-      }
-      { data.devices[deviceIdx].type === "Temperature Sensor" &&
+      )}
+      {data.devices[deviceIdx].type === "Humidity Sensor" && (
         <>
-            <div>
-                <b>Temperature:</b>
-            </div>
-            <div className="nodrag" style={{display:"flex", flexDirection:"row"}}>
-                <button 
-                    style={{marginRight:"0.5vw"}} 
-                    onClick={() => minusTemp()}
-                >
-                    -
-                </button>
-                <input 
-                    style={{ 
-                        backgroundColor: '#FFFFFF', 
-                        color: "#000000", 
-                        width: '100%', 
-                        textAlign: "center",
-                        borderRadius: "20px",
-                        borderColor: "#000000",
-                    }} 
-                    value={sinal+" "+temperature+"°C"} 
-                    readonly
-                />
-                <button 
-                    style={{marginLeft:"0.5vw"}} 
-                    onClick={() => plusTemp()}
-                >
-                    +
-                </button>
-            </div>
-            <div className="nodrag" style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
-                <button 
-                    style={{marginRight:"1vw"}} 
-                    onClick={() => handleChangeSinal("<")}
-                >
-                    {"<"}
-                </button>
-                <button 
-
-                    style={{marginLeft:"1vw"}} 
-                    onClick={() => handleChangeSinal(">")}
-                >
-                    {">"}
-                </button>
-            </div>
+          <div>
+            <b>Humidity:</b>
+          </div>
+          <div
+            className="nodrag"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <button
+              style={{ marginRight: "0.5vw" }}
+              onClick={() => minusHumi()}
+            >
+              -
+            </button>
+            <input
+              style={{
+                backgroundColor: "#FFFFFF",
+                color: "#000000",
+                width: "100%",
+                textAlign: "center",
+                borderRadius: "20px",
+                borderColor: "#000000",
+              }}
+              value={sinal + " " + humidity + "%"}
+              readonly
+            />
+            <button style={{ marginLeft: "0.5vw" }} onClick={() => plusHumi()}>
+              +
+            </button>
+          </div>
+          <div
+            className="nodrag"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <button
+              style={{ marginRight: "1vw" }}
+              onClick={() => handleChangeSinal("<")}
+            >
+              {"<"}
+            </button>
+            <button
+              style={{ marginLeft: "1vw" }}
+              onClick={() => handleChangeSinal(">")}
+            >
+              {">"}
+            </button>
+          </div>
         </>
-      }
-      { data.devices[deviceIdx].type === "Humidity Sensor" &&
-        <>
-            <div>
-                <b>Humidity:</b>
-            </div>
-            <div className="nodrag" style={{display:"flex", flexDirection:"row"}}>
-                <button 
-                    style={{marginRight:"0.5vw"}} 
-                    onClick={() => minusHumi()}
-                >
-                    -
-                </button>
-                <input 
-                    style={{ 
-                        backgroundColor: '#FFFFFF', 
-                        color: "#000000", 
-                        width: '100%', 
-                        textAlign: "center",
-                        borderRadius: "20px",
-                        borderColor: "#000000",
-                    }} 
-                    value={sinal+" "+humidity+"%"} 
-                    readonly
-                />
-                <button 
-                    style={{marginLeft:"0.5vw"}} 
-                    onClick={() => plusHumi()}
-                >
-                    +
-                </button>
-            </div>
-            <div className="nodrag" style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
-                <button 
-                    style={{marginRight:"1vw"}} 
-                    onClick={() => handleChangeSinal("<")}
-                >
-                    {"<"}
-                </button>
-                <button 
-
-                    style={{marginLeft:"1vw"}} 
-                    onClick={() => handleChangeSinal(">")}
-                >
-                    {">"}
-                </button>
-            </div>
-        </>
-      }
-        <div className="nodrag">
-            <IconButton size="small" onClick={(e) => handleDeleteEvent(e)}>
-                <DeleteIcon />
-            </IconButton>
-        </div>
-        <Handle
+      )}
+      <div className="nodrag">
+        <IconButton size="small" onClick={(e) => handleDeleteEvent(e)}>
+          <DeleteIcon />
+        </IconButton>
+      </div>
+      <Handle
         type="source"
         position={Position.Right}
         isConnectable={isConnectable}
-        style={{ 
-          width: '10px',
-          height: '10px',
+        style={{
+          width: "10px",
+          height: "10px",
         }}
       />
     </>

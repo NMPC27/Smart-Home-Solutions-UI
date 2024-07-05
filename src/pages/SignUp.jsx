@@ -20,7 +20,9 @@ export default function SignUp() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [imgIdx, setImgIdx] = React.useState(()=> {return Math.floor(Math.random() * 100)});
+  const [imgIdx] = React.useState(() => {
+    return Math.floor(Math.random() * 100);
+  });
 
   let navigate = useNavigate();
 
@@ -43,38 +45,45 @@ export default function SignUp() {
   const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleSignUp = () => {
-    if (name === "" || email === "" || password === "" || confPassword === "" || token === "" || domain === "" || phone === "") {
+    if (
+      name === "" ||
+      email === "" ||
+      password === "" ||
+      confPassword === "" ||
+      token === "" ||
+      domain === "" ||
+      phone === ""
+    ) {
       setErrorMsg("Please fill out all the fields!");
       setOpenErrorMsg(true);
       return;
     }
 
-    if (! /\d/.test(password) ){
+    if (!/\d/.test(password)) {
       setErrorMsg("Password must contain at least one number!");
       setOpenErrorMsg(true);
       return;
     }
-    if (! /[a-z]/.test(password) ){
+    if (!/[a-z]/.test(password)) {
       setErrorMsg("Password must contain at least one lowercase letter!");
       setOpenErrorMsg(true);
       return;
     }
-    if (! /[A-Z]/.test(password) ){
+    if (!/[A-Z]/.test(password)) {
       setErrorMsg("Password must contain at least one uppercase letter!");
       setOpenErrorMsg(true);
       return;
-    } 
-    if (! /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password) ){
+    }
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
       setErrorMsg("Password must contain at least one special character!");
       setOpenErrorMsg(true);
       return;
-    } 
+    }
     if (password.length < 8) {
       setErrorMsg("Password must be at least 8 characters long!");
       setOpenErrorMsg(true);
       return;
     }
-
 
     if (password !== confPassword) {
       setErrorMsg("Passwords don't match!");
@@ -82,24 +91,26 @@ export default function SignUp() {
       return;
     }
 
-    signUp({ name, email, phone, password, token, domain }).then((res) => {
-      if (res.data.status === "error") {
-        setErrorMsg("Email already in use!");
-        setOpenErrorMsg(true);
-      } else {
-        navigate("/");
-      }
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
+    signUp({ name, email, phone, password, token, domain })
+      .then((res) => {
+        if (res.data.status === "error") {
+          setErrorMsg("Email already in use!");
+          setOpenErrorMsg(true);
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
 
-        return
-      }
-      
-      setErrorMsg("503 Service Unavailable");
-      setOpenErrorMsg(true);
-    })
+          return;
+        }
+
+        setErrorMsg("503 Service Unavailable");
+        setOpenErrorMsg(true);
+      });
   };
 
   const handleKeyDown = (event) => {

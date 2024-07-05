@@ -6,20 +6,19 @@ import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import Button from '@mui/material/Button';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import Button from "@mui/material/Button";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { DrawIoEmbed } from 'react-drawio';
+import { DrawIoEmbed } from "react-drawio";
 import EditIcon from "@mui/icons-material/Edit";
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import TextField from "@mui/material/TextField";
-import UploadIcon from '@mui/icons-material/Upload';
-import { 
-  getDevices, 
+import UploadIcon from "@mui/icons-material/Upload";
+import {
+  getDevices,
   deviceOn,
   deviceTemperatureTarget,
   deviceLightColor,
@@ -34,10 +33,8 @@ import {
   buildsHouseLayoutEdit,
   buildsHouseLayoutDevicesEdit,
 } from "../components/API";
-import ButtonGroup from '@mui/material/ButtonGroup';
-import ReactFlow, {
-  useNodesState
-} from 'reactflow';
+import ButtonGroup from "@mui/material/ButtonGroup";
+import ReactFlow, { useNodesState } from "reactflow";
 import Skeleton from "@mui/material/Skeleton";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -59,11 +56,10 @@ import TemperatureSensorNode from "../components/Building/TemperatureSensorNode"
 import HumiditySensorNode from "../components/Building/HumiditySensorNode";
 import PowerSensorNode from "../components/Building/PowerSensorNode";
 
+import "reactflow/dist/style.css";
 
-import 'reactflow/dist/style.css';
-
-const whiteImg = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIxcHgiIGhlaWdodD0iMXB4IiB2aWV3Qm94PSItMC41IC0wLjUgMSAxIiBjb250ZW50PSImbHQ7bXhmaWxlIGhvc3Q9JnF1b3Q7ZW1iZWQuZGlhZ3JhbXMubmV0JnF1b3Q7IG1vZGlmaWVkPSZxdW90OzIwMjQtMDUtMDhUMTM6Mjc6NTkuOTE4WiZxdW90OyBhZ2VudD0mcXVvdDtNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTI0LjAuMC4wIFNhZmFyaS81MzcuMzYmcXVvdDsgdmVyc2lvbj0mcXVvdDsyNC4zLjEmcXVvdDsgZXRhZz0mcXVvdDtld3JwUDZ3TXJkVXQtZkpXRVFsdyZxdW90OyB0eXBlPSZxdW90O2VtYmVkJnF1b3Q7Jmd0OyZsdDtkaWFncmFtIGlkPSZxdW90O0x4QVl3WFVTSGxfQlFvZTA4OXVfJnF1b3Q7IG5hbWU9JnF1b3Q7UMOhZ2luYS0xJnF1b3Q7Jmd0O2RkSE5Fb0lnRUFEZ3ArR3VVRmxuczdwMDh0Q1prVTJZUWRkQkdxMm5UMmMxWTZ3THMzeTdzUHd3a1ZiOTJjbEdYMUdCWlR4U1BSTkh4bmtTSjhNNHdwTmdJN1lFcFRPS0tGNGdOeStZTUpyMFlSUzBRYUZIdE40MElSWlkxMUQ0d0tSejJJVmxkN1JoMTBhV3NJSzhrSGF0TjZPOEp0M3paUEVMbUZMUG5lUGRnVEtWbkl1bm03UmFLdXkrU0dSTXBBN1JVMVQxS2RqeDdlWjNvWFduUDluUHdSelUvc2VDSVZqMkhpYkJCNG5zRFE9PSZsdDsvZGlhZ3JhbSZndDsmbHQ7L214ZmlsZSZndDsiPjxkZWZzLz48Zy8+PC9zdmc+"
-
+const whiteImg =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIxcHgiIGhlaWdodD0iMXB4IiB2aWV3Qm94PSItMC41IC0wLjUgMSAxIiBjb250ZW50PSImbHQ7bXhmaWxlIGhvc3Q9JnF1b3Q7ZW1iZWQuZGlhZ3JhbXMubmV0JnF1b3Q7IG1vZGlmaWVkPSZxdW90OzIwMjQtMDUtMDhUMTM6Mjc6NTkuOTE4WiZxdW90OyBhZ2VudD0mcXVvdDtNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTI0LjAuMC4wIFNhZmFyaS81MzcuMzYmcXVvdDsgdmVyc2lvbj0mcXVvdDsyNC4zLjEmcXVvdDsgZXRhZz0mcXVvdDtld3JwUDZ3TXJkVXQtZkpXRVFsdyZxdW90OyB0eXBlPSZxdW90O2VtYmVkJnF1b3Q7Jmd0OyZsdDtkaWFncmFtIGlkPSZxdW90O0x4QVl3WFVTSGxfQlFvZTA4OXVfJnF1b3Q7IG5hbWU9JnF1b3Q7UMOhZ2luYS0xJnF1b3Q7Jmd0O2RkSE5Fb0lnRUFEZ3ArR3VVRmxuczdwMDh0Q1prVTJZUWRkQkdxMm5UMmMxWTZ3THMzeTdzUHd3a1ZiOTJjbEdYMUdCWlR4U1BSTkh4bmtTSjhNNHdwTmdJN1lFcFRPS0tGNGdOeStZTUpyMFlSUzBRYUZIdE40MElSWlkxMUQ0d0tSejJJVmxkN1JoMTBhV3NJSzhrSGF0TjZPOEp0M3paUEVMbUZMUG5lUGRnVEtWbkl1bm03UmFLdXkrU0dSTXBBN1JVMVQxS2RqeDdlWjNvWFduUDluUHdSelUvc2VDSVZqMkhpYkJCNG5zRFE9PSZsdDsvZGlhZ3JhbSZndDsmbHQ7L214ZmlsZSZndDsiPjxkZWZzLz48Zy8+PC9zdmc+";
 
 const nodeTypes = {
   cameraNode: CameraNode,
@@ -78,7 +74,6 @@ const nodeTypes = {
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -98,7 +93,6 @@ const InItem = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-
 export default function Building() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -114,9 +108,9 @@ export default function Building() {
     }
   }, [mobile]);
 
-  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState("");
-  const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); 
+  const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false);
   const [successMsg, setSuccessMsg] = React.useState("");
 
   const [devices, setDevices] = React.useState(null);
@@ -139,23 +133,28 @@ export default function Building() {
 
   const [openDialogLights, setOpenDialogLights] = React.useState(false);
   const [openDialogCamera, setOpenDialogCamera] = React.useState(false);
-  const [openDialogTemperature, setOpenDialogTemperature] = React.useState(false);
-  const [openDialogMotionSensor, setOpenDialogMotionSensor] = React.useState(false);
-  const [openDialogTemperatureSensor, setOpenDialogTemperatureSensor] = React.useState(false);
-  const [openDialogHumiditySensor, setOpenDialogHumiditySensor] = React.useState(false);
-  const [openDialogPowerSensor, setOpenDialogPowerSensor] = React.useState(false);
+  const [openDialogTemperature, setOpenDialogTemperature] =
+    React.useState(false);
+  const [openDialogMotionSensor, setOpenDialogMotionSensor] =
+    React.useState(false);
+  const [openDialogTemperatureSensor, setOpenDialogTemperatureSensor] =
+    React.useState(false);
+  const [openDialogHumiditySensor, setOpenDialogHumiditySensor] =
+    React.useState(false);
+  const [openDialogPowerSensor, setOpenDialogPowerSensor] =
+    React.useState(false);
   const [deviceID, setDeviceID] = React.useState(-1);
 
   const openDialog = (deviceId, type) => {
-    setDeviceID(deviceId)
+    setDeviceID(deviceId);
 
     if (type === "Camera") {
       setOpenDialogCamera(true);
-    }else if (type === "Lights") {
+    } else if (type === "Lights") {
       setOpenDialogLights(true);
-    }else if (type === "Temperature") {
+    } else if (type === "Temperature") {
       setOpenDialogTemperature(true);
-    }else if (type === "Motion Sensor") {
+    } else if (type === "Motion Sensor") {
       setOpenDialogMotionSensor(true);
     } else if (type === "Temperature Sensor") {
       setOpenDialogTemperatureSensor(true);
@@ -164,90 +163,88 @@ export default function Building() {
     } else if (type === "Power") {
       setOpenDialogPowerSensor(true);
     }
-  }
+  };
 
   React.useEffect(() => {
-    getDevices().then(
-      (devices) => {
+    getDevices()
+      .then((devices) => {
         setDevices(devices.data);
 
         let devicesIds = devices.data.map((device) => device.id);
 
-        getBuildsHouseLayoutDevices().then((res) => {
-
-            for(let tab=0; tab<res.data.length; tab++){
-              for(let i = 0; i < res.data[tab].length; i++){
-                if ( devicesIds.includes(res.data[tab][i].id) ) {
+        getBuildsHouseLayoutDevices()
+          .then((res) => {
+            for (let tab = 0; tab < res.data.length; tab++) {
+              for (let i = 0; i < res.data[tab].length; i++) {
+                if (devicesIds.includes(res.data[tab][i].id)) {
                   let idx = devicesIds.indexOf(res.data[tab][i].id);
-                  res.data[tab][i].data.name = devices.data[idx].name
-                  res.data[tab][i].data.openDialog = openDialog
-                  res.data[tab][i].data.on = devices.data[idx].on
-                }else{
+                  res.data[tab][i].data.name = devices.data[idx].name;
+                  res.data[tab][i].data.openDialog = openDialog;
+                  res.data[tab][i].data.on = devices.data[idx].on;
+                } else {
                   res.data[tab].splice(i, 1);
                   i--;
                 }
               }
             }
-    
+
             setGlobalNodes(res.data);
-          }
-        ).catch((error) => {
-          if ("response" in error) {
-            setErrorMsg("Error "+error.response.status);
-            setOpenErrorMsg(true);
-            setGlobalNodes(null)
-    
-            return
-          } 
-    
-          navigate("/");
-        })
+          })
+          .catch((error) => {
+            if ("response" in error) {
+              setErrorMsg("Error " + error.response.status);
+              setOpenErrorMsg(true);
+              setGlobalNodes(null);
 
-      }
-    ).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-        setDevices(null)
+              return;
+            }
 
-        return
-      } 
+            navigate("/");
+          });
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+          setDevices(null);
 
-      navigate("/");
-    })
+          return;
+        }
 
-    getBuildTabs().then(
-      (res) => {
+        navigate("/");
+      });
+
+    getBuildTabs()
+      .then((res) => {
         setTabs(res.data);
-      }
-    ).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-        setTabs(null)
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+          setTabs(null);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
+        navigate("/");
+      });
 
-    getBuildHouseLayout().then(
-      (res) => {
+    getBuildHouseLayout()
+      .then((res) => {
         setHouseLayout(res.data);
-      }
-    ).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-        setHouseLayout(null)
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+          setHouseLayout(null);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
-
+        navigate("/");
+      });
   }, []);
 
   const handleLightColor = (val, idx) => {
@@ -255,16 +252,18 @@ export default function Building() {
     tmp[idx].color = val;
     setDevices(tmp);
 
-    deviceLightColor({ id: tmp[idx].id, color: val}).then((res) => { //! API CALL
-      setSuccessMsg("Color changed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-    
+    deviceLightColor({ id: tmp[idx].id, color: val })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Color changed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleBrightnessChange = (val, idx) => {
@@ -272,15 +271,18 @@ export default function Building() {
     tmp[idx].brightness = val;
     setDevices(tmp);
 
-    deviceLightBrightness({ id: tmp[idx].id, brightness: val}).then((res) => { //! API CALL
-      setSuccessMsg("Brightness changed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceLightBrightness({ id: tmp[idx].id, brightness: val })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Brightness changed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleLightOnOff = (idx) => {
@@ -288,15 +290,20 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
-      setSuccessMsg("Light turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg(
+          "Light turned " + (tmp[idx].on ? "on" : "off") + " successfully!",
+        );
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleCameraOnOff = (idx) => {
@@ -304,15 +311,20 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
-      setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg(
+          "Camera turned " + (tmp[idx].on ? "on" : "off") + " successfully!",
+        );
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleTemperatureTarget = (val, idx) => {
@@ -322,49 +334,58 @@ export default function Building() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature target changed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Temperature target changed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleMinusTemperature = (idx) => {
     let tmp = [...devices];
-    let newTemp = tmp[idx].targetTemperature -1;
-    tmp[idx].targetTemperature = newTemp
+    let newTemp = tmp[idx].targetTemperature - 1;
+    tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature target changed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Temperature target changed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handlePlusTemperature = (idx) => {
     let tmp = [...devices];
     let newTemp = tmp[idx].targetTemperature + 1;
-    tmp[idx].targetTemperature = newTemp
+    tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature target changed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Temperature target changed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleTemperatureOnOff = (idx) => {
@@ -372,68 +393,82 @@ export default function Building() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg(
+          "Temperature turned " +
+            (tmp[idx].on ? "on" : "off") +
+            " successfully!",
+        );
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleAddTab = () => {
-    setTabChanged(true)
+    setTabChanged(true);
 
     if (tabs.length != 0) {
-      buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}).then((res) => { //! API CALL
-        setSuccessMsg("Layout edited successfully!")
-        setOpenSuccessMsg(true)
-      }).catch((error) => {
-        if ("response" in error) {
-          setErrorMsg("Error "+error.response.status);
-          setOpenErrorMsg(true);
-        }
-      })
+      buildsHouseLayoutDevicesEdit({ idx: selectedTab, devices: nodes })
+        .then(() => {
+          //! API CALL
+          setSuccessMsg("Layout edited successfully!");
+          setOpenSuccessMsg(true);
+        })
+        .catch((error) => {
+          if ("response" in error) {
+            setErrorMsg("Error " + error.response.status);
+            setOpenErrorMsg(true);
+          }
+        });
     }
 
     let tmp = [...tabs];
     let len = tmp.length;
-    let name = "Floor "+len;
+    let name = "Floor " + len;
     tmp.push(name);
 
-    setHouseLayout([...houseLayout, whiteImg])
+    setHouseLayout([...houseLayout, whiteImg]);
 
     setGlobalNodes([...globalNodes, []]);
 
     if (len == 0) {
-      setNodes([])
+      setNodes([]);
     }
 
     setTabs(tmp);
-    setMode('view')
+    setMode("view");
 
-    buildTabAdd({name: name}).then((res) => { //! API CALL
-      setSuccessMsg("Floor added successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    buildTabAdd({ name: name })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Floor added successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
   const handleDeleteTab = (idx) => {
-
     let tmp = [...tabs];
     tmp.splice(idx, 1);
     setTabs(tmp);
 
-    let tab = idx - 1
-    if (tab < 0) { tab = 0; }
-    setSelectedTab(tab)
+    let tab = idx - 1;
+    if (tab < 0) {
+      tab = 0;
+    }
+    setSelectedTab(tab);
 
     let tmpHouse = [...houseLayout];
     tmpHouse.splice(idx, 1);
@@ -443,135 +478,162 @@ export default function Building() {
     tmpNodes.splice(idx, 1);
     setGlobalNodes(tmpNodes);
 
-    setNodes(tmpNodes[tab])
+    setNodes(tmpNodes[tab]);
 
-    buildTabRemove({idx: idx}).then((res) => { //! API CALL
-      setSuccessMsg("Floor removed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    buildTabRemove({ idx: idx })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Floor removed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
-  
   const handleChangeTab = (newValue) => {
-    setTabChanged(true)
-    buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodes}).then((res) => { //! API CALL
-      setSuccessMsg("Layout edited successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    setTabChanged(true);
+    buildsHouseLayoutDevicesEdit({ idx: selectedTab, devices: nodes })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Layout edited successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
 
-    if (tabs.length === newValue) { return; }
+    if (tabs.length === newValue) {
+      return;
+    }
 
     setSelectedTab(newValue);
 
     setNodes(globalNodes[newValue]);
-  }
+  };
 
-  const handleKeyDown = (event,idx) => {
+  const handleKeyDown = (event, idx) => {
     if (event.key === "Enter") {
       handleChangeTabName(idx);
     }
   };
 
   const handleChangeTabName = (idx) => {
-    setEditIdx(-1)
+    setEditIdx(-1);
 
     let tmp = [...tabs];
     tmp[idx] = tabName;
     setTabs(tmp);
 
-    buildTabEdit({idx: idx, name: tabName}).then((res) => { //! API CALL
-      setSuccessMsg("Floor name changed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    buildTabEdit({ idx: idx, name: tabName })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Floor name changed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
-  const handleClickAlarm = (val,idx) => {
+  const handleClickAlarm = (val, idx) => {
     let tmp = [...devices];
 
     tmp[idx].on = val;
 
     setDevices(tmp);
 
-    deviceAlarm({on: val}).then((res) => { //! API CALL
-      setSuccessMsg("Alarm turned "+(val ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceAlarm({ on: val })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg(
+          "Alarm turned " + (val ? "on" : "off") + " successfully!",
+        );
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
-  const [loaded, setLoaded] = React.useState(false); 
-  React.useEffect(() => {  //! para carregar os nodes globais e fazer set deles pq no 1 load n faz
+  const [loaded, setLoaded] = React.useState(false);
+  React.useEffect(() => {
+    //! para carregar os nodes globais e fazer set deles pq no 1 load n faz
 
     if (globalNodes !== null && !loaded) {
-
-      setNodes(globalNodes[selectedTab])
+      setNodes(globalNodes[selectedTab]);
 
       setLoaded(true);
-
     }
-
-  },[globalNodes])
+  }, [globalNodes]);
 
   React.useEffect(() => {
-    if (tabs === null) { return; }
-    if (tabs.length === 0) { return; }
-    if (globalNodes === null) { return; }
+    if (tabs === null) {
+      return;
+    }
+    if (tabs.length === 0) {
+      return;
+    }
+    if (globalNodes === null) {
+      return;
+    }
 
     let tmpNodes = [...globalNodes];
 
     tmpNodes[selectedTab] = nodes;
 
     setGlobalNodes(tmpNodes);
-
-  },[nodes])
+  }, [nodes]);
 
   React.useEffect(() => {
-    if (loaded){
-      if (tabChanged){
+    if (loaded) {
+      if (tabChanged) {
         setTabChanged(false);
-      }else{
-        if (globalNodes.length == 0) {return}
+      } else {
+        if (globalNodes.length == 0) {
+          return;
+        }
 
-        buildsHouseLayoutDevicesEdit({idx: selectedTab, devices: nodesFinal}).then((res) => { //! API CALL
-          setSuccessMsg("Layout edited successfully!")
-          setOpenSuccessMsg(true)
-        }).catch((error) => {
-          if ("response" in error) {
-            setErrorMsg("Error "+error.response.status);
-            setOpenErrorMsg(true);
-          }
-        })
+        buildsHouseLayoutDevicesEdit({ idx: selectedTab, devices: nodesFinal })
+          .then(() => {
+            //! API CALL
+            setSuccessMsg("Layout edited successfully!");
+            setOpenSuccessMsg(true);
+          })
+          .catch((error) => {
+            if ("response" in error) {
+              setErrorMsg("Error " + error.response.status);
+              setOpenErrorMsg(true);
+            }
+          });
       }
     }
-  },[nodesFinal])
+  }, [nodesFinal]);
 
-  React.useEffect(() => { //! para mudar as cores dos icons
-    if (!loaded) {return}
-    if (globalNodes.length == 0) {return}
+  React.useEffect(() => {
+    //! para mudar as cores dos icons
+    if (!loaded) {
+      return;
+    }
+    if (globalNodes.length == 0) {
+      return;
+    }
 
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === deviceID) {
-
           let deviceIdx = devices.findIndex((device) => device.id === deviceID);
 
           node.data = {
@@ -581,26 +643,28 @@ export default function Building() {
         }
 
         return node;
-      })
+      }),
     );
-
-  },[devices])
+  }, [devices]);
 
   const handleSave = (data) => {
     let tmp = [...houseLayout];
     tmp[selectedTab] = data.data;
     setHouseLayout(tmp);
 
-    buildsHouseLayoutEdit({idx: selectedTab, img: data.data}).then((res) => { //! API CALL
-      setSuccessMsg("House layout changed successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    buildsHouseLayoutEdit({ idx: selectedTab, img: data.data })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("House layout changed successfully!");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
   const uploadImg = (e) => {
     let reader = new FileReader();
@@ -612,44 +676,51 @@ export default function Building() {
       tmp[selectedTab] = reader.result;
       setHouseLayout(tmp);
 
-      buildsHouseLayoutEdit({idx: selectedTab, img: reader.result}).then((res) => { //! API CALL
-        setSuccessMsg("House layout changed successfully!")
-        setOpenSuccessMsg(true)
-      }).catch((error) => {
-        if ("response" in error) {
-          setErrorMsg("Error "+error.response.status);
-          setOpenErrorMsg(true);
-        }
-      })
-    }
-
-  }
+      buildsHouseLayoutEdit({ idx: selectedTab, img: reader.result })
+        .then(() => {
+          //! API CALL
+          setSuccessMsg("House layout changed successfully!");
+          setOpenSuccessMsg(true);
+        })
+        .catch((error) => {
+          if ("response" in error) {
+            setErrorMsg("Error " + error.response.status);
+            setOpenErrorMsg(true);
+          }
+        });
+    };
+  };
 
   const [posX, setPosX] = React.useState(-100);
   const [posY, setPosY] = React.useState(-50);
 
   const randomXY = () => {
-    let tmpX = posX
-    let tmpY = posY
+    let tmpX = posX;
+    let tmpY = posY;
 
     if (posX === 50) {
-      tmpX = -50
-      tmpY += 50
-    }else {
-      tmpX += 50
+      tmpX = -50;
+      tmpY += 50;
+    } else {
+      tmpX += 50;
     }
 
     if (tmpY === 100) {
-      tmpY = -50
+      tmpY = -50;
     }
 
-    setPosX(tmpX)
-    setPosY(tmpY)
+    setPosX(tmpX);
+    setPosY(tmpY);
 
-    return { x: tmpX, y: tmpY }
-  }
+    return { x: tmpX, y: tmpY };
+  };
 
-  if (devices === null || tabs === null || houseLayout === null || globalNodes === null) {
+  if (
+    devices === null ||
+    tabs === null ||
+    houseLayout === null ||
+    globalNodes === null
+  ) {
     return (
       <>
         <Grid container spacing={4}>
@@ -707,188 +778,236 @@ export default function Building() {
       <AppBarStyled navbar={"building"} />
 
       <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
-            <OutItem elevation={5}>
-              <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
-              Devices
-              </h2>
-              <InItem style={{ minHeight: "70vh", maxHeight: "70vh", overflowY: "auto" }} >
-                <Grid container spacing={4}>
-                  { devices && devices.map((device, idx) => {
-                    if (device.type === "Energy") {return}
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
+          <OutItem elevation={5}>
+            <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Devices</h2>
+            <InItem
+              style={{
+                minHeight: "70vh",
+                maxHeight: "70vh",
+                overflowY: "auto",
+              }}
+            >
+              <Grid container spacing={4}>
+                {devices &&
+                  devices.map((device, idx) => {
+                    if (device.type === "Energy") {
+                      return;
+                    }
 
                     return (
-                      <Grid item xs={12} sm={12} md={6}>
-                        <Button 
-                          fullWidth 
+                      <Grid item xs={12} sm={12} md={6} key={idx}>
+                        <Button
+                          fullWidth
                           variant="contained"
                           onClick={() => {
-                            let tmpType = null
+                            let tmpType = null;
 
                             if (device.type === "Camera") {
-                              tmpType = "cameraNode"
+                              tmpType = "cameraNode";
                             } else if (device.type === "Light") {
-                              tmpType = "lightsNode"
+                              tmpType = "lightsNode";
                             } else if (device.type === "Temperature") {
-                              tmpType = "temperatureNode"
+                              tmpType = "temperatureNode";
                             } else if (device.type === "Motion Sensor") {
-                              tmpType = "motionSensorNode"
+                              tmpType = "motionSensorNode";
                             } else if (device.type === "Temperature Sensor") {
-                              tmpType = "temperatureSensorNode"
+                              tmpType = "temperatureSensorNode";
                             } else if (device.type === "Humidity Sensor") {
-                              tmpType = "humiditySensorNode"
+                              tmpType = "humiditySensorNode";
                             } else if (device.type === "Power") {
-                              tmpType = "powerSensorNode"
+                              tmpType = "powerSensorNode";
                             }
 
-                            setNodes(
-                              [
-                                ...nodes,
-                                { 
-                                  id: device.id,   
-                                  type: tmpType,                           
-                                  position: randomXY(), 
-                                  data: { openDialog: openDialog, name: device.name, on: device.on },
-                                }
-                              ]
-                            );
+                            setNodes([
+                              ...nodes,
+                              {
+                                id: device.id,
+                                type: tmpType,
+                                position: randomXY(),
+                                data: {
+                                  openDialog: openDialog,
+                                  name: device.name,
+                                  on: device.on,
+                                },
+                              },
+                            ]);
                           }}
-                          >
-                            <b>{device.name}</b>
+                        >
+                          <b>{device.name}</b>
                         </Button>
                       </Grid>
                     );
                   })}
-                </Grid>
-              </InItem>
-            </OutItem>
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
-            <OutItem elevation={5}>
-              <Grid container spacing={0}>
-                <Grid item xs={12} sm={6} md={8}>
-                  <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>
-                    Build
-                  </h2>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>    
-                  <IconButton
-                    sx={{ color: "#FFFFFF", marginRight: "0.5vw" }}
-                    component="label"
-                  >
-                      <UploadIcon fontSize="large"/>
-                      <input 
-                        accept="image/*" 
-                        type="file" 
-                        hidden
-                        onChange={(e) => uploadImg(e)}
-                      />
-                  </IconButton>
-                  <ButtonGroup sx={{marginTop:'0.5vh', marginBottom: '0.5vh'}}>
-                    <Button onClick={() => setMode('draw')} variant={mode === 'draw' ? "contained" : "outlined"}>
-                      <b>DRAW</b>
-                    </Button>
-                    <Button onClick={() => setMode('edit')} variant={mode === 'edit' ? "contained" : "outlined"}>
-                      <b>EDIT</b>
-                    </Button>
-                    <Button onClick={() => setMode('view')} variant={mode === 'view' ? "contained" : "outlined"}>
-                      <b>VIEW</b>
-                    </Button>
-                  </ButtonGroup>
-                </Grid>
               </Grid>
-              <InItem>
-              <Tabs 
-                  value={selectedTab} 
-                  onChange={(event, newValue) => handleChangeTab(newValue)}
-                  variant="scrollable"
-                  scrollButtons="auto"
+            </InItem>
+          </OutItem>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
+          <OutItem elevation={5}>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={6} md={8}>
+                <h2 style={{ marginTop: "1vh", marginBottom: "2vh" }}>Build</h2>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <IconButton
+                  sx={{ color: "#FFFFFF", marginRight: "0.5vw" }}
+                  component="label"
                 >
-                  {tabs.map((val, idx) => {
-                    return <Tab
-                      label={ 
-                      editIdx === idx ?         
-                        <span>
-                          <IconButton
-                            sx={{marginRight: "1vw"}}
-                            onClick={() => setEditIdx(-1)}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                          <TextField
+                  <UploadIcon fontSize="large" />
+                  <input
+                    accept="image/*"
+                    type="file"
+                    hidden
+                    onChange={(e) => uploadImg(e)}
+                  />
+                </IconButton>
+                <ButtonGroup sx={{ marginTop: "0.5vh", marginBottom: "0.5vh" }}>
+                  <Button
+                    onClick={() => setMode("draw")}
+                    variant={mode === "draw" ? "contained" : "outlined"}
+                  >
+                    <b>DRAW</b>
+                  </Button>
+                  <Button
+                    onClick={() => setMode("edit")}
+                    variant={mode === "edit" ? "contained" : "outlined"}
+                  >
+                    <b>EDIT</b>
+                  </Button>
+                  <Button
+                    onClick={() => setMode("view")}
+                    variant={mode === "view" ? "contained" : "outlined"}
+                  >
+                    <b>VIEW</b>
+                  </Button>
+                </ButtonGroup>
+              </Grid>
+            </Grid>
+            <InItem>
+              <Tabs
+                value={selectedTab}
+                onChange={(event, newValue) => handleChangeTab(newValue)}
+                variant="scrollable"
+                scrollButtons="auto"
+              >
+                {tabs.map((val, idx) => {
+                  return (
+                    <Tab
+                      key={idx}
+                      label={
+                        editIdx === idx ? (
+                          <span>
+                            <IconButton
+                              sx={{ marginRight: "1vw" }}
+                              onClick={() => setEditIdx(-1)}
+                            >
+                              <ClearIcon />
+                            </IconButton>
+                            <TextField
                               defaultValue={val}
                               label="Flow Name"
                               variant="outlined"
                               size="small"
-                              sx={{width: '50%'}}
+                              sx={{ width: "50%" }}
                               onChange={(e) => setTabName(e.target.value)}
-                              onKeyDown={(e) => handleKeyDown(e,idx)}
+                              onKeyDown={(e) => handleKeyDown(e, idx)}
                             />
-                          <IconButton
-                            onClick={() => handleChangeTabName(idx)}
-                            sx={{marginLeft: "1vw"}}
-                          >
-                            <CheckIcon />
-                          </IconButton>   
-                        </span>
-                      :
-                      <span>
-                        <IconButton sx={{marginRight: "1vw"}} size="small" onClick={() => {setEditIdx(idx); setTabName(val)}}>
-                          <EditIcon />
-                        </IconButton>
-                        {val}
-                        <IconButton sx={{marginLeft: "1vw"}} size="small" onClick={(e) => {e.stopPropagation();handleDeleteTab(idx)}}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </span>
-                      } 
-                      value={idx} 
-                      style={{fontWeight:"bold"}}/>
-                  })
-                  }
-                  <Tab 
-                    label={"+ Add"} 
-                    value={tabs.length} 
-                    style={{fontWeight:"bold"}}
-                    onClick={() => handleAddTab()}
-                  />
-                
-                </Tabs>
-                <div style={{ width: '100%', height: '63vh', marginTop: '1vh' }} >
-                  { mode === 'draw' && tabs.length !== 0 &&
-                    <DrawIoEmbed 
-                      xml={houseLayout[selectedTab]}
-                      onExport={(data) =>  handleSave(data)}
-                      onClose={() => setMode('view')} 
+                            <IconButton
+                              onClick={() => handleChangeTabName(idx)}
+                              sx={{ marginLeft: "1vw" }}
+                            >
+                              <CheckIcon />
+                            </IconButton>
+                          </span>
+                        ) : (
+                          <span>
+                            <IconButton
+                              sx={{ marginRight: "1vw" }}
+                              size="small"
+                              onClick={() => {
+                                setEditIdx(idx);
+                                setTabName(val);
+                              }}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                            {val}
+                            <IconButton
+                              sx={{ marginLeft: "1vw" }}
+                              size="small"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteTab(idx);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </span>
+                        )
+                      }
+                      value={idx}
+                      style={{ fontWeight: "bold" }}
                     />
-                  }
+                  );
+                })}
+                <Tab
+                  label={"+ Add"}
+                  value={tabs.length}
+                  style={{ fontWeight: "bold" }}
+                  onClick={() => handleAddTab()}
+                />
+              </Tabs>
+              <div style={{ width: "100%", height: "63vh", marginTop: "1vh" }}>
+                {mode === "draw" && tabs.length !== 0 && (
+                  <DrawIoEmbed
+                    xml={houseLayout[selectedTab]}
+                    onExport={(data) => handleSave(data)}
+                    onClose={() => setMode("view")}
+                  />
+                )}
 
-                  { (mode === 'edit' || mode === 'view' ) && tabs.length !== 0 &&
-                      <ReactFlow
-                        nodes={nodes}
-                        onNodesChange={onNodesChange}
-                        nodesDraggable={mode === 'edit' ? true : false}
-                        zoomOnScroll={false}
-                        panOnDrag={false}
-                        elementsSelectable={true}
-                        zoomOnDoubleClick={false}
-                        nodeTypes={nodeTypes}
-                        translateExtent={[[0,0],[100,100]]}
-                      >
-                        <img src={houseLayout[selectedTab]} width='100%' height='100%'/>
-                      </ReactFlow> 
-                  } 
+                {(mode === "edit" || mode === "view") && tabs.length !== 0 && (
+                  <ReactFlow
+                    nodes={nodes}
+                    onNodesChange={onNodesChange}
+                    nodesDraggable={mode === "edit" ? true : false}
+                    zoomOnScroll={false}
+                    panOnDrag={false}
+                    elementsSelectable={true}
+                    zoomOnDoubleClick={false}
+                    nodeTypes={nodeTypes}
+                    translateExtent={[
+                      [0, 0],
+                      [100, 100],
+                    ]}
+                  >
+                    <img
+                      src={houseLayout[selectedTab]}
+                      width="100%"
+                      height="100%"
+                    />
+                  </ReactFlow>
+                )}
 
-                  { tabs.length === 0 &&
-                    <h1 style={{position: "relative", top: "40%", marginTop: 0, marginBottom: 0}}>Add a floor to start!</h1>
-                  }     
-                </div>
-                
-              </InItem>
-            </OutItem>
-          </Grid>
+                {tabs.length === 0 && (
+                  <h1
+                    style={{
+                      position: "relative",
+                      top: "40%",
+                      marginTop: 0,
+                      marginBottom: 0,
+                    }}
+                  >
+                    Add a floor to start!
+                  </h1>
+                )}
+              </div>
+            </InItem>
+          </OutItem>
+        </Grid>
       </Grid>
-      {devices !== null && 
+      {devices !== null && (
         <>
           <LightsDialog
             openDialog={openDialogLights}
@@ -906,7 +1025,7 @@ export default function Building() {
             handleCloseDialog={() => setOpenDialogCamera(false)}
             handleCameraOnOff={handleCameraOnOff}
           />
-          <TemperatureDialog 
+          <TemperatureDialog
             openDialog={openDialogTemperature}
             deviceID={deviceID}
             devices={devices}
@@ -942,7 +1061,7 @@ export default function Building() {
             handleCloseDialog={() => setOpenDialogPowerSensor(false)}
           />
         </>
-      }
+      )}
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={openErrorMsg}
@@ -987,6 +1106,6 @@ export default function Building() {
           {successMsg}
         </Alert>
       </Snackbar>
-    </>    
+    </>
   );
 }

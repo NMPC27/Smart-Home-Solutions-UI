@@ -17,9 +17,9 @@ import { useTheme } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import RoomDeleteConfirmation from "./RoomDeleteConfirmation";
-import EditIcon from '@mui/icons-material/Edit';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -50,7 +50,7 @@ export default function RoomDialog(props) {
     React.useState(false);
   const [deleteIdx, setDeleteIdx] = React.useState(-1);
 
-  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // room addded
   const [errorMsg, setErrorMsg] = React.useState("");
 
@@ -79,19 +79,19 @@ export default function RoomDialog(props) {
   };
 
   const handleEditRoom = (idx) => {
-    setRoomNewName(props.devices[idx].room)
+    setRoomNewName(props.devices[idx].room);
     setEditIdx(idx);
   };
 
-  const handleKeyDown = (event,idx) => {
+  const handleKeyDown = (event, idx) => {
     if (event.key === "Enter") {
       editRoomName(idx);
     }
   };
 
   const editRoomName = (idx) => {
-    setEditIdx(-1)
-    props.editRoomName(idx,roomNewName);
+    setEditIdx(-1);
+    props.editRoomName(idx, roomNewName);
   };
 
   const handleCloseRoomDeleteConfirmation = () => {
@@ -165,7 +165,7 @@ export default function RoomDialog(props) {
                   <Item key={idx}>
                     <Grid container spacing={2}>
                       <Grid item xs={2}>
-                        { editIdx === idx ?
+                        {editIdx === idx ? (
                           <IconButton
                             onClick={() => setEditIdx(-1)}
                             sx={{
@@ -174,37 +174,37 @@ export default function RoomDialog(props) {
                           >
                             <ClearIcon />
                           </IconButton>
-                          :
+                        ) : (
                           <IconButton
-                              onClick={() => handleEditRoom(idx)}
-                              sx={{
-                                color: "#FFFFFF",
-                              }}
-                            >
+                            onClick={() => handleEditRoom(idx)}
+                            sx={{
+                              color: "#FFFFFF",
+                            }}
+                          >
                             <EditIcon />
                           </IconButton>
-                        }                      
+                        )}
                       </Grid>
                       <Grid item xs={8}>
-                        { editIdx === idx ?
-                            <TextField
-                              defaultValue={room.name}
-                              label="Room Name"
-                              variant="outlined"
-                              size="small"
-                              sx={{
-                                width: "100%",
-                                backgroundColor: "#374151",
-                                borderRadius: "10px",
-                                borderColor: "#FFFFFF",
-                                svg: { color: "#FFFFFF" },
-                                input: { color: "#FFFFFF" },
-                                label: { color: "#FFFFFF" },
-                              }}
-                              onChange={(e) => setRoomNewName(e.target.value)}
-                              onKeyDown={(e) => handleKeyDown(e,idx)}
-                            />
-                          :
+                        {editIdx === idx ? (
+                          <TextField
+                            defaultValue={room.name}
+                            label="Room Name"
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              width: "100%",
+                              backgroundColor: "#374151",
+                              borderRadius: "10px",
+                              borderColor: "#FFFFFF",
+                              svg: { color: "#FFFFFF" },
+                              input: { color: "#FFFFFF" },
+                              label: { color: "#FFFFFF" },
+                            }}
+                            onChange={(e) => setRoomNewName(e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(e, idx)}
+                          />
+                        ) : (
                           <h3
                             style={{
                               textAlign: "left",
@@ -215,10 +215,10 @@ export default function RoomDialog(props) {
                           >
                             {room.name}
                           </h3>
-                        }                        
+                        )}
                       </Grid>
                       <Grid item xs={2}>
-                        { editIdx === idx ?
+                        {editIdx === idx ? (
                           <IconButton
                             onClick={() => editRoomName(idx)}
                             sx={{
@@ -226,8 +226,8 @@ export default function RoomDialog(props) {
                             }}
                           >
                             <CheckIcon />
-                          </IconButton>                          
-                        :
+                          </IconButton>
+                        ) : (
                           <IconButton
                             onClick={() => handleDeleteRoom(idx)}
                             sx={{
@@ -236,7 +236,7 @@ export default function RoomDialog(props) {
                           >
                             <DeleteIcon />
                           </IconButton>
-                        }                        
+                        )}
                       </Grid>
                     </Grid>
                   </Item>
@@ -308,4 +308,23 @@ export default function RoomDialog(props) {
   );
 }
 
+import PropTypes from "prop-types";
 
+// PropTypes for RoomDialog component
+RoomDialog.propTypes = {
+  openRoomDialog: PropTypes.bool.isRequired,
+  handleCloseRoomDialog: PropTypes.func.isRequired,
+  handleRoomAdd: PropTypes.func.isRequired,
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  handleDeleteRoom: PropTypes.func.isRequired,
+  editRoomName: PropTypes.func.isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      room: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};

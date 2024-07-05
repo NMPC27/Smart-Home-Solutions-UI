@@ -5,22 +5,21 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import * as React from "react";
 
 export default function BasicDatePicker(props) {
-
   const [label, setLabel] = React.useState("");
 
   React.useEffect(() => {
     var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
 
-    today = dd + '/' + mm + '/' + yyyy;
+    today = dd + "/" + mm + "/" + yyyy;
 
-    setLabel(today)
+    setLabel(today);
   }, []);
 
   const handleDateChange = (val) => {
-    setLabel("Date Picker")
+    setLabel("Date Picker");
 
     var dd = String(val.$D).padStart(2, "0");
     var mm = String(val.$M + 1).padStart(2, "0");
@@ -52,3 +51,9 @@ export default function BasicDatePicker(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+// PropTypes for BasicDatePicker component
+BasicDatePicker.propTypes = {
+  handleDateChange: PropTypes.func.isRequired,
+};

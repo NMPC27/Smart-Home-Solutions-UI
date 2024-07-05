@@ -23,7 +23,7 @@ export default function Energy() {
 
   let navigate = useNavigate();
 
-  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState("");
 
   React.useEffect(() => {
@@ -49,39 +49,42 @@ export default function Energy() {
 
     setDate(today);
 
-    getEnergy(today).then(
-      (res) => {
+    getEnergy(today)
+      .then((res) => {
         setData(res.data);
-      }
-    ).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-        setData(null)
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+          setData(null);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
+        navigate("/");
+      });
   }, []);
 
   const handleDateChange = (val) => {
     setDate(val);
 
-    getEnergy(val).then((res) => { //! API CALL
-      setData(res.data);
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-        setData(null)
+    getEnergy(val)
+      .then((res) => {
+        //! API CALL
+        setData(res.data);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+          setData(null);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
+        navigate("/");
+      });
   };
 
   if (data === null) {
@@ -124,7 +127,7 @@ export default function Energy() {
             />
           </Grid>
         </Grid>
-        
+
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={openErrorMsg}
@@ -156,7 +159,10 @@ export default function Energy() {
 
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={9}>
-            <EnergyConsumptionChart consumption={data.consumption} date={date} />
+            <EnergyConsumptionChart
+              consumption={data.consumption}
+              date={date}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={3}>
             <EnergyConsumptionPie consumption={data.consumption} />

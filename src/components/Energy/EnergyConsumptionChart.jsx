@@ -2,7 +2,7 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import * as React from "react";
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -28,13 +28,19 @@ const chartColorsHover = ["#277FD9", "#D98C00", "#A60000"];
 const lables = ["Grid", "Solar", "Gas"];
 
 export default function EnergyConsumptionChart(props) {
-
   const [select, setSelect] = React.useState("All");
-  const [xAxis, setXAxis] = React.useState([])
+  const [xAxis, setXAxis] = React.useState([]);
 
   React.useEffect(() => {
     var parts = props.date.split("/");
-    var startDate = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]), 0, 0, 0);
+    var startDate = new Date(
+      parseInt(parts[2]),
+      parseInt(parts[1]) - 1,
+      parseInt(parts[0]),
+      0,
+      0,
+      0,
+    );
     let dateArray = [];
 
     for (let i = 0; i < 24; i++) {
@@ -44,9 +50,8 @@ export default function EnergyConsumptionChart(props) {
       dateArray.push(newDate);
     }
 
-    setXAxis(dateArray)
-  } , [props.date]);
-
+    setXAxis(dateArray);
+  }, [props.date]);
 
   return (
     <OutItem elevation={5}>
@@ -60,9 +65,33 @@ export default function EnergyConsumptionChart(props) {
             xAxis={[{ data: xAxis, label: "Hour", scaleType: "utc" }]}
             yAxis={[{ label: "kWh" }]}
             series={[
-              { data: select === 'Grid' || select === 'All' ? props.consumption.grid : [], label: "Grid Consumption", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
-              { data: select === 'Solar' || select === 'All' ? props.consumption.solar : [], label: "Solar Consumption", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh")},
-              { data: select === 'Gas' || select === 'All' ? props.consumption.gas : [], label: "Gas Consumption", valueFormatter: (v) => (v === null || v === undefined ? null : v+" kWh") },
+              {
+                data:
+                  select === "Grid" || select === "All"
+                    ? props.consumption.grid
+                    : [],
+                label: "Grid Consumption",
+                valueFormatter: (v) =>
+                  v === null || v === undefined ? null : v + " kWh",
+              },
+              {
+                data:
+                  select === "Solar" || select === "All"
+                    ? props.consumption.solar
+                    : [],
+                label: "Solar Consumption",
+                valueFormatter: (v) =>
+                  v === null || v === undefined ? null : v + " kWh",
+              },
+              {
+                data:
+                  select === "Gas" || select === "All"
+                    ? props.consumption.gas
+                    : [],
+                label: "Gas Consumption",
+                valueFormatter: (v) =>
+                  v === null || v === undefined ? null : v + " kWh",
+              },
             ]}
             legend={{ hidden: true }}
           />
@@ -76,7 +105,7 @@ export default function EnergyConsumptionChart(props) {
           {lables.map((item, index) => {
             return (
               <>
-                <Button 
+                <Button
                   onClick={() => {
                     if (select === item) {
                       setSelect("All");
@@ -84,10 +113,10 @@ export default function EnergyConsumptionChart(props) {
                       setSelect(item);
                     }
                   }}
-                  variant="contained" 
-                  sx={{ 
+                  variant="contained"
+                  sx={{
                     backgroundColor: chartColors[index],
-                    '&:hover': {
+                    "&:hover": {
                       backgroundColor: chartColorsHover[index],
                     },
                   }}
@@ -102,3 +131,14 @@ export default function EnergyConsumptionChart(props) {
     </OutItem>
   );
 }
+
+import PropTypes from "prop-types";
+// PropTypes validation
+EnergyConsumptionChart.propTypes = {
+  date: PropTypes.string.isRequired,
+  consumption: PropTypes.shape({
+    grid: PropTypes.arrayOf(PropTypes.number).isRequired,
+    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
+    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+};

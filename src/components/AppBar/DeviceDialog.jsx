@@ -11,19 +11,15 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import DeleteIcon from "@mui/icons-material/Delete";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import CircularProgress from "@mui/material/CircularProgress";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import EditIcon from '@mui/icons-material/Edit';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from "@mui/icons-material/Edit";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -42,7 +38,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 export default function DeviceDialog(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -53,14 +48,14 @@ export default function DeviceDialog(props) {
 
   const [editIdx, setEditIdx] = React.useState(-1);
 
-  const [openErrorMsg1, setOpenErrorMsg] = React.useState(false); 
+  const [openErrorMsg1, setOpenErrorMsg] = React.useState(false);
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false); // device addded
   const [errorMsg, setErrorMsg] = React.useState("");
 
   const handleEditDevice = (idx) => {
-    setDeviceType(props.devices[idx].type)
-    setDeviceName(props.devices[idx].name)
-    setSelectedRoom(props.devices[idx].room)
+    setDeviceType(props.devices[idx].type);
+    setDeviceName(props.devices[idx].name);
+    setSelectedRoom(props.devices[idx].room);
     setEditIdx(idx);
   };
 
@@ -71,15 +66,15 @@ export default function DeviceDialog(props) {
   };
 
   const editDevice = () => {
-    if (deviceName === "" || selectedRoom === null){
+    if (deviceName === "" || selectedRoom === null) {
       setErrorMsg("Please fill out all fields!");
       setOpenErrorMsg(true);
       return;
     }
 
-    setEditIdx(-1)
-    setOpenSuccessMsg(true)
-    props.editDevice(editIdx,deviceName,selectedRoom);
+    setEditIdx(-1);
+    setOpenSuccessMsg(true);
+    props.editDevice(editIdx, deviceName, selectedRoom);
   };
 
   return (
@@ -119,16 +114,12 @@ export default function DeviceDialog(props) {
               <Grid item xs={12} sm={6} md={6} height={"50vh"}></Grid>
             )}
             <Grid item xs={12} sm={6} md={6} position={!mobile && "absolute"}>
-              { editIdx === -1 ?
-                  <h3> Choose a device to edit! </h3>
-                :
+              {editIdx === -1 ? (
+                <h3> Choose a device to edit! </h3>
+              ) : (
                 <Stack spacing={2} alignItems="center" justifyContent="center">
                   <h3>Edit Device:</h3>
-                  <TextField
-                    disabled
-                    label="Device Type"
-                    value={deviceType}
-                  />
+                  <TextField disabled label="Device Type" value={deviceType} />
                   <TextField
                     value={deviceName}
                     onChange={(e) => setDeviceName(e.target.value)}
@@ -143,9 +134,7 @@ export default function DeviceDialog(props) {
                       id="room"
                       value={selectedRoom}
                       label="Room"
-                      onChange={(event) =>
-                        setSelectedRoom(event.target.value)
-                      }
+                      onChange={(event) => setSelectedRoom(event.target.value)}
                     >
                       {props.rooms.map((room, idx) => (
                         <MenuItem key={idx} value={room.name}>
@@ -155,14 +144,14 @@ export default function DeviceDialog(props) {
                     </Select>
                   </FormControl>
                   <Button
-                      variant="contained"
-                      sx={{ fontWeight: "bold" }}
-                      onClick={() => editDevice()}
-                    >
-                      Edit Device
-                    </Button>
+                    variant="contained"
+                    sx={{ fontWeight: "bold" }}
+                    onClick={() => editDevice()}
+                  >
+                    Edit Device
+                  </Button>
                 </Stack>
-              }
+              )}
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <Stack spacing={2} maxHeight={"45vh"}>
@@ -181,17 +170,17 @@ export default function DeviceDialog(props) {
                           }}
                         >
                           {room.name}
-                        </h3>                    
+                        </h3>
                       </Grid>
                       <Grid item xs={2}>
                         <IconButton
-                            onClick={() => handleEditDevice(idx)}
-                            sx={{
-                              color: "#FFFFFF",
-                            }}
-                          >
+                          onClick={() => handleEditDevice(idx)}
+                          sx={{
+                            color: "#FFFFFF",
+                          }}
+                        >
                           <EditIcon />
-                        </IconButton>           
+                        </IconButton>
                       </Grid>
                     </Grid>
                   </Item>
@@ -249,3 +238,13 @@ export default function DeviceDialog(props) {
   );
 }
 
+import PropTypes from "prop-types";
+
+// PropTypes for DeviceDialog component
+DeviceDialog.propTypes = {
+  openDeviceDialog: PropTypes.bool.isRequired,
+  handleCloseDeviceDialog: PropTypes.func.isRequired,
+  rooms: PropTypes.array.isRequired,
+  devices: PropTypes.array.isRequired,
+  editDevice: PropTypes.func.isRequired,
+};

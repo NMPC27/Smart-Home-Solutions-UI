@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Stack from "@mui/material/Stack";
 import { useDrawingArea } from "@mui/x-charts/hooks";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import * as React from "react";
 
 const OutItem = styled(Paper)(({ theme }) => ({
@@ -45,24 +45,26 @@ const pieColors = ["#FFA500", "#CC0000"];
 const lables = ["Solar", "Gas"];
 
 export default function EnergyProductionPie(props) {
-
   const [data, setData] = React.useState([]);
   const [total, setTotal] = React.useState(0);
 
   React.useEffect(() => {
-    var solar = props.production.solar.reduce((partialSum, a) => partialSum + a, 0);
+    var solar = props.production.solar.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
     var gas = props.production.gas.reduce((partialSum, a) => partialSum + a, 0);
 
-    let tmp = []
+    let tmp = [];
     if (solar > 0) {
-      tmp.push({ label: "Solar", value: solar })
+      tmp.push({ label: "Solar", value: solar });
     }
     if (gas > 0) {
-      tmp.push({ label: "Gas", value: gas })
+      tmp.push({ label: "Gas", value: gas });
     }
 
     setData(tmp);
-    setTotal(solar + gas)
+    setTotal(solar + gas);
   }, [props.production]);
 
   return (
@@ -86,9 +88,7 @@ export default function EnergyProductionPie(props) {
             margin={{ right: 5 }}
             legend={{ hidden: true }}
           >
-            <PieCenterLabel>
-              {total.toFixed(2)}{" "}kWh
-            </PieCenterLabel>
+            <PieCenterLabel>{total.toFixed(2)} kWh</PieCenterLabel>
           </PieChart>
         </div>
         <Stack
@@ -100,11 +100,11 @@ export default function EnergyProductionPie(props) {
           {lables.map((item, index) => {
             return (
               <>
-                <Button 
+                <Button
                   disabled
-                  variant="contained" 
-                  sx={{ 
-                    '&:disabled': {
+                  variant="contained"
+                  sx={{
+                    "&:disabled": {
                       backgroundColor: pieColors[index],
                       color: "#FFFFFF",
                     },
@@ -121,3 +121,11 @@ export default function EnergyProductionPie(props) {
   );
 }
 
+import PropTypes from "prop-types";
+// PropTypes validation
+EnergyProductionPie.propTypes = {
+  production: PropTypes.shape({
+    solar: PropTypes.arrayOf(PropTypes.number).isRequired,
+    gas: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+};

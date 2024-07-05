@@ -15,8 +15,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import GridLayout from "react-grid-layout";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import PowerSensorCard from "../components/Dashboard/PowerSensorCard";
 import {
   getDevices,
@@ -47,7 +47,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-
 export default function Dashboard() {
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.down("xl"));
@@ -55,7 +54,7 @@ export default function Dashboard() {
 
   let navigate = useNavigate();
 
-  const [openErrorMsg, setOpenErrorMsg] = React.useState(false); 
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [openSuccessMsg, setOpenSuccessMsg] = React.useState(false);
   const [successMsg, setSuccessMsg] = React.useState("");
@@ -73,38 +72,51 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     const resizeObserver = new ResizeObserver((event) => {
-        // Depending on the layout, you may need to swap inlineSize with blockSize
-        // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry/contentBoxSize
-        setSizeGrid(event[0].contentBoxSize[0].inlineSize); // to match new with
+      // Depending on the layout, you may need to swap inlineSize with blockSize
+      // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry/contentBoxSize
+      setSizeGrid(event[0].contentBoxSize[0].inlineSize); // to match new with
     });
 
-    const resizer = setInterval(() => { 
-
-      if (document.getElementById("dialogGrid") !== null) { 
+    const resizer = setInterval(() => {
+      if (document.getElementById("dialogGrid") !== null) {
         resizeObserver.observe(document.getElementById("dialogGrid"));
         clearInterval(resizer);
       }
-     },100)
-    
-  },[]);
+    }, 100);
+  }, []);
 
-  const [device, setDevice] = React.useState(()=>{
-    if (mobile) { return "mobile" }
-    else if (tablet) { return "tablet" }
-    else { return "pc" }
+  const [device, setDevice] = React.useState(() => {
+    if (mobile) {
+      return "mobile";
+    } else if (tablet) {
+      return "tablet";
+    } else {
+      return "pc";
+    }
   });
 
   const [numCol, setNumCol] = React.useState(() => {
-    if (mobile) { return 1 } 
-    else if (tablet) { return 2 } 
-    else { return 4 }
+    if (mobile) {
+      return 1;
+    } else if (tablet) {
+      return 2;
+    } else {
+      return 4;
+    }
   });
 
   React.useEffect(() => {
-    if (mobile) {  setNumCol(1); setDevice("mobile") } 
-    else if (tablet) { setNumCol(2); setDevice("tablet") }
-    else { setNumCol(4); setDevice("pc") }
-  },[tablet,mobile]);
+    if (mobile) {
+      setNumCol(1);
+      setDevice("mobile");
+    } else if (tablet) {
+      setNumCol(2);
+      setDevice("tablet");
+    } else {
+      setNumCol(4);
+      setDevice("pc");
+    }
+  }, [tablet, mobile]);
 
   const [devices, setDevices] = React.useState(null);
   const [rooms, setRooms] = React.useState(null);
@@ -114,106 +126,111 @@ export default function Dashboard() {
   const [globalRoom, setGlobalRoom] = React.useState("Any");
   const [selectedTab, setSelectedTab] = React.useState(0);
 
-  const [alarmOn, setAlarmOn] = React.useState(false)
+  const [alarmOn, setAlarmOn] = React.useState(false);
 
-  React.useEffect(() => { //first load
-    getNotifications().then((res) => {
-      setNotifications(res.data);
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+  React.useEffect(() => {
+    //first load
+    getNotifications()
+      .then((res) => {
+        setNotifications(res.data);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   }, []);
 
   React.useEffect(() => {
-
-    if (alarmOn) { 
+    if (alarmOn) {
       const interval = setInterval(() => {
-        getNotifications().then((res) => {
-          setNotifications(res.data);
-        }).catch((error) => {
-          if ("response" in error) {
-            setErrorMsg("Error "+error.response.status);
-            setOpenErrorMsg(true);
-          }
-        })
+        getNotifications()
+          .then((res) => {
+            setNotifications(res.data);
+          })
+          .catch((error) => {
+            if ("response" in error) {
+              setErrorMsg("Error " + error.response.status);
+              setOpenErrorMsg(true);
+            }
+          });
       }, 5000);
 
       return () => clearInterval(interval);
     }
-
   }, [alarmOn]);
 
   React.useEffect(() => {
-    getDevices().then(
-      (res) => {
+    getDevices()
+      .then((res) => {
         setDevices(res.data);
-      }
-    ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
-        setOpenErrorMsg(true);
-        setDevices(null)
+      })
+      .catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg(error.response.status + " " + error.response.data.detail);
+          setOpenErrorMsg(true);
+          setDevices(null);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
+        navigate("/");
+      });
 
-    getRooms().then(
-      (res) => {
+    getRooms()
+      .then((res) => {
         setRooms(res.data);
-      }
-    ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
-        setOpenErrorMsg(true);
-        setRooms(null)
+      })
+      .catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg(error.response.status + " " + error.response.data.detail);
+          setOpenErrorMsg(true);
+          setRooms(null);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
+        navigate("/");
+      });
 
-    getCards().then(
-      (res) => {
+    getCards()
+      .then((res) => {
         setCards(res.data);
-      }
-    ).catch((error) => {
-      if ("response" in error && error.response.status === 503) {
-        setErrorMsg(error.response.status+" "+error.response.data.detail);
-        setOpenErrorMsg(true);
-        setCards(null)
+      })
+      .catch((error) => {
+        if ("response" in error && error.response.status === 503) {
+          setErrorMsg(error.response.status + " " + error.response.data.detail);
+          setOpenErrorMsg(true);
+          setCards(null);
 
-        return
-      } 
+          return;
+        }
 
-      navigate("/");
-    })
-
+        navigate("/");
+      });
   }, []);
 
-  const editDevice = (idx,name,room) => {
+  const editDevice = (idx, name, room) => {
     let tmp = [...devices];
     tmp[idx].name = name;
     tmp[idx].room = room;
 
     setDevices(tmp);
 
-    deviceEdit({id: tmp[idx].id, name: name, room: room}).then((res) => { //! API CALL
-      setSuccessMsg("Device edited successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    deviceEdit({ id: tmp[idx].id, name: name, room: room })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Device edited successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
   const handleRoomAdd = (val) => {
     let newID;
@@ -231,23 +248,25 @@ export default function Dashboard() {
 
     setRooms([...rooms, { id: newID, name: val }]);
 
-    roomAdd({ id: newID, name: val }).then((res) => { //! API CALL
-      setSuccessMsg("Room added successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    roomAdd({ id: newID, name: val })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Room added successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
-  const editRoomName = (idx,name) => {
-
+  const editRoomName = (idx, name) => {
     let tmp_devices = [...devices];
 
-    for(let i=0;i<tmp_devices.length;i++){
-      if(tmp_devices[i].room === rooms[idx].name){
+    for (let i = 0; i < tmp_devices.length; i++) {
+      if (tmp_devices[i].room === rooms[idx].name) {
         tmp_devices[i].room = name;
       }
     }
@@ -259,23 +278,25 @@ export default function Dashboard() {
     tmp_rooms[idx].name = name;
     setRooms(tmp_rooms);
 
-    roomEdit({ id: tmp_rooms[idx].id, newName: name, oldName: oldName }).then((res) => { //! API CALL
-      setSuccessMsg("Room edited successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    roomEdit({ id: tmp_rooms[idx].id, newName: name, oldName: oldName })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Room edited successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
   const handleDeleteRoom = (idx) => {
- 
     let devicesTmp = [...devices];
-    devicesTmp.map((device, deviceIdx) => {
+    devicesTmp.map((device) => {
       if (device.room === rooms[idx].name) {
-        device.room = "Not Assigned"
+        device.room = "Not Assigned";
       }
     });
 
@@ -287,15 +308,18 @@ export default function Dashboard() {
     roomsTmp.splice(idx, 1);
     setRooms(roomsTmp);
 
-    roomRemove({id: id, name: name}).then((res) => { //! API CALL
-      setSuccessMsg("Room removed successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    roomRemove({ id: id, name: name })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Room removed successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleTemperatureTarget = (val, idx) => {
@@ -305,15 +329,18 @@ export default function Dashboard() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature target set successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Temperature target set successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleMinusTemperature = (idx) => {
@@ -322,16 +349,18 @@ export default function Dashboard() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature target set successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Temperature target set successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handlePlusTemperature = (idx) => {
@@ -340,15 +369,18 @@ export default function Dashboard() {
     tmp[idx].targetTemperature = newTemp;
     setDevices(tmp);
 
-    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature target set successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceTemperatureTarget({ id: tmp[idx].id, targetTemperature: newTemp })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Temperature target set successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleTemperatureOnOff = (idx) => {
@@ -356,15 +388,22 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
-      setSuccessMsg("Temperature turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg(
+          "Temperature turned " +
+            (tmp[idx].on ? "on" : "off") +
+            " successfully!",
+        );
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleLightColor = (val, idx) => {
@@ -372,15 +411,18 @@ export default function Dashboard() {
     tmp[idx].color = val;
     setDevices(tmp);
 
-    deviceLightColor({ id: tmp[idx].id, color: val}).then((res) => { //! API CALL
-      setSuccessMsg("Light color set successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceLightColor({ id: tmp[idx].id, color: val })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Light color set successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleBrightnessChange = (val, idx) => {
@@ -388,15 +430,18 @@ export default function Dashboard() {
     tmp[idx].brightness = val;
     setDevices(tmp);
 
-    deviceLightBrightness({ id: tmp[idx].id, brightness: val}).then((res) => { //! API CALL
-      setSuccessMsg("Brightness set successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceLightBrightness({ id: tmp[idx].id, brightness: val })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Brightness set successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleLightOnOff = (idx) => {
@@ -404,58 +449,71 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
-      setSuccessMsg("Light turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    deviceOn({ id: tmp[idx].id, on: tmp[idx].on })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg(
+          "Light turned " + (tmp[idx].on ? "on" : "off") + " successfully!",
+        );
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleAddDashboard = (deviceSelected) => {
-    let tmp = {...cards};
+    let tmp = { ...cards };
     tmp[deviceSelected].push([]);
 
     setCards(tmp);
-    dashboardAdd({deviceSelected: deviceSelected}).then((res) => { //! API CALL
-      setSuccessMsg("Dashboard added successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    dashboardAdd({ deviceSelected: deviceSelected })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Dashboard added successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
-  const handleDeleteDashboard = (deviceSelected,idx) => {
-    let tmp = {...cards};
+  const handleDeleteDashboard = (deviceSelected, idx) => {
+    let tmp = { ...cards };
     tmp[deviceSelected].splice(idx, 1);
 
-    let tab = idx - 1
-    if (tab < 0) { tab = 0 }
-    setSelectedTab(tab)
-    
+    let tab = idx - 1;
+    if (tab < 0) {
+      tab = 0;
+    }
+    setSelectedTab(tab);
+
     setCards(tmp);
-    dashboardRemove({deviceSelected: deviceSelected, tab: idx}).then((res) => { //! API CALL
-      setSuccessMsg("Dashboard removed successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
-  }
+    dashboardRemove({ deviceSelected: deviceSelected, tab: idx })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Dashboard removed successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
+  };
 
-  const handleCardAdd = (deviceSelected,tab,selectedType) => {
-
+  const handleCardAdd = (deviceSelected, tab, selectedType) => {
     let newID;
     if (cards[deviceSelected][tab].length != 0) {
-      newID = cards[deviceSelected][tab][cards[deviceSelected][tab].length - 1].i + 1;
+      newID =
+        cards[deviceSelected][tab][cards[deviceSelected][tab].length - 1].i + 1;
     } else {
       newID = 0;
     }
@@ -477,15 +535,13 @@ export default function Dashboard() {
       card_w = 1;
       card_h = 3;
     } else if (selectedType === "Camera") {
-
       if (device === "mobile") {
         card_w = 1;
         card_h = 2;
-      }else{
+      } else {
         card_w = 2;
         card_h = 3;
       }
-
     } else if (selectedType === "Motion Sensor") {
       card_w = 1;
       card_h = 2;
@@ -500,22 +556,20 @@ export default function Dashboard() {
       card_h = 2;
     }
 
-    let tmp = {...cards};
+    let tmp = { ...cards };
 
     //! it needs to be like this bc of pointers and create new objects
     //! tmp[deviceSelected][tab].push will eventualy fail it caused bugs
-    let tmp2 = [...cards[deviceSelected][tab]]; 
+    let tmp2 = [...cards[deviceSelected][tab]];
 
-    tmp2.push(
-      {
-        type: selectedType,
-        i: newID.toString(),
-        x: 0,
-        y: Infinity,
-        w: card_w,
-        h: card_h,
-      },
-    );
+    tmp2.push({
+      type: selectedType,
+      i: newID.toString(),
+      x: 0,
+      y: Infinity,
+      w: card_w,
+      h: card_h,
+    });
 
     tmp[deviceSelected][tab] = tmp2;
 
@@ -531,50 +585,58 @@ export default function Dashboard() {
         y: Infinity,
         w: card_w,
         h: card_h,
-      }
-    }).then((res) => { //! API CALL
-      setSuccessMsg("Card added successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
+      },
     })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Card added successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
-  const handleSetLayout = (deviceSelected,tab,val) => {
-
-    let tmp = {...cards};
+  const handleSetLayout = (deviceSelected, tab, val) => {
+    let tmp = { ...cards };
 
     tmp[deviceSelected][tab] = val;
 
     setCards(tmp);
-    dashboardCardEdit({deviceSelected: deviceSelected, tab: tab, layout: val}).then((res) => { //! API CALL
-      setSuccessMsg("Layout set successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    dashboardCardEdit({ deviceSelected: deviceSelected, tab: tab, layout: val })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Layout set successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
-  const handleCardDelete = (deviceSelected,tab,idx) => {
-    let tmp = {...cards};
+  const handleCardDelete = (deviceSelected, tab, idx) => {
+    let tmp = { ...cards };
     tmp[deviceSelected][tab].splice(idx, 1);
 
     setCards(tmp);
-    dashboardCardRemove({deviceSelected: deviceSelected, tab: tab, idx: idx}).then((res) => { //! API CALL
-      setSuccessMsg("Card removed successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    dashboardCardRemove({ deviceSelected: deviceSelected, tab: tab, idx: idx })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Card removed successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   const handleClickAlarm = (val) => {
@@ -590,7 +652,7 @@ export default function Dashboard() {
 
     setAlarmOn(val);
 
-    deviceAlarm({on: val}) //! API CALL
+    deviceAlarm({ on: val }); //! API CALL
   };
 
   const handleCameraOnOff = (idx) => {
@@ -598,8 +660,10 @@ export default function Dashboard() {
     tmp[idx].on = !tmp[idx].on;
     setDevices(tmp);
 
-    setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
-    setOpenSuccessMsg(true)
+    setSuccessMsg(
+      "Camera turned " + (tmp[idx].on ? "on" : "off") + " successfully!",
+    );
+    setOpenSuccessMsg(true);
 
     // deviceOn({ id: tmp[idx].id, on: tmp[idx].on }).then((res) => { //! API CALL
     //   setSuccessMsg("Camera turned "+(tmp[idx].on ? "on" : "off")+" successfully!")
@@ -618,15 +682,18 @@ export default function Dashboard() {
     tmp.splice(idx, 1);
     setNotifications(tmp);
 
-    notificationsDelete({"id":id}).then((res) => { //! API CALL
-      setSuccessMsg("Notification removed successfully");
-      setOpenSuccessMsg(true)
-    }).catch((error) => {
-      if ("response" in error) {
-        setErrorMsg("Error "+error.response.status);
-        setOpenErrorMsg(true);
-      }
-    })
+    notificationsDelete({ id: id })
+      .then(() => {
+        //! API CALL
+        setSuccessMsg("Notification removed successfully");
+        setOpenSuccessMsg(true);
+      })
+      .catch((error) => {
+        if ("response" in error) {
+          setErrorMsg("Error " + error.response.status);
+          setOpenErrorMsg(true);
+        }
+      });
   };
 
   if (devices === null || rooms === null || cards === null) {
@@ -768,28 +835,34 @@ export default function Dashboard() {
         {!mobile && <Grid item xs={0} sm={6} md={7} lg={8} xl={9}></Grid>}
 
         <Grid item xs={12} id="dialogGrid">
-          <Tabs 
-            value={selectedTab} 
+          <Tabs
+            value={selectedTab}
             onChange={(event, newValue) => setSelectedTab(newValue)}
             variant="scrollable"
             scrollButtons="auto"
-            sx={{color: "#000000"}}
+            sx={{ color: "#000000" }}
           >
             {cards[device].map((card, idx) => {
-              return <Tab label={"Dashboard "+idx} value={idx} style={{fontWeight:"bold"}} key={idx}/>
-            })
-            }
+              return (
+                <Tab
+                  label={"Dashboard " + idx}
+                  value={idx}
+                  style={{ fontWeight: "bold" }}
+                  key={idx}
+                />
+              );
+            })}
           </Tabs>
         </Grid>
       </Grid>
 
       <GridLayout
-        style={{ marginLeft: -40, marginRight: 40}}
+        style={{ marginLeft: -40, marginRight: 40 }}
         className="layout"
         cols={numCol}
-        margin={[40,40]}
+        margin={[40, 40]}
         rowHeight={200}
-        width={sizeGrid+80}
+        width={sizeGrid + 80}
         isResizable={false}
         isDraggable={false}
         layout={cards[device][selectedTab]}
@@ -888,7 +961,6 @@ export default function Dashboard() {
               </div>
             );
           }
-
         })}
       </GridLayout>
       <Snackbar
