@@ -140,3 +140,7 @@ EnergyConsumptionPie.propTypes = {
     gas: PropTypes.arrayOf(PropTypes.number).isRequired,
   }).isRequired,
 };
+
+PieCenterLabel.propTypes = {
+  children: PropTypes.node.isRequired,
+};

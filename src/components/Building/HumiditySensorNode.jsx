@@ -4,7 +4,7 @@ import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import { useReactFlow } from "reactflow";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default memo(({ id, data }) => {
+const HumiditySensorNode = memo(({ id, data }) => {
   const { deleteElements } = useReactFlow();
 
   const handleDelete = (e) => {
@@ -34,3 +34,17 @@ export default memo(({ id, data }) => {
     </>
   );
 });
+
+import PropTypes from "prop-types";
+
+HumiditySensorNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    openDialog: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+HumiditySensorNode.displayName = 'HumiditySensorNode';
+
+export default HumiditySensorNode;

@@ -3,7 +3,7 @@ import { Handle, Position, useReactFlow } from "reactflow";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
-export default memo(({ id, isConnectable, data }) => {
+const TimeNode = memo(({ id, isConnectable, data }) => {
   const { deleteElements } = useReactFlow();
 
   const [hour, setHour] = React.useState(() => {
@@ -86,3 +86,19 @@ export default memo(({ id, isConnectable, data }) => {
     </>
   );
 });
+
+import PropTypes from 'prop-types';
+
+TimeNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  isConnectable: PropTypes.bool.isRequired,
+  data: PropTypes.shape({
+    time: PropTypes.string.isRequired,
+    editData: PropTypes.func.isRequired,
+    clearNodeData: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+TimeNode.displayName = 'TimeNode';
+
+export default TimeNode;

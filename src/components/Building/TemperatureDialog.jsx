@@ -402,6 +402,8 @@ TemperatureDialog.propTypes = {
   handleCloseDialog: PropTypes.func.isRequired,
   handleTemperatureTarget: PropTypes.func.isRequired,
   handleTemperatureOnOff: PropTypes.func.isRequired,
+  handleMinusTemperature: PropTypes.func.isRequired,
+  handlePlusTemperature: PropTypes.func.isRequired,
   devices: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

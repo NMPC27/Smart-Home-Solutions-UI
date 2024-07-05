@@ -15,6 +15,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import CameraDialog from "./CameraDialog";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -37,6 +43,9 @@ const InItem = styled(Paper)(({ theme }) => ({
 export default function CameraCard(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   const [deviceIdx, setDeviceIdx] = React.useState(() => {
     for (let i = 0; i < props.devices.length; i++) {
@@ -122,6 +131,7 @@ export default function CameraCard(props) {
   const [fullScreen, setFullScreen] = React.useState(false);
 
   return (
+    <>
     <OutItem elevation={5} sx={{ height: mobile ? 400 : 640 }}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Camera</h2>
       <InItem
@@ -229,6 +239,29 @@ export default function CameraCard(props) {
         />
       )}
     </OutItem>
+        <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+      </>
   );
 }
 

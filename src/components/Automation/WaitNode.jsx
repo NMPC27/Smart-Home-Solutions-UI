@@ -3,7 +3,7 @@ import { Handle, Position, useReactFlow } from "reactflow";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
-export default memo(({ id, isConnectable, data }) => {
+const WaitNode = memo(({ id, isConnectable, data }) => {
   const { deleteElements } = useReactFlow();
 
   const [hour, setHour] = React.useState(() => {
@@ -120,3 +120,19 @@ export default memo(({ id, isConnectable, data }) => {
     </>
   );
 });
+
+import PropTypes from 'prop-types';
+
+WaitNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  isConnectable: PropTypes.bool.isRequired,
+  data: PropTypes.shape({
+    wait: PropTypes.string.isRequired,
+    editData: PropTypes.func.isRequired,
+    clearNodeData: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+WaitNode.displayName = 'WaitNode';
+
+export default WaitNode;

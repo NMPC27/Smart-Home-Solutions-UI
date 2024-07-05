@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -7,11 +6,6 @@ import {
 } from "reactflow";
 
 import "./customedge.css";
-
-const onEdgeClick = (evt, id) => {
-  evt.stopPropagation();
-  alert(`remove ${id}`);
-};
 
 export default function CustomEdge({
   id,
@@ -61,3 +55,17 @@ export default function CustomEdge({
     </>
   );
 }
+
+import PropTypes from 'prop-types';
+
+CustomEdge.propTypes = {
+  id: PropTypes.string.isRequired,
+  sourceX: PropTypes.number.isRequired,
+  sourceY: PropTypes.number.isRequired,
+  targetX: PropTypes.number.isRequired,
+  targetY: PropTypes.number.isRequired,
+  sourcePosition: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).isRequired,
+  targetPosition: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).isRequired,
+  style: PropTypes.object,
+  markerEnd: PropTypes.string,
+};

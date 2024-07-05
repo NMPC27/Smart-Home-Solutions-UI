@@ -4,7 +4,7 @@ import SensorsIcon from "@mui/icons-material/Sensors";
 import { useReactFlow } from "reactflow";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default memo(({ id, data }) => {
+const MotionSensorNode = memo(({ id, data }) => {
   const { deleteElements } = useReactFlow();
 
   const handleDelete = (e) => {
@@ -34,3 +34,17 @@ export default memo(({ id, data }) => {
     </>
   );
 });
+
+import PropTypes from 'prop-types';
+
+MotionSensorNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    openDialog: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+MotionSensorNode.displayName = 'MotionSensorNode';
+
+export default MotionSensorNode;

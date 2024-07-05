@@ -3,7 +3,7 @@ import { Handle, Position, useReactFlow } from "reactflow";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
-export default memo(({ id, data, isConnectable }) => {
+const EventNode = memo(({ id, data, isConnectable }) => {
   const { deleteElements } = useReactFlow();
 
   const [deviceIdx, setDeviceIdx] = React.useState(0);
@@ -197,7 +197,7 @@ export default memo(({ id, data, isConnectable }) => {
                 borderColor: "#000000",
               }}
               value={sinal + " " + humidity + "%"}
-              readonly
+              readOnly
             />
             <button style={{ marginLeft: "0.5vw" }} onClick={() => plusHumi()}>
               +
@@ -243,3 +243,28 @@ export default memo(({ id, data, isConnectable }) => {
     </>
   );
 });
+
+import PropTypes from 'prop-types';
+
+EventNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    devices: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })).isRequired,
+    deviceID: PropTypes.string,
+    temperature: PropTypes.number,
+    humidity: PropTypes.number,
+    sensor: PropTypes.string,
+    sinal: PropTypes.string,
+    editData: PropTypes.func.isRequired,
+    clearNodeData: PropTypes.func.isRequired,
+  }).isRequired,
+  isConnectable: PropTypes.bool.isRequired,
+};
+
+EventNode.displayName = 'EventNode';
+
+export default EventNode;

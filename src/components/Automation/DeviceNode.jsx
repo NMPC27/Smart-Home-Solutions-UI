@@ -5,7 +5,7 @@ import Slider from "@mui/material/Slider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
-export default memo(({ id, data, isConnectable }) => {
+const DeviceNode = memo(({ id, data, isConnectable }) => {
   const { deleteElements } = useReactFlow();
 
   const [deviceIdx, setDeviceIdx] = React.useState(0);
@@ -61,7 +61,6 @@ export default memo(({ id, data, isConnectable }) => {
 
   const handleBrightnessChange = (val) => {
     data.editData({ id: id, brightness: val }, "deviceData");
-    setBrightness(val);
   };
 
   const handleDeleteDevice = (e) => {
@@ -128,8 +127,9 @@ export default memo(({ id, data, isConnectable }) => {
           </div>
           <Slider
             className="nodrag"
-            defaultValue={data.brightness}
+            value={brightness}
             onChangeCommitted={(_, val) => handleBrightnessChange(val)}
+            onChange={(_, val) => setBrightness(val)}
             valueLabelDisplay="auto"
             sx={{
               "& .MuiSlider-thumb": { bgcolor: "#FFC107" },
@@ -165,7 +165,7 @@ export default memo(({ id, data, isConnectable }) => {
                   borderColor: "#000000",
                 }}
                 value={temperature}
-                readonly
+                readOnly
               />
               <button
                 style={{ marginLeft: "0.5vw" }}
@@ -184,3 +184,28 @@ export default memo(({ id, data, isConnectable }) => {
     </>
   );
 });
+
+import PropTypes from 'prop-types';
+
+DeviceNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    devices: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })).isRequired,
+    deviceID: PropTypes.string,
+    deviceState: PropTypes.oneOf(['turnOff', 'turnOn']),
+    temperature: PropTypes.number,
+    color: PropTypes.string,
+    brightness: PropTypes.number,
+    editData: PropTypes.func.isRequired,
+    clearNodeData: PropTypes.func.isRequired,
+  }).isRequired,
+  isConnectable: PropTypes.bool.isRequired,
+};
+
+DeviceNode.displayName = 'DeviceNode';
+
+export default DeviceNode;

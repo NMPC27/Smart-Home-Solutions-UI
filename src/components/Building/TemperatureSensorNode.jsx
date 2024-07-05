@@ -4,7 +4,7 @@ import ThermostatIcon from "@mui/icons-material/Thermostat";
 import { useReactFlow } from "reactflow";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default memo(({ id, data }) => {
+const TemperatureSensorNode = memo(({ id, data }) => {
   const { deleteElements } = useReactFlow();
 
   const handleDelete = (e) => {
@@ -34,3 +34,17 @@ export default memo(({ id, data }) => {
     </>
   );
 });
+
+import PropTypes from 'prop-types';
+
+TemperatureSensorNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    openDialog: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+TemperatureSensorNode.displayName = 'TemperatureSensorNode';
+
+export default TemperatureSensorNode;

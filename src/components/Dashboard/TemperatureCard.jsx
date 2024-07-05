@@ -14,6 +14,12 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import { getSensor } from "../API";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -105,6 +111,9 @@ const colorsArray = [
 
 export default function TemperatureCard(props) {
   const [size, setSize] = React.useState(null);
+
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   // const slider = React.useCallback((node) => {
   //   //! Resize slider
@@ -276,6 +285,7 @@ export default function TemperatureCard(props) {
   }, [deviceIdx]);
 
   return (
+    <>
     <OutItem elevation={5}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Temperature</h2>
       <InItem>
@@ -430,6 +440,29 @@ export default function TemperatureCard(props) {
         </Grid>
       </InItem>
     </OutItem>
+          <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openErrorMsg}
+          autoHideDuration={6000}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          <Alert
+            severity="error"
+            sx={{ width: "100%" }}
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") {
+                setOpenErrorMsg(false);
+              }
+            }}
+          >
+            {errorMsg}
+          </Alert>
+        </Snackbar>
+        </>
   );
 }
 

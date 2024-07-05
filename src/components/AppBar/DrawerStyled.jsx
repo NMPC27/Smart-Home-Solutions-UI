@@ -268,3 +268,9 @@ DrawerStyled.propTypes = {
   handleCloseDrawer: PropTypes.func.isRequired,
   navbar: PropTypes.string.isRequired,
 };
+
+MinidenticonImg.propTypes = {
+  username: PropTypes.string.isRequired,
+  saturation: PropTypes.string.isRequired,
+  lightness: PropTypes.string.isRequired,
+};

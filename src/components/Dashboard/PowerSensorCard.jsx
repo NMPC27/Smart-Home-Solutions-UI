@@ -7,6 +7,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getSensor } from "../API";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const OutItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#111827",
@@ -34,6 +40,9 @@ export default function PowerSensorCard(props) {
   const [selectedRoom, setSelectedRoom] = React.useState("All");
 
   const [sensors, setSensors] = React.useState([]);
+
+  const [openErrorMsg, setOpenErrorMsg] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState("");
 
   React.useEffect(() => {
     if (props.globalRoom !== "Any") {
@@ -72,6 +81,7 @@ export default function PowerSensorCard(props) {
   }, [props.devices]);
 
   return (
+    <>
     <OutItem elevation={5}>
       <h2 style={{ marginTop: 10, marginBottom: 16 }}>Power Sensor</h2>
       <InItem>
@@ -115,6 +125,29 @@ export default function PowerSensorCard(props) {
         </Grid>
       </InItem>
     </OutItem>
+    <Snackbar
+    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    open={openErrorMsg}
+    autoHideDuration={6000}
+    onClose={(event, reason) => {
+      if (reason !== "clickaway") {
+        setOpenErrorMsg(false);
+      }
+    }}
+  >
+    <Alert
+      severity="error"
+      sx={{ width: "100%" }}
+      onClose={(event, reason) => {
+        if (reason !== "clickaway") {
+          setOpenErrorMsg(false);
+        }
+      }}
+    >
+      {errorMsg}
+    </Alert>
+  </Snackbar>
+  </>
   );
 }
 

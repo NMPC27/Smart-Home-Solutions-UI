@@ -4,7 +4,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import { useReactFlow } from "reactflow";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default memo(({ id, data }) => {
+const CameraNode = memo(({ id, data }) => {
   const { deleteElements } = useReactFlow();
 
   const handleDelete = (e) => {
@@ -34,3 +34,18 @@ export default memo(({ id, data }) => {
     </>
   );
 });
+
+import PropTypes from "prop-types";
+
+CameraNode.propTypes = {
+  id: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    openDialog: PropTypes.func.isRequired,
+    on: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+CameraNode.displayName = 'CameraNode';
+
+export default CameraNode;

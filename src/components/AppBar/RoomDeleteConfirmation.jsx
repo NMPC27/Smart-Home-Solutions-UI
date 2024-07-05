@@ -32,7 +32,7 @@ export default function RoomDeleteConfirmation(props) {
       <DialogContent>
         <h4>
           By deleting this room all the associated devices with this room will
-          return to a "Not Assigned" room. Are you sure that you want to delete
+          return to a {'"'}Not Assigned{'"'} room. Are you sure that you want to delete
           this room?
         </h4>
         <h4 style={{ color: "#FF0000" }}>
