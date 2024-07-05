@@ -35,7 +35,7 @@ const MotionSensorNode = memo(({ id, data }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 MotionSensorNode.propTypes = {
   id: PropTypes.string.isRequired,
@@ -45,6 +45,6 @@ MotionSensorNode.propTypes = {
   }).isRequired,
 };
 
-MotionSensorNode.displayName = 'MotionSensorNode';
+MotionSensorNode.displayName = "MotionSensorNode";
 
 export default MotionSensorNode;

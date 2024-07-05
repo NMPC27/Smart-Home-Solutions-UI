@@ -35,7 +35,7 @@ const TemperatureSensorNode = memo(({ id, data }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 TemperatureSensorNode.propTypes = {
   id: PropTypes.string.isRequired,
@@ -45,6 +45,6 @@ TemperatureSensorNode.propTypes = {
   }).isRequired,
 };
 
-TemperatureSensorNode.displayName = 'TemperatureSensorNode';
+TemperatureSensorNode.displayName = "TemperatureSensorNode";
 
 export default TemperatureSensorNode;

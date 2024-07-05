@@ -35,7 +35,7 @@ const TemperatureNode = memo(({ id, data }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 TemperatureNode.propTypes = {
   id: PropTypes.string.isRequired,
@@ -46,6 +46,6 @@ TemperatureNode.propTypes = {
   }).isRequired,
 };
 
-TemperatureNode.displayName = 'TemperatureNode';
+TemperatureNode.displayName = "TemperatureNode";
 
 export default TemperatureNode;

@@ -121,7 +121,7 @@ const WaitNode = memo(({ id, isConnectable, data }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 WaitNode.propTypes = {
   id: PropTypes.string.isRequired,
@@ -133,6 +133,6 @@ WaitNode.propTypes = {
   }).isRequired,
 };
 
-WaitNode.displayName = 'WaitNode';
+WaitNode.displayName = "WaitNode";
 
 export default WaitNode;

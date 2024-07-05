@@ -46,6 +46,6 @@ CameraNode.propTypes = {
   }).isRequired,
 };
 
-CameraNode.displayName = 'CameraNode';
+CameraNode.displayName = "CameraNode";
 
 export default CameraNode;

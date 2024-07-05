@@ -87,7 +87,7 @@ const TimeNode = memo(({ id, isConnectable, data }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 TimeNode.propTypes = {
   id: PropTypes.string.isRequired,
@@ -99,6 +99,6 @@ TimeNode.propTypes = {
   }).isRequired,
 };
 
-TimeNode.displayName = 'TimeNode';
+TimeNode.displayName = "TimeNode";
 
 export default TimeNode;

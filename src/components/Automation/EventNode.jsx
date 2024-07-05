@@ -244,16 +244,18 @@ const EventNode = memo(({ id, data, isConnectable }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 EventNode.propTypes = {
   id: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    devices: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    })).isRequired,
+    devices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
     deviceID: PropTypes.string,
     temperature: PropTypes.number,
     humidity: PropTypes.number,
@@ -265,6 +267,6 @@ EventNode.propTypes = {
   isConnectable: PropTypes.bool.isRequired,
 };
 
-EventNode.displayName = 'EventNode';
+EventNode.displayName = "EventNode";
 
 export default EventNode;

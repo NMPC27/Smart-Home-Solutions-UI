@@ -35,7 +35,7 @@ const PowerSensorNode = memo(({ id, data }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 PowerSensorNode.propTypes = {
   id: PropTypes.string.isRequired,
@@ -45,6 +45,6 @@ PowerSensorNode.propTypes = {
   }).isRequired,
 };
 
-PowerSensorNode.displayName = 'PowerSensorNode';
+PowerSensorNode.displayName = "PowerSensorNode";
 
 export default PowerSensorNode;

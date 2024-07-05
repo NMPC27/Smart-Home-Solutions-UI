@@ -286,183 +286,192 @@ export default function TemperatureCard(props) {
 
   return (
     <>
-    <OutItem elevation={5}>
-      <h2 style={{ marginTop: 10, marginBottom: 16 }}>Temperature</h2>
-      <InItem>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Room</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedRoom}
-                label="Room"
-                onChange={(event) => handleRoomChange(event.target.value)}
-              >
-                {props.rooms.map((room, idx) => (
-                  <MenuItem key={idx} value={room.name}>
-                    {room.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          {props.devices[deviceIdx] !== undefined && (
-            <>
-              <Grid item xs={12}>
-                <h2> {props.devices[deviceIdx].name} </h2>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                marginBottom="2vh"
-                id="slider"
-                justifyContent="center"
-                display="flex"
-              >
-                <CircularSliderWithChildren
-                  disabled={!props.devices[deviceIdx].on}
-                  size={size > 430 ? 430 : size}
-                  trackWidth={10}
-                  handleSize={10}
-                  minValue={15}
-                  maxValue={30}
-                  startAngle={50}
-                  endAngle={310}
-                  handle1={{
-                    value: targetTemperature,
-                    onChange: (v) => {
-                      setTargetTemperature(v);
-                      setArcColor(
-                        colorsArray[parseInt((targetTemperature - 15) * 4)],
-                      );
-                    },
-                  }}
-                  onControlFinished={() =>
-                    props.handleTemperatureTarget(targetTemperature, deviceIdx)
-                  }
-                  arcColor={props.devices[deviceIdx].on ? arcColor : "#787878"}
-                  arcBackgroundColor="#AAAAAA"
+      <OutItem elevation={5}>
+        <h2 style={{ marginTop: 10, marginBottom: 16 }}>Temperature</h2>
+        <InItem>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Room</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedRoom}
+                  label="Room"
+                  onChange={(event) => handleRoomChange(event.target.value)}
                 >
-                  <div>
-                    {props.devices[deviceIdx].on ? (
+                  {props.rooms.map((room, idx) => (
+                    <MenuItem key={idx} value={room.name}>
+                      {room.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {props.devices[deviceIdx] !== undefined && (
+              <>
+                <Grid item xs={12}>
+                  <h2> {props.devices[deviceIdx].name} </h2>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  marginBottom="2vh"
+                  id="slider"
+                  justifyContent="center"
+                  display="flex"
+                >
+                  <CircularSliderWithChildren
+                    disabled={!props.devices[deviceIdx].on}
+                    size={size > 430 ? 430 : size}
+                    trackWidth={10}
+                    handleSize={10}
+                    minValue={15}
+                    maxValue={30}
+                    startAngle={50}
+                    endAngle={310}
+                    handle1={{
+                      value: targetTemperature,
+                      onChange: (v) => {
+                        setTargetTemperature(v);
+                        setArcColor(
+                          colorsArray[parseInt((targetTemperature - 15) * 4)],
+                        );
+                      },
+                    }}
+                    onControlFinished={() =>
+                      props.handleTemperatureTarget(
+                        targetTemperature,
+                        deviceIdx,
+                      )
+                    }
+                    arcColor={
+                      props.devices[deviceIdx].on ? arcColor : "#787878"
+                    }
+                    arcBackgroundColor="#AAAAAA"
+                  >
+                    <div>
+                      {props.devices[deviceIdx].on ? (
+                        <h2
+                          style={{
+                            marginTop: "2vh",
+                            fontSize: "1.6em",
+                          }}
+                        >
+                          Target {parseInt(targetTemperature)}°
+                        </h2>
+                      ) : (
+                        <h2
+                          style={{
+                            marginTop: "2vh",
+                            fontSize: "1.6em",
+                          }}
+                        >
+                          OFF
+                        </h2>
+                      )}
+
+                      <Divider
+                        sx={{
+                          borderBottomWidth: 5,
+                          margin: "auto",
+                          bgcolor: "#AAAAAA",
+                          borderRadius: "5px",
+                        }}
+                      />
                       <h2
                         style={{
-                          marginTop: "2vh",
                           fontSize: "1.6em",
                         }}
                       >
-                        Target {parseInt(targetTemperature)}°
+                        {sensorTemperature}°C
+                        {" | "}
+                        {sensorHumidity}%
                       </h2>
-                    ) : (
-                      <h2
-                        style={{
-                          marginTop: "2vh",
-                          fontSize: "1.6em",
-                        }}
+                      <Stack
+                        justifyContent="center"
+                        direction="row"
+                        spacing={4}
                       >
-                        OFF
-                      </h2>
-                    )}
+                        {props.devices[deviceIdx].on ? (
+                          <IconButton
+                            onClick={() => handleMinusTemperature(deviceIdx)}
+                            sx={{
+                              bgcolor: "#2196F3",
+                              "&:hover": { bgcolor: "#1C7ECC" },
+                            }}
+                          >
+                            <RemoveIcon />
+                          </IconButton>
+                        ) : (
+                          <IconButton disable>
+                            <RemoveIcon />
+                          </IconButton>
+                        )}
 
-                    <Divider
-                      sx={{
-                        borderBottomWidth: 5,
-                        margin: "auto",
-                        bgcolor: "#AAAAAA",
-                        borderRadius: "5px",
-                      }}
-                    />
-                    <h2
-                      style={{
-                        fontSize: "1.6em",
-                      }}
-                    >
-                      {sensorTemperature}°C
-                      {" | "}
-                      {sensorHumidity}%
-                    </h2>
-                    <Stack justifyContent="center" direction="row" spacing={4}>
-                      {props.devices[deviceIdx].on ? (
-                        <IconButton
-                          onClick={() => handleMinusTemperature(deviceIdx)}
-                          sx={{
-                            bgcolor: "#2196F3",
-                            "&:hover": { bgcolor: "#1C7ECC" },
-                          }}
-                        >
-                          <RemoveIcon />
-                        </IconButton>
-                      ) : (
-                        <IconButton disable>
-                          <RemoveIcon />
-                        </IconButton>
-                      )}
-
-                      {props.devices[deviceIdx].on ? (
-                        <IconButton
-                          onClick={() => handlePlusTemperature(deviceIdx)}
-                          sx={{
-                            bgcolor: "#FF6F22",
-                            "&:hover": { bgcolor: "#D95E1D" },
-                          }}
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      ) : (
-                        <IconButton disable>
-                          <AddIcon />
-                        </IconButton>
-                      )}
-                    </Stack>
-                    <IconButton
-                      onClick={() => props.handleTemperatureOnOff(deviceIdx)}
-                      sx={{
-                        bgcolor: props.devices[deviceIdx].on
-                          ? "#FFC107"
-                          : "#DDDEDF",
-                        "&:hover": {
+                        {props.devices[deviceIdx].on ? (
+                          <IconButton
+                            onClick={() => handlePlusTemperature(deviceIdx)}
+                            sx={{
+                              bgcolor: "#FF6F22",
+                              "&:hover": { bgcolor: "#D95E1D" },
+                            }}
+                          >
+                            <AddIcon />
+                          </IconButton>
+                        ) : (
+                          <IconButton disable>
+                            <AddIcon />
+                          </IconButton>
+                        )}
+                      </Stack>
+                      <IconButton
+                        onClick={() => props.handleTemperatureOnOff(deviceIdx)}
+                        sx={{
                           bgcolor: props.devices[deviceIdx].on
-                            ? "#D9A406"
-                            : "#B6B7B8",
-                        },
-                      }}
-                    >
-                      <PowerSettingsNewIcon />
-                    </IconButton>
-                  </div>
-                </CircularSliderWithChildren>
-              </Grid>
-            </>
-          )}
-        </Grid>
-      </InItem>
-    </OutItem>
-          <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={openErrorMsg}
-          autoHideDuration={6000}
+                            ? "#FFC107"
+                            : "#DDDEDF",
+                          "&:hover": {
+                            bgcolor: props.devices[deviceIdx].on
+                              ? "#D9A406"
+                              : "#B6B7B8",
+                          },
+                        }}
+                      >
+                        <PowerSettingsNewIcon />
+                      </IconButton>
+                    </div>
+                  </CircularSliderWithChildren>
+                </Grid>
+              </>
+            )}
+          </Grid>
+        </InItem>
+      </OutItem>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setOpenErrorMsg(false);
+          }
+        }}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
           onClose={(event, reason) => {
             if (reason !== "clickaway") {
               setOpenErrorMsg(false);
             }
           }}
         >
-          <Alert
-            severity="error"
-            sx={{ width: "100%" }}
-            onClose={(event, reason) => {
-              if (reason !== "clickaway") {
-                setOpenErrorMsg(false);
-              }
-            }}
-          >
-            {errorMsg}
-          </Alert>
-        </Snackbar>
-        </>
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 

@@ -45,6 +45,6 @@ HumiditySensorNode.propTypes = {
   }).isRequired,
 };
 
-HumiditySensorNode.displayName = 'HumiditySensorNode';
+HumiditySensorNode.displayName = "HumiditySensorNode";
 
 export default HumiditySensorNode;

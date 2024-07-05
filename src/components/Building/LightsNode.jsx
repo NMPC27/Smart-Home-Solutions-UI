@@ -46,6 +46,6 @@ LightsNode.propTypes = {
   }).isRequired,
 };
 
-LightsNode.displayName = 'LightsNode';
+LightsNode.displayName = "LightsNode";
 
 export default LightsNode;

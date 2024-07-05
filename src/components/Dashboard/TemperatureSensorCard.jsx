@@ -89,75 +89,75 @@ export default function TemperatureSensorCard(props) {
 
   return (
     <>
-    <OutItem elevation={5}>
-      <h2 style={{ marginTop: 10, marginBottom: 16 }}>Temperature Sensor</h2>
-      <InItem>
-        <Grid container spacing={2.5} alignItems="center">
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Room</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedRoom}
-                label="Room"
-                onChange={(event) => setSelectedRoom(event.target.value)}
-              >
-                <MenuItem key={0} value={"All"}>
-                  {"All"}
-                </MenuItem>
-                {props.rooms.map((room, idx) => (
-                  <MenuItem key={idx} value={room.name}>
-                    {room.name}
+      <OutItem elevation={5}>
+        <h2 style={{ marginTop: 10, marginBottom: 16 }}>Temperature Sensor</h2>
+        <InItem>
+          <Grid container spacing={2.5} alignItems="center">
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Room</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedRoom}
+                  label="Room"
+                  onChange={(event) => setSelectedRoom(event.target.value)}
+                >
+                  <MenuItem key={0} value={"All"}>
+                    {"All"}
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
+                  {props.rooms.map((room, idx) => (
+                    <MenuItem key={idx} value={room.name}>
+                      {room.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
 
-          {sensors.map((val) => {
-            if (selectedRoom === "All" || selectedRoom === val.room) {
-              return (
-                <>
-                  <Grid item xs={9}>
-                    <h3>{val.name}</h3>
-                  </Grid>
-                  <Grid item xs={3}>
-                    {val.type === "Temperature Sensor" ? (
-                      <h3>{val.currentTemperature}°C</h3>
-                    ) : (
-                      <h3>{val.currentHumidity}%</h3>
-                    )}
-                  </Grid>
-                </>
-              );
-            }
-          })}
-        </Grid>
-      </InItem>
-    </OutItem>
+            {sensors.map((val) => {
+              if (selectedRoom === "All" || selectedRoom === val.room) {
+                return (
+                  <>
+                    <Grid item xs={9}>
+                      <h3>{val.name}</h3>
+                    </Grid>
+                    <Grid item xs={3}>
+                      {val.type === "Temperature Sensor" ? (
+                        <h3>{val.currentTemperature}°C</h3>
+                      ) : (
+                        <h3>{val.currentHumidity}%</h3>
+                      )}
+                    </Grid>
+                  </>
+                );
+              }
+            })}
+          </Grid>
+        </InItem>
+      </OutItem>
       <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      open={openErrorMsg}
-      autoHideDuration={6000}
-      onClose={(event, reason) => {
-        if (reason !== "clickaway") {
-          setOpenErrorMsg(false);
-        }
-      }}
-    >
-      <Alert
-        severity="error"
-        sx={{ width: "100%" }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
         onClose={(event, reason) => {
           if (reason !== "clickaway") {
             setOpenErrorMsg(false);
           }
         }}
       >
-        {errorMsg}
-      </Alert>
-    </Snackbar>
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") {
+              setOpenErrorMsg(false);
+            }
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

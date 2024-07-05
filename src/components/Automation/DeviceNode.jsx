@@ -185,18 +185,20 @@ const DeviceNode = memo(({ id, data, isConnectable }) => {
   );
 });
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 DeviceNode.propTypes = {
   id: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    devices: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    })).isRequired,
+    devices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
     deviceID: PropTypes.string,
-    deviceState: PropTypes.oneOf(['turnOff', 'turnOn']),
+    deviceState: PropTypes.oneOf(["turnOff", "turnOn"]),
     temperature: PropTypes.number,
     color: PropTypes.string,
     brightness: PropTypes.number,
@@ -206,6 +208,6 @@ DeviceNode.propTypes = {
   isConnectable: PropTypes.bool.isRequired,
 };
 
-DeviceNode.displayName = 'DeviceNode';
+DeviceNode.displayName = "DeviceNode";
 
 export default DeviceNode;

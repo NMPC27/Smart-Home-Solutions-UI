@@ -132,114 +132,114 @@ export default function CameraCard(props) {
 
   return (
     <>
-    <OutItem elevation={5} sx={{ height: mobile ? 400 : 640 }}>
-      <h2 style={{ marginTop: 10, marginBottom: 16 }}>Camera</h2>
-      <InItem
-        sx={{ minHeight: mobile ? 280 : 520, maxHeight: mobile ? 280 : 520 }}
-      >
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Room</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedRoom}
-                label="Room"
-                onChange={(event) => handleRoomChange(event.target.value)}
-              >
-                {props.rooms.map((room, idx) => {
-                  return (
-                    <MenuItem key={idx} value={room.name}>
-                      {room.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </Grid>
-          {deviceIdx !== -1 && props.devices[deviceIdx] && (
-            <>
-              <Grid item xs={12}>
-                {props.devices[deviceIdx].on ? (
-                  <>
-                    {img === null ? (
-                      <CircularProgress
-                        size={mobile ? 110 : 250}
-                        sx={{ padding: mobile ? 5 : 10 }}
-                      />
-                    ) : (
-                      <div style={{ position: "relative" }}>
-                        <img
-                          width="100%"
-                          height={mobile ? 190 : 400}
-                          style={{ borderRadius: "10px" }}
-                          src={`data:image/jpeg;base64,${img}`}
-                          alt="Camera"
-                        />
-                        <IconButton
-                          onClick={() => setFullScreen(true)}
-                          sx={{
-                            position: "absolute",
-                            right: 5,
-                            bottom: 10,
-                            color: "#FFFFFF",
-                            bgcolor: "#000000",
-                          }}
-                        >
-                          <FullscreenIcon sx={{ fontSize: 30 }} />
-                        </IconButton>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <VideocamOffIcon
-                    style={{
-                      fontSize: mobile ? 180 : 340,
-                      padding: mobile ? 5 : 35,
-                    }}
-                  />
-                )}
-              </Grid>
-
-              {!mobile && <Grid item xs={5.5}></Grid>}
-
-              <Grid item xs={1}>
-                <IconButton
-                  onClick={() => props.handleCameraOnOff(deviceIdx)}
-                  sx={{
-                    bgcolor: props.devices[deviceIdx].on
-                      ? "#FFC107"
-                      : "#DDDEDF",
-                    "&:hover": {
-                      bgcolor: props.devices[deviceIdx].on
-                        ? "#D9A406"
-                        : "#B6B7B8",
-                    },
-                  }}
+      <OutItem elevation={5} sx={{ height: mobile ? 400 : 640 }}>
+        <h2 style={{ marginTop: 10, marginBottom: 16 }}>Camera</h2>
+        <InItem
+          sx={{ minHeight: mobile ? 280 : 520, maxHeight: mobile ? 280 : 520 }}
+        >
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Room</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedRoom}
+                  label="Room"
+                  onChange={(event) => handleRoomChange(event.target.value)}
                 >
-                  <PowerSettingsNewIcon />
-                </IconButton>
-              </Grid>
-              <Grid item xs={!mobile ? 5.5 : 11}>
-                <h3 style={{ marginBottom: 0, marginTop: "1vh" }}>
-                  Camera: {props.devices[deviceIdx].name}
-                </h3>
-              </Grid>
-            </>
-          )}
-        </Grid>
-      </InItem>
-      {deviceIdx !== -1 && props.devices[deviceIdx] && (
-        <CameraDialog
-          openDialog={fullScreen}
-          handleCloseDialog={() => setFullScreen(false)}
-          fullImg={img}
-          name={props.devices[deviceIdx].name}
-        />
-      )}
-    </OutItem>
-        <Snackbar
+                  {props.rooms.map((room, idx) => {
+                    return (
+                      <MenuItem key={idx} value={room.name}>
+                        {room.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            {deviceIdx !== -1 && props.devices[deviceIdx] && (
+              <>
+                <Grid item xs={12}>
+                  {props.devices[deviceIdx].on ? (
+                    <>
+                      {img === null ? (
+                        <CircularProgress
+                          size={mobile ? 110 : 250}
+                          sx={{ padding: mobile ? 5 : 10 }}
+                        />
+                      ) : (
+                        <div style={{ position: "relative" }}>
+                          <img
+                            width="100%"
+                            height={mobile ? 190 : 400}
+                            style={{ borderRadius: "10px" }}
+                            src={`data:image/jpeg;base64,${img}`}
+                            alt="Camera"
+                          />
+                          <IconButton
+                            onClick={() => setFullScreen(true)}
+                            sx={{
+                              position: "absolute",
+                              right: 5,
+                              bottom: 10,
+                              color: "#FFFFFF",
+                              bgcolor: "#000000",
+                            }}
+                          >
+                            <FullscreenIcon sx={{ fontSize: 30 }} />
+                          </IconButton>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <VideocamOffIcon
+                      style={{
+                        fontSize: mobile ? 180 : 340,
+                        padding: mobile ? 5 : 35,
+                      }}
+                    />
+                  )}
+                </Grid>
+
+                {!mobile && <Grid item xs={5.5}></Grid>}
+
+                <Grid item xs={1}>
+                  <IconButton
+                    onClick={() => props.handleCameraOnOff(deviceIdx)}
+                    sx={{
+                      bgcolor: props.devices[deviceIdx].on
+                        ? "#FFC107"
+                        : "#DDDEDF",
+                      "&:hover": {
+                        bgcolor: props.devices[deviceIdx].on
+                          ? "#D9A406"
+                          : "#B6B7B8",
+                      },
+                    }}
+                  >
+                    <PowerSettingsNewIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={!mobile ? 5.5 : 11}>
+                  <h3 style={{ marginBottom: 0, marginTop: "1vh" }}>
+                    Camera: {props.devices[deviceIdx].name}
+                  </h3>
+                </Grid>
+              </>
+            )}
+          </Grid>
+        </InItem>
+        {deviceIdx !== -1 && props.devices[deviceIdx] && (
+          <CameraDialog
+            openDialog={fullScreen}
+            handleCloseDialog={() => setFullScreen(false)}
+            fullImg={img}
+            name={props.devices[deviceIdx].name}
+          />
+        )}
+      </OutItem>
+      <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={openErrorMsg}
         autoHideDuration={6000}
@@ -261,7 +261,7 @@ export default function CameraCard(props) {
           {errorMsg}
         </Alert>
       </Snackbar>
-      </>
+    </>
   );
 }
 
