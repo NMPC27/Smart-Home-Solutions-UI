@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const endpoint = "http://127.0.0.1:8000";
-// const endpoint = "https://likely-eve-nuno.koyeb.app";
+// const endpoint = "http://127.0.0.1:8000";
+const endpoint = "https://likely-eve-nuno.koyeb.app";
 
 export function doLogin(email, password) {
   const form_data = new FormData();
