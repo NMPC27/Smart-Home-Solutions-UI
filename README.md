@@ -1,10 +1,26 @@
-nunocunhafinal@gmail.com
+# Smart-Home-Solutions-UI
+
+## How to Run
+
+To run the project in development mode:
+
+1. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+---
 
 atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 # TODO:
 
-- fix building
 - ir um dia a fnac e experimentar o ui nos diferentes ecras
 - ver ons e off dos nodes no building
   - motions sensors estao sempre ligados e n so quando passa alguem
@@ -16,8 +32,6 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 - add custom url to local app
 
 - improve fullscreen
-- tests
-- PropTypes
 
 - fzr cenas
 - lista de compras
@@ -34,182 +48,3 @@ atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
 
 - nos filtros por apenas as room onde esta aquele tipo de device
 - No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof (muito trabalho para o ganho -> library paga da mui)
-
-(future work)
-
-- 2 hubs para redundância
-- empresa/organização -> ter admin com acesso a tudo e dps várias pessoas com acessos diferentes
-- Voice commands feitos pelo user
-- energy (future work) -> machine learning para criar algoritmos de agendamento de dispositivos
-
-DB:
-json
-timeline
-??
-proprio file system
-
-UI structure:
-
-![alt text](UIstructure.drawio.png)
-
-data in dashboard:
-
-```
-rooms = [ "kitchen", "bed", "ofice" ]
-
-devices:
-[
-    {
-        id: 1,
-        type: "light",
-        room: "kitchen",
-
-        name: "Kitchen (user writen)",
-        on: true,
-        brightness: 100,
-        color: "#FFFFFF"
-    },
-    {
-        id: 2,
-        type: "light",
-        room: "bed",
-
-        name: "Bedroom (user writen)",
-        on: false,
-        brightness: 100,
-        color: "#FFFFFF"
-    },
-    {
-        id: 3,
-        type: "ac", // sensor temperature or ac
-        room: "kitchen",
-
-        name: "Kitchen",
-        on: true,
-        currentTemperature: 10,
-        targetTemperature: 23,
-    },
-    {
-        id: 4,
-        type: "ac", // sensor temperature or ac
-        room: "bed",
-
-        name: "Bed (user writen)",
-        on: false,
-        currentTemperature: 7,
-        targetTemperature: 20,
-    },
-    {
-        id: 4,
-        type: "ac", // sensor temperature or ac
-        room: "bed",
-
-        name: "Bed (user writen)",
-        on: false,
-        currentTemperature: 7,
-        targetTemperature: 20,
-    },
-    { //! ATENÇAO NAO MT BEM DEFINIDO
-        id: 5,
-        type: "motionSensor", // security and can be used for ligths in automation
-        room: "bed",
-
-        name: "sensor bed (user writen)",
-        on: true,
-        detectedMotion: true,
-    },
-    {
-        id: 6,
-        type: "camera",
-        room: "bed",
-
-        on: false,
-        name: "Hallway #2",
-        endpoint: "c4.png",
-    },
-]
-```
-
-data in energy:
-
-```
-const datatmp = {
-	consumption:{
-		grid: [10, 2, 2, 2, 2, 2, 2, 10, 20, 30, 40, 50, 30, 30, 15, 15, 40, 40, 80, 90, 100, 60, 40, 20],
-		solar: [0, 0, 0, 0, 0, 0, 10, 30, 40, 50, 60, 70, 80, 90, 120, 100, 80, 60, 30, 10, 0, 0, 0, 0],
-		gas: [0, 0, 0, 0, 0, 0, 20, 40, 50, 80, 100, 70, 120, 60, 60, 80, 80, 90, 40, 30, 10, 0, 0, 0],
-	},
-	production: {
-		solar: [0, 0, 0, 0, 0, 0, 10, 30, 40, 50, 60, 70, 80, 90, 120, 100, 80, 60, 30, 10, 0, 0, 0, 0],
-		gas: [0, 0, 0, 0, 0, 0, 20, 40, 50, 80, 100, 70, 120, 60, 60, 80, 80, 90, 40, 30, 10, 0, 0, 0]
-	}
-}
-```
-
-"cards": {
-"mobile": [
-[
-{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-],
-[
-{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-]
-],
-"tablet": [
-[
-{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-],
-[
-{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-]
-],
-"pc":[
-[
-{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-],
-[
-{"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-{"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-]
-]
-}
-
-```
-"cards": [
-    [
-        "name": "Dashboard X",
-        "mobile": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-        ],
-        "tablet": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-        ],
-        "pc": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-        ]
-    ],
-    [
-        "name": "Dashboard I",
-        "mobile": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-        ],
-        "tablet": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-        ],
-        "pc": [
-            {"type": "Light", "room": "test", "i": "0", "x": 0, "y": 0, "w": 3, "h": 2},
-            {"type": "Light", "room": "test", "i": "1", "x": 0, "y": 2, "w": 3, "h": 2}
-        ]
-    ],
-]
-```

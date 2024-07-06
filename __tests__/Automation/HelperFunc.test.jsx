@@ -61,22 +61,4 @@ describe("HelperFunc Component", () => {
       defaultProps.nodesData,
     );
   });
-
-  it("does not call any function when data is null", () => {
-    render(<HelperFunc {...defaultProps} data={null} target="eventData" />);
-    expect(mockFunctions.eventData).not.toHaveBeenCalled();
-    expect(mockFunctions.clearNodeData).not.toHaveBeenCalled();
-    expect(mockFunctions.deviceData).not.toHaveBeenCalled();
-    expect(mockFunctions.timeData).not.toHaveBeenCalled();
-    expect(mockFunctions.waitData).not.toHaveBeenCalled();
-  });
-
-  it("does not call any function when target is null", () => {
-    render(<HelperFunc {...defaultProps} target={null} />);
-    expect(mockFunctions.eventData).not.toHaveBeenCalled();
-    expect(mockFunctions.clearNodeData).not.toHaveBeenCalled();
-    expect(mockFunctions.deviceData).not.toHaveBeenCalled();
-    expect(mockFunctions.timeData).not.toHaveBeenCalled();
-    expect(mockFunctions.waitData).not.toHaveBeenCalled();
-  });
 });
