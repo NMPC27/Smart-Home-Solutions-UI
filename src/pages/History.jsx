@@ -171,7 +171,10 @@ export default function History() {
             tmpX.push(new Date(res.data[selectedDevicesIdx[i]].history[j][0]));
 
             let tmp = res.data[selectedDevicesIdx[i]].history[j][1];
-            if (tmp === "off" || tmp === "unavailable") {
+            if (tmp === "unavailable") {
+              tmp = null;
+            }
+            if (tmp === "off") {
               tmp = 0;
             }
             if (tmp === "on" || tmp === "idle") {
@@ -212,8 +215,11 @@ export default function History() {
         tmpX.push(new Date(history[devicesIdx[i]].history[j][0]));
 
         let tmp = history[devicesIdx[i]].history[j][1];
-        if (tmp === "off" || tmp === "unavailable") {
+        if (tmp === "unavailable") {
           tmp = null;
+        }
+        if (tmp === "off") {
+          tmp = 0;
         }
         if (tmp === "on" || tmp === "idle") {
           tmp = 1;
@@ -349,7 +355,9 @@ export default function History() {
                           yAxis={[
                             {
                               label: labels[history[item].type],
-                              min: Math.min(...yAxis[idx].filter((n) => n)),
+                              min: Math.min(
+                                ...yAxis[idx].filter((n) => n !== null),
+                              ),
                               max: Math.max(...yAxis[idx]),
                               valueFormatter: (v) => {
                                 if (
@@ -382,6 +390,10 @@ export default function History() {
                               label: history[item].name,
                               curve: "stepAfter",
                               valueFormatter: (v) => {
+                                if (v === null) {
+                                  return;
+                                }
+
                                 if (
                                   labels[history[item].type] ===
                                   "Not detected/Detected"
