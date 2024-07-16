@@ -3,11 +3,13 @@
 ## How to deploy addon
 
 1. Install the dependencies:
+
    ```bash
    npm install
    ```
 
 2. Build project:
+
    ```bash
    npm run build
    ```
@@ -33,8 +35,4 @@
 
 9. Click on your add-on, then Install your add-on and then Start your add-on
 
-10. Check the "Logs" tab if everything is rigth and go to http://homeassistant.local/ 
-
-
-
-
+10. Check the "Logs" tab if everything is rigth and go to http://homeassistant.local/

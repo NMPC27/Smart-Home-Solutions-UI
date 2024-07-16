@@ -854,7 +854,7 @@ export default function Automation() {
                           devices[i].type === "Humidity Sensor"
                         ) {
                           deviceId = devices[i].id;
-                          deviceTypeTmp = devices[i].type
+                          deviceTypeTmp = devices[i].type;
                           break;
                         }
                       }
@@ -978,7 +978,7 @@ export default function Automation() {
                           devices[i].type === "Light"
                         ) {
                           deviceId = devices[i].id;
-                          deviceTypeTmp = devices[i].type
+                          deviceTypeTmp = devices[i].type;
                           break;
                         }
                       }
