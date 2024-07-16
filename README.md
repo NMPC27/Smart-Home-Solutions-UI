@@ -1,50 +1,40 @@
 # Smart-Home-Solutions-UI
 
-## How to Run
-
-To run the project in development mode:
+## How to deploy addon
 
 1. Install the dependencies:
-
    ```bash
    npm install
    ```
 
-2. Start the development server:
+2. Build project:
    ```bash
-   npm run dev
+   npm run build
    ```
 
----
+3. Copy the /dist folder to Home Assistant /addons folder using Samba or SSH
 
-atençao o dg tem uma tese deste tipo em nome dele, pode tentar fuder
+4. The folder structure should be:
 
-# TODO:
+   ```bash
+   /addons/SmartifyUI/
+    ├── Dockerfile
+    ├── dist/
+    └── config.yaml
+   ```
 
-- ir um dia a fnac e experimentar o ui nos diferentes ecras
-- ver ons e off dos nodes no building
-  - motions sensors estao sempre ligados e n so quando passa alguem
-  - medidor de potencia esta sempre ligado
-  - fix requests no building (doneishh)
-- fix delete card mobile
+5. In Home Assistant frontend go to Settings -> Add-ons -> add-on store (or click here https://my.home-assistant.io/redirect/supervisor_store/)
 
-- segmaentar rede dos devices
-- add custom url to local app
+6. On the top right overflow menu, click the "Check for updates" button
 
-- improve fullscreen
+7. Refresh your webpage when needed (could be several times)
 
-- fzr cenas
-- lista de compras
-- tempo
+8. You should now see a new section at the top of the store called "Local add-ons" that lists your add-on!
 
----
+9. Click on your add-on, then Install your add-on and then Start your add-on
 
-- ver isto https://reactflow.dev/examples/interaction/drag-and-drop -> por outro lado fica dificil de arrastar em mobile
-- can not store the token in the local storage !! vulnerability
-  https://stackoverflow.com/questions/71815202/is-it-safe-and-convenient-to-store-jwt-token-in-localstorage-or-cookies-and-to-s
-  https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
+10. Check the "Logs" tab if everything is rigth and go to http://homeassistant.local/ 
 
-- Mostrar a diferença entre o produzido e o consumido, para que seja fácil perceber se o outcome é positivo ou negativo
 
-- nos filtros por apenas as room onde esta aquele tipo de device
-- No date picker, faz sentido poder dar um intervalo temporal -> flr com o prof (muito trabalho para o ganho -> library paga da mui)
+
+
