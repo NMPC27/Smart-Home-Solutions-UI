@@ -12,7 +12,7 @@
    npm run build
    ```
 
-3. Copy the /dist folder to Home Assistant /addons folder using Samba or SSH
+3. Copy the /dist folder, Dockerfile and config.yaml to Home Assistant /addons folder using Samba or SSH
 
 4. The folder structure should be:
 

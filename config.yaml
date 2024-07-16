@@ -10,4 +10,4 @@ arch:
   - i386
 startup: services
 ports:
-  80/tcp: 80
+  80/tcp: 3000
