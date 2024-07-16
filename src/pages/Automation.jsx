@@ -845,6 +845,7 @@ export default function Automation() {
                     variant="contained"
                     onClick={() => {
                       let deviceId = null;
+                      let deviceTypeTmp = null;
 
                       for (let i = 0; i < devices.length; i++) {
                         if (
@@ -853,6 +854,7 @@ export default function Automation() {
                           devices[i].type === "Humidity Sensor"
                         ) {
                           deviceId = devices[i].id;
+                          deviceTypeTmp = devices[i].type;
                           break;
                         }
                       }
@@ -866,7 +868,7 @@ export default function Automation() {
                         humidity: 50,
                         sinal: "<",
                         sensor: "notDetected",
-                        deviceType: null,
+                        deviceType: deviceTypeTmp,
                       });
 
                       setNodesData(tmp);
@@ -968,6 +970,7 @@ export default function Automation() {
                     variant="contained"
                     onClick={() => {
                       let deviceId = null;
+                      let deviceTypeTmp = null;
 
                       for (let i = 0; i < devices.length; i++) {
                         if (
@@ -975,6 +978,7 @@ export default function Automation() {
                           devices[i].type === "Light"
                         ) {
                           deviceId = devices[i].id;
+                          deviceTypeTmp = devices[i].type;
                           break;
                         }
                       }
@@ -988,7 +992,7 @@ export default function Automation() {
                         temperature: 20,
                         color: "#FFFFFF",
                         brightness: 100,
-                        deviceType: null,
+                        deviceType: deviceTypeTmp,
                       });
 
                       setNodesData(tmp);
