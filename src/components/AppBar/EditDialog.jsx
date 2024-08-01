@@ -84,20 +84,27 @@ export default function EditDialog(props) {
   });
 
   const [deviceChange, setDeviceChange] = React.useState(false);
+  const [firstLoad, setFirstLoad] = React.useState(true);
 
   React.useEffect(() => {
     if (mobile) {
       setDevice("mobile");
       setNumCol(1);
-      setDeviceChange(true);
+      if (!firstLoad) {
+        setDeviceChange(true);
+      }
     } else if (tablet) {
       setDevice("tablet");
       setNumCol(2);
-      setDeviceChange(true);
+      if (!firstLoad) {
+        setDeviceChange(true);
+      }
     } else {
       setDevice("pc");
       setNumCol(4);
-      setDeviceChange(true);
+      if (!firstLoad) {
+        setDeviceChange(true);
+      }
     }
   }, [mobile, tablet]);
 
@@ -125,7 +132,6 @@ export default function EditDialog(props) {
     setChangingCards(true);
   };
 
-  const [firstLoad, setFirstLoad] = React.useState(true);
   const [changingTab, setChangingTab] = React.useState(false);
   const [changingCards, setChangingCards] = React.useState(false);
 
