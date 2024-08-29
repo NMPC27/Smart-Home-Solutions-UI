@@ -140,7 +140,7 @@ export default function AppBarStyled(props) {
                       <Stack direction="row" spacing={2} alignItems="center">
                         <h4>{notification.msg}</h4>
                         <IconButton
-                          onClick={() => props.handleDeleteNotification(idx)}
+                          onClick={() => props.handleDeleteNotification(props.notifications.length-1-idx)}
                         >
                           <DeleteIcon />
                         </IconButton>
