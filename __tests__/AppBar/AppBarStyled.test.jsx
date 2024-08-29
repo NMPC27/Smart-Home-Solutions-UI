@@ -86,6 +86,6 @@ describe("AppBarStyled", () => {
     );
 
     fireEvent.click(screen.getAllByRole("button", { tabindex: "0" })[0]);
-    expect(handleDeleteNotificationMock).toHaveBeenCalledWith(0);
+    expect(handleDeleteNotificationMock).toHaveBeenCalledWith(1); // length -1
   });
 });
