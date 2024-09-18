@@ -17,8 +17,8 @@ To run the project in development mode:
 
 ---
 
-
 ## NOTAS:
+
 - delete card mobile -> weird behavior
 - improve fullscreen
 - fzr cenas
