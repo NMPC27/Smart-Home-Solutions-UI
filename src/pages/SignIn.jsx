@@ -146,7 +146,7 @@ export default function SignIn() {
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "1vh" }}>
-                <Link href="/signUp" variant="body2">
+                <Link onClick={() => navigate("/signUp")} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
