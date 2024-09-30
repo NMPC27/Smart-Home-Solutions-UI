@@ -35,4 +35,4 @@
 
 9. Click on your add-on, then Install your add-on and then Start your add-on
 
-10. Check the "Logs" tab if everything is rigth and go to http://homeassistant.local/
+10. Check the "Logs" tab if everything is rigth and go to http://homeassistant.local:3000
