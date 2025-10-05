@@ -37,7 +37,8 @@ The system follows a **microservices architecture** composed of five key compone
 -   **Database** – Stores device data, history, and metrics.
     
 -   **Domain** – Managed with Cloudflare for secure tunneling and alerts.
-    
+
+![Alt text](img/architecture.png)
 
 This approach ensures **scalability, maintainability, and strong security**.
 
